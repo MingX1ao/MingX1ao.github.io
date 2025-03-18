@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物,神经系统,脑疾病">
+    <meta name="description" content="简要介绍了神经系统的组成、功能和特点，和帕金森、阿尔兹海默的发病机制">
+    <meta name="author" content="MingXiao">
+    <title>神经系统与脑疾病</title></title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>神经系统与脑疾病
+                    <ul>
+                        <li><a href="#0">速查</a></li>
+                        <li><a href="#5.1">5.1 脑的结构和功能</a></li>
+                        <li><a href="#5.2">5.2 神经系统的细胞组成</a></li>
+                        <li><a href="#5.3">5.3 血脑屏障</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">神经系统与脑疾病</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/03</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="速查-n968" class="md-header-anchor" id="0"></a>
+                        <br>
+                        <br>
+                        <h3><span>速查</span></h3>
+                        <p><span>脑的结构和功能</span><br>
+                        <span>神经系统的细胞组成</span><br>
+                        <span>血脑屏障</span></p>
+                        <a name="51-脑的结构和功能" class="md-header-anchor" id="5.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>5.1 脑的结构和功能</span></h3>
+                        <p><strong><span>神经系统的组成</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_33.png" width="400"></center></p>
+                        <p><strong><span>脑</span></strong></p>
+                        <p><strong><span>脑干</span></strong><br>
+                        <span>自上而下分为</span><strong><span>延髓、脑桥和中脑</span></strong><br>
+                        <span>作用：</span></p>
+                        <ol start='' >
+                            <li><span>传导兴奋</span></li>
+                            <li><span>反射的低级中枢</span></li>
+                            <li><span>脑干网状结构，维持一些生理活动</span></li>
+                        </ol>
+                        <p><strong><span>小脑</span></strong><br>
+                        <span>分为</span><strong><span>原小脑、旧小脑和新小脑</span></strong></p>
+                        <p><strong><span>大脑皮层</span></strong><br>
+                        <span>分为左右半球</span><br>
+                        <span>有很多褶皱（沟和回）</span><br>
+                        <span>有灰质和白质</span></p>
+                        <p><strong><span>胼胝体</span></strong><br>
+                        <span>链接左右半球，介导大脑半球之间的通讯</span></p>
+                        <a name="52-神经系统的细胞组成" class="md-header-anchor" id="5.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>5.2 神经系统的细胞组成</span></h3>
+                        <p><center><img src="../Pictures/Biology_34.png" width="400"></center></p>
+                        <p><strong><span>神经元</span></strong><br>
+                        <span>有电化学活性，感受刺激，产生神经冲动，分泌神经递质，可以传递和整合信息</span></p>
+                        <p><strong><span>神经胶质细胞</span></strong><br>
+                        <span>数量是神经元的几十倍，是绝缘体，无极性；对神经元起</span><strong><span>保护、支持、绝缘</span></strong><span>作用</span><br>
+                        <span>少突胶质细胞可特化为髓鞘；小胶质细胞具有免疫功能，可转变为巨噬细胞</span></p>
+                        <p><strong><span>突触</span></strong><br>
+                        <span>神经元与</span><strong><span>效应器细胞或另一神经元</span></strong><span>之间的信息传递位点</span><br>
+                        <span>由</span><strong><span>突触前膜、突触间隙、突触后膜</span></strong><span>组成</span></p>
+                        <p><center><img src="../Pictures/Biology_35.png" width="300"></center></p>
+                        <p><strong><span>动作电位</span></strong><br>
+                        <span>钾钠学说：细胞膜受刺激，钠离子的通透性显著增加，钠离子内流，造成膜内负电位消失（去极化）</span></p>
+                        <p><strong><span>钠钾泵</span></strong><br>
+                        <span>是膜上的蛋白质，通过水解1个ATP，输出3个Na+，转入2个K+，维持极化状态（内负外正）</span></p>
+                        <p><center><img src="../Pictures/Biology_36.png" width="200"></center></p>
+                        <p><strong><span>细胞膜电位</span></strong><br>
+                        <span>神经元细胞质膜内外有电位差，静息状态下</span><strong><span>外正内负</span></strong><span>（两侧离子浓度不同导致）</span></p>
+                        <p><strong><span>神经递质</span></strong><br>
+                        <span>由</span><strong><span>突触前膜</span></strong><span>释放，有神经元之间或神经元与效应器细胞之间的信息传递功能的化学物质</span></p>
+                        <P><center><img src="../Pictures/Biology_37.png" width="200"></center></p>
+                        <p><strong><span>神经-肌接头处粒子通道协同活动</span></strong></p>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><img src="../Pictures/Biology_38.png" width="300"></td>
+                                    <td><img src="../Pictures/Biology_39.png" width="400"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a name="53-血脑屏障" class="md-header-anchor" id="5.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>5.3 血脑屏障</span></h3>
+                        <p><span>血管和脑之间有一种选择性地组织某些物质由血液进入大脑的“屏障”</span></p>
+                        <p><center><img src="../Pictures/Biology_40.png" width="300"></center></p>
+                        <p><span>从管内算起，血脑屏障有3层：</span></p>
+                        <ol start='' >
+                            <li><span>脑毛细血管</span><strong><span>内皮细胞衔接紧密</span></strong></li>
+                            <li><span>脑毛细血管内皮细胞外有</span><strong><span>连续的基底膜</span></strong></li>
+                            <li><span>脑毛细血管壁外表面积85%都被</span><strong><span>神经胶质细胞的终足或称脚板</span></strong><span>包围</span></li>
+                        </ol>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

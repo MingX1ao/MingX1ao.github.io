@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物,细胞外囊泡,外泌体,凋亡小体">
+    <meta name="description" content="简要介绍外泌体，外囊泡，凋亡小体和其分离鉴定方法">
+    <meta name="author" content="MingXiao">
+    <title>细胞外囊泡和体外诊断</title></title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>细胞外囊泡和体外诊断
+                    <ul>
+                        <li><a href="#9.1">9.1 外囊泡的分离方法</a></li>
+                        <li><a href="#9.2">9.2 外囊泡的提纯方法</a></li>
+                        <li><a href="#9.3">9.3 外囊泡的鉴定方法</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">细胞外囊泡和体外诊断</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/04</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="91-外囊泡的分离方法" class="md-header-anchor" id="9.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>9.1 外囊泡的分离方法</span></h3>
+                        <ol start='' >
+                            <li><strong><span>差速超速离心</span></strong><span>：最广泛使用，被视为“金标准”</span></li>
+                            <li><strong><span>密度梯度超速离心</span></strong></li>
+                            <li><strong><span>免疫分离</span></strong><span>：使用免疫磁珠，捕获膜表面特定蛋白质的细胞外囊泡</span></li>
+                            <li><strong><span>聚合沉淀</span></strong><span>：利用聚乙二醇一类的聚合物能促使细胞外囊泡沉淀</span></li>
+                            <li><strong><span>切向流超滤</span></strong><span>：孔径大于Evs粒径的滤膜除去大颗粒，然后用孔径小的超滤膜截留细胞外囊泡</span></li>
+                            <li><strong><span>尺寸排阻色谱</span></strong><span>：利用排阻层析柱里的多孔固定相，使较小的颗粒在柱子里的保留时间更长，实现按粒径大小对样品进行分离</span></li>
+                            <li><strong><span>微流控芯片分离</span></strong><span>：用纳米材料或芯片捕获微流体中的细胞外囊泡</span></li>
+                        </ol>
+                        <a name="92-外囊泡的提纯方法" class="md-header-anchor" id="9.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>9.2 外囊泡的提纯方法</span></h3>
+                        <ol start='' >
+                            <li><strong><span>超速离心</span></strong></li>
+                            <li><strong><span>梯度离心</span></strong><span>：超速离心+梯度离心实现细胞外囊泡的富集和纯化</span></li>
+                            <li><strong><span>磁珠捕获</span></strong><span>：利用细胞外囊泡的细胞膜上的常见标志物，通过抗原-抗体进行特异性捕获</span></li>
+                            <li><strong><span>尺寸排阻色谱法</span></strong><span>（凝胶色谱法）：按照分子量大小进行分离的色谱方法</span></li>
+                        </ol>
+                        <a name="93-外囊泡的鉴定方法" class="md-header-anchor" id="9.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>9.3 外囊泡的鉴定方法</span></h3>
+                        <ol start='' >
+                            <li><strong><span>流式细胞仪</span></strong><span>：通过粒径和内容物</span></li>
+                            <li><strong><span>电镜</span></strong><span>：观察形态</span></li>
+                            <li><strong><span>DLS,NTA等</span></strong><span>：观察粒径大小和分布</span></li>
+                            <li><strong><span>浓度检测</span></strong></li>
+                            <li><strong><span>内容物检测</span></strong><span>：核酸，蛋白质，脂类等</span></li>
+                        </ol>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

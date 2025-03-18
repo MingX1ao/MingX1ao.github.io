@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="统计,均值的比较,置信区间">
+    <meta name="description" content="使用置信区间来做总体均值比较">
+    <meta name="author" content="MingXiao">
+    <title>均值的比较 1(置信区间)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>均值的比较 1(置信区间)
+                    <ul>
+                        <li><a href="#4.1.1">4.1.1 单样本</a>
+                            <ul>
+                                <li><a href="#4.1.1.1">4.1.1.1 单样本总体方差已知，用Z分布</a></li>
+                                <li><a href="#4.1.1.2">4.1.1.2 单样本总体方差未知，用t分布</a></li>
+                            </ul>    
+                        </li>
+                        <li><a href="#4.1.2">4.1.2 双样本</a>
+                            <ul>
+                                <li><a href="#4.1.2.1">4.1.2.1 双样本是配对的（非独立样本）</a></li>
+                                <li><a href="#4.1.2.2">4.1.2.2 两个独立样本，总体方差各自已知</a></li>
+                                <li><a href="#4.1.2.3">4.1.2.3 两个独立样本，总体方差未知但相等</a></li>
+                                <li><a href="#4.1.2.4">4.1.2.4 两个独立样本，总体方差未知且不相等</a></li>
+                            </ul>    
+                        </li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">均值的比较 1(置信区间 Confidence Interval CI)</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/12</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="411-单样本" class="md-header-anchor" id="4.1.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.1.1 单样本</span></h3>
+                        <h4><a name="4111-单样本总体方差已知用z分布" class="md-header-anchor" id="4.1.1.1"></a><span>4.1.1.1 单样本总体方差已知，用Z分布</span></h4>
+                        <p><span>对正态总体或近似正态总体，有</span>
+                        $$\frac{\overline{x}-\mu}{\sigma / \sqrt{n}}\sim N(0,1)$$
+                        <span>若要求置信度为</span>\(1-\alpha\)<span>，则</span><br>
+                        $$\therefore P(-u_{\frac{\alpha}{2}}<\frac{\overline{x}-\mu}{\sigma / \sqrt{n}}\leq u_{\frac{\alpha}{2}})=1-\alpha$$
+                        $$\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x}-u_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}},\overline{x}+u_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}})$$</p>
+                        <h4><a name="4112-单样本总体方差未知用t分布" class="md-header-anchor" id="4.1.1.2"></a><span>4.1.1.2 单样本总体方差未知，用t分布</span></h4>
+                        <p>$$\frac{\overline{x}-\mu}{s / \sqrt{n}}\sim t(n-1)$$
+                        $$\therefore P(-t_{\frac{\alpha}{2}}<\frac{\overline{x}-\mu}{s / \sqrt{n}}\leq t_{\frac{\alpha}{2}})=1-\alpha$$
+                        $$\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x}-t_{\frac{\alpha}{2}}\frac{s}{\sqrt{n}},\overline{x}+t_{\frac{\alpha}{2}}\frac{s}{\sqrt{n}})$$</p>
+                        <a name="412-双样本" class="md-header-anchor" id="4.1.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.1.2 双样本</span></h3>
+                        <h4><a name="4121-双样本是配对的非独立样本）" class="md-header-anchor" id="4.1.2.1"></a><span>4.1.2.1 双样本是配对的（非独立样本）</span></h4>
+                        <p><strong><span>何为配对：</span></strong><br>
+                        <span>同一批人的两次成绩差的均值、双胞胎之间的身高差均值等，可以找到配对的双方的量</span><br>
+                        <span>等价于单样本的分布，参见上方4.1.1</span></p>
+                        <h4><a name="4122-两个独立样本总体方差各自已知" class="md-header-anchor" id="4.1.2.2"></a></a><span>4.1.2.2 两个独立样本，总体方差各自已知</span></h4>
+                        <p><span>已知</span>\(\overline{x_1}-\overline{x_2}\)<span>的置信区间</span></p>
+                        <p>$$\therefore \overline{x_1}-\overline{x_2} \sim N(\mu_1-\mu_2,\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2})$$</p>
+                        <p><span>记</span>\(\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}=\sigma^2=sem^2\)<span>，称其为</span>\(\overline{x_1}-\overline{x_2}\)<span>的标准方差，也称标准误差的平方</span><br>
+                        $$\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sigma} \sim N(0,1)$$
+                        $$\Rightarrow \mathsf{CI_{1-\alpha}}=(\overline{x_1}-\overline{x_2})\pm u_{\frac{\alpha}{2}}\sqrt{\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}}$$</p>
+                        <h4><a name="4123-两个独立样本总体方差未知但相等" class="md-header-anchor" id="4.1.2.3"></a><span>4.1.2.3 两个独立样本，总体方差未知但相等</span></h4>
+                        <p><span>已知</span>\(\sigma^2_1=\sigma^2_2=\sigma^2\)<span>，但是多少不知道</span><br>
+                        <span>使用t分布</span><br>
+                        $$\therefore \overline{x_1}-\overline{x_2} \sim N(\mu_1-\mu_2, \frac{\sigma^2}{n_1}+\frac{\sigma^2}{n_2})$$
+                        $$\Rightarrow \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sigma \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim N(0,1)$$
+                        $$\because \frac{(n_1-1)s^2_1}{\sigma^2} \sim \chi^2 (n_1-1),\frac{(n_2-1)s^2_2}{\sigma^2} \sim \chi^2 (n_2-1)$$
+                        $$\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}}} \sim t(n_1+n_2-2)$$
+                        <span>def</span>\(\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}}=s_p\)<span>，</span>\(\overline{x_1}-\overline{x_2}\)<span>的标准误差为</span>\(sem=s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}\)<br>
+                        $$\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t(n_1+n_2-2)$$
+                        $$\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x_1}-\overline{x_2})\pm t_{\frac{\alpha}{2}}(n_1+n_2-2)s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}$$</p>
+                        <h4><a name="4124-两个独立样本总体方差未知且不相等" class="md-header-anchor" id="4.1.2.4"></a><span>4.1.2.4 两个独立样本，总体方差未知且不相等</span></h4>
+                        <p><span>使用</span><strong><span>Welch&#39;s t分布</span></strong><br>
+                        <span>推导过于复杂，直接给出结论</span><br>
+                        $$\mathsf{CI}_{1-\alpha}=(\overline{x_1}-\overline{x_2})\pm t_{\frac{\alpha}{2}}(\nu)\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}$$
+                        <span>其中</span>\(\nu\)<span>为t分布的自由度，通常不是整数，用最接近的整数计算，有</span><br>
+                        $$\nu=\frac{(\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2})^2}{\frac{1}{(n_1-1)}(\frac{s_1^2}{n_1})^2+\frac{1}{(n_2-1)}(\frac{s_2^2}{n_2})^2}$$</p>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="统计，预备知识">
+    <meta name="description" content="统计的预备知识">
+    <meta name="author" content="MingXiao">
+    <title>预备知识</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>预备知识
+                    <ul>
+                        <li><a href="#1.1">1.1 常用代码</a></li>
+                        <li><a href="#1.2">1.2 生物医学数据类型</a></li>
+                        <li><a href="#1.3">1.3 常用术语</a></li>
+                        <li><a href="#1.4">1.4 大数定律和中心极限定理</a></li>
+                        <li><a href="#1.5">1.5 常用分布和函数</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">预备知识</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/12</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="11-常用代码" class="md-header-anchor" id="1.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>1.1 常用代码</span></h3>
+                        <details>
+                            <summary>click here</summary>   
+                            import pandas as pd<br>
+                            pd.read_csv("")   
+                            #输入文件<br>pd.DataFrame.info()   
+                            #该函数在调用时会显示以下信息：<br>
+                                            #DataFrame 的形状（行数和列数）<br>
+                                            #列名和各列的非空值数量<br>
+                                            #列的数据类型<br>
+                                            #内存使用情况<br>pd.DataFrame.describe()  
+                            #它会计算以下统计信息：<br>
+                                                #计数（count）：非空值数量<br>
+                                                #平均值（mean）<br>
+                                                #标准差（standard deviation）<br>
+                                                #最小值（min）<br>
+                                                #第25百分位数（25th percentile）<br>
+                                                #中位数（50th percentile，即中位数）<br>
+                                                #第75百分位数（75th percentile）<br>
+                                                #最大值（max）<br>pd.DataFrame.groupby()   
+                            #用于按照指定的列或多个列对数据进行分组<br>pd.DataFrame.agg()  
+                            #同时计算多个值<br>
+                        </details>    
+                        <a name="12-生物医学数据类型" class="md-header-anchor" id="1.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>1.2 生物医学数据类型</span></h3>
+                        <p><span>两个大类，四个小类：</span></p>
+                        <p><span>可数的：</span><br>
+                        <span>离散型：病毒感染人数，人的心率</span><br>
+                        <span>连续性：人的血压值  </span></p>
+                        <p><span>可分类的：</span><br>
+                        <span>有序(ordinal)：学生成绩（A/B/C/D）</span><br>
+                        <span>无序(nominal)：病毒诊断结果（阳性/阴性）</span></p>
+                        <p><center><img src="../Pictures/BmeStats_1.png" width="300"></center></p>
+                        <a name="13-常用术语" class="md-header-anchor" id="1.3"></a>
+                        <br>
+                        <br>    
+                        <h3><span>1.3 常用术语</span></h3>
+                        <p><span>总体、样本、自变量、因变量、概率</span><br>
+                        <span>样本的叫</span><font color=red><strong><span>统计量</span></strong></font><span>，总体的叫</span><font color=red><strong><span>参数</span></strong></font></p>
+                        <p><span>样本（Sample）和总体（Population）的例子：</span><br>
+                        <span>对照组和实验组各10只卒中⼩⿏，研究某药物对卒中的⼲预作⽤，这个例⼦中有：</span><br>
+                        <strong><span>总体1</span></strong><span>：药物⼲预的任何卒中⼩⿏（⼤⼩不确定）</span><br>
+                        <strong><span>总体2</span></strong><span>：没有⽤药物⼲预的任何卒中⼩⿏（⼤⼩也不确定）</span><br>
+                        <strong><span>样本1</span></strong><span>：本实验中的药物⼲预组（n=10）</span><br>
+                        <strong><span>样本2</span></strong><span>：本实验中的对照组（n=10）</span><br>
+                        <font color=red><span>本实验有两个总体，两个样本</span></font></p>
+                        <p><span>另一个例子：</span></p>
+                        <p><center><img src="../Pictures/BmeStats_2.png" width="500"></center></p>
+                        <p><span>1、总体有</span><strong><span>3个</span></strong><span>，分别是正常人群和两个服用不同药的人群；样本两个，分别100人</span><br>
+                        <span>2、统计量：8h后两组血糖平均值；参数：总体数量，正常人SBP</span><br>
+                        <span>3、</span><font color="red"><span>样本大小</span></font><br>
+                        <span>4、自变量是吃哪种药,因变量是8h后</span><strong><span>每个个体</span></strong><span>的血压</span></p>
+                        <p><strong><span>推断性统计</span></strong><span>：用样本来推测总体</span><br>
+                        <strong><span>描述性统计</span></strong><span>：用全体的数字特征来描述总体</span></p>
+                        <a name="14-大数定律和中心极限定理" class="md-header-anchor" id="1.4"></a>
+                        <br>
+                        <br>    
+                        <h3><span>1.4 大数定律和中心极限定理</span></h3>
+                        <p><font color=red><span>注意，这与概统中的概念有所区别</span></font><br>
+                        <strong><span>大数定律(LLN)</span></strong><span> ：样本观测值越大，样本均值观测结果越接近总体均值</span><br>
+                        <strong><span>中心极限定理(CLT)</span></strong><span> ：样本均值的分布服从正态分布，该分布均值等于总体均值</span></p>
+                        <details>
+                            <summary>用中心极限定理求均值click</summary>
+                                    data1= stats.norm.rvs(10,5,5000,random_state=100) #生成  <br>
+                                    data2= stats.norm.rvs(30,5,2000,random_state=100)  <br>
+                                    data=np.hstack((data1,data2))              #拼接数据   
+                                    sample_means=[]  #随机取数，求平均后存入数组  <br>
+                                    reps,ns=10000,50  <br>
+                                    for i in np.arange(10000):  <br>
+                                        sample_i=np.random.choice(data,ns,replace=True)  <br>
+                                        sample_means=np.append(sample_means,np.mean(sample_i))  #此时该数组的平均值就是总体平均值   <br>
+                                    print("总体均值是: %.2f " % np.mean(data))  <br>
+                                    print("样本均值分布的均值是: %.2f " % np.mean(sample_means))      <br>
+                        </details>   
+                        <a name="15-常用分布和函数" class="md-header-anchor" id="1.5"></a>
+                        <br>
+                        <br>    
+                        <h3><span>1.5 常用分布和函数</span></h3>
+                        <p><strong><span>正态分布</span></strong><span>：stats.norm()</span><em><span>Z分布就是标准正态分布</span></em><br>
+                        <strong><span>T分布</span></strong><span>：stats.t()</span><br>
+                        <strong><span>二项分布</span></strong><span>：stats.binmo() </span><br>
+                        <strong><span>卡方分布</span></strong><span>：stats.chi2()</span></p>
+                        <p>
+                            <strong><span>pdf</span></strong><span>:概率密度  stats.norm.pdf(x,</span><span>\(\mu\)</span><span>,</span><span>\(\sigma\)</span><span>)</span><br>
+                            <strong><span>pmf</span></strong><span>:概率质量  stats.binmo.pmf(k,n,p)</span><br>
+                            <strong><span>cdf</span></strong><span>:分布函数，用法同上</span><br>
+                            <strong><span>rvs</span></strong><span>:生成随机变量  stats.norm.rvs(size,</span><span>\(\mu\)</span><span>,</span><span>\(\sigma\)</span><span>)</span><br>
+                            <strong><span>ppf</span></strong><span>:下侧分位数  stats.norm.ppf(p,</span><span>\(\mu\)</span><span>,</span><span>\(\sigma\)</span><span>)</span><br>
+                            <strong><span>isf</span></strong><span>:上侧分位数 stats.norm.isf(p,</span><span>\(\mu\)</span><span>,</span><span>\(\sigma\)</span><span>)</span><br>
+                        </p>
+                        </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

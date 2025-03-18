@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物,DNA,RNA,遗传">
+    <meta name="description" content="从分子层面简要介绍了遗传的基本规律，DNA、RNA的组成和遗传过程">
+    <meta name="author" content="MingXiao">
+    <title>遗传的基本规律</title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>一. 生命的化学基础
+                    <ul>
+                        <li><a href="#3.1">3.1 DNA复制</a>
+                            <ul>
+                                <li><a href="#3.1.1">3.1.1 DNA的空间结构与功能</a></li>
+                                <li><a href="#3.1.2">3.1.2 RNA的结构与功能</a></li>
+                                <li><a href="#3.1.3">3.1.3 DNA复制</a></li>
+                                <li><a href="#3.1.4">3.1.4 端粒和端粒酶</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#3.2">3.2 转录和翻译</a>
+                            <ul>
+                                <li><a href="#3.2.1">3.2.1 中心法则</a></li>
+                                <li><a href="#3.2.2">3.2.2 RNA转录</a></li>
+                                <li><a href="#3.2.3">3.2.3 遗传密码和RNA的翻译</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#3.3">3.3 核酸的理化性质</a>
+                            <ul>
+                                <li><a href="#3.3.1">3.3.1 DNA的变性</a></li>
+                                <li><a href="#3.3.2">3.3.2 聚合酶链式反应（PCR）</a></li>
+                                <li><a href="#3.3.3">3.3.3 核酸分子杂交</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">遗传的基本规律</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/02</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="31-dna复制" class="md-header-anchor" id="3.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>3.1 DNA复制</span></h3>
+                        <h4><a name="311-dna的空间结构与功能" class="md-header-anchor" id="3.1.1"></a><span>3.1.1 DNA的空间结构与功能</span></h4>
+                        <p><span>DNA的二级结构：</span><strong><span>双螺旋</span></strong><span>  </span></p>
+                        <p><span>发现背景（Chargaff法则）：</span></p>
+                        <ol start='' >
+                            <li><span>A=T，C=G</span></li>
+                            <li><span>不同生物的DNA碱基组成不同</span></li>
+                            <li><span>同一生物不同细胞的碱基组成相同  </span></li>
+                        </ol>
+                        <p><span>发现意义：</span></p>
+                        <ol start='' >
+                            <li><span>揭开遗传信息存储和表达的分子机制</span></li>
+                            <li><span>开创分子生物学</span></li>
+                        </ol>
+                        <p><strong><span>DNA双螺旋结构：</span></strong><br>
+                        <span>DNA分子由两条</span><strong><span>相互平行但反向</span></strong><span>的脱氧核苷酸链组成，以-</span><strong><span>脱氧核糖-磷酸</span></strong><span>-为骨架，以</span><strong><span>右手螺旋</span></strong><span>方向绕</span><br>
+                        <span>碱基垂直螺旋轴居于内侧，与对侧碱基形成</span><strong><span>氢键配对</span></strong><span>（A=T，C≡G）</span><br>
+                        <span>氢键维持双链</span><strong><span>横向</span></strong><span>稳定，</span><strong><span>碱基堆积力</span></strong><span>维持</span><strong><span>纵向</span></strong><span>稳定</span></p>
+                        <p><strong><span>DNA的超螺旋结构：</span></strong><br>
+                        <span>由DNA双螺旋链再盘绕形成，分为正超螺旋（盘绕方向与DNA双螺旋方向一致）和负超螺旋</span><br>
+                        <span>意义：DNA超螺旋结构</span><strong><span>整体或局部的拓扑学变化</span></strong><span>及其调控对于</span><strong><span>DNA复制和RNA转录</span></strong><span>过程有关键作用</span></p>
+                        <p><span>DNA在真核生物细胞核内的组装：</span>
+                        <span>染色体由DNA和蛋白质构成，基本单位是</span><strong><span>核小体</span></strong>
+                        <span>核小体由约200bp的DNA，组蛋白H1,H2A,H2B,H3,H4组成</span></p>
+                        <p><center><img src="../Pictures/Biology_8.png" width="300"></center></p>
+                        <center>核小体</center>
+                        <p><span>DNA—（压缩7倍）—&gt;核小体—（压缩6倍）—&gt;螺线管—（压缩40倍）—&gt;超螺线管—（压缩5倍）—&gt;染色单体</span>
+                        <span>总共压缩8400倍</span></p>
+                        <p><center><img src="../Pictures/Biology_10.png" width=300></center></p>
+                        <p><span>DNA功能：</span><br>
+                        <span>以</span><strong><span>基因</span></strong><span>的形式荷载遗传信息，并作为基因复制和转录的模板</span><br>
+                        <strong><span>基因在结构上的定义</span></strong><span>是指DNA分子中的特定区段，其中的核苷酸序列决定基因的功能</span></p>
+                        <h4><a name="312-rna的结构与功能" class="md-header-anchor" id="3.1.2"></a><span>3.1.2 RNA的结构与功能</span></h4>
+                        <p><span>信使RNA（mRNA）：</span><br>
+                        <span>成熟过程（真核）</span></p>
+                        <p><center><img src="../Pictures/Biology_11.png" width=500></center></p>
+                        <p><span>其中内含子会被剪去，余下的外显子片段会被拼接，二者都只在DNA的编码区上存在</span><br>
+                        <span>hnRNA是mRNA的前体物</span></p>
+                        <p><strong><span>结构特点</span></strong></p>
+                        <ol start='' >
+                            <li><span>多数在5&#39;端在转录后加上7-甲基鸟苷，第一个核苷酸的C&#39;2也甲基化，形成帽子结构：m7GpppNm-</span><br>
+                                <center><img src="../Pictures/Biology_13.png" width=300></center></li>
+                            <li><span>多数在3&#39;端有一个多聚腺苷酸（polyA），称多聚A尾</span>
+                                <center><img src="../Pictures/Biology_12.png" width=500></center></li>
+                        </ol>
+                        <p><strong><span>帽子结构和多聚A尾的作用</span></strong></p>
+                        <ol start='' >
+                            <li><span>mRNA核内向胞质转移</span></li>
+                            <li><span>mRNA的稳定性维系</span></li>
+                            <li><span>翻译起始的调控  </span></li>
+                        </ol>
+                        <p><strong><span>原核细胞和真核细胞mRNA的比较</span></strong></p>
+                        <p></p><font color=blue><span>原核细胞</span></font><span>:</span></p>
+                        <ol start='' >
+                            <li><span>转录和翻译在一个细胞空间</span></li>
+                            <li><span>转录和翻译几乎同步进行</span></li>
+                            <li><span>5&#39;端没有cap，3&#39;端没有A尾</span></li>
+                        </ol>
+                        <p><font color=blue><span>真核细胞</span></font><span>:</span></p>
+                        <ol start='' >
+                            <li><span>转录和翻译在不同的细胞空间</span></li>
+                            <li><span>不同步</span></li>
+                            <li><span>hnRNA在核内，成熟的mRNA才进入细胞质</span></li>
+                            <li><span>Cap、5&#39;UTR(非编码区)、编码区、3&#39;UTR、polyA尾等构成，其中中间三个部分均是外显子来的</span></li>
+                        </ol>
+                        <h4><a name="313-dna复制" class="md-header-anchor" id="3.1.3"></a><span>3.1.3 DNA复制</span></h4>
+                        <p><strong><span>半保留复制</span></strong><br>
+                        <span>见图，注意两边的复制方向不同</span></p>
+                        <p><center><img src="../Pictures/Biology_14.png" width=300></center></p>
+                        <p><span>意义：</span></p>
+                        <ol start='' >
+                            <li><span>遗传的保守性</span></li>
+                            <li><span>存在变异现象</span></li>
+                        </ol>
+                        <p><span>DNA复制时，在一个单链的</span><strong><span>双向</span></strong><span>同时复制，上图的结构也称为</span><strong><span>复制叉</span></strong><br>
+                        <span>对于真核细胞，将两个复制起点之间的片段称为复制子，注意下图中箭头的断点，是不连续复制的体现，称</span><strong><span>半不连续性</span></strong><span>，即一条链连续合成，另一条链不连续合成，原因是</span><strong><span>合成方向必须是5&#39;-&gt;3&#39;</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_15.png" width=300></center></p>
+                        <p><span>顺着解旋方向复制的链称为</span><strong><span>领头链</span></strong><span>，对面的称为</span><strong><span>随从链</span></strong><span>，随从链不连续，每个片段叫</span><strong><span>冈崎片段</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_16.png" width=150></center></p>
+                        <p><strong><span>DNA复制过程</span></strong></p>
+                        <ol start='' >
+                            <li><span>在</span><strong><span>解螺旋酶</span></strong><span>作用下，双链解开，单链与</span><strong><span>单链结合蛋白</span></strong><span>结合以稳定DNA链</span></li>
+                            <li><span>在</span><strong><span>引物酶</span></strong><span>指导下合成引物（几个到几十个核苷酸的RNA链）</span></li>
+                            <li><span>在</span><strong><span>DNA聚合酶Ⅲ</span></strong><span>作用下，从引物3&#39;端合成新的DNA链</span></li>
+                            <li><span>冈崎片段RNA引物切除核缺口填补由</span><strong><span>DNA聚合酶Ⅰ</span></strong><span>完成，再由</span><strong><span>连接酶</span></strong><span>将他们连成长链</span></li>
+                        </ol>
+                        <h4><a name="314-端粒和端粒酶" class="md-header-anchor" id="3.1.4"></a><span>3.1.4 端粒和端粒酶</span></h4>
+                        <p><strong><span>端粒</span></strong><span>：真核生物染色体线性DNA分子末端的结构</span></p>
+                        <p><span>功能：</span></p>
+                        <ol start='' >
+                            <li><span>维持染色体稳定，为染色体末端提供可消耗的缓冲序列（每次在最末端的冈崎片段没有填补缺口的过程）</span></li>
+                            <li><span>维持DNA复制的完整性</span></li>
+                            <li><span>对有丝分裂进行调控（限制复制次数）</span></li>
+                        </ol>
+                        <p><strong><span>端粒酶</span></strong><span>：RNA-蛋白质复合体，依赖于RNA的DNA聚合酶</span></p>
+                        <p><center><img src="../Pictures/Biology_17.png" width="300"></center></p>
+                        <a name="32-转录和翻译" class="md-header-anchor" id="3.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>3.2 转录和翻译</span></h3>
+                        <h4><a name="321-中心法则" class="md-header-anchor" id="3.2.1"></a><span>3.2.1 中心法则</span></h4>
+                        <p><center><img src="../Pictures/Biology_18.png" width="500"></center></p>
+                        <h4><a name="322-rna转录" class="md-header-anchor" id="3.2.2"></a><span>3.2.2 RNA转录</span></h4>
+                        <p><strong><span>启动子</span></strong><br>
+                        <span>是基因</span><strong><span>转录起始点</span></strong><span>附近的序列，为RNA聚合酶提供</span><strong><span>转录起始位点</span></strong><span>的信号，属于非转录区</span><br>
+                        <span>启动子包括一个</span><strong><span>TATA盒</span></strong><br>
+                        <span>在</span><strong><span>RNA聚合酶Ⅱ</span></strong><span>结合到DNA前，一部分</span><strong><span>转录因子</span></strong><span>（蛋白质）识别TATA盒，与之结合</span><br>
+                        <span>酶结合启动子后，另一些转录因子再与之结合，形成</span><strong><span>转录起始复合物</span></strong><br>
+                        <span>酶沿着DNA链3&#39;-&gt;5&#39;运动，合成顺序的RNA分子，再加工（见上文）</span></p>
+                        <p><span>基因的结构如下图，下面的单链是RNA的模板链，上面的单链是编码链</span></p>
+                        <p><center><img src="../Pictures/Biology_19.png" width="500"></center></p>
+                        <h4><a name="323-遗传密码和rna的翻译" class="md-header-anchor" id="3.2.3"></a><span>3.2.3 遗传密码和RNA的翻译</span></h4>
+                        <p><strong><span>遗传密码</span></strong><br>
+                        <span>mRNA中每三个核苷酸序列编码一个</span><strong><span>氨基酸</span></strong><span>或者</span><strong><span>终止信号</span></strong><span>，共64个编码</span><br>
+                        <span>起始密码子：开始合成蛋白质的密码子，编码（甲酰）甲硫氨酸  </span></p>
+                        <p><strong><span>特点</span></strong></p>
+                        <ol start='' >
+                            <li><span>方向性：5&#39;-&gt;3&#39;</span></li>
+                            <li><span>连续性：密码子之间连续排列</span></li>
+                            <li><span>简并性：多个密码子对应一个氨基酸或终止信号</span></li>
+                            <li><span>摆动性：密码子与反密码子（tRNA上）配对有时不遵从碱基互补配对法则</span></li>
+                            <li><span>通用性：所有生物几乎共用一套密码子表</span></li>
+                        </ol>
+                        <p><strong><span>翻译</span></strong><br>
+                        <span>tRNA将氨基酸带到核糖体上，装配成蛋白质的过程</span><br>
+                        <span>翻译结束后，mRNA</span><strong><span>水解</span></strong><span>成单个核苷酸</span></p>
+                        <a name="33-核酸的理化性质" class="md-header-anchor" id="3.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>3.3 核酸的理化性质</span></h3>
+                        <h4><a name="331-dna的变性" class="md-header-anchor" id="3.3.1"></a><span>3.3.1 DNA的变性</span></h4>
+                        <p><span>定义：在某些理化因素下，DNA双链解开成单链</span><br>
+                        <span>方法：过量酸、碱，加热，化学变性试剂</span><br>
+                        <span>本质：双链间</span><strong><span>氢键的断裂</span></strong><span>，是可逆的</span></p>
+                        <p><center><img src="../Pictures/Biology_20.png" width="300"></center></p>
+                        <h4><a name="332-聚合酶链式反应pcr）" class="md-header-anchor" id="3.3.2"></a><span>3.3.2 聚合酶链式反应（PCR）</span></h4>
+                        <p><strong><span>原理</span></strong></p>
+                        <ol start='' >
+                            <li><span>变性：95℃高温变性成单链</span></li>
+                            <li><span>退火：低温（60℃）引物与单链配对</span></li>
+                            <li><span>延伸：调整温度为DNA聚合酶最适温度（72℃），开始合成</span><br>
+                                <center><img src="../Pictures/Biology_21.png" width="300"></center></li>
+                        </ol>
+                        <p><font color=red><span>CT值（cycle threshold）</span></font><br>
+                        <span>检测DNA时，表示用了几轮PCR扩增到阈值，越大表示体内含量越少</span></p>
+                        <h4><a name="333-核酸分子杂交" class="md-header-anchor" id="3.3.3"></a><span>3.3.3 核酸分子杂交</span></h4>
+                        <p><strong><span>DNA复性</span></strong><span>：变性的两条单链在适当条件下回复双螺旋。DNA复性时，OD260降低</span></p>
+                        <p><strong><span>核酸分子杂交</span></strong><br>
+                        <span>在DNA复性过程中，将不同的DNA单链或者RNA放在同一溶液中，不同分子间可以形成</span><strong><span>杂化双链</span></strong></p>
+                        <p><strong><span>应用</span></strong></p>
+                        <ol start='' >
+                            <li><span>研究某一基因位置</span></li>
+                            <li><span>确定两种核酸分子间的序列相似性</span></li>
+                            <li><span>检测某些序列在样品中是否存在</span></li>
+                            <li><span>基因芯片技术</span></li>
+                        </ol>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

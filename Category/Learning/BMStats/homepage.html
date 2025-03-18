@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+	
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学统计基础">
+    <meta name="description" content="生物医学统计基础">
+    <meta name="author" content="">
+    <title>生物医学统计基础</title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/myPagination.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/archive.css">
+	<link rel="stylesheet" href="/Boundless-UI-master/css/index.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style rel="stylesheet">
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="https://mingx1ao.github.io/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="https://mingx1ao.github.io/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="https://mingx1ao.github.io/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="https://mingx1ao.github.io/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="https://mingx1ao.github.io/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="https://mingx1ao.github.io/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('/IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="https://mingx1ao.github.io/mingxiaoHomepage.html">首页</a></li>                                                                            
+        <li><a class="w-h-100 fl" href="https://mingx1ao.github.io/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="https://mingx1ao.github.io/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="https://mingx1ao.github.io/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+    <!--主体-->
+    <main class="big-container">
+        <article class="article">
+            <ul class="achieve-box">
+                <li class="year">
+                    生物医学统计基础
+		</li>
+		    <br>
+		<li class="year">
+		    这是SJTU-BME大二下的一门课，课号为BME2202，本课程需要一定的数理统计基础。<br>
+		    课程介绍了常用的一些统计方法，不仅限于生物医学领域。当然，例子都是通过生物医学来引出的。<br>
+        本课程使用python作为统计工具。
+		</li>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats0.html" class="title">零 Thinking Statistically</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats1.html" class="title">一 预备知识</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats2.html" class="title">二 数据可视化</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats3.html" class="title">三 描述性统计</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats41.html" class="title">四 均值的比较 1(置信区间)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats42.html" class="title">四 均值的比较 2(零假设检验)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats43.html" class="title">四 均值的比较 3(对方差分析)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats51.html" class="title">五 类别的比较 1(置信区间)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats52.html" class="title">五 类别的比较 2(零假设检验)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats53.html" class="title">五 类别的比较 3(拟合优度卡方检验)</a>
+                </li>
+		    <br>
+                <li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats61.html" class="title">六 变量之间的关系 1(相关性分析)</a>
+                </li>
+		    <br>
+        	    	<li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats62.html" class="title">六 变量之间的关系 2(简单线性回归分析)</a>
+                </li>
+        <br>
+        	    	<li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats63.html" class="title">六 变量之间的关系 3(多元线性回归模型)</a>
+                </li>
+        <br>
+        	    	<li class="detail-item">
+                    <span class="date">24-07-12</span>
+                    <a href="BMStats7.html" class="title">七 复习</a>
+                </li>
+            </ul>
+        </article>
+    </main>
+  <!--尾部-->
+  <footer class="footer">
+        <div class="footer-line">
+        </div>
+        <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                target="_blank">BoundlessUI</a> • © 2019</div>
+        <div class="footer-line">Have Fun Here</div>
+    </footer>
+    <script type="text/javascript" src="/Boundless-UI-master/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/Boundless-UI-master/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/Boundless-UI-master/js/pace.min.js"></script>
+    <script type="text/javascript" src="/Boundless-UI-master/js/base.js"></script>
+    <script type="text/javascript" src="/Boundless-UI-master/js/d-audio.js"></script>
+    <script type="text/javascript" src="/Boundless-UI-master/js/myPagination.js"></script>
+    <script type="text/javascript">
+        // 分页
+        const pagination = new myPagination({
+            id: 'pagination',
+            curPage: 1, //初始页码
+            pageTotal: 3, //总页数
+            pageAmount: 10, //每页多少条
+            dataTotal: 29, //总共多少条数据
+            pageSize: 3, //可选,分页个数
+            //showPageTotalFlag: true, //是否显示数据统计
+            //showSkipInputFlag: true, //是否支持跳转
+            getPage: function (page) {
+                console.log("current page: ", page);
+            }
+        });
+
+        // 图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+</html>

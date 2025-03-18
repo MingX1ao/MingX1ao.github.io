@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="统计,零假设检验">
+    <meta name="description" content="使用零假设检验做总体均值的比较">
+    <meta name="author" content="MingXiao">
+    <title>均值的比较 2(零假设检验)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>均值的比较 2(零假设检验)
+                    <ul>
+                        <li><a href="#4.2.0">NHST注意事项</a></li>
+                        <li><a href="#4.2.1">4.2.1 NHST与CI的关系</a></li>
+                        <li><a href="#4.2.2">4.2.2 NHST的推理逻辑</a></li>
+                        <li><a href="#4.2.3">4.2.3 单样本t检验</a></li>
+                        <li><a href="#4.2.4">4.2.4 双样本t检验</a>
+                            <ul>
+                                <li><a href="#4.2.4.1">4.2.4.1 配对的样本</a></li>
+                                <li><a href="#4.2.4.2">4.2.4.2 独立的样本</a></li>
+                            </ul>    
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">均值的比较 2(零假设检验 Null Hypothesis Significance Test NHST)</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/12</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="font-colorrednhst注意事项font" class="md-header-anchor" id="4.2.0"></a>
+                        <br>
+                        <br>
+                        <h3><font color=red><span>NHST注意事项</span></font></h3>
+                        <p><strong><span>含义</span></strong><br>
+                        <span>NHST的含义仅仅是</span><font color=red>\(\mathsf{P}(x>\mathsf{Data}|H_0)\)</font></p>
+                        <ol start='' >
+                            <li><span>只反应数据和假设的兼容性</span></li>
+                            <li><span>不能推断</span>\(H_0,H_1\)<span>成立的概率</span></li>
+                            <li><span>不能直接回答真正关心的问题：</span><font color=red>\(\mathsf{P}(H_0|\mathsf{Data})\)</font></li>
+                        </ol>
+                        <p><strong><span>统计显著性α不等于实际显著性</span></strong></p>
+                        <ol start='' >
+                            <li><span>n足够大时，尽管差距很小，p仍然可以很小</span></li>
+                            <li><span>p很小不代表实际差距很大</span></li>
+                        </ol>
+                        <p><strong><span>常见错误</span></strong><span>：</span></p>
+                        <ol start='' >
+                            <li><span>p值之间的比较：两组实验组，分别和对照组求p，p=0.04的结果要比p=0.05的结果更显著吗？不</span></li>
+                            <li><span>只做了一次实验就不能讲概率</span></li>
+                        </ol>
+                        <p><strong><span>p值到底反映了什么？</span></strong></p>
+                        <ol start='' >
+                            <li><span>p&lt;0.05，说明两个样本均值差异有显著性（在0假设成立的情况下）</span></li>
+                            <li><span>p&lt;0.05，说明两个总体均值存在差异的显著性很大？</span><strong><span>错误</span></strong></li>
+                            <li><span>“认为0假设错误”这个</span><strong><span>结论错误的概率</span></strong><span>小于p值</span></li>
+                        </ol>
+                        <a name="421-nhst与ci的关系" class="md-header-anchor" id="4.2.1">
+                        <br>
+                        <br>
+                        <h3></a><span>4.2.1 NHST与CI的关系</span></h3>
+                        <ol start='' >
+                            <li><span>NHST的回答比CI</span><strong><span>简洁</span></strong><span>，只回答Yes or No</span></li>
+                            <li><span>NSHT没有CI准确，CI还提供大/小多少的信息</span></li>
+                            <li><span>NSHT要回答的问题</span><strong><span>都可以用CI回答</span></strong></li>
+                        </ol>
+                        <a name="422-nhst的推理逻辑" class="md-header-anchor" id="4.2.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.2.2 NHST的推理逻辑</span></h3>
+                        <p><span>详见概统笔记</span></p>
+                        <ol start='' >
+                            <li>
+                                <p><span>先做零假设和备择假设</span></p>
+                                <ul>
+                                    <li><span>什么样的假设可以作为零假设</span></li>
+                                </ul>
+                                <ol start='' >
+                                    <li><span>假设完可以确定枢轴量的分布</span></li>
+                                    <li><span>用想要拒绝的做假设</span></li>
+                                    <li><span>不能用p不够小来确定其成立</span></li>
+                                </ol>
+                            </li>
+                            <li><p><span>选择枢轴量</span></p></li>
+                            <li>
+                                <p><span>根据枢轴量在</span>\(H_0\)<span>成立时的分布，根据检验方式算概率（p值）</span></p>
+                                <ol start='' >
+                                    <li><span>双边检验：</span>\(p=P(|x|\geq|X|)\)</li>
+                                    <li><span>右侧检验：</span>\(p=P(x\geq X)\)</li>
+                                    <li><span>左侧检验：</span>\(p=P(x\leq X)\)</li>
+                                </ol>
+                            </li>
+                            <li><p><span>检验p的显著性水平，如果p&lt;α，则拒绝原假设，</span>\(H_1\)<span>成立</span></p></li>
+                        </ol>
+                        <a name="423-单样本t检验" class="md-header-anchor" id="4.2.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.2.3 单样本t检验</span></h3>
+                        <p><span>总体</span>\(\sigma^2\)<span>未知，使用t分布</span><br>
+                        <span>拒绝域是同α下CI的</span><strong><span>补集</span></strong></p>
+                        <details>
+                            <summary>python代码click</summary>
+                                t,p=stats.ttest_1samp(a,b, altenative="two-sided")  <br>
+                                a,b输入数据，mu是零假设的均值，alternative选择检验方式<br>
+                                输出t是枢轴量的观测值，p是p值
+                        </details>
+                        <a name="424-双样本t检验" class="md-header-anchor" id="4.2.4"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.2.4 双样本t检验</span></h3>
+                        <h4><a name="4241-配对的样本" class="md-header-anchor" id="4.2.4.1"></a><span>4.2.4.1 配对的样本</span></h4>
+                        <p><span>配对做差，和单样本相同</span></p>
+                        <details>
+                            <summary>python代码click</summary>
+                                t,p=stats.ttest_rel(a,b,alternative)  <br>
+                                data输入数据，alternative选择检验方式，默认mu=0<br>
+                                输出t是枢轴量的观测值，p是p值
+                        </details>
+                        <h4><a name="4242-独立的样本" class="md-header-anchor" id="4.2.4.2"></a><span>4.2.4.2 独立的样本</span></h4>
+                        <p><span>和单样本类似的，拒绝域都是相应的α下的CI的补集</span></p>
+                        <details>
+                            <summary>python代码click</summary>
+                                t,p=stats.ttest_ind(data1,data2,equal_val,alternative)<br>
+                                data1,2是数据输入，equal_var选择方差是否相同，alternative选择检验方式，默认mu=0<br>
+                                输出t是枢轴量的观测值，p是p值
+                        </details>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

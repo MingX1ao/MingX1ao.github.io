@@ -1,0 +1,408 @@
+html {
+    font-size: 14px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: 1rem;
+    line-height: 1.42857;
+    overflow-x: hidden;
+    background: inherit;
+    tab-size: 4;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+
+p, blockquote, ul, ol, dl, table {
+    margin: 0.8em 0;
+}
+
+/* Links */
+a {
+    color: #4183C4;
+    cursor: pointer;
+}
+
+/* Lists */
+ul, ol {
+    padding-left: 30px;
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    overflow: auto;
+}
+
+table tr {
+    border-top: 1px solid #dfe2e5;
+}
+
+table th, table td {
+    border: 1px solid #dfe2e5;
+    padding: 6px 13px;
+}
+
+/* Code blocks and inline code */
+pre, code, tt {
+    font-family: var(--monospace);
+    background-color: #f8f8f8;
+    border-radius: 3px;
+}
+
+pre {
+    padding: 8px 12px;
+    overflow-x: auto;
+}
+
+code {
+    padding: 2px 4px;
+    font-size: 0.9em;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+/* Horizontal rules */
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+}
+
+/* Task lists */
+.md-task-list-item {
+    list-style-type: none;
+}
+
+.md-task-list-item > input {
+    margin-left: -1.2em;
+    margin-top: calc(1em - 10px);
+}
+
+/* Footnotes */
+.footnotes {
+    font-size: 0.9rem;
+    color: #777777;
+}
+
+/* MathJax */
+.MathJax_SVG_Display {
+    text-align: center;
+    margin: 0.8em 0px 0px;
+}
+
+/* Mermaid diagrams */
+[lang="mermaid"] svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Print styles */
+@media print {
+    body, html {
+        font-size: 13px;
+    }
+
+    table, pre {
+        page-break-inside: avoid;
+    }
+
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+/* Headings with anchors */
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+
+/* Code blocks */
+.md-fences {
+    font-size: 0.9rem;
+    display: block;
+    break-inside: avoid;
+    text-align: left;
+    overflow: visible;
+    white-space: pre;
+    background: inherit;
+    position: relative !important;
+}
+
+/* Footnote lines */
+.footnote-line {
+    margin-top: 0.714em;
+    font-size: 0.7em;
+}
+
+/* Images inside paragraphs */
+p > .md-image:only-child:not(.md-img-error) img,
+p > img:only-child {
+    display: block;
+    margin: auto;
+}
+
+/* MathJax display */
+.MathJax_SVG_Display {
+    width: auto;
+    margin: inherit;
+    display: inline-block !important;
+}
+
+/* Task list items */
+.md-task-list-item {
+    position: relative;
+}
+
+.md-task-list-item > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: -1.2em;
+    margin-top: calc(1em - 10px);
+    border: none;
+}
+
+/* Table headers */
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+
+/* Table rows and cells */
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+
+/* Code tooltips */
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+/* Mermaid font zoom */
+:root {
+    --mermaid-font-zoom: 1.5em;
+}
+
+/* Sidebar background color */
+:root {
+    --side-bar-bg-color: #fafafa;
+}
+
+/* Control text color */
+:root {
+    --control-text-color: #777;
+}
+
+/* Open Sans font inclusion */
+@import url('https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext');
+
+/* Body font family */
+body {
+    font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+/* Write area */
+#write {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px;
+    padding-bottom: 100px;
+}
+
+/* Media queries for larger screens */
+@media only screen and (min-width: 1400px) {
+    #write {
+        max-width: 1024px;
+    }
+}
+
+@media only screen and (min-width: 1800px) {
+    #write {
+        max-width: 1200px;
+    }
+}
+
+/* First child lists */
+#write > ul:first-child,
+#write > ol:first-child {
+    margin-top: 30px;
+}
+
+/* Code block background */
+.md-fences {
+    background-color: #f8f8f8;
+}
+
+/* Meta block for code */
+#write pre.md-meta-block {
+    padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+/* MathJax block tooltips */
+.mathjax-block > .code-tooltip {
+    bottom: .375rem;
+}
+
+/* Midline for MathJax */
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+/* Focus styles for headings */
+#write > h3.md-focus:before,
+#write > h4.md-focus:before,
+#write > h5.md-focus:before,
+#write > h6.md-focus:before {
+    left: -1.5625rem;
+}
+
+/* Image meta */
+.md-image > .md-meta {
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+/* Tags */
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+/* Table of contents */
+.md-toc {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Sidebar tabs */
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+/* Quick open */
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+/* Quick open item */
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* Focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+/* File node content */
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state {
+    visibility: visible;
+}
+
+/* Mac seamless mode */
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+/* Language indicator */
+.md-lang {
+    color: #b4654d;
+}
+
+/* Context menu for Mac */
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+/* Notification buttons */
+#md-notification .btn {
+    border: 0;
+}
+
+/* Dropdown menu dividers */
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+/* Preferences window content */
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+/* Preferences nav group items */
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}

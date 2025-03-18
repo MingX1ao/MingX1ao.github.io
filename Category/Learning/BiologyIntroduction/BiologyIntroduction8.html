@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物,肿瘤,治疗方法">
+    <meta name="description" content="简要介绍了肿瘤的致病机理和治疗新方法">
+    <meta name="author" content="MingXiao">
+    <title>肿瘤的致病机理和治疗新方法</title></title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>肿瘤的致病机理和治疗新方法
+                    <ul>
+                        <li><a href="#8.1">8.1 肿瘤的致病机理</a></li>
+                        <li><a href="#8.2">8.2 肿瘤的特征</a></li>
+                        <li><a href="#8.3">8.3 肿瘤免疫治疗</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">肿瘤的致病机理和治疗新方法</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/03</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="81-肿瘤的致病机理" class="md-header-anchor" id="8.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>8.1 肿瘤的致病机理</span></h3>
+                        <p><strong><span>癌基因</span></strong><br>
+                        <span>普遍存在于正常细胞内，调控细胞</span><strong><span>增殖和分化</span></strong><span>的基因</span><br>
+                        <span>当受到物理化学生物的因素而活化失控时，才会导致肿瘤</span></p>
+                        <p><strong><span>抑癌基因</span></strong><br>
+                        <span>通常是细胞周期检查蛋白有关基因，抑制癌症</span></p>
+                        <p><strong><span>肿瘤免疫</span></strong><br>
+                        <span>利用免疫学的理论和方法，研究肿瘤和免疫的关系</span></p>
+                        <a name="82-肿瘤的特征" class="md-header-anchor" id="8.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>8.2 肿瘤的特征</span></h3>
+                        <p><center><img src="../Pictures/Biology_55.png" width="500"></center></p>
+                        <p><center><img src="../Pictures/Biology_56.png" width="500"></center></p>
+                        <a name="83-肿瘤免疫治疗" class="md-header-anchor" id="8.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>8.3 肿瘤免疫治疗</span></h3>
+                        <p><strong><span>历史</span></strong><br>
+                        <span>用细菌治疗肿瘤；用高剂量白细胞介素2（IL2）治疗肿瘤</span></p>
+                        <p><strong><span>主要方式</span></strong></p>
+                        <ol start='' >
+                            <li><span>消除肿瘤的免疫抑制</span></li>
+                            <li><span>CAR(chimeric antigen receptor)治疗</span></li>
+                            <li><span>肿瘤疫苗</span></li>
+                        </ol>
+                        <p><strong><span>消除肿瘤的免疫抑制</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_57.png" width="200"></center></p>
+                        <p><span>APC是抗原提呈细胞</span><br>
+                        <span>免疫检验点抗体是通过</span><strong><span>抑制T细胞的关键免疫检查点蛋白</span></strong><span>来</span><strong><span>激活</span></strong><span>自身免疫系统的T细胞，来消灭肿瘤细胞</span></p>
+                        <p><span>免疫检查点抗体（ICNA）在恶性肿瘤中治疗效果显著</span><br>
+                        <span>但是很多患者有</span><strong><span>天然的耐药性</span></strong><br>
+                        <span>早期对其进行</span><strong><span>耐药性检测</span></strong><span>有利于治疗</span></p>
+                        <p><strong><span>CAR治疗</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_54.png" width="500"></center></p>
+                        <p><span>上图表示不同的淋巴细胞面的特异性受体，使用对应的抗体进行CAR治疗</span><br>
+                        <span>例如：CD19 CAR-T治疗，是改造自身的T细胞让它特异性杀死B细胞治疗白血病</span></p>
+                        <p><span>CAR-T是一种个体化免疫治疗，用基因工程的方法改造</span><strong><span>自身</span></strong><span>T细胞的TCR，增强对肿瘤的杀伤性</span><br>
+                        <span>TCR，T Cell Receptor，是T细胞表面特异性识别抗原的受体</span></p>
+                        <p><strong><span>CAR-T 原理</span></strong></p>
+                        <p><center><img src="../Pictures/Biology_58.png" width="300"></center></p>
+                        <p><span>将抗体加载到TCR复合体上（基因工程）：T细胞受体的分子量大，识别能力不如抗体；而抗体下面都是恒定区，只需要将可变区链接起来就行；黄色的是铰链区，增强抗体的活动性，更好地识别</span></p>
+                        <p><center><img src="../Pictures/Biology_59.png" width="300"></center></p>
+                        <p><span>抗体识别抗原决定簇，发挥作用</span></p>
+                        <p><strong><span>肿瘤疫苗</span></strong><br>
+                        <span>寻找肿瘤的特异性抗原，制成疫苗</span><br>
+                        <span>利用</span><strong><span>基因测序</span></strong><span>技术，发现了肿瘤中表达的特异性</span><strong><span>新抗原</span></strong><br>
+                        <span>新抗原能否被APC有效提呈，被T细胞识别是肿瘤免疫的关键之一</span></p>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

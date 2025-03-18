@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="统计，基础">
+    <meta name="description" content="统计基础，像统计学家一样思考">
+    <meta name="author" content="MingXiao">
+    <title>Thinking Statistically</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>Thinking Statistically
+                    <ul>
+                        <li><a href="#0.1">Thinking Statistically</a></li>
+                        <li><a href="#0.2">APA格式报告</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">Thinking Statistically</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/12</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="0-thinking-statistically" class="md-header-anchor" id="0.1"></a>
+                        <br>
+                        <br>
+                        <h2><span>0 Thinking Statistically</span></h2>
+                        <ol start='' >
+                            <li><p><span>从样本推断总体</span></p></li>
+                            <li>
+                                <p><span>统计推断的依据:</span></p>
+                                <ol start='' >
+                                    <li><span>随机采样</span></li>
+                                    <li><span>样本足够大</span></li>
+                                    <li><span>样本统计量的分布特征已知</span></li>
+                                </ol>
+                            </li>
+                            <li><p><span>数据可视化</span><strong><span>提早</span></strong><span>统计分析</span></p></li>
+                            <li><p><span>p值与</span>\(H_0/H_1\)<span>成立的关系：</span><strong><span>没有关系</span></strong><span>，是拒绝用的，不能用于成立</span></p></li>
+                            <li><p><span>统计显著性（α）不代表实际显著性（样本反映的）</span></p></li>
+                        </ol>
+                        <a name="font-colorred报告格式apa格式font" class="md-header-anchor" id="0.2"></a>
+                        <br>
+                        <br>
+                        <h2><font color=red><span>报告格式：APA格式</span></font></h2>
+                        <p><strong><span>单样本t-检验：</span></strong><br>
+                        <span>根据单样本t-检验的结果，样本均值（M = 3.20，SD = 0.80）显著高于总体均值（t(29) = 2.60，p &lt; .05，95%CI=[xxx,xxx]）。</span></p>
+                        <p><strong><span>独立样本t-检验：</span></strong><br>
+                        <span>根据独立样本t-检验的结果，组A的平均值（M = 5.10，SD = 1.20）显著高于组B的平均值（M = 4.20，SD = 0.90），t(58) = 2.90，p &lt; .05，cohen&#39;s d=0.8，95%CI=[xxx,xxx]。</span></p>
+                        <p><strong><span>配对样本t-检验：</span></strong><br>
+                        <span>根据配对样本t-检验的结果，前后两次测量的平均值存在显著差异（M1 = 3.20，SD1 = 0.80；M2 = 4.10，SD2 = 0.90），t(29) = 2.60，p &lt; .05，cohen&#39;s d=0.8，95%CI=[xxx,xxx]。</span></p>
+                        <ul><li><span>cohen&#39;s d是一个效应量，</span><span>\(d=\frac{\overline{x_1}-\overline{x_2}}{s}\)</span><span>，</span><span>\(s=\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}}\)</span></li></ul>
+                        <p><strong><span>1-way ANOVA</span></strong><span>：</span><br>
+                        <span>三个组的成绩分别是12.3(n=12,SD=4.1), 7.4(n=9,SD=2.3), 6.6(n=8,SD=3.1)，显示方案对成绩有显著效应(F(2,26)=8.76, p=.012, eta2=0.1).</span><br>
+                        <span>进一步组间多重比较Tukey HSD 检验发现，anxifree 与joyzepam对情绪改善差异（d=0.77）达到统计显著性（p=.0015），joyzepam 与 placebo 对情绪改善差异（d=-1.49）也达到了统计显著性（p=.0001）</span></p>
+                        <p><strong><span>卡方检验</span></strong><br>
+                        <span>卡方检验表面剂量与治疗效果具有显著的弱关联性（chi2(2)=14.23,p&lt;.001,Cramer&#39;s V=0.18）</span></p>
+                        <p><strong><span>GoF卡方检验</span></strong><br>
+                        <span>通过XXX检验，感染人数的分布显著服从/不服从XX分布，</span><span>\(\chi^2(df,N)=\)</span><span>xx,p=.xxx</span><br>
+                        <span>其中N是样本观测总数</span></p>
+                        <p><strong><span>相关系数</span></strong><br>
+                        <span>Pearson相关分析表明，两个变量之间存在很强/中等/弱/没有线性相关性（r(N)=.30,p&lt;.001,95%CI=[0.15,0.35]）</span><br>
+                        <span>N是样本观测量</span></p>
+                        <p><strong><span>回归模型</span></strong><br>
+                        <span>Social support significantly predicted/explained depression scores（bi= -.34, t(225) = 6.53, p&lt; .001）</span><br>
+                        <span>Social support also explained a significant proportion of variance in depression scores（R2 = .12, F(1, 225) = 42.64,p&lt; .001）</span><br>
+                        <span>F分布的自由度分别是自变量个数，样本观测量-1-自变量个数</span></p>  
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

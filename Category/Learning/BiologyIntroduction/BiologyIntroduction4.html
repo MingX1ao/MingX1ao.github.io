@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物,遗传,发育">
+    <meta name="description" content="简要介绍了细胞学说和细胞组成">
+    <meta name="author" content="MingXiao">
+    <title>发育的遗传基础</title>
+    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
+    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
+    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
+    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <style>
+        .lazy-image {
+            background: url('/IMG/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    
+    <!--PC导航栏-->
+    <nav class="nav-bar-holder">
+        <div class="nav-bar" id="nav-bar">
+            <div class="logo-box">
+                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                        src="/IMG/Blog's Logo.png" /></a>
+            </div>
+            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
+            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
+            <!--搜索框-->
+            <div id="search-nb">
+                <span class="search-s fl">
+                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
+                        placeholder="搜索">
+                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!--mobile导航栏-->
+    <nav class="mobile-nav">
+        <div class="logo-box">
+            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
+                <img style="vertical-align: top;" alt="logo"
+                    src="/IMG/Blog's Logo.png" /></a>
+        </div>
+        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
+    </nav>    
+    <ul id="nav-m-list">
+        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+        <li id="m-img-li">
+            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
+        </li>
+        <li>
+            <span class="search-s fl">
+                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+            </span>
+        </li>
+        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
+        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
+        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
+        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
+    </ul>
+
+    
+    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+        <!--文章目录-->
+        <div class="toc">
+            <ul>
+                <li>一. 生命的化学基础
+                    <ul>
+                        <li><a href="#0">速查</a></li>
+                        <li><a href="#4.1">4.1 真核细胞的细胞周期</a></li>
+                        <li><a href="#4.2">4.2 干细胞的基本概念</a></li>
+                        <li><a href="#4.3">4.3 胚胎干细胞（ES Cells）</a></li>
+                        <li><a href="#4.4">4.4 诱导型多潜能干细胞（iPS Cells）</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
+                </div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">发育的遗传基础</h1>
+                    <div class="article-cate">
+                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                        <span id="write-time">2024/07/02</span>
+                    </div>
+                    <div class="typora-export os-windows">
+                        <a name="速查" class="md-header-anchor" id="0"></a>
+                        <br>
+                        <br>
+                        <h3><span>速查</span></h3>
+                        <span>干细胞（Stem Cells）</span><br>
+                        <span>胚胎干细胞（ES Cells）</span><br>
+                        <span>诱导型多潜能干细胞（iPs Cells）</span><br></p>
+                        <a name="41-真核细胞的细胞周期" class="md-header-anchor" id="4.1"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.1 真核细胞的细胞周期</span></h3>
+                        <p><span>分为G1，S，G2，M期和很多个</span><strong><span>检查点</span></strong><span>，休眠的细胞进入G0</span></p>
+                        <p><center><img src="../Pictures/Biology_22.png" width="500"></center></p>
+                        <a name="42-干细胞的基本概念" class="md-header-anchor" id="4.2"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.2 干细胞的基本概念</span></h3>
+                        <p><span>是一类具有</span><strong><span>自我更新</span></strong><span>和</span><strong><span>分化潜能</span></strong><span>的细胞</span></p>
+                        <p><strong><span>特点：</span></strong></p>
+                        <ol start='' >
+                            <li><p><strong><span>无限分裂</span></strong></p></li>
+                            <li><p><span>未分化的细胞</span></p></li>
+                            <li><p><span>干细胞的子细胞只能在两个进程中选择其一</span></p>
+                                <ol start='' >
+                                    <li><span>保持亲代特性，仍为干细胞</span></li>
+                                    <li><span>向终末分化</span></li>
+                                </ol>
+                            </li>
+                        </ol>
+                        <p><strong><span>分裂模式</span></strong></p>
+                        <ol start='' >
+                            <li><span>对称分裂（自我更新）</span></li>
+                            <li><span>不对称分裂（向终末分化）</span><br>
+                                <center><img src="../Pictures/Biology_23.png" width="300"></center></li>
+                        </ol>
+                        <p><strong><span>干细胞微环境的功能</span></strong></p>
+                        <ol start='' >
+                            <li><span>锚定干细胞并调控其处于G0期：通过钙粘蛋白和整合素介导的细胞粘附</span></li>
+                            <li><span>维持干细胞的自我更新和分化的平衡：微环境结构不对称</span></li>
+                            <li><span>调控干细胞命运：微环境提供保护、屏蔽外部影响，维持干细胞的未分化状态</span></li>
+                        </ol>
+                        <p><strong><span>杆细胞分类</span></strong></p>
+                        <ol start='' >
+                            <li><p><span>依据分化潜能</span></p>
+                                <ol start='' >
+                                    <li><span>全能干细胞：发育为</span><strong><span>完整的个体</span></strong><span>；受精卵，8-16细胞之前的卵裂球</span></li>
+                                    <li><span>亚全能干细胞：不能发育为个体，但是可以</span><strong><span>分化出几乎所有细胞</span></strong><span>；囊胚的内细胞团，骨髓基质干细胞</span></li>
+                                    <li><span>多能干细胞：向</span><strong><span>少数几种分化</span></strong><span>；淋巴，髓样干细胞</span></li>
+                                    <li><span>单能干细胞：只能分化为</span><strong><span>一种</span></strong><span>；上皮组织基底层干细胞</span></li>
+                                </ol>
+                            </li>
+                            <li><p><span>依据细胞来源</span></p>
+                                <ol start='' >
+                                    <li><span>胚胎干细胞：存在于早期胚胎中，有高度增殖力和多向分化潜能</span></li>
+                                    <li><span>成体干细胞：存在于成体各组织的未分化细胞，有终生自我更新和分化潜能</span></li>
+                                </ol>
+                            </li>
+                        </ol>
+                        <a name="43-胚胎干细胞es-cells）" class="md-header-anchor" id="4.3"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.3 胚胎干细胞（ES Cells）</span></h3>
+                        <p><strong><span>胚胎发育过程</span></strong><br>
+                        <span>受精卵-&gt;n细胞-&gt;桑葚胚-&gt;囊胚</span><br>
+                        <span>囊胚的内细胞团细胞就是胚胎干细胞，可以分化成三个胚层的所有种类细胞，不能分化为胎盘等附属结构</span><br>
+                        <span>将胚胎干细胞建系可以使其在体外永久性非分化增殖</span></p>
+                        <p><strong><span>体内成瘤</span></strong><br>
+                        <span>可以用来鉴定ES</span></p>
+                        <ol start='' >
+                            <li><span>将细胞注入到同种或免疫缺陷小鼠的皮下或肾包囊</span></li>
+                            <li><span>宿主动物体内形成畸胎瘤（内含多种组织细胞和类似的组织结构，如上皮、神经等）</span></li>
+                        </ol>
+                        <p><strong><span>嵌合体动物</span></strong><br>
+                        <span>子代的所有组织和器官都包含了来源于两种不同基因背景的细胞，可以鉴定ES</span></p>
+                        <ol start='' >
+                            <li><span>将受试细胞注射到正在发育的胚泡中，形成杂合胚胎</span></li>
+                            <li><span>如果受试细胞是亚全能的ES，就可以发育成子代（嵌合体）</span></li>
+                        </ol>
+                        <p><strong><span>四倍体补偿</span></strong><br>
+                        <span>鉴定ES</span></p>
+                        <ol start='' >
+                            <li><span>将发育到二细胞时期的胚胎用电或化学方法细胞融合，成为四倍体（仅能发育成胎盘）</span></li>
+                            <li><span>将ES注入四倍体囊胚，可以发育为完整的个体</span></li>
+                        </ol>
+                        <a name="44-诱导型多潜能干细胞ips-cells）" class="md-header-anchor" id="4.4"></a>
+                        <br>
+                        <br>
+                        <h3><span>4.4 诱导型多潜能干细胞（iPS Cells）</span></h3>
+                        <p><span>通过多种转录因子将终末分化的体细胞</span><strong><span>重编程</span></strong><span>为多潜能干细胞</span></p>
+                        <p><strong><span>核移植</span></strong><br>
+                        <span>将体细胞的细胞核移植到</span><strong><span>去核</span></strong><span>卵母细胞</span></p>
+                        <p><strong><span>转录因子</span></strong><br>
+                        <span>常见的四种：</span><br>
+                        <font color=red><span>Oct3/4,Sox2,c-Myc,Klf4</span></font><span>，四种蛋白质全部一起加才行，可以</span><strong><span>调控干性基因表达</span></strong></p>
+                        <p><strong><span>iPS应用前景</span></strong></p>
+                        <ol start='' >
+                            <li><span>做疾病模型（疾病的分子机制）</span></li>
+                            <li><span>用于药物筛选（制药）</span></li>
+                            <li><span>做毒性检测（制药）</span></li>
+                            <li><span>做类器官</span></li>
+                        </ol>
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Insert generated snippet here -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+                  <!-- Synchronize Giscus theme with palette -->
+                  <script>
+                    var giscus = document.querySelector("script[src*=giscus]")
+                
+                    // Set palette on initial load
+                    var palette = __md_get("__palette")
+                    if (palette && typeof palette.color === "object") {
+                      var theme = palette.color.scheme === "slate"
+                        ? "transparent_dark"
+                        : "light"
+                
+                      // Instruct Giscus to set theme
+                      giscus.setAttribute("data-theme", theme) 
+                    }
+                
+                    // Register event handlers after documented loaded
+                    document.addEventListener("DOMContentLoaded", function() {
+                      var ref = document.querySelector("[data-md-component=palette]")
+                      ref.addEventListener("change", function() {
+                        var palette = __md_get("__palette")
+                        if (palette && typeof palette.color === "object") {
+                          var theme = palette.color.scheme === "slate"
+                            ? "transparent_dark"
+                            : "light"
+                
+                          // Instruct Giscus to change theme
+                          var frame = document.querySelector(".giscus-frame")
+                          frame.contentWindow.postMessage(
+                            { giscus: { setConfig: { theme } } },
+                            "https://giscus.app"
+                          )
+                        }
+                      })
+                    })
+                  </script>
+        </div>
+    </section>
+    <!--尾部-->
+      <footer class="footer">
+          <div class="footer-line">
+          </div>
+          <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
+                  target="_blank">BoundlessUI</a> • © 2019</div>
+          <div class="footer-line">Have Fun Here</div>
+      </footer>
+    <script type="text/javascript" defer>
+
+        //图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>
