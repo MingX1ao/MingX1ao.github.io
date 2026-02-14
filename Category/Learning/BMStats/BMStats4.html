@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
     <meta charset="UTF-8">
-    <meta name="keywords" content="生物学导论">
-    <meta name="description" content="5 神经系统及脑疾病 - 生物学导论">
+    <meta name="keywords" content="生物医学统计基础">
+    <meta name="description" content="3 描述性统计 - 生物医学统计基础">
     <meta name="author" content="MingXiao">
-    <title>5 神经系统及脑疾病</title>
+    <title>3 描述性统计</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="/assets/css/global.css">
     <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
@@ -76,11 +76,12 @@
     <div data-include="/includes/nav.html"></div>
         <div class="toc">
             <ul>
-                <li>5 神经系统及脑疾病
+                <li>3 描述性统计
                     <ul>
-                            <li><a href="#5.1">速查</a></li>
-                            <li><a href="#5.2">5.1 脑的结构和功能</a></li>
-                            <li><a href="#5.3">5.2 神经系统的细胞组成</a></li>
+                            <li><a href="#4.1">3.1 分位 Quantiles</a></li>
+                            <li><a href="#4.2">3.2 数据的集中趋势 Central Tendency</a></li>
+                            <li><a href="#4.3">3.3 描述数据的分散性</a></li>
+                            <li><a href="#4.4">3.4 描述数据的分布·</a></li>
                     </ul>
                 </li>
             </ul>
@@ -96,7 +97,7 @@
             <!--文章内容-->
             <div class="article-container">
                 <div class="article-content markdown-body">
-                    <h1 style="margin: 10px 0">5 神经系统及脑疾病</h1>
+                    <h1 style="margin: 10px 0">3 描述性统计</h1>
                     <div class="article-cate">
                         <a href="/Category/LearningHomepage.html">学习笔记</a>
                     </div>
@@ -105,51 +106,80 @@
                         <span id="writer">MingXiao</span>
                     </div>
                     <div class="typora-export os-windows">
-<a name="5.1" class="md-header-anchor" id="5.1"></a>
-<h3>速查</h3>
-<p>脑的结构和功能<br>神经系统的细胞组成<br>血脑屏障</p>
-<a name="5.2" class="md-header-anchor" id="5.2"></a>
-<h3>5.1 脑的结构和功能</h3>
-<p><strong>神经系统的组成</strong></p>
-<img src="Pictures/Biology_33.png" width="400">
-
-<p><strong>脑</strong></p>
-<p><strong>脑干</strong><br>自上而下分为<strong>延髓、脑桥和中脑</strong><br>作用：</p>
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>3.1 分位 Quantiles</h3>
+<p>几个常见的分位数：  </p>
 <ol>
-<li>传导兴奋</li>
-<li>反射的低级中枢</li>
-<li>脑干网状结构，维持一些生理活动</li>
+<li>median 二分位 1/2</li>
+<li>tercile 三分位 1/3</li>
+<li>quartile 四分位 1/4</li>
+<li>quintile 五分位 1/5</li>
+<li>decile 十分位 1/10</li>
+<li>percentile 百分位 1/100</li>
 </ol>
-<p><strong>小脑</strong><br>分为<strong>原小脑、旧小脑和新小脑</strong></p>
-<p><strong>大脑皮层</strong><br>分为左右半球<br>有很多褶皱（沟和回）<br>有灰质和白质</p>
-<p><strong>胼胝体</strong><br>链接左右半球，介导大脑半球之间的通讯</p>
-<a name="5.3" class="md-header-anchor" id="5.3"></a>
-<h3>5.2 神经系统的细胞组成</h3>
-<img src="Pictures/Biology_34.png" width="400">
+<details>
+<summary>python代码click</summary>
+pd.DataFrame.quantile(q=[0.25,0.5,0.75])  
+</details>
 
-<p><strong>神经元</strong><br>有电化学活性，感受刺激，产生神经冲动，分泌神经递质，可以传递和整合信息</p>
-<p><strong>神经胶质细胞</strong><br>数量是神经元的几十倍，是绝缘体，无极性；对神经元起<strong>保护、支持、绝缘</strong>作用<br>少突胶质细胞可特化为髓鞘；小胶质细胞具有免疫功能，可转变为巨噬细胞</p>
-<p><strong>突触</strong><br>神经元与<strong>效应器细胞或另一神经元</strong>之间的信息传递位点<br>由<strong>突触前膜、突触间隙、突触后膜</strong>组成<br><img src="Pictures/Biology_35.png" width="300"></p>
-<p><strong>动作电位</strong><br>钾钠学说：细胞膜受刺激，钠离子的通透性显著增加，钠离子内流，造成膜内负电位消失（去极化）</p>
-<p><strong>钠钾泵</strong><br>是膜上的蛋白质，通过水解1个ATP，输出3个Na+，转入2个K+，维持极化状态（内负外正）<br><img src="Pictures/Biology_36.png" width="200"></p>
-<p><strong>细胞膜电位</strong><br>神经元细胞质膜内外有电位差，静息状态下<strong>外正内负</strong>（两侧离子浓度不同导致）</p>
-<p><strong>神经递质</strong><br>由<strong>突触前膜</strong>释放，有神经元之间或神经元与效应器细胞之间的信息传递功能的化学物质<br><img src="Pictures/Biology_37.png" width="200"></p>
-<p><strong>神经-肌接头处粒子通道协同活动</strong></p>
-<table>
-    <tr>
-        <td><img src="Pictures/Biology_38.png" width="300"></td>
-        <td><img src="Pictures/Biology_39.png" width="400"></td>
-    </tr>
-</table>
-### 5.3 血脑屏障
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>3.2 数据的集中趋势 Central Tendency</h3>
+<p>平均值 mean<br>众数 mode<br>中位数 median</p>
+<p><strong>Mean</strong><br>有n个观测值的样本\(\{x_i\vert i=1,2,\ldots,n\}\)定义<br>算术平均：\(\overline{x}=\frac{x_1+x_2+\ldots+x_n}{n}\)<br>几何平均：\(\overline{x_g}=\sqrt[n]{x_1 x_2\ldots x_n}\)<br>调和平均：\(\overline{x_H}=\frac{n}{\frac{1}{x_1}+\frac{1}{x_2}+\ldots+\frac{1}{x_n}}\)</p>
+<p><strong>Mode</strong><br>可以是数据型的，也可以是类别型的  </p>
+<p><strong>Median</strong><br>若有偶个数，则任意取两个数平均，取低，取高都行  </p>
+<details>
+<summary>python代码click</summary>
+        一个常用的库：statistics  <br>
+        import statistics as sta  <br>
+        sta.mean 求平均  <br>
+        sta.median 求中位数  <br>
+        sta.median_low 求低位中位数<br>  
+        stat.median_high 求高位中位数  <br>
+        sta.mode 求众数  <br>
+        sta.geometric_mean 求几何平均数  <br>
+        sta.harmonic_mean 求调和平均数  <br>import scipy.stats as stats  
+        stats.trim1() # 数据单边按比例截断，仅截尾  
+        stats.trimboth() # 数据双边按比例截断，仅截尾  
+        截断后统计量计算  
+        stats.trim_mean  
+        stats.tmean  
+        stats.tvar  
+        stats.tstd  
+</details>
 
-<p>血管和脑之间有一种选择性地组织某些物质由血液进入大脑的“屏障”<br><img src="Pictures/Biology_40.png" width="300"></p>
-<p>从管内算起，血脑屏障有3层：</p>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>3.3 描述数据的分散性</h3>
+<p>极差 Range \(Range=x_{(n)}-x_{(1)}\)<br>变异系数 Coefficient of variation \(cv=\frac{\sigma}{\mu}=\frac{\mathcal{s}}{\mathcal{m}}\)<br>方差 Variation \(\sigma^2=\frac{\sum(x_i-\mu)^2}{N}\)，\(\mathcal{s}^2=\frac{\sum(x_i-\mathcal{m})^2}{n-1}\)<br>标准差 Standard Deviation \(\sigma,\mathcal{s}\)  </p>
+<details>
+    <summary>python代码click</summary>
+    import statistics as sta  <br>
+    sta.psdev() 求总体的标准差 Population Standard Deviation<br>  
+    sta.pvariance() 求总体的方差  <br>
+    sta.stdev() 求样本的标准差 Sample Standard Deviation  <br>
+    sta.variance() 求样本的方差<br>
+</details>
+
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>3.4 描述数据的分布·</h3>
+<p>峰度 kurtosis<br>偏度 skewness<br>变异系数 coefficient of variation</p>
+<p><strong>峰度</strong><br>Pearson&#39;s Kurtosis:<br>\[Kurtosis(x)=E[(\frac{x-\mu}{\sigma})^4]=\beta_2=\frac{\mu_4}{\sigma^4}\]<br>对于正态分布，上式恒等于3<br>Fisher&#39;s Kurtosis/Excess of Kurtosis = Pearson&#39;s Kurtosis - 3<br>FK=0时，为高斯分布<br><img src="Pictures/BmeStats_6.png" width="150"></p>
+<p>Fk&gt;0时，为超高斯分布<br><img src="Pictures/BmeStats_4.png" width="150"></p>
+<p>FK&lt;0时，为欠高斯分布<br><img src="Pictures/BmeStats_5.png" width="150"></p>
+<p><strong>偏度</strong><br>\[Skewness=\widetilde{\mu_3}=E[(\frac{X-\mu}{\sigma})^3]=\frac{\mu_3}{\sigma^3}\]<br><img src="Pictures/BmeStats_7.png" width="300"><br>上图中，左边是向左偏、偏度&lt;0，右边是向右偏、偏度&gt;0（看尾巴）<br><font color=red>注意，当偏度=0时仅能说明对称分布，不能说明正态性</font></p>
+<p><strong>变异系数</strong><br>\[CoV=\frac{\sigma}{\mu}\times 100\%=\frac{\mathcal{s}}{\mathcal{m}}\times 100\%\]<br>用途：  </p>
 <ol>
-<li>脑毛细血管<strong>内皮细胞衔接紧密</strong></li>
-<li>脑毛细血管内皮细胞外有<strong>连续的基底膜</strong></li>
-<li>脑毛细血管壁外表面积85%都被<strong>神经胶质细胞的终足或称脚板</strong>包围</li>
+<li>比较不同数据集的离散程度</li>
+<li>无量纲<br>缺点：当均值接近0时不好用</li>
 </ol>
+<details>
+    <summary>python代码click</summary>
+    import scipy.stats as stats  <br>
+    stats.skew() 求偏度 <br>
+    stats.kurtosis(data, fisher=True) 求峰度 <br>
+    stats.variation() 求CoV
+</details>
+
 
                     </div>    
                 </div>

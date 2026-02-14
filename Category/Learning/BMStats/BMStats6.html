@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学统计基础">
+    <meta name="description" content="5 类别的比较 - 生物医学统计基础">
+    <meta name="author" content="MingXiao">
+    <title>5 类别的比较</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 类别的比较
+                    <ul>
+                            <li><a href="#6.1">5.1 单个样本比例的置信区间</a></li>
+                            <li><a href="#6.2">5.2 多个独立样本的比例差异的统计</a></li>
+                            <li><a href="#6.3">5.3 计数数据的卡方检验：Goodness of Fit</a></li>
+                            <li><a href="#6.4">5.4 判断服从正态分布的方法</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 类别的比较</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>5.1 单个样本比例的置信区间</h3>
+<h4>5.1.1 例子引入</h4>
+<p><font color=red>例：某社区有12000人，但只有200个试剂盒，要如何检测社区的感染率？即：如何从样本推断总体比例</font><br>一共有200次检测机会，记n=200，N=12000<br>在一次检测中，测出了m个阳性，那么这组的感染率就是\(p_1=\frac{m}{n}\)<br>假设12000中一共有M个阳性，那么很显然\(\mathsf{E}(p_i)=\frac{M}{12000}\triangleq p\)其中p就是每个人的感染率，即要求的东西<br>pi的方差满足\(D(p_i)=D(m/n)=\frac{p(1-p)}{n}\Rightarrow \sigma_p=\sqrt{\frac{p(1-p)}{n}}\)<br>根据大数定律和中心极限定理，当满足下面的条件时，就有<br>\(p_i \sim N(p,\frac{p(1-p)}{n})\)，\(p\approx p_i \Rightarrow \sigma_p\approx\sigma_{p_{i}}\)<br>故用\(p_i \sim N(p,\frac{p_i(1-p_i)}{n})\)，作为枢轴量计算置信区间，得到p的置信区间\(\mathsf{CI}_{1-\alpha}=p_i\pm Z_{\frac{\alpha}{2}}\cdot\sigma_{p_i}\)</p>
+<p>要满足的条件是：</p>
+<ol>
+<li>n&lt;5%N，即每次抽样的样本数少于总体的样本数的5%（为了保证\(p_i\)的数量满足中心极限定理）</li>
+<li>阳性和阴性数目都不少(\(np_i>10 , n(1-p_i)>10\))</li>
+</ol>
+<p>实际上，这个想法和概统中所说的中心极限是一致的。</p>
+<p>假定个体\(x_i\)，其得病概率p，那么总体中所有患病人数满足\(\Sigma x\sim B(N,p)\)<br>根据中心极限定理，有\(\Sigma x \stackrel{近似}{\sim} N(Np,Np(1-p))\approx N(Np,Np_i(1-p_i))\)<br>\(\therefore p \stackrel{近似}{\sim}N(p,\frac{p_i(1-p_i)}{N})\)<br>此时只需要满足条件2即可</p>
+<h4>5.1.2 求单样本CI的两种方法</h4>
+<ul>
+<li>Simple Asymptotic：即上面的方法</li>
+<li>Simple Asymptotic with <strong>continuity correction</strong>：\(\mathsf{CI}_{1-\alpha}=p_i\pm (Z_{\frac{\alpha}{2}}\cdot\sigma_{p_i}+\frac{1}{2n})\)</li>
+</ul>
+<details>
+    <summary>python代码</summary>
+    import statsmodels.stats.proportion as proportion <br>
+    print(proportion_confint(m,n,alpha,method="normal"))<br>
+    其中m是阳性，n是总体，method是检验方式，alpha是置信度（小的）
+    上面的计算方法是simple asymptotic
+    若想用修正的，则自己算
+</details>
+
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>5.2 多个独立样本的比例差异的统计</h3>
+<p><strong><font color=red>注意，以下的样本必须满足5.1的条件</font></strong></p>
+<h4>5.2.1 差异的置信区间</h4>
+<p><strong>原理</strong><br>两个独立的正态总体 \(X_1\sim N(\mu_1,\sigma^2_1),X_2\sim N(\mu_2,\sigma^2_2)\)，枢轴量如前文得到的独立样本的t检验<br>现在就是将\(X_1,X_2\)换成\(\hat{p_1},\hat{p_2}\)，其均值是要求的，方差是用已知估计的<br>有\(\hat{p_1}-\hat{p_2}\sim N(p_1-p_2,\frac{\hat{p_1}(1-\hat{p_1})}{n_1}+\frac{\hat{p_2}(1-\hat{p_2})}{n_2})\)<br>得到枢轴量</p>
+<p><strong>几种算法</strong></p>
+<ul>
+<li>Pearson&#39;s:\(\mathsf{CI}=\hat{p_1}-\hat{p_2}\pm z_\frac{\alpha}{2}\cdot \sqrt{\frac{\hat{p_1}(1-\hat{p_1})}{n_1}+\frac{\hat{p_2}(1-\hat{p_2})}{n_2}}\)</li>
+<li>Yate&#39;s:\(\mathsf{CI}=\hat{p_1}-\hat{p_2}\pm (z_\frac{\alpha}{2}\cdot \sqrt{\frac{\hat{p_1}(1-\hat{p_1})}{n_1}+\frac{\hat{p_2}(1-\hat{p_2})}{n_2}}+\frac{1}{2}(\frac{1}{n_1}+\frac{1}{n_2}))\)</li>
+</ul>
+<h4>5.2.2 差异的假设检验</h4>
+<h4>5.2.2.1 两个样本用NHST(zTest)</h4>
+<p>\(H_0:p_1=p_2\)，枢轴量如5.2.1所示，做NHST</p>
+<details>
+    <summary>python代码</summary>
+    from statsmodels.stats.proportion import proportions_ztest <br>
+    proportions_ztest(m, n, p, alternative="tow-sided")<br>
+    上面是单个样本和p比，其中m是阳性，n是总数
+    count = [m1, m2]<br>
+    nobs = [n1, n2]<br>
+    proportions_ztest(count, nobs, alternative="tow-sided") <br>
+    上面是双样本
+</details>
+
+<h4>5.2.2.2 多个样本用RC联表的\(\chi^2\)检验</h4>
+<p><font color=red>例：药物剂量对阳性率的影响</font></p>
+<table>
+<thead>
+<tr>
+<th align="center">症状</th>
+<th align="center">剂量1</th>
+<th align="center">剂量2</th>
+<th align="center">剂量3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">阳性</td>
+<td align="center">10</td>
+<td align="center">40</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">阴性</td>
+<td align="center">90</td>
+<td align="center">160</td>
+<td align="center">95</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">100</td>
+<td align="center">200</td>
+<td align="center">100</td>
+</tr>
+</tbody></table>
+<p>即 \(p_1=p_2=p_3\)?（H0）</p>
+<p>上表格是观测值(Observation)，下面给出当H0成立时的期望人数(Expectation)</p>
+<table>
+<thead>
+<tr>
+<th align="center">症状</th>
+<th align="center">剂量1</th>
+<th align="center">剂量2</th>
+<th align="center">剂量3</th>
+<th align="center">总计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">阳性</td>
+<td align="center">10</td>
+<td align="center">40</td>
+<td align="center">5</td>
+<td align="center">55</td>
+</tr>
+<tr>
+<td align="center">阴性</td>
+<td align="center">90</td>
+<td align="center">160</td>
+<td align="center">95</td>
+<td align="center">345</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">100</td>
+<td align="center">200</td>
+<td align="center">100</td>
+<td align="center">400</td>
+</tr>
+</tbody></table>
+<p>由总计一栏计算<strong>如果相等各个计量的人数分布</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">症状</th>
+<th align="center">剂量1</th>
+<th align="center">剂量2</th>
+<th align="center">剂量3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">阳性</td>
+<td align="center">13.75</td>
+<td align="center">27.5</td>
+<td align="center">13.75</td>
+</tr>
+<tr>
+<td align="center">阴性</td>
+<td align="center">86.25</td>
+<td align="center">172.5</td>
+<td align="center">86.25</td>
+</tr>
+<tr>
+<td align="center">总计</td>
+<td align="center">100</td>
+<td align="center">200</td>
+<td align="center">100</td>
+</tr>
+</tbody></table>
+<p>得到\(\chi^2=\sum \frac{(O_i-E_i)^2}{E_i}\)，其自由度\(df=rc-1-r-c=(r-1)(c-1)\)，其中r,c分别是行数、列数(不包括总计)，上例中df=(3-1)(2-1)=2<br>由于仅当H0成立时上式才服从卡方分布，故可以做检验</p>
+<p>效应量Cramer‘s V(\(\varphi_c\))<br>\(V=\sqrt{\frac{\chi^2}{N\cdot\min(r-1,c-1)}}\)，其中N是样本量，V表示变量对因变量的关联性强弱</p>
+<p><strong>Rules of thumb:</strong><br>V∈[0.1,0.2]: 弱关联，V∈[0.2,0.5]: 中等关联，V&gt;0.5: 强关联</p>
+<p><strong>RC联表卡方检验的条件</strong></p>
+<ul>
+<li><p>各个单元格<strong>独立观测</strong></p>
+</li>
+<li><p>2x2表：</p>
+<ol>
+<li>\(E_i\geq10\)</li>
+<li>\(5\leq E_i< 10\)，使用Yate&#39;s correction（仍是卡方检验）</li>
+<li>\(E_i<5\)，使用Fisher&#39;s Exact Test（不是卡方检验）</li>
+</ol>
+</li>
+<li><p>大于等于2x3表：</p>
+<ol>
+<li>E&lt;5的单元格小于20%</li>
+<li>可以合并几列再做</li>
+</ol>
+</li>
+</ul>
+<details>
+    <summary>python代码</summary>
+    import scipy.stats as stats<br>
+    data必须是一个RC联表DataFrame<br>
+    chi2, p, dof, expected = stats.chi2_contingency(data) <br>
+    chi2是卡方值，p是对应的p，dof是自由度，expected是一个RC联表，返回期望值<br>
+    V自己算
+</details>
+
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>5.3 计数数据的卡方检验：Goodness of Fit</h3>
+<p><font color=red>例：五个班级的流感人数分布是否均匀</font></p>
+<table>
+<thead>
+<tr>
+<th align="center">班级</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">观测值(Obs)</td>
+<td>8</td>
+<td>10</td>
+<td>12</td>
+<td>7</td>
+<td>13</td>
+</tr>
+</tbody></table>
+<p>先列出预期值</p>
+<table>
+<thead>
+<tr>
+<th align="center">班级</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">观测值(Obs)</td>
+<td>8</td>
+<td>10</td>
+<td>12</td>
+<td>7</td>
+<td>13</td>
+</tr>
+<tr>
+<td align="center">预期值(Exp)</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+</tr>
+</tbody></table>
+<p>类似于RC联表的卡方检验，就是验证Obs和Exp是否同分布</p>
+<p>原理是\(\chi^2=\sum_\limits{i=1}^c\frac{(O_i-E_i)^2}{E_i}\)，df=c-q-1，其中c是样本数，q是列出预期值所需的<strong>由样本推出的</strong>未知量，1是为了保持总体不变</p>
+<p>本例中df=5-1=4，q=0，本例只用到了总体不变</p>
+<p>APA报告格式：通过XXX检验，感染人数的分布显著服从/不服从XX分布，\(\chi^2(df,N)=\)xx,p=.xxx<br>N是总人数（不是班级数）</p>
+<details>
+	<summary>python代码</summary>
+    stats.chisquare(f_obs,f_exp,ddof=q)<br>
+    其中f_obs是观测值，f_exp是预期值，q是上面q
+</details>
+<font color=red>正态分布的例子</font>
+
+<img src="Pictures/Bmestats_12.png" width="500">
+
+<p>选取每个区间的中间值作为代表值，构造观测值数组count<br>如果认为应该服从\(N(\mu,\sigma^2)\)，通过观测值计算，即\(\mu=\mathsf{mean(Count)},\sigma=s\)，此时q=2<br>根据每组差值计算此时正态分布的\(E_i\)，即\(E_i=(\Phi(u_i)-\Phi(u_{i-1}))\times N\)，再加上两头的<br>用\(O_i和E_i\)构造\(\chi^2\)</p>
+<p>如果认为服从\(N(1,8)\)，那么此时q=0，因为没用样本观测值，\(\mu=1,\sigma=2\sqrt{2}\)</p>
+<p><font color=red>例：如下图</font></p>
+<img src="Pictures/Bmestats_14.png" width="600">
+
+<p>（1）能，使用GoF卡方检验，Exp是分布均匀，故df=50-1=49</p>
+<p>​		   或者，使用RC联表卡方检验，df= (50-1)(2-1)=49</p>
+<p>（2）能，划分一个区间，往里用计数的方法，如上例，分为n组，df=n-2-1</p>
+<p>（3）能，此时认为50年前测得的数据为Exp，50年后测得的数据为Obs</p>
+<p>​			\(\chi^2=\sum_\limits{i=1}^{50}\frac{(O_i-E_i)^2}{E_i}\)，由于此时的Exp和Obs总数无关，df=50，不需要-1</p>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>5.4 判断服从正态分布的方法</h3>
+<p>print(stats.skew(data))					%偏度<br>print(stats.kurtosis(data))		      %峰度<br>print(stats.shapiro(data))			   %NHST<br>fig = sm.qqplot(data, stats.norm,line=&#39;s&#39;)		%QQplot<br>以及卡方检验（最准确）</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

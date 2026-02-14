@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学统计基础">
+    <meta name="description" content="4 均值的比较 - 生物医学统计基础">
+    <meta name="author" content="MingXiao">
+    <title>4 均值的比较</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 均值的比较
+                    <ul>
+                            <li><a href="#5.1">4.1 置信区间 confidence interval(CI)</a></li>
+                            <li><a href="#5.2">4.2 零假设检验 Null Hypothesis Significance Test(NHST)</a></li>
+                            <li><a href="#5.3">4.3 对方差分析（ANOVA）</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 均值的比较</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>4.1 置信区间 confidence interval(CI)</h3>
+<h4>4.1.1 单样本</h4>
+<h5>4.1.1.1 单样本总体方差已知，用Z分布</h5>
+<p>对正态总体或近似正态总体，有<br>\[\frac{\overline{x}-\mu}{\sigma / \sqrt{n}}\sim N(0,1)\]<br>若要求置信度为\(1-\alpha\)，则<br>\[\therefore P(-u_{\frac{\alpha}{2}}<\frac{\overline{x}-\mu}{\sigma / \sqrt{n}}\leq u_{\frac{\alpha}{2}})=1-\alpha\]<br>\[\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x}-u_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}},\overline{x}+u_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}})\]</p>
+<h5>4.1.1.2 单样本总体方差未知，用t分布</h5>
+<p>\[\frac{\overline{x}-\mu}{s / \sqrt{n}}\sim t(n-1)\]<br>\[\therefore P(-t_{\frac{\alpha}{2}}<\frac{\overline{x}-\mu}{s / \sqrt{n}}\leq t_{\frac{\alpha}{2}})=1-\alpha\]<br>\[\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x}-t_{\frac{\alpha}{2}}\frac{s}{\sqrt{n}},\overline{x}+t_{\frac{\alpha}{2}}\frac{s}{\sqrt{n}})\]</p>
+<h4>4.1.2 双样本</h4>
+<h5>4.1.2.1 双样本是配对的（非独立样本）</h5>
+<p><strong>何为配对：</strong><br>同一批人的两次成绩差的均值、双胞胎之间的身高差均值等，可以找到配对的双方的量<br>等价于单样本的分布，参见上方4.1.1</p>
+<h5>4.1.2.2 两个独立样本，总体方差各自已知</h5>
+<p>已知\(\sigma^2_1,\sigma^2_2\)，要求\(\overline{x_1}-\overline{x_2}\)的置信区间</p>
+<p>\[\therefore \overline{x_1}-\overline{x_2} \sim N(\mu_1-\mu_2,\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2})\]</p>
+<p>记\(\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}=\sigma^2=sem^2\)，称其为\(\overline{x_1}-\overline{x_2}\)的标准方差，也称标准误差的平方<br>\[\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sigma} \sim N(0,1)\]<br>\[\Rightarrow \mathsf{CI_{1-\alpha}}=(\overline{x_1}-\overline{x_2})\pm u_{\frac{\alpha}{2}}\sqrt{\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}}\]</p>
+<h5>4.1.2.3 两个独立样本，总体方差未知但相等</h5>
+<p>已知\(\sigma^2_1=\sigma^2_2=\sigma^2\)，但是多少不知道<br>使用t分布<br>\[\therefore \overline{x_1}-\overline{x_2} \sim N(\mu_1-\mu_2, \frac{\sigma^2}{n_1}+\frac{\sigma^2}{n_2})\]<br>\[\Rightarrow \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sigma \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim N(0,1)\]<br>\[\because \frac{(n_1-1)s^2_1}{\sigma^2} \sim \chi^2 (n_1-1),\frac{(n_2-1)s^2_2}{\sigma^2} \sim \chi^2 (n_2-1)\]<br>\[\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}}} \sim t(n_1+n_2-2)\]<br>def	\(\sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{n_1+n_2-2}}=s_p\)，\(\overline{x_1}-\overline{x_2}\)的标准误差为\(sem=s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}\)<br>\[\therefore \frac{(\overline{x_1}-\overline{x_2})-(\mu_1-\mu_2)}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t(n_1+n_2-2)\]<br>\[\Rightarrow \mathsf{CI}_{1-\alpha}=(\overline{x_1}-\overline{x_2})\pm t_{\frac{\alpha}{2}}(n_1+n_2-2)s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}\]</p>
+<h5>4.1.2.4 两个独立样本，总体方差未知且不相等</h5>
+<p>使用<strong>Welch&#39;s t分布</strong><br>推导过于复杂，直接给出结论<br>\[\mathsf{CI}_{1-\alpha}=(\overline{x_1}-\overline{x_2})\pm t_{\frac{\alpha}{2}}(\nu)\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}\]<br>其中\(\nu\)为t分布的自由度，通常不是整数，用最接近的整数计算，有<br>\[\nu=\frac{(\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2})^2}{\frac{1}{(n_1-1)}(\frac{s_1^2}{n_1})^2+\frac{1}{(n_2-1)}(\frac{s_2^2}{n_2})^2}\]</p>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>4.2 零假设检验 Null Hypothesis Significance Test(NHST)</h3>
+<h4><font color=red>NHST注意事项</font></h4>
+<p><strong>含义</strong><br>NHST的含义仅仅是<font color=red>\(\mathsf{P}(x>\mathsf{Data}|H_0)\)</font>  </p>
+<ol>
+<li>只反应数据和假设的兼容性</li>
+<li>不能推断\(H_0,H_1\)成立的概率</li>
+<li>不能直接回答真正关心的问题：<font color=red>\(\mathsf{P}(H_0|\mathsf{Data})\)</font></li>
+</ol>
+<p><strong>统计显著性α不等于实际显著性</strong></p>
+<ol>
+<li>n足够大时，尽管差距很小，p仍然可以很小</li>
+<li>p很小不代表实际差距很大</li>
+</ol>
+<p><strong>常见错误</strong>：</p>
+<ol>
+<li>p值之间的比较：两组实验组，分别和对照组求p，p=0.04的结果要比p=0.05的结果更显著吗？不</li>
+<li>只做了一次实验就不能讲概率</li>
+</ol>
+<p><strong>p值到底反映了什么？</strong></p>
+<ol>
+<li>p&lt;0.05，说明两个样本均值差异有显著性（在0假设成立的情况下）</li>
+<li>p&lt;0.05，说明两个总体均值存在差异的显著性很大？<strong>错误</strong></li>
+<li>“认为0假设错误”这个<strong>结论错误的概率</strong>小于p值</li>
+</ol>
+<h4>4.2.1 NHST与CI的关系</h4>
+<ol>
+<li>NHST的回答比CI<strong>简洁</strong>，只回答Yes or No</li>
+<li>NSHT没有CI准确，CI还提供大/小多少的信息</li>
+<li>NSHT要回答的问题<strong>都可以用CI回答</strong></li>
+</ol>
+<h4>4.2.2 NHST的推理逻辑</h4>
+<p>详见概统笔记</p>
+<ol>
+<li>先做零假设和备择假设<ul>
+<li>什么样的假设可以作为零假设</li>
+</ul>
+<ol>
+<li>假设完可以确定枢轴量的分布</li>
+<li>用想要拒绝的做假设</li>
+<li>不能用p不够小来确定其成立</li>
+</ol>
+</li>
+<li>选择枢轴量</li>
+<li>根据枢轴量在\(H_0\)成立时的分布，根据检验方式算概率（p值）<ol>
+<li>双边检验：\(p=P(|x|\geq|X|)\)</li>
+<li>右侧检验：\(p=P(x\geq X)\)</li>
+<li>左侧检验：\(p=P(x\leq X)\)</li>
+</ol>
+</li>
+<li>检验p的显著性水平，如果p&lt;α，则拒绝原假设，\(H_1\)成立</li>
+</ol>
+<h4>4.2.3 单样本t检验</h4>
+<p>总体\(\sigma^2\)未知，使用t分布<br>拒绝域是同α下CI的<strong>补集</strong>  </p>
+<details>
+    <summary>python代码click</summary>
+    t,p=stats.ttest_1samp(a,b, altenative="two-sided")  <br>
+    a,b输入数据，mu是零假设的均值，alternative选择检验方式<br>
+    输出t是枢轴量的观测值，p是p值
+</details>
+#### 4.2.4 双样本t检验
+
+<p>一个错误例子：现有A(mean=12)，B(mean=8)，得到t(29)=xxx，p&lt;.05，认为A的均值显著大于B<br>错误：只能认为\(\mathsf{mean(A)}\neq \mathsf{mean(B)}\)，因为做的是双侧检验，无法得出单边结论。<font color=red>存疑</font></p>
+<h5>4.2.4.1 配对的样本</h5>
+<p>配对做差，和单样本相同</p>
+<details>
+    <summary>python代码click</summary>
+    t,p=stats.ttest_rel(a,b,alternative)  <br>
+    data输入数据，alternative选择检验方式，默认mu=0<br>
+    输出t是枢轴量的观测值，p是p值
+</details>
+
+<h5>4.2.4.2 独立的样本</h5>
+<p>和单样本类似的，拒绝域都是相应的α下的CI的补集</p>
+<details>
+    <summary>python代码click</summary>
+    t,p=stats.ttest_ind(data1,data2,equal_val,alternative)<br>
+    data1,2是数据输入，equal_var选择方差是否相同，alternative选择检验方式，默认mu=0<br>
+    输出t是枢轴量的观测值，p是p值
+</details>
+
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>4.3 对方差分析（ANOVA）</h3>
+<h4>4.3.1 从t检验到ANOVA检验</h4>
+<p>有n组数据，两两之间做t检验（多重检验），重复m次，假设每两组、每次检验的假阳性（去真错误，第一类）概率为α，那么所有检验结后有假阳性的概率是：<br>\[P=1-(1-\alpha)^{\mathsf{C}^2_n\cdot m}\]<br>这是非常大的一个数，所以抛弃多重检验</p>
+<h4>4.3.2 ANOVA原理</h4>
+<p>假定分为k组，共N个对象，每组N/k个<br>ANOVA做F检验，其核心是SST=SSB+SSW(Total=Between+Within)，注意自由度，证明见下</p>
+<table>
+    <tr>
+        <td><img src="Pictures/BmeStats_8.png" ></td>
+        <td><img src="Pictures/BmeStats_9.png" width="500"></td>
+        <td><img src="Pictures/BmeStats_10.png" width="500"></td>
+    </tr>
+</table>
+
+<p>得到ANOVA的报告表</p>
+<table>
+<thead>
+<tr>
+<th align="center">Source</th>
+<th align="center">SS</th>
+<th align="center">df</th>
+<th align="center">MS</th>
+<th align="center">F</th>
+<th align="center">p-value</th>
+<th align="center">eta2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Total</td>
+<td align="center">SSB+SSW</td>
+<td align="center">N-1</td>
+<td align="center">/</td>
+<td align="center">MSB/MSW</td>
+<td align="center">F(k-1,N-k)对应的p</td>
+<td align="center">SSB/SST</td>
+</tr>
+<tr>
+<td align="center">Between</td>
+<td align="center">SSB</td>
+<td align="center">k-1</td>
+<td align="center">MSB</td>
+<td align="center">/</td>
+<td align="center">/</td>
+<td align="center">/</td>
+</tr>
+<tr>
+<td align="center">Within</td>
+<td align="center">SSW</td>
+<td align="center">N-K</td>
+<td align="center">MSW</td>
+<td align="center">/</td>
+<td align="center">/</td>
+<td align="center">/</td>
+</tr>
+</tbody></table>
+<p>其中MS=SS/df，\(\mathsf{F}(df_B,df_W)=\frac{MSB}{MSW}=\frac{SSB/df_B}{SSW/df_W}\)<br>\(\eta^2=\frac{SSB}{SST}\)，表示SST中有多少是SSB贡献的，也叫effect size</p>
+<h4>4.3.3 单因素对方差分析 1-Way ANOVA</h4>
+<p>类似于下面的分组，每组的受试样本都是不一样的，是1-Way ANOVA</p>
+<table>
+<thead>
+<tr>
+<th align="center">Drug1</th>
+<th align="center">Drug2</th>
+<th align="center">Drug3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">sub1,sub2,sub3</td>
+<td align="center">sub4,sub5,sub6</td>
+<td align="center">sub7,sub8,sub9</td>
+</tr>
+</tbody></table>
+<p>类似下面的，每组的受试样本一样的，是1-Way Repeated Measure ANOVA</p>
+<table>
+<thead>
+<tr>
+<th align="center">Drug1</th>
+<th align="center">Drug2</th>
+<th align="center">Drug3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">sub1,sub2,sub3</td>
+<td align="center">sub1,sub2,sub3</td>
+<td align="center">sub1,sub2,sub3</td>
+</tr>
+</tbody></table>
+<details>
+    <summary>python代码click</summary>
+    import pingouin as pg  <br>
+    aov = pg.anova(data=data, dv="dependent variable", between="group", detailed=False, effsize=False) <br>
+    dv表示选择对比的数据，因变量；between表示分组；detailed表示是否输出详细信息；effsize表示是否输出eta2 <br>
+    上面是1-way anova的<br>
+    aov = pg.rm_anova(data=None, dv=None, within=None, subject=None, detailed=False)<br>
+    within表示不同的分组，subject表示个体
+</details>
+
+
+<p><strong>1-way ANOVA, 1-way RM ANOVA条件</strong>  </p>
+<ol>
+<li>独立观测</li>
+<li>独立样本（1-way）， 重复/配对样本（1-way RM）</li>
+<li>正态分布</li>
+<li>方差齐性（1-way），球性（1-way RM）  </li>
+<li>连续变量</li>
+<li>组内随机采样</li>
+<li>组间样本量平衡</li>
+</ol>
+<h4>4.3.4 两两配对比较</h4>
+<p>当通过1-way ANOVA<strong>拒绝零假设后</strong>，要想确定是哪几组之间的存在显著差异，就要使用Post Hoc多重检验（事后检验）（不使用多重t检验的原因同上）</p>
+<details>
+    <summary>python代码</summary>
+    pt = data.pairwise_tukey(dv="MoodGain", between="Grouop")<br>
+    其中dv是因变量，between是分组，上面是1-way的 <br>
+    pt = data.pairwise_ttests(dv="Scores",within="Test",subject="Sub_id",padjust="bonf") <br>
+    上面是1-way RM ANOVA，不重要
+</details>
+
+<p>最后得到的结果是</p>
+<blockquote>
+<pre><code class="language-markdown">          A         B  mean(A)  mean(B)    diff      se       T  	  p-tukey   hedges  
+0  anxifree  joyzepam   0.7167   1.4833 -0.7667  0.1759 -4.3596   0.0015   -2.3234
+1  anxifree   placebo   0.7167   0.4500  0.2667  0.1759  1.5164   0.3117    0.8081
+2  joyzepam   placebo   1.4833   0.4500  1.0333  0.1759  5.8760   0.0010    3.1315 
+</code></pre>
+</blockquote>
+<p>其中，diff=mean(A)-mean(B)，se是枢轴量的standard error，T是枢轴量观测值，p-tukey是T对应的p值的修正值，hedges不管</p>
+<h4>4.3.5 2-way ANOVA</h4>
+<p><strong>原理</strong><br><img src="Pictures/BmeStats_11.png"></p>
+<table>
+<thead>
+<tr>
+<th align="center">Gender\DRug</th>
+<th align="center">A</th>
+<th align="center">B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">male</td>
+<td align="center">sub1,sub2,sub3</td>
+<td align="center">sub4,sub5,sub6</td>
+</tr>
+<tr>
+<td align="center">female</td>
+<td align="center">sub7,sub8,sub9</td>
+<td align="center">sub10,sub11,sub12</td>
+</tr>
+</tbody></table>
+<p>当出现上面这种有两个变量时，使用2-way ANOVA，假设是</p>
+<ul>
+<li>H01：Factor1不同水平的均值没有差异</li>
+<li>H02：Factor2不同水平的均值没有差异</li>
+<li>H03：Factor1不同水平的均值差异<strong>与Factor2无关</strong>，即<strong>不存在交互作用</strong></li>
+</ul>
+<details>
+    <summary>python代码</summary>
+    aov=data.anova(dv='MoodGain', between=["Drug","Therapy"],detailed=True)<br>
+    和1-way类似的，只是between中有多个变量<br>
+</details>
+
+<p>其报告表如下</p>
+<blockquote>
+<pre><code class="language-table">          Source        SS  	  DF    MS          F     p-unc       np2
+0            Drug  3.453333   2  1.726667  31.714286  0.000016  0.840909
+1         Therapy  0.467222   1  0.467222   8.581633  0.012617  0.416956
+2  Drug * Therapy  0.271111   2  0.135556   2.489796  0.124602  0.293269
+3        Residual  0.653333  12  0.054444        NaN       NaN       NaN
+</code></pre>
+</blockquote>
+<p>意义和1-way相同，但是算法不同</p>
+<p>2-way ANOVA比两个独立的ANOVA具有更高的统计功效（statistic power）,即更容易检测出主效应（很小的p值）<br>故即使不关心两个变量间的相互作用，也使用2-way ANOVA进行检验</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

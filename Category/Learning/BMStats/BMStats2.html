@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
     <meta charset="UTF-8">
-    <meta name="keywords" content="统计,数据可视化">
-    <meta name="description" content="几种数据可视化方法">
+    <meta name="keywords" content="生物医学统计基础">
+    <meta name="description" content="1 预备知识 - 生物医学统计基础">
     <meta name="author" content="MingXiao">
-    <title>数据可视化</title>
+    <title>1 预备知识</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="/assets/css/global.css">
     <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/assets/css/code.css">
     <link rel="stylesheet" href="/assets/css/github-markdown.css">
     <link rel="stylesheet" href="/assets/css/vditor.css">
-    <link rel-"stylesheet" href="/assets/css/markdown.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
     <link rel="shortcut icon" href="/images/blog-logo.png">
     <style>
         .lazy-image {
@@ -74,13 +74,15 @@
 <body>
     <script src="/assets/js/include.js"></script>
     <div data-include="/includes/nav.html"></div>
-        <!--文章目录-->
         <div class="toc">
             <ul>
-                <li>数据可视化
+                <li>1 预备知识
                     <ul>
-                        <li><a href="#2.1">2.1 一般建议</a></li>
-                        <li><a href="#2.2">2.2 箱体图认读</a></li>
+                            <li><a href="#2.1">1.1 常用代码</a></li>
+                            <li><a href="#2.2">1.2 生物医学数据类型</a></li>
+                            <li><a href="#2.3">1.3 常用术语</a></li>
+                            <li><a href="#2.4">1.4 大数定律和中心极限定理</a></li>
+                            <li><a href="#2.5">1.5 常用分布和函数</a></li>
                     </ul>
                 </li>
             </ul>
@@ -91,46 +93,86 @@
         <div class="left-box">
             <div id="outerdiv">
                 <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
-                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
-                </div>
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
             </div>
             <!--文章内容-->
             <div class="article-container">
                 <div class="article-content markdown-body">
-                    <h1 style="margin: 10px 0">数据可视化</h1>
+                    <h1 style="margin: 10px 0">1 预备知识</h1>
                     <div class="article-cate">
                         <a href="/Category/LearningHomepage.html">学习笔记</a>
                     </div>
                     <div class="writer-info">
                         <span style="margin: 5px 0;">作者: </span>
                         <span id="writer">MingXiao</span>
-                        <span id="write-time">2024/07/12</span>
                     </div>
                     <div class="typora-export os-windows">
-                        <a name="21-一般建议" class="md-header-anchor" id="2.1"></a>
-                        <br>
-                        <br>
-                        <h3><span>2.1 一般建议</span></h3>
-                        <p><span>看变化趋势：lineplot</span><br>
-                        <span>看分布特征：boxplot，scatterplot，直方图，pdf</span><br>
-                        <span>看关系：回归线，scatterplot+回归线，热图</span></p>
-                        <p><span>plt.subplot(2, 2)用于生成一个2</span>\(\times\)<span>2的画布,可以存放四张图</span></p>
-                        <a name="22-箱体图认读" class="md-header-anchor" id="2.2"></a>
-                        <br>
-                        <br>
-                        <h3><span>2.2 箱体图认读</span></h3>
-                        <p><strong><span>箱体图认读</span></strong><span>：</span></p>
-                        <p><center><img src="../Pictures/BmeStats_3.png"></center></p>
-                        <p><span>Q1,Median,Q3分别表示25，50，75分位点（非均值）</span><br>
-                        <span>Minimum=Q1-1.5 * IQR，Maximum=Q3+1.5 * IQR</span><br>
-                        <span>IQR=Q3-Q1（箱体长度）</span></p>
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>1.1 常用代码</h3>
+<details>
+<summary>click here</summary>   
+import pandas as pd<br>
+    pd.read_csv("")   
+    #输入文件<br>pd.DataFrame.info()   
+    #该函数在调用时会显示以下信息：<br>
+                    #DataFrame 的形状（行数和列数）<br>
+                    #列名和各列的非空值数量<br>
+                    #列的数据类型<br>
+                    #内存使用情况<br>pd.DataFrame.describe()  
+    #它会计算以下统计信息：<br>
+                        #计数（count）：非空值数量<br>
+                        #平均值（mean）<br>
+                        #标准差（standard deviation）<br>
+                        #最小值（min）<br>
+                        #第25百分位数（25th percentile）<br>
+                        #中位数（50th percentile，即中位数）<br>
+                        #第75百分位数（75th percentile）<br>
+                        #最大值（max）<br>pd.DataFrame.groupby()   
+    #用于按照指定的列或多个列对数据进行分组<br>pd.DataFrame.agg()  
+    #同时计算多个值<br>
+</details>    
+
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>1.2 生物医学数据类型</h3>
+<p>两个大类，四个小类：  </p>
+<p>可数的：<br>离散型：病毒感染人数，人的心率<br>连续性：人的血压值  </p>
+<p>可分类的：<br>有序(ordinal)：学生成绩（A/B/C/D）<br>无序(nominal)：病毒诊断结果（阳性/阴性）<br><img src="Pictures/BmeStats_1.png" width="300"></p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>1.3 常用术语</h3>
+<p>总体、样本、自变量、因变量、概率<br>样本的叫<font color=red><strong>统计量</strong></font>，总体的叫<font color=red><strong>参数</strong></font></p>
+<p>样本（Sample）和总体（Population）的例子：<br>对照组和实验组各10只卒中⼩⿏，研究某药物对卒中的⼲预作⽤，这个例⼦中有：<br><strong>总体1</strong>：药物⼲预的任何卒中⼩⿏（⼤⼩不确定）<br><strong>总体2</strong>：没有⽤药物⼲预的任何卒中⼩⿏（⼤⼩也不确定）<br><strong>样本1</strong>：本实验中的药物⼲预组（n=10）<br><strong>样本2</strong>：本实验中的对照组（n=10）<br><font color=red>本实验有两个总体，两个样本</font>  </p>
+<p>另一个例子：<br><img src="Pictures/BmeStats_2.png" width="500"><br>1、总体有<strong>3个</strong>，分别是正常人群和两个服用不同药的人群；样本两个，分别100人<br>2、统计量：8h后两组血糖平均值；参数：总体数量，正常人SBP<br>3、<font color="red">样本大小</font><br>4、自变量是吃哪种药,因变量是8h后<strong>每个个体</strong>的血压</p>
+<p><strong>推断性统计</strong>：用样本来推测总体<br><strong>描述性统计</strong>：用全体的数字特征来描述总体</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>1.4 大数定律和中心极限定理</h3>
+<p><font color=red>注意，这与概统中的概念有所区别</font><br><strong>大数定律(LLN)</strong> ：样本观测值越大，样本均值观测结果越接近总体均值<br><strong>中心极限定理(CLT)</strong> ：样本均值的分布服从正态分布，该分布均值等于总体均值  </p>
+<details>
+    <summary>用中心极限定理求均值click</summary>
+            data1= stats.norm.rvs(10,5,5000,random_state=100) #生成  <br>
+            data2= stats.norm.rvs(30,5,2000,random_state=100)  <br>
+            data=np.hstack((data1,data2))              #拼接数据   
+            sample_means=[]  #随机取数，求平均后存入数组  <br>
+            reps,ns=10000,50  <br>
+            for i in np.arange(10000):  <br>
+                sample_i=np.random.choice(data,ns,replace=True)  <br>
+                sample_means=np.append(sample_means,np.mean(sample_i))  #此时该数组的平均值就是总体平均值   <br>
+            print("总体均值是: %.2f " % np.mean(data))  <br>
+            print("样本均值分布的均值是: %.2f " % np.mean(sample_means))      <br>
+</details>   
+
+
+<a name="2.5" class="md-header-anchor" id="2.5"></a>
+<h3>1.5 常用分布和函数</h3>
+<p><strong>正态分布</strong>：stats.norm()  <em>Z分布就是标准正态分布</em><br><strong>T分布</strong>：stats.t()<br><strong>二项分布</strong>：stats.binmo()<br><strong>卡方分布</strong>：stats.chi2()</p>
+<p><strong>pdf</strong>:概率密度  stats.norm.pdf(x,\(\mu\),\(\sigma\))<br><strong>pmf</strong>:概率质量  stats.binmo.pmf(k,n,p)<br><strong>cdf</strong>:分布函数，用法同上<br><strong>rvs</strong>:生成随机变量  stats.norm.rvs(size,\(\mu\),\(\sigma\))<br><strong>ppf</strong>:下侧分位数  stats.norm.ppf(p,\(\mu\),\(\sigma\))<br><strong>isf</strong>:上侧分位数 stats.norm.isf(p,\(\mu\),\(\sigma\))</p>
+
                     </div>    
                 </div>
             </div>                                                                                                                                              
             <br>
             <br>
             <h2 id="__comments">Comments</h2>
-                  <!-- Insert generated snippet here -->
+                  <!-- Giscus comments -->
                     <script src="https://giscus.app/client.js"
                             data-repo="MingX1ao/MingX1ao.github.io"
                             data-repo-id="R_kgDOL_cJHA"
@@ -147,41 +189,6 @@
                             crossorigin="anonymous"
                             async>
                     </script>
-                  <!-- Synchronize Giscus theme with palette -->
-                  <script>
-                    var giscus = document.querySelector("script[src*=giscus]")
-                
-                    // Set palette on initial load
-                    var palette = __md_get("__palette")
-                    if (palette && typeof palette.color === "object") {
-                      var theme = palette.color.scheme === "slate"
-                        ? "transparent_dark"
-                        : "light"
-                
-                      // Instruct Giscus to set theme
-                      giscus.setAttribute("data-theme", theme) 
-                    }
-                
-                    // Register event handlers after documented loaded
-                    document.addEventListener("DOMContentLoaded", function() {
-                      var ref = document.querySelector("[data-md-component=palette]")
-                      ref.addEventListener("change", function() {
-                        var palette = __md_get("__palette")
-                        if (palette && typeof palette.color === "object") {
-                          var theme = palette.color.scheme === "slate"
-                            ? "transparent_dark"
-                            : "light"
-                
-                          // Instruct Giscus to change theme
-                          var frame = document.querySelector(".giscus-frame")
-                          frame.contentWindow.postMessage(
-                            { giscus: { setConfig: { theme } } },
-                            "https://giscus.app"
-                          )
-                        }
-                      })
-                    })
-                  </script>
         </div>
     </section>
     <!--尾部-->

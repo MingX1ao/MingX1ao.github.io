@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
     <meta charset="UTF-8">
-    <meta name="keywords" content="生物,基因工程,CRISPR-Cas">
-    <meta name="description" content="简要介绍了基因工程的发展，以及CRISPR-Cas技术的原理">
+    <meta name="keywords" content="生物学导论">
+    <meta name="description" content="10 基因工程技术及其新进展 - 生物学导论">
     <meta name="author" content="MingXiao">
-    <title>基因工程技术及其新进展</title></title>
+    <title>10 基因工程技术及其新进展</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="/assets/css/global.css">
     <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
     <link rel="stylesheet" href="/assets/css/d-audio.css">
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="/assets/css/code.css">
     <link rel="stylesheet" href="/assets/css/github-markdown.css">
     <link rel="stylesheet" href="/assets/css/vditor.css">
-    <link rel-"stylesheet" href="/assets/css/markdown.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
     <link rel="shortcut icon" href="/images/blog-logo.png">
     <style>
         .lazy-image {
@@ -73,15 +74,14 @@
 <body>
     <script src="/assets/js/include.js"></script>
     <div data-include="/includes/nav.html"></div>
-        <!--文章目录-->
         <div class="toc">
             <ul>
-                <li>基因工程技术及其新进展
+                <li>10 基因工程技术及其新进展
                     <ul>
-                        <li><a href="#10.1">10.1 基因工程的基本操作步骤</a></li>
-                        <li><a href="#10.2">10.2 ZFN与TALEN基因编辑原理</a></li>
-                        <li><a href="#10.3">10.3 CRISPR-Cas概述</a></li>
-                        <li><a href="#10.4">10.4 CRISPR-Cas的应用</a></li>
+                            <li><a href="#10.1">10.1 基因工程的基本操作步骤</a></li>
+                            <li><a href="#10.2">10.2 ZFN与TALEN基因编辑原理</a></li>
+                            <li><a href="#10.3">10.3 CRISPR-Cas概述</a></li>
+                            <li><a href="#10.4">10.4 CRISPR-Cas的应用</a></li>
                     </ul>
                 </li>
             </ul>
@@ -92,73 +92,66 @@
         <div class="left-box">
             <div id="outerdiv">
                 <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
-                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" />
-                </div>
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
             </div>
             <!--文章内容-->
             <div class="article-container">
                 <div class="article-content markdown-body">
-                    <h1 style="margin: 10px 0">基因工程技术及其新进展</h1>
+                    <h1 style="margin: 10px 0">10 基因工程技术及其新进展</h1>
                     <div class="article-cate">
                         <a href="/Category/LearningHomepage.html">学习笔记</a>
                     </div>
                     <div class="writer-info">
                         <span style="margin: 5px 0;">作者: </span>
                         <span id="writer">MingXiao</span>
-                        <span id="write-time">2024/07/04</span>
                     </div>
                     <div class="typora-export os-windows">
-                        <a name="101-基因工程的基本操作步骤" class="md-header-anchor" id="10.1"></a>
-                        <br>
-                        <br>
-                        <h3><span>10.1 基因工程的基本操作步骤</span></h3>
-                        <p><span>一般的五个步骤：</span></p>
-                        <ol start='' >
-                            <li><span>获取目的基因</span></li>
-                            <li><span>目的基因和载体DNA在体外链接</span></li>
-                            <li><span>将重组的DNA分子导入宿主细胞</span></li>
-                            <li><span>选择、筛选含目的基因的克隆</span></li>
-                            <li><span>培养、观察目的基因的表达</span></li>
-                        </ol>
-                        <a name="102-zfn与talen基因编辑原理" class="md-header-anchor" id="10.2"></a>
-                        <br>
-                        <br>
-                        <h3><span>10.2 ZFN与TALEN基因编辑原理</span></h3>
-                        <p><center><img src="../Pictures/Biology_24.png"  width="300"></center></p>
-                        <p><span>在TALEN中，每个氨基酸都识别</span><strong><span>一个碱基</span></strong><span>，识别9个碱基需要9个氨基酸，要27个碱基编码</span><br>
-                        <span>在ZFN中，每个氨基酸识别</span><strong><span>三个碱基</span></strong><span>，识别9个碱基需要3个氨基酸，要9个碱基编码</span></p>
-                        <a name="103-crispr-cas概述" class="md-header-anchor" id="10.3"></a>
-                        <br>
-                        <br>
-                        <h3><span>10.3 </span><strong><span>CRISPR-Cas概述</span></strong></h3>
-                        <p><span>一种来源</span><strong><span>细菌获得性免疫</span></strong><span>的由RNA指导Cas蛋白对靶向基因进行修饰的技术</span></p>
-                        <p><center><img src="../Pictures/Biology_25.png"  width="500"></center></p>
-                        <p><center><img src="../Pictures/Biology_26.png"  width="300"></center></p>
-                        <p><span>CRISPR广泛存在于古菌和细菌基因组中，通常由短的</span><strong><span>高度保守</span></strong><span>的</span><strong><span>重复序列</span></strong><span>组成，重复序列被间隔序列隔开，CRISPR</span><strong><span>识别间隔序列</span></strong><span>来与靶基因结合，Cas蛋白</span><strong><span>由tRNA转运</span></strong></p>
-                        <p><span>细菌和古菌通过对入侵的病毒和核酸进行</span><strong><span>特异性</span></strong><span>识别，用</span><strong><span>Cas蛋白进行切割</span></strong><span>，达到获得性免疫</span></p>
-                        <p><span>整个过程：</span></p>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td><img src="../Pictures/Biology_27.png" width="300"></td>
-                                    <td><img src="../Pictures/Biology_28.png" width="300"></td>
-                                    <td><img src="../Pictures/Biology_29.png" width="300"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <a name="104-crispr-cas的应用" class="md-header-anchor" id="10.4"></a>
-                        <br>
-                        <br>
-                        <h3><span>10.4 </span><strong><span>CRISPR-Cas的应用</span></strong></h3>
-                        <p><center><img src="../Pictures/Biology_30.png"  width="300"></center></p>
-                        <p><span>供体DNA分子指外加的质粒</span></p>
+<a name="10.1" class="md-header-anchor" id="10.1"></a>
+<h3>10.1 基因工程的基本操作步骤</h3>
+<p>一般的五个步骤：</p>
+<ol>
+<li>获取目的基因</li>
+<li>目的基因和载体DNA在体外链接</li>
+<li>将重组的DNA分子导入宿主细胞</li>
+<li>选择、筛选含目的基因的克隆</li>
+<li>培养、观察目的基因的表达</li>
+</ol>
+<a name="10.2" class="md-header-anchor" id="10.2"></a>
+<h3>10.2 ZFN与TALEN基因编辑原理</h3>
+<img src="Pictures/Biology_24.png"  width="300">
+
+<p>在TALEN中，每个氨基酸都识别<strong>一个碱基</strong>，识别9个碱基需要9个氨基酸，要27个碱基编码<br>在ZFN中，每个氨基酸识别<strong>三个碱基</strong>，识别9个碱基需要3个氨基酸，要9个碱基编码</p>
+<a name="10.3" class="md-header-anchor" id="10.3"></a>
+<h3>10.3 <strong>CRISPR-Cas概述</strong></h3>
+<p>一种来源<strong>细菌获得性免疫</strong>的由RNA指导Cas蛋白对靶向基因进行修饰的技术<img src="Pictures/Biology_25.png"  width="500"></p>
+<img src="Pictures/Biology_26.png"  width="300">
+CRISPR广泛存在于古菌和细菌基因组中，通常由短的**高度保守**的**重复序列**组成，重复序列被间隔序列隔开，CRISPR**识别间隔序列**来与靶基因结合，Cas蛋白**由tRNA转运**
+
+<p>细菌和古菌通过对入侵的病毒和核酸进行<strong>特异性</strong>识别，用<strong>Cas蛋白进行切割</strong>，达到获得性免疫</p>
+<p>整个过程：</p>
+<table>
+<tr>
+<td><img src="Pictures/Biology_27.png"  width="300"></td>
+<td><img src="Pictures/Biology_28.png"  width="300"></td>
+<td><img src="Pictures/Biology_29.png"  width="300"></td>
+</tr>
+</table>
+
+
+
+<a name="10.4" class="md-header-anchor" id="10.4"></a>
+<h3>10.4 <strong>CRISPR-Cas的应用</strong></h3>
+<img src="Pictures/Biology_30.png"  width="300">
+
+<p>供体DNA分子指外加的质粒</p>
+
                     </div>    
                 </div>
             </div>                                                                                                                                              
             <br>
             <br>
             <h2 id="__comments">Comments</h2>
-                  <!-- Insert generated snippet here -->
+                  <!-- Giscus comments -->
                     <script src="https://giscus.app/client.js"
                             data-repo="MingX1ao/MingX1ao.github.io"
                             data-repo-id="R_kgDOL_cJHA"
@@ -175,41 +168,6 @@
                             crossorigin="anonymous"
                             async>
                     </script>
-                  <!-- Synchronize Giscus theme with palette -->
-                  <script>
-                    var giscus = document.querySelector("script[src*=giscus]")
-                
-                    // Set palette on initial load
-                    var palette = __md_get("__palette")
-                    if (palette && typeof palette.color === "object") {
-                      var theme = palette.color.scheme === "slate"
-                        ? "transparent_dark"
-                        : "light"
-                
-                      // Instruct Giscus to set theme
-                      giscus.setAttribute("data-theme", theme) 
-                    }
-                
-                    // Register event handlers after documented loaded
-                    document.addEventListener("DOMContentLoaded", function() {
-                      var ref = document.querySelector("[data-md-component=palette]")
-                      ref.addEventListener("change", function() {
-                        var palette = __md_get("__palette")
-                        if (palette && typeof palette.color === "object") {
-                          var theme = palette.color.scheme === "slate"
-                            ? "transparent_dark"
-                            : "light"
-                
-                          // Instruct Giscus to change theme
-                          var frame = document.querySelector(".giscus-frame")
-                          frame.contentWindow.postMessage(
-                            { giscus: { setConfig: { theme } } },
-                            "https://giscus.app"
-                          )
-                        }
-                      })
-                    })
-                  </script>
         </div>
     </section>
     <!--尾部-->

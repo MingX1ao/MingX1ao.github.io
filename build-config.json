@@ -1,0 +1,20 @@
+[
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/BiomedicalStats.md",
+        "courseId": "BMStats",
+        "courseName": "生物医学统计基础",
+        "outputDir": "Category/Learning/BMStats",
+        "category": "学习笔记",
+        "description": "SJTU-BME2202，课程介绍了常用的一些统计方法，不仅限于生物医学领域",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/Biology.md",
+        "courseId": "BiologyIntroduction",
+        "courseName": "生物学导论",
+        "outputDir": "Category/Learning/BiologyIntroduction",
+        "category": "学习笔记",
+        "description": "SJTU-BME1203，课程简要介绍生物学几个大类",
+        "author": "MingXiao"
+    }
+]
