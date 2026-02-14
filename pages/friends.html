@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+	
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>MX's Blog</title>
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="assets/css/d-audio.css">
+    <link rel="stylesheet" href="assets/css/myPagination.css">
+    <link rel="stylesheet" href="assets/css/link.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style rel="stylesheet">
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+    <!--主体-->
+    <div class="big-container">
+          <article class="article">
+              <!--友情链接-->
+              <ul class="link-box">
+                  <li>
+                      <a href="https://www.sjtu.edu.cn/">上海交通大学</a>
+                      <span class="description">SJTU中文主页门户网站</span>
+                  </li>
+                  <li>
+                      <a href="https://bme.sjtu.edu.cn/">上海交通大学生物医学工程学院</a>
+                      <span class="description">SJTU-BME主页门户网站</span>
+                  </li>
+                  <li>
+                      <a href="https://shuiyuan.sjtu.edu.cn/t/topic/161040">Wiki | BME救亡计划</a>
+                      <span class="description">SJTU-BMEer的资源交流帖，感谢每位BMEer的贡献</span>
+                  </li>
+		  <li>
+                      <a href="https://shuiyuan.sjtu.edu.cn/t/topic/248010">上海展览遍历计划</a>
+                      <span class="description">快来水源支持我吧</span>
+                  </li>
+		  <li>
+                      <a href="https://sh17c.top/">时清川的个人主页</a>
+                      <span class="description">在web-sq17c，你可以找到一些有趣的东西</span>
+                  </li>
+              </ul>
+          </article>
+      </div>
+    <div data-include="/includes/footer.html"></div>
+    <script type="text/javascript">
+        // 分页
+        const pagination = new myPagination({
+            id: 'pagination',
+            curPage: 1, //初始页码
+            pageTotal: 3, //总页数
+            pageAmount: 10, //每页多少条
+            dataTotal: 29, //总共多少条数据
+            pageSize: 3, //可选,分页个数
+            //showPageTotalFlag: true, //是否显示数据统计
+            //showSkipInputFlag: true, //是否支持跳转
+            getPage: function (page) {
+                console.log("current page: ", page);
+            }
+        });
+
+        // 图片懒加载
+        const lazyImage = new LazyImage('.lazy-image');
+    </script>
+</body>
+
+</html>

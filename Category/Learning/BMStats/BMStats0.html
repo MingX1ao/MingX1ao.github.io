@@ -11,18 +11,18 @@
     <meta name="author" content="MingXiao">
     <title>Thinking Statistically</title>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="stylesheet" href="/Boundless-UI-master/css/global.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/pace-theme-flash.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/d-audio.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/article-detail.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/code.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/github-markdown.css">
-    <link rel="stylesheet" href="/Boundless-UI-master/css/vditor.css">
-    <link rel-"stylesheet" href="/Boundless-UI-master/css/markdown.css">
-    <link rel="shortcut icon" href="/IMG/Blog's Logo.png">
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel-"stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
     <style>
         .lazy-image {
-            background: url('/IMG/loading.gif') no-repeat center;
+            background: url('/images/loading.gif') no-repeat center;
             background-size: 26% 35%;
             height: 100%;
             width: 100%;
@@ -72,59 +72,8 @@
     <![endif]-->
 </head>
 <body>
-
-    
-    <!--PC导航栏-->
-    <nav class="nav-bar-holder">
-        <div class="nav-bar" id="nav-bar">
-            <div class="logo-box">
-                <a href="/mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
-                        src="/IMG/Blog's Logo.png" /></a>
-            </div>
-            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="/mingxiaoHomepage.html">首页</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="/timeLine.html">时间轴</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="/articleCategory.html">分类</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="/FriendshipLinks.html">友情链接</a></div>
-            <!--搜索框-->
-            <div id="search-nb">
-                <span class="search-s fl">
-                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
-                        placeholder="搜索">
-                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
-                </span>
-            </div>
-        </div>
-    </nav>
-
-    
-    <!--mobile导航栏-->
-    <nav class="mobile-nav">
-        <div class="logo-box">
-            <a href="/mingxiaoHomepage.html" class="blog-title ta-c">
-                <img style="vertical-align: top;" alt="logo"
-                    src="/IMG/Blog's Logo.png" /></a>
-        </div>
-        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
-    </nav>    
-    <ul id="nav-m-list">
-        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
-        <li id="m-img-li">
-            <img id="m-img" alt="苍茫误此生" src="/IMG/avatar.png">
-        </li>
-        <li>
-            <span class="search-s fl">
-                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
-                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
-            </span>
-        </li>
-        <li><a class="w-h-100 fl" href="/mingxiaoHomepage.html">首页</a></li>
-        <li><a class="w-h-100 fl" href="/timeLine.html">时间轴</a></li>
-        <li><a class="w-h-100 fl" href="/articleCategory.html">分类</a></li>
-        <li><a class="w-h-100 fl" href="/FriendshipLinks.html">友情链接</a></li>
-    </ul>
-
-    
-    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
         <!--文章目录-->
         <div class="toc">
             <ul>
@@ -150,7 +99,7 @@
                 <div class="article-content markdown-body">
                     <h1 style="margin: 10px 0">Thinking Statistically</h1>
                     <div class="article-cate">
-                        <a href="https://mingx1ao.github.io/Category/LearningHomepage.html">学习笔记</a>
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
                     </div>
                     <div class="writer-info">
                         <span style="margin: 5px 0;">作者: </span>

@@ -6,5 +6,5 @@ Anyway，感谢你的点击。
 
 话不多说，让我们开始吧！
 
-[please click here!](mingxiaoHomepage.html)
+[please click here!](pages/home.html)
 

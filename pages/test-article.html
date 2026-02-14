@@ -10,17 +10,17 @@
     <meta name="description" content="test">
     <meta name="author" content="MingXiao">
     <title>栈和队列</title>
-    <link rel="stylesheet" href="Boundless-UI-master/css/global.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/pace-theme-flash.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/d-audio.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/article-detail.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/code.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/github-markdown.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/vditor.css">
-    <link rel="shortcut icon" href="IMG/Blog's Logo.png">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="assets/css/d-audio.css">
+    <link rel="stylesheet" href="assets/css/article-detail.css">
+    <link rel="stylesheet" href="assets/css/code.css">
+    <link rel="stylesheet" href="assets/css/github-markdown.css">
+    <link rel="stylesheet" href="assets/css/vditor.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
     <style>
         .lazy-image {
-            background: url('IMG/loading.gif') no-repeat center;
+            background: url('/images/loading.gif') no-repeat center;
             background-size: 26% 35%;
             height: 100%;
             width: 100%;
@@ -70,73 +70,8 @@
     <![endif]-->
 </head>
 <body>
-
-    
-    <!--PC导航栏-->
-    <nav class="nav-bar-holder">
-        <div class="nav-bar" id="nav-bar">
-            <div class="logo-box">
-                <a href="mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
-                        src="IMG/Blog's Logo.png" /></a>
-            </div>
-            <div class="nb-a-holder" id="home"><a class="nb-a ta-c" href="mingxiaoHomepage.html">首页</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="timeLine.html">时间轴</a></div>
-                                                                                                    <!--<div class="nb-a-holder"><a class="nb-a ta-c" href="tag.html">标签墙</a></div>-->
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="articleCategory.html">分类</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="FriendshipLinks.html">友情链接</a></div>
-            <!--搜索框-->
-            <div id="search-nb">
-                <span class="search-s fl">
-                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
-                        placeholder="搜索">
-                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
-                </span>
-            </div>
-                                                                                                    <!--
-                                                                                                    <div class="nb-a-holder-last">
-                                                                                                        <div class="nb-a-holder-small">
-                                                                                                            <a class="a-login" href="login.html">登录</a>
-                                                                                                        </div>
-                                                                                                        <div class="nb-a-holder-small">
-                                                                                                            <a class="a-login" href="register.html">注册</a>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    -->
-        </div>
-    </nav>
-
-    
-    <!--mobile导航栏-->
-    <nav class="mobile-nav">
-        <div class="logo-box">
-            <a href="mingxiaoHomepage.html" class="blog-title ta-c">
-                <img style="vertical-align: top;" alt="logo"
-                    src="IMG/Blog's Logo.png" /></a>
-        </div>
-        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
-    </nav>    
-    <ul id="nav-m-list">
-        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
-        <li id="m-img-li">
-            <img id="m-img" alt="苍茫误此生" src="IMG/avatar.png">
-        </li>
-        <li>
-            <span class="search-s fl">
-                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
-                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
-            </span>
-        </li>
-        <li><a class="w-h-100 fl" href="mingxiaoHomepage.html">首页</a></li>
-                                                                                                    <!--<li><a class="w-h-100 fl" href="login.html">登录</a></li>
-                                                                                                    <li><a class="w-h-100" href="register.html">注册</a></li>-->
-        <li><a class="w-h-100 fl" href="timeLine.html">时间轴</a></li>
-                                                                                                    <!--<li><a class="w-h-100 fl" href="tag.html">标签墙</a></li>-->
-        <li><a class="w-h-100 fl" href="articleCategory.html">分类</a></li>
-        <li><a class="w-h-100 fl" href="FriendshipLinks.html">友情链接</a></li>
-    </ul>
-
-    
-    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
         <!--文章目录-->
         <div class="toc">
             <ul>
@@ -544,7 +479,7 @@
                                                                                                                                                                     </div>
                                                                                                                                                                     <div class="comment-item">
                                                                                                                                                                         <div class="user-img-box">
-                                                                                                                                                                            <img src="../img/user.jpeg" id="user-img" alt="">
+                                                                                                                                                                            <img src="../images/user.jpeg" id="user-img" alt="">
                                                                                                                                                                         </div>
                                                                                                                                                                         <div class="comment-box">
                                                                                                                                                                             <div class="user-info">
@@ -566,11 +501,11 @@
                                                                                                                                                                             </div>
                                                                                                                                                                             <div class="icon-line">
                                                                                                                                                                                 <a href="javascript:void(0)" class="comment-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/comment.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/comment.svg');"
                                                                                                                                                                                     onclick="show_reply(this)"></a>
                                                                                                                                                                                 <span class="reply_count c-666">0</span>
                                                                                                                                                                                 <a href="javascript:void(0)" class="liked-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/liked.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/liked.svg');"
                                                                                                                                                                                     onclick="like_comment(30)"></a>
                                                                                                                                                                                 <span class="liked_count c-666">0</span>
                                                                                                                                                                             </div>
@@ -581,7 +516,7 @@
                                                                                                                                                                     </div>
                                                                                                                                                                     <div class="comment-item">
                                                                                                                                                                         <div class="user-img-box">
-                                                                                                                                                                            <img src="../img/user.jpeg" id="user-img" alt="">
+                                                                                                                                                                            <img src="../images/user.jpeg" id="user-img" alt="">
                                                                                                                                                                         </div>
                                                                                                                                                                         <div class="comment-box">
                                                                                                                                                                             <div class="user-info">
@@ -594,11 +529,11 @@
                                                                                                                                                                             </div>
                                                                                                                                                                             <div class="icon-line">
                                                                                                                                                                                 <a href="javascript:void(0)" class="comment-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/comment.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/comment.svg');"
                                                                                                                                                                                     onclick="show_reply(this)"></a>
                                                                                                                                                                                 <span class="reply_count c-666">0</span>
                                                                                                                                                                                 <a href="javascript:void(0)" class="liked-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/liked.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/liked.svg');"
                                                                                                                                                                                     onclick="like_comment(29)"></a>
                                                                                                                                                                                 <span class="liked_count c-666">0</span>
                                                                                                                                                                             </div>
@@ -609,7 +544,7 @@
                                                                                                                                                                     </div>
                                                                                                                                                                     <div class="comment-item">
                                                                                                                                                                         <div class="user-img-box">
-                                                                                                                                                                            <img src="https://zhaoyangkun.gitee.io/blog-static/img/person.svg" id="user-img" alt="">
+                                                                                                                                                                            <img src="https://zhaoyangkun.gitee.io/blog-static/images/person.svg" id="user-img" alt="">
                                                                                                                                                                         </div>
                                                                                                                                                                         <div class="comment-box">
                                                                                                                                                                             <div class="user-info">
@@ -622,11 +557,11 @@
                                                                                                                                                                             </div>
                                                                                                                                                                             <div class="icon-line">
                                                                                                                                                                                 <a href="javascript:void(0)" class="comment-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/comment.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/comment.svg');"
                                                                                                                                                                                     onclick="show_reply(this)"></a>
                                                                                                                                                                                 <span class="reply_count c-666">1</span>
                                                                                                                                                                                 <a href="javascript:void(0)" class="liked-icon"
-                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/liked.svg');"
+                                                                                                                                                                                    style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/liked.svg');"
                                                                                                                                                                                     onclick="like_comment(28)"></a>
                                                                                                                                                                                 <span class="liked_count c-666">1</span>
                                                                                                                                                                             </div>
@@ -712,13 +647,13 @@
           <div class="footer-line">Have Fun Here</div>
       </footer>
     <!--
-    <script type="text/javascript" src="Boundless-UI-master/js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/sweetalert.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/pace.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/base.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/d-audio.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/vditor.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/article-detail.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="assets/js/pace.min.js"></script>
+    <script type="text/javascript" src="assets/js/base.js"></script>
+    <script type="text/javascript" src="assets/js/d-audio.js"></script>
+    <script type="text/javascript" src="assets/js/vditor.min.js"></script>
+    <script type="text/javascript" src="assets/js/article-detail.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
     -->

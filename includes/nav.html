@@ -1,0 +1,47 @@
+<!--PC导航栏-->
+<nav class="nav-bar-holder">
+    <div class="nav-bar" id="nav-bar">
+        <div class="logo-box">
+            <a href="/pages/home.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
+                    src="/images/blog-logo.png" /></a>
+        </div>
+        <div class="nb-a-holder" id="home"><a class="nb-a ta-c" data-nav="home" href="/pages/home.html">首页</a></div>
+        <div class="nb-a-holder"><a class="nb-a ta-c" data-nav="timeline" href="/pages/timeline.html">时间轴</a></div>
+        <div class="nb-a-holder"><a class="nb-a ta-c" data-nav="category" href="/pages/category.html">分类</a></div>
+        <div class="nb-a-holder"><a class="nb-a ta-c" data-nav="friends" href="/pages/friends.html">友情链接</a></div>
+        <!--搜索框-->
+        <div id="search-nb">
+            <span class="search-s fl">
+                <label for="search-input"></label><input class="fl" type="text" id="search-input" placeholder="搜索">
+                <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+<!--mobile导航栏-->
+<nav class="mobile-nav">
+    <div class="logo-box">
+        <a href="/pages/home.html" class="blog-title ta-c">
+            <img style="vertical-align: top;" alt="logo" src="/images/blog-logo.png" /></a>
+    </div>
+    <a id="mobile_cate" style="background-image: url('/images/cate.svg')" href="javascript:void(0);"></a>
+</nav>
+<ul id="nav-m-list">
+    <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
+    <li id="m-img-li">
+        <img id="m-img" alt="MX" src="/images/me.jpg">
+    </li>
+    <li>
+        <span class="search-s fl">
+            <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
+            <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
+        </span>
+    </li>
+    <li><a class="w-h-100 fl" data-nav="home" href="/pages/home.html">首页</a></li>
+    <li><a class="w-h-100 fl" data-nav="timeline" href="/pages/timeline.html">时间轴</a></li>
+    <li><a class="w-h-100 fl" data-nav="category" href="/pages/category.html">分类</a></li>
+    <li><a class="w-h-100 fl" data-nav="friends" href="/pages/friends.html">友情链接</a></li>
+</ul>
+
+<div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>

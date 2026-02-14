@@ -10,15 +10,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>MX's Blog</title>
-    <link rel="stylesheet" href="Boundless-UI-master/css/global.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/pace-theme-flash.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/d-audio.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/myPagination.css">
-    <link rel="stylesheet" href="Boundless-UI-master/css/index.css">
-    <link rel="shortcut icon" href="IMG/Blog's Logo.png">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="assets/css/d-audio.css">
+    <link rel="stylesheet" href="assets/css/myPagination.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
     <style rel="stylesheet">
         .lazy-image {
-            background: url('IMG/loading.gif') no-repeat center;
+            background: url('/images/loading.gif') no-repeat center;
             background-size: 26% 35%;
             height: 100%;
             width: 100%;
@@ -31,73 +31,8 @@
 </head>
 
 <body>
-
-    
-    <!--PC导航栏-->
-    <nav class="nav-bar-holder">
-        <div class="nav-bar" id="nav-bar">
-            <div class="logo-box">
-                <a href="mingxiaoHomepage.html" class="blog-title ta-c"><img style="vertical-align: top;" alt="logo"
-                        src="IMG/Blog's Logo.png" /></a>
-            </div>
-            <div class="nb-a-holder" id="home"><a id="active" class="nb-a ta-c" href="mingxiaoHomepage.html">首页</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="timeLine.html">时间轴</a></div>
-                                                                                                    <!--<div class="nb-a-holder"><a class="nb-a ta-c" href="tag.html">标签墙</a></div>-->
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="articleCategory.html">分类</a></div>
-            <div class="nb-a-holder"><a class="nb-a ta-c" href="FriendshipLinks.html">友情链接</a></div>
-            <!--搜索框-->
-            <div id="search-nb">
-                <span class="search-s fl">
-                    <label for="search-input"></label><input class="fl" type="text" id="search-input"
-                        placeholder="搜索">
-                    <a class="search-icon fl" onclick="search_by_key()" href="javascript:void(0);"></a>
-                </span>
-            </div>
-                                                                                                    <!--
-                                                                                                    <div class="nb-a-holder-last">
-                                                                                                        <div class="nb-a-holder-small">
-                                                                                                            <a class="a-login" href="login.html">登录</a>
-                                                                                                        </div>
-                                                                                                        <div class="nb-a-holder-small">
-                                                                                                            <a class="a-login" href="register.html">注册</a>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    -->
-        </div>
-    </nav>
-
-    
-    <!--mobile导航栏-->
-    <nav class="mobile-nav">
-        <div class="logo-box">
-            <a href="mingxiaoHomepage.html" class="blog-title ta-c">
-                <img style="vertical-align: top;" alt="logo"
-                    src="IMG/Blog's Logo.png" /></a>
-        </div>
-        <a id="mobile_cate" style="background-image: url('IMG/cate.svg')" href="javascript:void(0);"></a>
-    </nav>    
-    <ul id="nav-m-list">
-        <li id="cancel-li"><a class="fr" id="cancel" href="javascript:void(0);"></a></li>
-        <li id="m-img-li">
-            <img id="m-img" alt="苍茫误此生" src="IMG/me.jpg">
-        </li>
-        <li>
-            <span class="search-s fl">
-                <label for="search-input-m"></label><input class="fl" type="text" id="search-input-m" placeholder="关键词">
-                <a class="search-icon fl" onclick="m_search()" href="javascript:void(0);"></a>
-            </span>
-        </li>
-        <li><a class="w-h-100 fl" href="mingxiaoHomepage.html">首页</a></li>
-                                                                                                    <!--<li><a class="w-h-100 fl" href="login.html">登录</a></li>
-                                                                                                    <li><a class="w-h-100" href="register.html">注册</a></li>-->
-        <li><a class="w-h-100 fl" href="timeLine.html">时间轴</a></li>
-                                                                                                    <!--<li><a class="w-h-100 fl" href="tag.html">标签墙</a></li>-->
-        <li><a class="w-h-100 fl" href="articleCategory.html">分类</a></li>
-        <li><a class="w-h-100 fl" href="FriendshipLinks.html">友情链接</a></li>
-    </ul>
-
-    
-    <div id="d-audio" class="d-audio" style="width: 150px; z-index: 99; position: fixed; bottom: 5px; left: 5px;"></div>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
     <!--主体-->
     <div class="big-container" id="particles-js">
         <article class="article">
@@ -169,19 +104,19 @@
 			<br>
 			<li class="person-intro-detail">
 			    <span style="display: flex; align-items: center;">
-			    <img src="IMG/gmail.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
+			    <img src="/images/gmail.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
 			    <a href="mailto:3in9x1a0@gmail.com" style="margin-left: 25px;"><strong>3in9x1a0</strong></a>
 			    </span>
 		        </li>
 			<li class="person-intro-detail">
 			       <span style="display: flex; align-items: center;">
-			       <img src="IMG/shuiyuan.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
+			       <img src="/images/shuiyuan.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
 			       <a href="https://shuiyuan.sjtu.edu.cn/u/%E7%BD%91%E5%8F%8B369/summary" style="margin-left: 25px;"><strong>网友369</strong></a>
 			       </span>
 		       </li>
 		       <li class="person-intro-detail">
 				<span style="display: flex; align-items: center;">
-					<img src="IMG/github.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
+					<img src="/images/github.svg" class="contact-icon" width="24" height="24" alt="Email Icon">
 					<a href="https://github.com/MingX1ao" style="margin-left: 25px;"><strong>MingX1ao</strong></a>
 				</span>
 			</li>
@@ -203,7 +138,7 @@
                                                                                                 <div class="article-box">
                                                                                                     <div class="ab-content">
                                                                                                         <a href="article.html" class="article-img-box">
-                                                                                                            <img class="lazy-image article-img" data-src="IMG/testPic.png" alt="" src="">
+                                                                                                            <img class="lazy-image article-img" data-src="/images/testPic.png" alt="" src="">
                                                                                                         </a>
                                                                                                         <div class="article-title">
                                                                                                             <a href="article.html">栈和队列</a>
@@ -224,10 +159,10 @@
                                                                                                         </div>
                                                                                                         <span class="article-tail-box">
                                                                                                             <i class="fl"
-                                                                                                                style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/read-index.svg')"></i>
+                                                                                                                style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/read-index.svg')"></i>
                                                                                                             <span class="read-number c-999 fl">47</span>
                                                                                                             <i class="fl"
-                                                                                                                style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/img/comment-index.svg')"></i>
+                                                                                                                style="background-image: url('https://zhaoyangkun.gitee.io/blog-static/images/comment-index.svg')"></i>
                                                                                                             <span class="comment-number c-999 fl">0</span>
                                                                                                             <span class="article-date c-999">2019-12-05</span>
                                                                                                             <span class="article-author one-line-overflow c-999">admin</span>
@@ -254,7 +189,7 @@
                         </li>
                         <li class="person-img-li">
                             <img alt="头像" id="person-img"
-                                src="IMG/me.jpg">
+                                src="/images/me.jpg">
                         </li>
                         <li class="person-intro-detail gradient-text">
                             <h1>欢迎！</h1>
@@ -281,7 +216,7 @@
                             </span>
                         </li>
                         <li class="column-category">
-                            <a href="testArticle.html">TestArticle</a>
+                            <a href="/pages/test-article.html">TestArticle</a>
                         </li>
                         <li class="column-category">
                             <a href="article.html">TBD</a>
@@ -327,29 +262,7 @@
             </div>
         </article>
     </div>
-    <!--尾部-->
-    <footer class="footer">
-        <div class="footer-line">
-                                                            <!--<div class="icon-center">
-                                                                <span class="icon-box"><a id="github-icon" target="_blank" href="https://github.com/MingX1ao"
-                                                                        class="foot-icon"></a>
-                                                                </span>
-                                                                <span class="icon-box"><a id="qq-icon" target="_blank"
-                                                                        href="tencent://Message/?Uin=2295098032&amp;websiteName=q-zone.qq.com&amp;Menu=yes"
-                                                                        class="foot-icon"></a>
-                                                                </span>
-                                                            </div>-->
-        </div>
-        <div class="footer-line">Powered By <a href="https://github.com/zhaoyangkun/Boundless-UI"
-                target="_blank">BoundlessUI</a> • © 2019</div>
-        <div class="footer-line">Have Fun Here</div>
-    </footer>
-    <script type="text/javascript" src="Boundless-UI-master/js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/sweetalert.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/pace.min.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/base.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/d-audio.js"></script>
-    <script type="text/javascript" src="Boundless-UI-master/js/myPagination.js"></script>
+    <div data-include="/includes/footer.html"></div>
     <script type="text/javascript">
         // 分页
         const pagination = new myPagination({
