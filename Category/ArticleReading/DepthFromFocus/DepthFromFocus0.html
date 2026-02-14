@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Depth From Focus 文献精读">
+    <meta name="description" content="Depth From Focus - Depth From Focus 文献精读">
+    <meta name="author" content="MingXiao">
+    <title>Depth From Focus</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>Depth From Focus
+                    <ul>
+                            <li><a href="#0.1">1 Introduction</a></li>
+                            <li><a href="#0.2">2 the DFF method</a></li>
+                            <li><a href="#0.3">3 Testing the Assumptions</a></li>
+                            <li><a href="#0.4">4 Blurring Metric</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">Depth From Focus</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>Pattern Recognition Letter doi/10.1016/0167-8655(87)90026-2</p>
+<hr>
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1 Introduction</h3>
+<p>在焦平面上的图像往往很锐利，离焦的图像则会比较模糊，越离焦越模糊</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>2 the DFF method</h3>
+<p>给出了几条假设</p>
+<ol>
+<li>大部分时候可以创造一个存在能用的模糊的图像</li>
+<li>对于某些重要的点，存在一致的评估方法得出相似的结论</li>
+<li>模糊程度和目标点到焦平面的距离有简单的关系</li>
+</ol>
+<p>给出了几个步骤</p>
+<ol>
+<li>找到一组特征点（如边界等）</li>
+<li>评估特征点的模糊程度\(W\)</li>
+<li>利用\(d=f(W)\)求解深度</li>
+<li>3D重建</li>
+</ol>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>3 Testing the Assumptions</h3>
+<p>假设一个光学系统</p>
+<center><img src="/Category/Learning/Pictures/dff_10.png" width="500"></center>
+
+<p>考虑焦平面上的物体长度为\(c\)，焦距为\(f\)，根据相似三角形很容易得到<br>\[
+D_n = \frac{fc}{A+c},\, D_f=\frac{fc}{A-c}
+\]<br>其中\(D_n,D_f\)分别是近景深和远景深，也就是在这个范围内的物体能够清晰成像</p>
+<p>那么为了区分模糊和清晰，要求近景深至少是整个图像深度的\(\frac{1}{n}\)，即<br>\[
+D_{range} > n D_n
+\]<br>也就是必须有足够的模糊</p>
+<p>在给定\(A,c,n\)和成像距离\(f\)下，可以计算成像的深度范围</p>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3>4 Blurring Metric</h3>
+<p>使用相机拍一个具体的物体，然后测特征点占的像素</p>
+<p>前后两个失焦的深度如何区分？这是一个待解决的问题</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

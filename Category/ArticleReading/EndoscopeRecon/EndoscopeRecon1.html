@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="内窥镜三维重建文献精读">
+    <meta name="description" content="Cross-Based Local Stereo Matching for Orthogonal Integral Images - 内窥镜三维重建文献精读">
+    <meta name="author" content="MingXiao">
+    <title>Cross-Based Local Stereo Matching for Orthogonal Integral Images</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>Cross-Based Local Stereo Matching for Orthogonal Integral Images
+                    <ul>
+                            <li><a href="#1.1">1 Introduction</a></li>
+                            <li><a href="#1.2">2 具体算法</a></li>
+                            <li><a href="#1.3">3 快速整合算法</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">Cross-Based Local Stereo Matching for Orthogonal Integral Images</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS FOR VIDEO TECHNOLOGY, VOL. 19, NO. 7, JULY 2009</p>
+<hr>
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>1 Introduction</h3>
+<p>将立体配准手段大致分为了两类</p>
+<ul>
+<li>在预先定义的多个窗口中选择最合适的，缺点是窗口的形状受到了限制</li>
+<li>在一个窗口内修改像素的权重，很显然开销很大</li>
+</ul>
+<p>本方法的关键思想，见上文提及</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2 具体算法</h3>
+<p><strong>假设</strong>：在一个区域内，匹配的元素应该有相似的灰度和视差</p>
+<p>为了找到点\(p(x_0,y_0)\)所在的区域，以\(p\)为中心，构造cross，将水平段记为集合\(H(p)\)，竖直段记为集合\(V(p)\)，并定义一个集合\(\{h_p^-, h_p^+, v_p^-,v_p^+\}\)作为这个cross的边界限制</p>
+<p>这个边界集合的定义是关键，回顾图像分割的内容</p>
+<p>最终得到的结果和一个3*3的cross取最大值，保证一定存在一个区域而非单个元素</p>
+<p>在\(V(p)\)上做滑动，每一个\(V_i(p)\)都能根据一个规则生长出一个\(H_i(p)\)，将所有的\(H_i(p)\)作为这个区域的元素<br>\[
+U(p) = \bigcup\limits_{q\in V(p)} H(q)
+\]<br>交换\(H,V\)的地位，也能得到很相近的结果</p>
+<p>后面整合cost的部分见上文</p>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>3 快速整合算法</h3>
+<p>还是这个问题，整合的数据量太大了，想办法减少数据量</p>
+<p>这里选择的方法是数据复用</p>
+<p>原先的区域加和，可以分解为先水平加和，再竖直加和</p>
+<p>首先计算全局的可能的水平条的加和，再计算对于区域时调用即可</p>
+<p>算法的关键在于d图的复用</p>
+<center><img src="/Category/Learning/Pictures/endo_4.png"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

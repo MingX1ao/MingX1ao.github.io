@@ -142,5 +142,29 @@
         "url": "/Category/Learning/CompArchReview/homepage.html",
         "image": "/images/testPic.png",
         "category": "学习笔记"
+    },
+    {
+        "courseId": "EndoscopeRecon",
+        "courseName": "内窥镜三维重建文献精读",
+        "description": "双目/多目内窥镜3D重建方法综述，涵盖立体匹配、液晶透镜等7篇论文",
+        "url": "/Category/ArticleReading/EndoscopeRecon/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "文章阅读"
+    },
+    {
+        "courseId": "AirwaySeg",
+        "courseName": "气道分割方法文献精读",
+        "description": "从U-Net到nnU-Net，气道分割方法的演进，涵盖8篇论文精读",
+        "url": "/Category/ArticleReading/AirwaySeg/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "文章阅读"
+    },
+    {
+        "courseId": "DepthFromFocus",
+        "courseName": "Depth From Focus 文献精读",
+        "description": "Depth From Focus方法及3D重建质量评估，涵盖3篇论文精读",
+        "url": "/Category/ArticleReading/DepthFromFocus/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "文章阅读"
     }
 ]

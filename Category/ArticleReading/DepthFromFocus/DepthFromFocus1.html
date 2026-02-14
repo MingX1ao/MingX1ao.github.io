@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="Depth From Focus 文献精读">
+    <meta name="description" content="An Investigation of Methods for Determining Depth from Focus - Depth From Focus 文献精读">
+    <meta name="author" content="MingXiao">
+    <title>An Investigation of Methods for Determining Depth from Focus</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>An Investigation of Methods for Determining Depth from Focus
+                    <ul>
+                            <li><a href="#1.1">透镜成像模型</a></li>
+                            <li><a href="#1.2">退化函数模型</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">An Investigation of Methods for Determining Depth from Focus</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE</p>
+<p>主要研究了 Defocus Operator Model，通过估计退化函数求出成像模糊的半径，然后反推出深度</p>
+<hr>
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>透镜成像模型</h3>
+<center><img src="/Category/Learning/Pictures/dff_11.png" width="500"></center>
+
+<p>其中\(D_o\)是物体距离透镜的距离，\(D_i\)是成像平面距离透镜的距离，\(R\)是像模糊的光斑大小，\(D_{fi}\)是像会聚的位置（最清晰的点）</p>
+<p>设透镜的焦距为\(F\)，直径为\(L\)，那么<br>\[
+\frac{L}{2R} = \frac{D_{fi}}{\delta}
+\]<br>代入透镜成像公式\(\frac{1}{v}+\frac{1}{u}=\frac{1}{F}\)，得到<br>\[
+R = \frac{L}{2}(1-\frac{D_i}{F} + \frac{D_i}{D_o})
+\]</p>
+<p>\[
+D_o = \frac{LFD_i}{2RF+D_i-F}
+\]</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>退化函数模型</h3>
+<p>关于\(R\)，存在系统的归一化离焦算子<br>\[
+h(x,y) = \frac{1}{\pi R^2},\,\,\,x^2+y^2\leq R^2
+\]<br>假设完全清晰的图像为\(s(x,y)\)，经过模糊的图像为\(i(x,y)\)，选取两个模糊的图像，有<br>\[
+i_1(x,y) = s(x,y) * h_1(x,y) +\eta_1\\
+i_2(x,y) = s(x,y) * h_2(x,y)+\eta_2
+\]<br>其中\(\eta\)是噪声</p>
+<p>对其进行傅里叶变换并写为极坐标的形式，有<br>\[
+H(\rho) = 2\pi \int_0^\infty rh(r)J_0(2\pi r\rho)dr = 2\frac{J_1(2\pi R\rho)}{2\pi R\rho}
+\]<br>利用了\(\frac{d}{dz}zJ_1(z)=zJ_0(z)\)</p>
+<p>得到<br>\[
+I_1 = S \cdot H_1\\
+I_2 = S \cdot H_2
+\]<br>设<br>\[
+i_1(x,y) * h_3 (x,y) = i_2(x,y)
+\]<br>那么得到（忽略一切噪声的理想情况下）<br>\[
+H_3 = \frac{R_1J_1(2\pi R_2\rho)}{R_2J_1(2\pi R_1\rho)} = I_1^{-1}I_2
+\]<br>寻找\(H_3\)的交叉零点，对于\(J_1\)，有<br>\[
+2\pi R_2\rho_0 = 3.83
+\]<br>如何确定\(\rho\)？用二次函数拟合\(H_3\)，得到<br>\[
+H_3 = a\rho^2+b =0 \Rightarrow \rho_0 = \sqrt{-\frac{b}{a}}
+\]<br>得到\(R_2 = \frac{3.83}{2\pi \rho_0}\)</p>
+<p>对于数字图像，设像素密度为\(P\)（个/mm），数字半径和模拟半径的关系为\(R = R_P /P\)，数字频率和模拟频率的关系为\(\rho_P = \rho / P\)</p>
+<p>转换为DFT就是\(\rho_P = \frac{1}{N} k\)，其中\(N\)为图像像素个数，\(k\in [0,1,\ldots,N-1]\)</p>
+<p>那么<br>\[
+R_2 = \frac{3.83N}{2\pi k P}\\
+k = \sqrt{-\frac{b}{a}}
+\]<br>由此解出深度\(D_o\)</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

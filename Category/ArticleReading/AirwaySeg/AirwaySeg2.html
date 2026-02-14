@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="气道分割方法文献精读">
+    <meta name="description" content="AirwayNet: A Voxel-Connectivity Aware Approach for Accurate Airway Segmentation - 气道分割方法文献精读">
+    <meta name="author" content="MingXiao">
+    <title>AirwayNet: A Voxel-Connectivity Aware Approach for Accurate Airway Segmentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>AirwayNet: A Voxel-Connectivity Aware Approach for Accurate Airway Segmentation
+                    <ul>
+                            <li><a href="#2.1">1 Introduction</a></li>
+                            <li><a href="#2.2">2 Method</a></li>
+                            <li><a href="#2.3">3 训练</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">AirwayNet: A Voxel-Connectivity Aware Approach for Accurate Airway Segmentation</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>MICCAI <a href="https://doi.org/10.1007/978-3-030-32226-7_24">https://doi.org/10.1007/978-3-030-32226-7_24</a></p>
+<p>考虑到体素的连接性，传统的二分类掩膜变成了26个连接预测</p>
+<p>为什么是26，因为3*3*3 - 1 = 26，也就是考虑27邻域</p>
+<hr>
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>1 Introduction</h3>
+<p>考虑到气道很复杂，选择的方法可能会出现不连续性，因此使用连接的方法</p>
+<p>问题从二分类的掩膜变成了预测26领域的是否连接二分类</p>
+<p>大致的流程是</p>
+<ol>
+<li>体素的连接性通过真实值经过CNN学习得到，学习中心像素是否为气道和邻域是否为气道</li>
+<li>体素的坐标和其距肺边界的距离也作为了输入的信息</li>
+</ol>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>2 Method</h3>
+<center><img src="/Category/Learning/Pictures/airway_3.png"></center>
+
+
+
+<h4>2.1 Connectivity Modeling</h4>
+<p>中心像素\(P(x,y,z)\)与其26邻域\(Q(u,v,w)\)，其中\(q_i\in Q,i=1,...,26\)，使用一个26列向量对\((P,q_i),i=1,...,26\)进行描述，当\(P,q_i\)都是气道体素时，将这个分量记为1，否则为0</p>
+<p>相当于一个特殊的卷积，3*3*3的卷积核在CT模型上滑动，需要用0填充以保证图像大小不变</p>
+<p>这样就得到体素之间的连接性的ground truth，那么原先的掩膜学习就变成了输出为26列向量组的学习，目标变成分类和连接</p>
+<p>将单个目标分解为多个任务的优势是能够学习更全面的特征，并且保留了联通的气道体素之间的位置关系</p>
+<h4>2.2 CT Image Pre-processing</h4>
+<p>先高斯低通，手动阈值二值化，然后联通量分析，移除了不确定的组织，最大的两个认为是左肺和右肺</p>
+<p>为了防止阈值割坏了，用形态学凸壳处理，如果凸壳有50%以上的多的面积，就用凸壳替代</p>
+<p>用欧氏距离计算每个体素到边界的最小距离，因为解剖上这个距离有意义</p>
+<p>然后将像素值scale到\([0,255]\)，然后对整个肺进行分割，分为4块</p>
+<h4>2.3 Connectivity Prediction</h4>
+<p>沿用了3D U-net的框架，在扩展路径的1*1连接之前串联了坐标和距离信息，最后每个体素得到的26列向量各自走Sigmoid函数，得到概率</p>
+<p>对于每一个体素\(x\in X\)，令预测到的概率为\(p_i(x)\)，实际的标签为\(y_i(x)\)，其中\(i=1,...,26\)，使用Dice定义损失函数<br>\[
+\mathcal{L} = 1- \frac{1}{26}\sum_{i=1}^{26}\frac{2\sum_{x\in X}p_i(x) y_i(x)}{\sum_{x\in X}(p_i(x)+y_i(x))+\varepsilon}
+\]<br>其中\(\varepsilon\)是一个防止除以0的小量</p>
+<p>流程见下图</p>
+<center><img src="/Category/Learning/Pictures/airway_4.png"></center>
+
+
+
+<h4>2.4 Airway Candidates Generation</h4>
+<p>使用0.5作为概率的阈值进行掩膜，并仅保留双向选择的，毕竟一定要成对才能说都是</p>
+<p>然后将每个体素的26通道按通道投影到一个空的但是与CT图像等大的数组中，相当于一个累加器，最后过滤0元素就得到了气道的candidate</p>
+<p>然后这个模型与肺部的掩膜进行相乘（按位与），过滤假阳性（噪声）</p>
+<p>最后使用 fuzzy connectedness segmentation 将candidate的远端合并</p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3 训练</h3>
+<p>每次训练时有50%的概率将模型水平翻转，来学习更多情况</p>
+<p>稠密采样了气道边的方块（3*3*3），并随机丢弃了肺边界上的方块</p>
+<p>每个epoch大约有5000个样本</p>
+<p>权重更新时用了Adam Optimizer，设置\(\beta_1=0.5,\beta_2=0.999\)，学习率为\(10^{-4}\)</p>
+<p>训练时还有更高维的一个步长，将大图像分割为小图像，预测的结果取滑动窗口的重叠部分的均值</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

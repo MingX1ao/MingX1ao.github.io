@@ -160,5 +160,32 @@
         "category": "学习笔记",
         "description": "计算机体系结构期末速通复习",
         "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/EndoscopeReconstruction.md",
+        "courseId": "EndoscopeRecon",
+        "courseName": "内窥镜三维重建文献精读",
+        "outputDir": "Category/ArticleReading/EndoscopeRecon",
+        "category": "文章阅读",
+        "description": "双目/多目内窥镜3D重建方法综述，涵盖立体匹配、液晶透镜等7篇论文",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/AirwaySegmentation.md",
+        "courseId": "AirwaySeg",
+        "courseName": "气道分割方法文献精读",
+        "outputDir": "Category/ArticleReading/AirwaySeg",
+        "category": "文章阅读",
+        "description": "从U-Net到nnU-Net，气道分割方法的演进，涵盖8篇论文精读",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/DepthFromFocus.md",
+        "courseId": "DepthFromFocus",
+        "courseName": "Depth From Focus 文献精读",
+        "outputDir": "Category/ArticleReading/DepthFromFocus",
+        "category": "文章阅读",
+        "description": "Depth From Focus方法及3D重建质量评估，涵盖3篇论文精读",
+        "author": "MingXiao"
     }
 ]

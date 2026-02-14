@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="气道分割方法文献精读">
+    <meta name="description" content="nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation - 气道分割方法文献精读">
+    <meta name="author" content="MingXiao">
+    <title>nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation
+                    <ul>
+                            <li><a href="#6.1">1 Introduction</a></li>
+                            <li><a href="#6.2">2 Architectural</a></li>
+                            <li><a href="#6.3">3 Preprocessing</a></li>
+                            <li><a href="#6.4">4 Training</a></li>
+                            <li><a href="#6.5">5 Predict</a></li>
+                            <li><a href="#6.6">6 Postprocessing</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>nature methods <a href="https://doi.org/10.1038/s41592-020-01008-z">https://doi.org/10.1038/s41592-020-01008-z</a></p>
+<hr>
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>1 Introduction</h3>
+<p>描述了一个深度学习的参数设置过程</p>
+<ul>
+<li>固定那些不太会改变的参数</li>
+<li>对于尽可能多的剩余决策，以启发式规则的形式，在特定的数据集属性（&quot;数据集指纹&quot;）和设计选择（&quot;管道指纹&quot;）之间建立明确的依赖关系</li>
+<li>仅从数据中学习剩下的选择</li>
+</ul>
+<p>nnU-net是一个深度学习方法，可以自动进行预处理、网络架构搭建、训练和后处理</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>2 Architectural</h3>
+<ul>
+<li><p>使用Leaky ReLU代替了ReLU，用InstanceNorm代替了BatchNorm</p>
+</li>
+<li><p>使用一个2D U-net，因为有证据表明当数据是各向异性时，3D分割效果很差</p>
+</li>
+<li><p>3D U-net，128*128*128，batch size = 2</p>
+</li>
+<li><p>级联3D U-net，为了解决3D U-net在大尺寸图像上的缺陷</p>
+<p>训练过程为：第一级U-net在下采样的图像上进行训练，将结构上采样为原始模型的大小，并将其输出作为一个额外的Channel（one-hot编码后），送入第二级，第二级用分块的策略进行训练</p>
+</li>
+</ul>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>3 Preprocessing</h3>
+<ul>
+<li>Cropping：将所有的非零区域进行剪裁</li>
+<li>Resampling：.nii文件有采样距离这个参数，将所有数据用采样距离的中值进行重采样<ul>
+<li>若重采样后模型的大小在3D U-net的四倍以上，就使用级联3D U-net</li>
+</ul>
+</li>
+<li>Normalization：对CT，先搜集mask内的像素值，截断到[0.5, 99.5]%，然后进行z-score标准化；对MRI，直接标准化</li>
+</ul>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>4 Training</h3>
+<ul>
+<li>5折交叉验证</li>
+<li>Loss = Dice + CrossEntropy</li>
+<li>Adam Optimizer， lr=3e-4, 250 batch / epoch</li>
+<li>weight decay = 5，若训练集的指数滑动平均loss在近30个epoch内减少不够5e-3</li>
+<li>训练停止：lr &gt; 1e-5 and 指数滑动平均loss在近60个epoch内减少不到5e-3</li>
+<li>数据扩充：随机旋转，缩放，弹性形变，gamma矫正和镜像</li>
+<li>每个Batch超过1/3的样本必须是随机选择的前景</li>
+</ul>
+<a name="6.5" class="md-header-anchor" id="6.5"></a>
+<h3>5 Predict</h3>
+<p>所有的推断都是基于patch-wise的</p>
+<p>对于每一个图像块，边缘体素是低权重的，中心体素权重高</p>
+<p>每个图像块的重叠大小为size/2，用TTA进行集成</p>
+<p>使用5个交叉训练的模型进行集成</p>
+<a name="6.6" class="md-header-anchor" id="6.6"></a>
+<h3>6 Postprocessing</h3>
+<p>仅保留最大的连通域作为预测区域</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="气道分割方法文献精读">
+    <meta name="description" content="U-Net: Convolutional Networks for Biomedical Image Segmentation - 气道分割方法文献精读">
+    <meta name="author" content="MingXiao">
+    <title>U-Net: Convolutional Networks for Biomedical Image Segmentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>U-Net: Convolutional Networks for Biomedical Image Segmentation
+                    <ul>
+                            <li><a href="#0.1">1 Introduction</a></li>
+                            <li><a href="#0.2">2 Architecture</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">U-Net: Convolutional Networks for Biomedical Image Segmentation</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>MICCAI 2015 DOI: 10.1007/978-3-319-24574-4_28</p>
+<hr>
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1 Introduction</h3>
+<p>CNN的典型用途是分类，但是这对于图像输入来说不够</p>
+<p>滑动窗口CNN能够预测每个像素，通过输入中心像素的邻域；这个方式的优势是邻域作为输入，数据量比图像大很多，且可以像素级定位；缺点是训练非常慢，因为每个点都要练，而且滑动窗口的冗余很大；更大的邻域需要的池化层更多，定位的准确性和领域大小的trade-off</p>
+<p>运用了全卷积网络的想法，用连续层来补充收缩网络，将池化层替换为上采样；为了定位特征，收缩路径的高频图像与上采样输出结合</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>2 Architecture</h3>
+<center><img src="/Category/Learning/Pictures/airway_2.png"></center>
+
+<p>上图具体而言，输入的是一个572*572的图像</p>
+<ol>
+<li><p>64个3*3的卷积核，得到570*570*64的特征1；向下一级输出3*3*64个输出值，计算方式为9个权重*64个通道</p>
+</li>
+<li><p>64个3*3*64的卷积核继续提取特征，得到特征2；为什么不是3*3做64次，因为参数太少了，而且不能整合各个通道的信息，相当于只在原来的信息上进一步卷积，而多通道则是整合各个维度信息</p>
+</li>
+<li><p>进行2*2邻域的最大值池化，减少特征数目，得到284*284*64的特征3</p>
+<p>值得注意这里图像必须有偶数的高和宽</p>
+</li>
+<li><p>128个3*3*64的卷积核提取特征，每个得到282*282*1的特征，128个通道</p>
+</li>
+</ol>
+<p>以此类推，不赘述；整个模型越下方的特征的维度越高，包含的信息越低频</p>
+<p>在右边的升支，上采样的过程中直接叠加左边的信息，可以得到更多高频信息，便于解码</p>
+<p>最后一步使用2个1*1*64的卷积核，得到最终的分割结果</p>
+<p>收缩路径和扩展路径的激活函数都是ReLU</p>
+<p>使用随机梯度下降和动量下降，设置动量密度为0.99</p>
+<p>为了充分使用GPU内存，使用大尺寸图像而不是大批量图像</p>
+<p>在大图像的训练和分割中，需要对边缘进行镜像扩大进行推理</p>
+<p>最后一层用了像素级别的Softmax，最大的像素输出1，其余几乎为0；最后的损失函数用了交叉熵，定义为<br>\[
+p_k(x)=\frac{e^{a_k(x)}}{\sum_{i=1}^ke^{a_i(x)}}
+\\E = \sum w(x)\lg\left(p_{l(x)}(x)\right)
+\]<br>其中\(k\)表示被归为的类，\(l(x)\)表示Ground truth的分类，\(w\)是权重</p>
+<p>那么很显然被分类正确的像素产生的损失绝对值小，因为\(p_{k=l(x)}(x)=1, p_{k\neq l(x)}(x)\approx0\)</p>
+<p>网络初始化用的是He + 高斯分布</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

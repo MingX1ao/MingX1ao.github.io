@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="气道分割方法文献精读">
+    <meta name="description" content="Alleviating Class-Wise Gradient Imbalance for Pulmonary Airway Segmentation - 气道分割方法文献精读">
+    <meta name="author" content="MingXiao">
+    <title>Alleviating Class-Wise Gradient Imbalance for Pulmonary Airway Segmentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>Alleviating Class-Wise Gradient Imbalance for Pulmonary Airway Segmentation
+                    <ul>
+                            <li><a href="#5.1">1 Introduction</a></li>
+                            <li><a href="#5.2">2 Method</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">Alleviating Class-Wise Gradient Imbalance for Pulmonary Airway Segmentation</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>IEEE TRANSACTIONS ON MEDICAL IMAGING</p>
+<p>仍然是针对远端小气道的解决方案</p>
+<hr>
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>1 Introduction</h3>
+<p>气道分割中存在多种不平衡</p>
+<ul>
+<li><p>类间不平衡，表现为气道体积占胸腔的一小部分</p>
+<ul>
+<li>若在损失函数中赋予气道更大的权重，可以检测更完整的分支，但也可能导致气管壁被误判为气道</li>
+<li>这个不平衡会导致小气道在卷积中产生的特征被消解；过大的幅值则会导致误判</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/airway_8.png" width="400"></center>
+
+<ul>
+<li>反向传播的积累性会指数放大这一点</li>
+</ul>
+</li>
+<li><p>类内不平衡，即气道的各个部分的体积不一样，由于大气道的体积大，在Dice中占比也大，因此小气道造成的损失被倾向于不报道，这会阻碍小气道的学习</p>
+<ul>
+<li>需要重新设计损失函数</li>
+</ul>
+</li>
+</ul>
+<p>为了减少在En/Decoder路径中的缺陷积累，采用Short cut直接将补充梯度传递到各个卷积块</p>
+<p>采用分组监督，为每一组卷积块单独提供损失函数，解决类间不平衡</p>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>2 Method</h3>
+<p>整体的框架如下</p>
+<center><img src="/Category/Learning/Pictures/airway_9.png"></center>
+
+<p>右下角是一个卷积块的内部示意图，有两条输出通道，一条是\(f_{b,i}\)作为下一个卷积块的输入，另一个是\(f_{g,i}\)经过1卷积和上采样后输入到分组监督区，几个块成为一个组，每个块的输出作为一个通道，拼接后进入组内监督</p>
+<p>组内监督的损失函数有两个<br>\[
+D_w = 1- \frac{2\sum_{i=1}^nw_ip_ig_i}{\sum_{i=1}^nw_i(p_i+g_i)}
+\]<br>其中权重\(w_i\)是为了给背景和前景不同的注意力，很显然末梢的注意力要更大，可以用距离中心线的比例编码<br>\[
+w_i = \begin{cases}
+1-m\left( \frac{d_i}{d_{max}} \right)^{r_d} \,\,,\,\,g_i = 1\\
+1\,\,,\,\, o.w.
+\end{cases}
+\]<br>另一个是<br>\[
+T_r = 1- \frac{\sum_{i=1}^np_i^rg_i}{\sum_{i=1}^n(\alpha p_i+(1-\alpha) g_i)}
+\]<br>将两个结合，得到最终的损失函数为<br>\[
+U = 1 - \frac{2\sum_{i=1}^nw_ip_i^{r_l}g_i}{\sum_{i=1}^nw_i(\alpha p_i+(1-\alpha)g_i)}
+\]</p>
+<p>其中\(r_l=0.7, \alpha=0.1\)</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

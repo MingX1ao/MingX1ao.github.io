@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="内窥镜三维重建文献精读">
+    <meta name="description" content="用于测量和重建的双目内窥镜 - 内窥镜三维重建文献精读">
+    <meta name="author" content="MingXiao">
+    <title>用于测量和重建的双目内窥镜</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>用于测量和重建的双目内窥镜
+                    <ul>
+                            <li><a href="#0.1">Introduction</a></li>
+                            <li><a href="#0.2">Method</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">用于测量和重建的双目内窥镜</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>Sensors 2018, 18, 2243; doi:10.3390/s18072243</p>
+<hr>
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>Introduction</h3>
+<p>探头：3.17mm</p>
+<p>CMOS：400*400 pixels，两个</p>
+<p>由于两个CMOS的配准直接影响了重建精度，使用了WOS-LBP进行3D测量，使用了两个相机的图像差进行3D重建</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>Method</h3>
+<h4>双目立体视觉</h4>
+<p>两个CMOS完全相同且共面，配置如下</p>
+<center><img src="/Category/Learning/Pictures/endo_1.png" width="300"></center>
+
+<p>其中两个CMOS的中心的距离叫做基线距离\(B\)，计算过程用这个更好理解</p>
+<center><img src="/Category/Learning/Pictures/endo_2.png" width="300"></center>
+
+<p>得到<br>\[
+u_l = f \cdot \frac{X}{Z}\,\,,\,\,u_r = f\cdot \frac{X-B}{Z}\\
+v_l=v_r = f\frac{Y}{Z}
+\]<br>令\(u_l-u_r=d\)，进而得到<br>\[
+\begin{cases}
+X = \frac{Bu_l}{d}\\
+Y = \frac{Bv_l}{d}\\
+Z = \frac{Bf}{d}
+\end{cases}
+\]</p>
+<h4>3D测量</h4>
+<p>这是为了精准得到视差</p>
+<p>为了找到两个镜头中对应的元素，需要进行配准，常见的配准方法有4种</p>
+<ul>
+<li>distribution-based descriptor：统计图像的局部分布特征（方向梯度等）来定位，最准确，对噪音很敏感</li>
+<li>filter-based descriptor：先滤波，再做上面的</li>
+<li>moment-based descriptor：通过矩的统计值进行配对</li>
+<li>binary descriptor：利用像素点的邻域2n个点，（在一张图中）若一个灰度值大于另一个，则将其赋1，否则0，得到nbit代表这个点的二进制字符串，将两张图的所有字符串进行汉明距离匹配，当小于阈值时，认为是一个点</li>
+</ul>
+<p>这里用了第四种，因为很快，对噪音不敏感</p>
+<p><strong>计算图像的主要方向</strong></p>
+<p>为了保证标识符的旋转不变性，需要先提取图像的主要方向</p>
+<p>在POI的16*16圆形邻域内，计算每一个点的一阶梯度振幅和方向</p>
+<p>首先将图像灰度化，然后就是常规的处理，统计梯度方向最大值作为主要方向</p>
+<p><strong>进行WOS-LBP的计算</strong></p>
+<p>对于邻域内的每个点\(X_{i,j}\)，在其8联通区域内进行如下图的标注</p>
+<center><img src="/Category/Learning/Pictures/endo_3.png" width="300"></center>
+
+<p>其中\(n_1\)是使得\(\vec{X_{i,j}n_1}\)最接近主要方向的点，然后依次顺时针排列</p>
+<p>计算公式如下<br>\[
+\mathsf{WOS-LBP^{m}}(X_{i,j}) =2^0 \mathsf{sign}(n_m-n_{m+4}) + 2^1 \mathsf{sign}(n_{m+2}-n_{m+6})
+\]<br>其中<br>\[
+\mathsf{sign} = \begin{cases}
+1,\,\,\, x>T\\
+0,\,\,\, o.w.
+\end{cases}
+\]<br>\(m=1,2\)</p>
+<p>加权体现在突出正交于主要方向的量，最终结果的值域为\(\{0,1,2,3\}\)，分别记为0001，0010，0100，1000</p>
+<p>这样，每一个\(X_{i,j}\)都会产生一个8bit的二进制字符串</p>
+<p>但是这样的分辨率太低，不能准确描述，故改进算法，利用分区域分布的想法</p>
+<p><strong>最终算法</strong></p>
+<p>以POI为中心，半径为8做一个领域，将这个区域分为5等分，对每一个区域进行下面的操作：</p>
+<p>将RGB三种颜色分开，分别计算灰度，计算每一个区域的WOS-LBP<br>\[
+H^m(k) = \sum_{X_{i,j}\in K_l}f\left( \mathsf{WOS-LKP^m(X_{i,j}),k} \right)
+\]<br>其中\(K_l\)是第\(l\)个子区域，\(l=1,2,3,4,5\)，\(k=0,1,2,3\)<br>\[
+f(x,y) = \begin{cases}
+\exp(-\frac{(i^2+j^2)}{2(1.5\sigma)^2})\,\,,\,\, x=y\\
+0\,\,\,\,\,\,\,\,\,\,\,\,\, o.w.
+\end{cases}
+\]<br>\(\sigma\)是常数，一般取1.6</p>
+<p>这样，对于一个点，会产生\(3\times 5\times 8=120\)维的向量，比目前的算法都少</p>
+<p>设这个向量为\(X = \{x_1,x_2,\ldots,x_{120}\}\)</p>
+<p>根据<br>\[
+D = \sqrt{\sum_{i=1}^{120}(x_i-y_i)^2}
+\]<br>进行两个POI的配准，当\(D_{\min}\)时，就是配对了</p>
+<p>得到了一对配准的点之后，可以算出这个点的3维坐标，多算几个点就能进行3D测量</p>
+<h4>立体配准</h4>
+<p>分为四个阶段：cost initialization, cost aggregation, disparity computation and disparity optimization.</p>
+<p>需要注意，这里的视差\(d\)是一个范围，需要遍历，每一个\(d\)都能得到一个视差矩阵，在这个矩阵中选择代价最小的。</p>
+<p><strong>Cost Initialization</strong></p>
+<p>经典Census Transformation（CT）算法使用中心点和邻域的灰度，若中心点大则赋0，得到一个8bits string，利用汉明距离进行配准，但是这个丢失了位置信息</p>
+<p>本文使用了高斯滤波器进行空间滤波</p>
+<p>设左边的图像是\(p(x,y)\)，右边的是\(q(x-d,y)\)，\(d\)不是上面好不容易求出来的差距，定义Cost<br>\[
+C_{AD}(p,d) = \sum_{R,G,B}|I^{left}(p)-I^{right}(q)|\\
+C_{census}(p,d) = Hamming(CT(p),CT(q))
+\]<br>其中\(I\)是经过高斯滤波的灰度级，二者的结构都是和原图一样大的矩阵，结合两个Cost<br>\[
+C(p,d) = \rho (C_{census},\gamma_1) + \rho(C_{AD},\gamma_2)
+\]<br>其中\(\rho = 1-e^{-\frac{c}{\gamma}}\)</p>
+<p><strong>Cross-Based Local Support Region Construction</strong></p>
+<p>只有一个点的配准存在准确度的问题，将这个点生长为一个区域</p>
+<p>原方法需要看原始文献，大致如下</p>
+<ul>
+<li>在POI点做一个十字，十字的四条边长由一个集合决定，这个十字上的元素需要满足（也就是如何求出这个集合的元素值）<ol>
+<li>与POI灰度相差小于阈值</li>
+<li>与POI欧氏距离相差小于阈值</li>
+</ol>
+</li>
+</ul>
+<p>由于这个方法只是用了距离和灰度差两个信息，文章作者觉得不够，又加了一些信息</p>
+<ul>
+<li>使用Scharr算子（类似于Sobel）计算相邻元素的梯度幅度</li>
+<li>当距离超出第一个阈值时，选择更小的灰度差阈值防止增长过快</li>
+<li>使用canny算子计算边界，用更小的距离和灰度阈值对边界处的点进行选择</li>
+</ul>
+<p>由此得到了一个十字的范围，然后</p>
+<ul>
+<li>在竖直轴上遍历，每一个竖直点都会得到一个水平轴</li>
+<li>不同竖直点的水平轴长度和范围不同</li>
+<li>遍历结束后的二维图形就是一个LSR</li>
+</ul>
+<p><strong>Cost Aggregation</strong></p>
+<p>按上面的流程，在两幅图像中各自的到了一个配准区域，通过第一步计算出的\(d\)，对两个区域取交集<br>\[
+U_d(p) = \{(x,y)|(x,y)\in U(p) \and (x-d,y)\in U(q)\}
+\]<br>将这个区域内的所有元素\(s\)代入到\(C(p,d)\)的公式中去，取均值得到这个区域的汇总<br>\[
+E(p,d) = \frac{1}{N}\sum_{s\in U_d}C(s,d)
+\]<br>在这个矩阵中选择匹配代价最小的\(s\)的视差\(d\)作为这个点的视差</p>
+<p>当然也有别的，比如选择占比最大的</p>
+<p>需要注意的是，以上三个过程是对全图进行的，也就是对于\(p(x,y)\)的每一个点，都会得到一个\(U_d\)，经过WTA后采取一个最优的\(d\)</p>
+<p><strong>Disparity Optimization</strong></p>
+<p>对视差图滤波，去除mismatch</p>
+<p>分别以左右两张图为参考做一次视差图，如一个点在两张图上的视差相差超过阈值，那么认为这个点的视差无效，需要进行修正；余下的视差有效，保留</p>
+<p>对于需要修正的视差，根据上面第二步得到的Cross-Based的区域进行计数，区域像素总数\(N\)，区域合法的像素总数\(V\)</p>
+<ul>
+<li><p>\(V<N/3\)，在两张图中水平找离点最近的有效点，用这个点的视差代之</p>
+<p>如果没有，向上下扩散找</p>
+</li>
+<li><p>\(N/3\leq V<2N/3\)，区域内所有合法的视差的平均值作为这个点的视差</p>
+</li>
+<li><p>\(V\geq 2N/3\)，用占比最大的视差作为这个点的视差</p>
+</li>
+</ul>
+<p>对于一些由遮挡引起的视差错误，用上面的算法是无法实现去噪的，引入信息熵<br>\[
+E = \sum_{i=0}^{L-1}p_i\log p_i
+\]<br>在p的邻域内计算，当\(E\)小于一个阈值时，认为被遮挡，用下面的算法扩展这个领域</p>
+<ul>
+<li>将不可靠点中的某一个作为种子</li>
+<li>对于首次被标记的领域内的点\((x,y)\)，当满足灰度相近时标记，作为下一个种子</li>
+<li>重复2直到所有点被标记，将这些点设为一个区域集合</li>
+<li>若这个集合小于2000，所有点非法；否则，这些点合法</li>
+<li>重复第1步直到所有的非法的点</li>
+</ul>
+<p>实际上就是摸出一些平滑的小区域，认为这些是遮挡物</p>
+<p>这两个方法得到的非法点取并集</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

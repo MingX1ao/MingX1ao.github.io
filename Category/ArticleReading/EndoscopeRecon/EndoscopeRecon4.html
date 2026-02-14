@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="内窥镜三维重建文献精读">
+    <meta name="description" content="Multiocular image sensor with on-chip beamsplitter - 内窥镜三维重建文献精读">
+    <meta name="author" content="MingXiao">
+    <title>Multiocular image sensor with on-chip beamsplitter</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>Multiocular image sensor with on-chip beamsplitter
+                    <ul>
+                            <li><a href="#4.1">1 Introduction</a></li>
+                            <li><a href="#4.2">2 单主透镜立体成像系统原理</a></li>
+                            <li><a href="#4.3">3 片上光学成像系统</a></li>
+                            <li><a href="#4.4">4 多目信号处理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">Multiocular image sensor with on-chip beamsplitter</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">文章阅读</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>Optical Express <a href="http://dx.doi.org/10.1364/OE.24.018035">http://dx.doi.org/10.1364/OE.24.018035</a></p>
+<p>报道了一种单主镜头多目图像传感器芯片</p>
+<p>装置的大小是0.8cm；2.1M pixel</p>
+<hr>
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>1 Introduction</h3>
+<p>双镜头，双传感器系统需要对镜头的位置进行严格调整，且长时间观看立体图像会带来不适感，为此需要单主镜头和单传感器且可调节基线距离的立体相机</p>
+<p><strong>两种单主镜头相机</strong></p>
+<ul>
+<li>获取左眼右眼信息，利用配准进行重建，极度依赖配准算法</li>
+<li>使用额外的光学组件区分左右眼图像，根据视角不同来确定，但是体积太大</li>
+</ul>
+<p>另一种方法：利用光场相机和MLA，生成全息图像，但是需要持续对准MLA或固定死</p>
+<p><strong>本文方法</strong></p>
+<p>具有角度敏感的传感器，区分入射光线到像素的入射角，使用了光栅进行区分</p>
+<p>即获得了不同角度看到的多幅图像，从中选择两幅进行配准</p>
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>2 单主透镜立体成像系统原理</h3>
+<p>成像系统能从主镜头入射的水平角度区分入射光线，不需要第一步的图像水平配准，基线距离根据入射角度而定</p>
+<center><img src="/Category/Learning/Pictures/endo_5.png" width="400"></center>
+
+<p>用MLA分为了多目，但只有一个主要的透镜，每个目的传感角度如右图</p>
+<p>每个目的灵敏角度是传统相机的1/N，在最灵敏的角度下，每个目比传统相机高N倍</p>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>3 片上光学成像系统</h3>
+<h4>3.1 滤光片和MLA的联合设计</h4>
+<p>滤光片和内部的小透镜是联合设计的，根据外部的非主透镜来</p>
+<center><img src="/Category/Learning/Pictures/endo_6.png" width="400"></center>
+
+<p>对应于main lens到Aperture的那一段，左边是俯视图，是LA，右边是截面图，每个滤光片排列的方式如下</p>
+<center><img src="/Category/Learning/Pictures/endo_7.png" width="200"></center>
+
+<p>是交错的</p>
+<p>外部透镜的焦距要使得聚焦的光线能够到达第1，N个内部透镜，经过内部透镜将光线聚焦到每一个光电二极管（也就是第k目），金属线的作用是限制入射光的角度，相当于场光阑</p>
+<h4>3.2 内部微透镜</h4>
+<center><img src="/Category/Learning/Pictures/endo_8.png" width="500"></center>
+
+<p>上图表示了内部微透镜在金属线的限制下的聚光情况，其中\(\Delta\)表示光线聚焦处距离中央的距离，根据近似公式<br>\[
+\Delta = -f_{\mathsf{inner}}\frac{n_o}{n_i}\sin\theta
+\]<br>求出，其中\(\theta\)表示最上方光线的主要角度，偏左是负，根据这个\(\Delta\)区分角度和视角</p>
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>4 多目信号处理</h3>
+<p>基线距离可以自由选择，通过选择不同目的图像分别作为两目的图像</p>
+<p>通过光强叠加实现，但是系数通过指定入射角度和目的位置计算<br>\[
+I_p(x,y) = \sum a_k I_k(x,y)
+\]<br>其中\(I_p\)是指定的入射角度，\(a_k\)可以通过灵敏度计算，例如</p>
+<center><img src="/Category/Learning/Pictures/endo_9.png" width="400"></center>
+
+<p>通过这张图，\(a_i=\begin{cases}0\,\,,\,i\neq k,k+1\\0.5\,\,,\,\, i=k,k+1\end{cases}\)</p>
+<p>相当于把几个角度的图像加权得到新的角度的图像，也就是改变了基线距离，实现基线距离可以软件控制的操作</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>
