@@ -1030,5 +1030,107 @@
         "url": "/Category/ArticleReading/AirwaySeg/AirwaySeg7.html",
         "course": "气道分割方法文献精读",
         "category": "文章阅读"
+    },
+    {
+        "title": "第一章 新生",
+        "url": "/Category/Novels/BestPlan/BestPlan0.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第二章 雪原",
+        "url": "/Category/Novels/BestPlan/BestPlan1.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第三章 上升",
+        "url": "/Category/Novels/BestPlan/BestPlan2.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第四章 见闻",
+        "url": "/Category/Novels/BestPlan/BestPlan3.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第五章 训练",
+        "url": "/Category/Novels/BestPlan/BestPlan4.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第六章 桃源",
+        "url": "/Category/Novels/BestPlan/BestPlan5.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第七章 管理",
+        "url": "/Category/Novels/BestPlan/BestPlan6.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第八章 方案",
+        "url": "/Category/Novels/BestPlan/BestPlan7.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "第九章 终章",
+        "url": "/Category/Novels/BestPlan/BestPlan8.html",
+        "course": "最佳方案",
+        "category": "小说创作"
+    },
+    {
+        "title": "湮灭",
+        "url": "/Category/Novels/Annihilation/Annihilation0.html",
+        "course": "湮灭",
+        "category": "小说创作"
+    },
+    {
+        "title": "目录",
+        "url": "/Category/Novels/MXAdventure/MXAdventure0.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "前言",
+        "url": "/Category/Novels/MXAdventure/MXAdventure1.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "新生训练营",
+        "url": "/Category/Novels/MXAdventure/MXAdventure2.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "奖励发放",
+        "url": "/Category/Novels/MXAdventure/MXAdventure3.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "放空的十日",
+        "url": "/Category/Novels/MXAdventure/MXAdventure4.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "流放之人",
+        "url": "/Category/Novels/MXAdventure/MXAdventure5.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
+    },
+    {
+        "title": "四方之诗",
+        "url": "/Category/Novels/MXAdventure/MXAdventure6.html",
+        "course": "MX的冒险谭 第一卷：历程·走马看花",
+        "category": "小说创作"
     }
 ]

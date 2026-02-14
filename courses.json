@@ -166,5 +166,29 @@
         "url": "/Category/ArticleReading/DepthFromFocus/homepage.html",
         "image": "/images/testPic.png",
         "category": "文章阅读"
+    },
+    {
+        "courseId": "MXAdventure",
+        "courseName": "MX的冒险谭 第一卷：历程·走马看花",
+        "description": "日记类型的小说，记录MX从18岁到20岁的大学经历",
+        "url": "/Category/Novels/MXAdventure/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "小说创作"
+    },
+    {
+        "courseId": "BestPlan",
+        "courseName": "最佳方案",
+        "description": "科幻小说，讲述俄尚·古利特在末世中醒来后的冒险故事",
+        "url": "/Category/Novels/BestPlan/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "小说创作"
+    },
+    {
+        "courseId": "Annihilation",
+        "courseName": "湮灭",
+        "description": "科幻短篇，两位宇航员在植物统治的星球上的接触任务",
+        "url": "/Category/Novels/Annihilation/homepage.html",
+        "image": "/images/testPic.png",
+        "category": "小说创作"
     }
 ]
