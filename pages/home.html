@@ -143,7 +143,7 @@
                                                                                                         <div class="article-title">
                                                                                                             <a href="article.html">栈和队列</a>
                                                                                                         </div>
-                                                                                                        <div class="article-cate"><a href="category.html">后台</a>
+                                                                                                        <div class="article-cate"><a href="/pages/category.html">后台</a>
                                                                                                             <a href="tag.html">C++</a>
                                                                                                         </div>
                                                                                                         <div class="article-detail-box c-666">
@@ -264,6 +264,7 @@
     </div>
     <div data-include="/includes/footer.html"></div>
     <script type="text/javascript">
+        document.addEventListener('includesReady', function() {
         // 分页
         const pagination = new myPagination({
             id: 'pagination',
@@ -281,6 +282,7 @@
 
         // 图片懒加载
         const lazyImage = new LazyImage('.lazy-image');
+        });
     </script>
 </body>
 

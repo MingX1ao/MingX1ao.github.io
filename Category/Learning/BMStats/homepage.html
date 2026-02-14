@@ -121,6 +121,7 @@
     </main>
     <div data-include="/includes/footer.html"></div>
     <script type="text/javascript">
+        document.addEventListener('includesReady', function() {
         // 分页
         const pagination = new myPagination({
             id: 'pagination',
@@ -138,6 +139,7 @@
 
         // 图片懒加载
         const lazyImage = new LazyImage('.lazy-image');
+        });
     </script>
 </body>
 </html>

@@ -44,32 +44,32 @@
 	                            <span class="at-sort b-b-ece fl"><a class="at-sort-comment-a c-666 fl">分类</a></span>
 	                        </li>
 	                        <li class="column-category">
-	                            <a href="Category/LearningHomepage.html">
+	                            <a href="/Category/LearningHomepage.html">
 	                                学习笔记
 	                            </a>
 	                        </li>
                   		    <li class="column-category">
-				      <a href="Category/MajorAssignmentHomepage.html">
+				      <a href="/Category/MajorAssignmentHomepage.html">
 					  大型作业
 				      </a>
 	                        </li>
 	                        <li class="column-category">
-	                            <a href="Category/ExhibitionRecordHomepage.html">
+	                            <a href="/Category/ExhibitionRecordHomepage.html">
 	                                观展记录
 	                            </a>
 	                        </li>
 	                        <li class="column-category">
-	                            <a href="Category/NovelsHomepage.html">
+	                            <a href="/Category/NovelsHomepage.html">
 	                                小说创作
 	                            </a>
 	                        </li>
 	                        <li class="column-category">
-	                            <a href="Category/ArticleReadingHomepage.html">
+	                            <a href="/Category/ArticleReadingHomepage.html">
 	                                文章阅读
 	                            </a>
 	                        </li>
 	                        <li class="column-category">
-	                            <a href="category.html">
+	                            <a href="/pages/category.html">
 	                                生活片段
 	                            </a>
 	                        </li>
@@ -166,6 +166,7 @@
 	    </div>
     <div data-include="/includes/footer.html"></div>
 	    <script type="text/javascript">
+	        document.addEventListener('includesReady', function() {
 	        // 分页
 	        const pagination = new myPagination({
 	            id: 'pagination',
@@ -183,6 +184,7 @@
 	
 	        // 图片懒加载
 	        const lazyImage = new LazyImage('.lazy-image');
+	        });
 	    </script>
 	</body>
 	
