@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="12 可编程中断控制器 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>12 可编程中断控制器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>12 可编程中断控制器
+                    <ul>
+                            <li><a href="#11.1">12.1 中断</a></li>
+                            <li><a href="#11.2">12.2 8259A的结构和功能</a></li>
+                            <li><a href="#11.3">12.3 编程控制：初始化命令字</a></li>
+                            <li><a href="#11.4">12.4 编程控制：操作命令字</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">12 可编程中断控制器</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="11.1" class="md-header-anchor" id="11.1"></a>
+<h3><font color=blue>12.1 中断</font></h3>
+<p><strong>作用</strong></p>
+<ul>
+<li>使CPU和外设在部分时间并行工作，提高CPU效率</li>
+<li>便于实时数据处理</li>
+<li>便于发现故障和处理</li>
+<li>调用中断例程，方便程序编写</li>
+</ul>
+<p><strong>外部中断</strong></p>
+<ul>
+<li>不可屏蔽中断（NMI），如I/O校验位错误，掉电等紧急事件，不受<code>IF=0</code>的影响</li>
+<li>可屏蔽中断由8259A的<code>INT</code>引脚输出，连接到CPU的<code>INTR</code>，受<code>IF=0</code>的屏蔽</li>
+</ul>
+<p><strong>中断优先级</strong></p>
+<p>由高到低为</p>
+<ol>
+<li>除法错（<code>INT 0</code>），<code>INT N</code>（N号中断），<code>INTO</code>（溢出错误），都是内部中断</li>
+<li>NMI</li>
+<li>INTR</li>
+<li>单步中断<code>-t</code></li>
+</ol>
+<p><strong>中断嵌套</strong></p>
+<p>当CPU正在处理中断时，有更高优先级的中断被挂起，CPU产生中断嵌套；深度没有限制，但是有堆栈的物理限制</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_54.png" width="300"></center>
+
+<p><strong>如何实现？</strong></p>
+<ol>
+<li>进入中断后硬件会自动关闭中断</li>
+<li>此时需要使用<code>STI</code>指令打开中断，才能嵌套</li>
+<li>中断结束时，用<code>EOI</code>指令结束中断，用<code>IRET</code>返回到上一级中断/原程序</li>
+</ol>
+<a name="11.2" class="md-header-anchor" id="11.2"></a>
+<h3><font color=blue>12.2 8259A的结构和功能</font></h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_49.png" width="200"></center>
+
+<ul>
+<li><p><code>IR7-IR0</code>：8级中断请求输入，优先级为<code>IR0 - IR7</code>，多片8259A级联时，从片的<code>INT</code>连接到<code>IRi</code></p>
+</li>
+<li><p><code>INT</code>：高电平有效，连接到CPU的<code>INTR</code></p>
+</li>
+<li><p><code>INTA</code>：中断响应应答输入，接收到CPU第二个<code>INTA</code>信号时将最高级别的中断请求码送出</p>
+</li>
+<li><p><code>A0</code>：决定IO地址</p>
+</li>
+<li><p><code>CAS2-CAS0</code>：级联信号引脚，主片输出，从片输入</p>
+</li>
+<li><p><code>SP/EN</code>：非缓冲下，主片为1，从片为0；缓冲模式，EN作为外部数据总线缓冲器的启动信号</p>
+<p>缓冲模式：多片时大部分工作于此，少部分可以非缓冲</p>
+</li>
+</ul>
+<p>8259A内部存在<strong>4个8bit寄存器</strong>，分别是</p>
+<ol>
+<li>中断请求寄存器（IRR），当外部<code>IRi</code>存在请求时，对应的位置为<code>1</code>，响应完为<code>0</code>，可以允许多个中断请求</li>
+<li>中断屏蔽寄存器（IMR），存放屏蔽信息，当对应位置为<code>1</code>时，不响应<code>IRi</code></li>
+<li>中断服务寄存器（ISR），保存正在处理的中断，<code>IRi</code>被处理时，对应位置为<code>1</code>；多重中断时多个位置为<code>1</code></li>
+<li>优先级判决器（PR，resolver），判断<code>IRi</code>的优先级，还会判断新的中断能否打断正在执行的中断</li>
+</ol>
+<p><strong>由8259A引入的中断类型码</strong></p>
+<p>一共8个8bit中断类型码，其中<code>D7-D3</code>由用户编程决定，<code>D2D1D0</code>由<code>IRi</code>决定</p>
+<p><strong>8259A设置优先级的方式</strong></p>
+<ul>
+<li>全嵌套方式<ul>
+<li><code>IRi</code>具有固定的优先级，初始化后默认进入此方式<ul>
+<li>中断响应后，ISR对应的bit置<code>1</code>，保持到终端结束，即使有嵌套，类型码N由DataBus送入CPU</li>
+</ul>
+</li>
+<li>CPU发出<code>EOI</code>指令，对应的ISR复位（置<code>0</code>）；也有自动中断命令<code>AEOI</code>，看芯片设置</li>
+<li>高级中断可以嵌套在低级中断中</li>
+</ul>
+</li>
+<li>特殊嵌套方式：允许同级中断嵌套</li>
+</ul>
+<p><strong>中断屏蔽方式</strong></p>
+<ul>
+<li><p>使用<code>CLI</code>指令屏蔽所有可屏蔽中断</p>
+</li>
+<li><p>开中断时，存在两种屏蔽方式</p>
+<ul>
+<li>普通屏蔽：将IMR中的对应位置<code>1</code></li>
+<li>特殊屏蔽：仅屏蔽本级中断，其他不屏蔽，不允许同级嵌套</li>
+</ul>
+</li>
+<li><p>优先权管理</p>
+<ol>
+<li>固定优先级：固定<code>IR0-IR7</code>的优先级<ol>
+<li>全嵌套方式：高级中断可以嵌套在低级中断中</li>
+<li>特殊嵌套方式：允许同级嵌套</li>
+</ol>
+</li>
+<li>循环优先级：圆周循环，轮流处于最高优先级<ol>
+<li>自动循环方式：当前中断结束后自动变为最低，下一级变为最高，沿用了<code>IR0-IR7</code>的优先级排序</li>
+<li>特殊循环方式：由编程决定优先级，也会循环</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>中断结束方式</p>
+<ol>
+<li>自动中断结束（AEOI）：第二个中断响应周期下降沿，ISRi置0</li>
+<li>正常中断结束（EOI）：CPU发出EOI指令，将ISRi置0</li>
+<li>特殊中断结束（SEOI）：CPU发送指定的ISRi置0</li>
+<li>一般中断结束（SEOI）：8259A自动选择ISRi置0</li>
+</ol>
+</li>
+</ul>
+<a name="11.3" class="md-header-anchor" id="11.3"></a>
+<h3>12.3 编程控制：初始化命令字</h3>
+<p>初始化命令字是<code>ICW1-ICW4</code>，对8259A初始化，其中<code>ICW3</code>只在级联时使用</p>
+<p>8259A一共有两个端口，根据<code>A0</code>的不同分为奇偶地址口，分别是**<code>21H/20H</code>（在XT机中）**</p>
+<p><strong>ICW1</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_50.png" width="500"></center>
+
+
+
+<p><strong>ICW2</strong></p>
+<p><strong>紧跟<code>ICW1</code>写入</strong>，但是是奇地址</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_51.png" width="500"></center>
+
+<p>其中</p>
+<ul>
+<li><code>T7-T3</code>用于确定中断类型码的<code>D7-D3</code>，如前文所述</li>
+<li><code>T2-T0=000</code>，由<code>IRi</code>决定</li>
+</ul>
+<p><strong>ICW3</strong></p>
+<p><code>A0=1</code>，只在级联时使用，主片从片的格式不同，要和硬件搭配</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_52.png" width="500"></center>
+
+<p>注意主/从片的<code>SP/EN</code>接法</p>
+<p><strong>ICW4</strong></p>
+<p>8086CPU必须设置，<code>A0=1</code>；无<code>ICW3</code>时紧跟<code>ICW2</code>，有就跟3</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_53.png" width="500"></center>
+
+
+
+<a name="11.4" class="md-header-anchor" id="11.4"></a>
+<h3>12.4 编程控制：操作命令字</h3>
+<p>没有规定写入顺序，但是写入端口有规定</p>
+<p><code>OCW1</code>写入奇地址，<code>OCW2,OCW3</code>写入偶地址</p>
+<p><strong>OCW1</strong></p>
+<p>也称中断屏蔽字，直接对IMR的各位进行操作</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_55.png" width="500"></center>
+
+<p>如果是<strong>直接更改</strong></p>
+<pre><code class="language-assembly">mov al, 11111101B
+out 21H, al
+</code></pre>
+<p>如果是<strong>新增</strong></p>
+<pre><code class="language-assembly">in al, 21H
+and al, 11111101B
+out 21H, al
+</code></pre>
+<p><strong>OCW2</strong></p>
+<p>设置优先级循环方式和中断结束方式</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_56.png" width="400"></center>
+
+
+
+<p><strong>OCW3</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_57.png" width="500"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="7 激光原理 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>7 激光原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 激光原理
+                    <ul>
+                            <li><a href="#6.1">7.1 激光原理</a></li>
+                            <li><a href="#6.2">7.2 受激辐射和受激吸收、自发辐射的矛盾</a></li>
+                            <li><a href="#6.3">7.3 光子振荡条件</a></li>
+                            <li><a href="#6.4">7.4 激光器的基本组成和分类</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 激光原理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点：</p>
+<p>激光器的<font color=red>组成和工作原理</font><br>如何克服受激辐射与受激吸收、自发辐射的矛盾</p>
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 激光原理</h3>
+<p>原子的能级是量子化的<br>\[hv=E_2-E_1\]</p>
+<p><strong>自发辐射</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_57.png" width="300"></p>
+<p>定义自发跃迁的几率（自发跃迁爱因斯坦系数）<br>\(A_{21}=(\frac{dn_{21}}{dt})_{sp}\cdot\frac{1}{n_2}\)，其中sp表示spontaneous，表示单位时间内从2跃迁到1的电子占2总数的比例<br>def  \(A_{21}=\frac{1}{\tau_s}\)，其中\(\tau_s\)是原子在2的平均寿命，故\(A_{21}\)只和原子本身有关</p>
+<p><strong>受激吸收</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_58.png" width="300"></p>
+<p>定义受激吸收几率<br>\(W_{12}=(\frac{dn_{12}}{dt})_{st}\cdot\frac{1}{n_1}\)，其中st表示stimulated<br>def  \(W_{12}=B_{12}\rho_\nu\)，\(B_{12}\)是受激吸收跃迁爱因斯坦系数，只与原子本身有关，\(\rho_{\nu}\)是辐射能量场密度</p>
+<p><strong>受激辐射</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_59.png" width="300"></p>
+<p>定义受激辐射几率<br>\(W_{21}=(\frac{dn_{21}}{dt})_{st}\cdot\frac{1}{n_2}\)<br>高能级的电子，在外来光子的激发下，向低能级跃迁而发光（进1出2）<br>受激产生的光子完全是入射光子的copy，二者<strong>频率，相位，波矢，偏振</strong>完全一致，有相同的光波模式(<strong>激光的相干性强</strong>)<br>def  \(W_{21}=B_{21}\rho_\nu\)</p>
+<p><strong>受激辐射光放大</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_60.png" width="300"></p>
+<p><strong>\(A_{21},B_{12},B_{21}\)的关系</strong><br>在热平衡状态，辐射率等于吸收率，有\(n_2A_{21}+n_2B_{21}\rho_{\nu}=n_1B_{12}\rho_\nu\)<br>直接给出结论，\(B_{12}=B_{21},W_{12}=W_{21},A_{21}=\frac{8\pi h\nu^3}{c^3}B_{21}\)</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 受激辐射和受激吸收、自发辐射的矛盾</h3>
+<p><strong>与受激吸收</strong><br>受激辐射过程光子数变多，受激吸收过程光子数变少<br>由于辐射要求电子在高能级，这必然导致**\(n_2<n_1\)**，叠加\(B_{12}=B_{21},W=B\rho,N=W\cdot n\)<br>得到\(N_2=n_2W_{21}<n_1W_{12}=N_1\)，光子数是会变少的</p>
+<p><strong>如何克服</strong><br>需要使得\(n_2>n_1\)，即<strong>集居数反转</strong>，显然需要外界提供能量（Pumping，泵浦），使1先向2跃迁<br>称处于集居数反转的物质为<strong>激活物质</strong></p>
+<p><strong>激活粒子的能级系统</strong><br>首先论证二能级系统无法实现：<br>当辐射稳定时，一定有：\(\frac{dn_2}{dt}=W(n_1-n_2)-n_2A_{21}=0 \Rightarrow \frac{n_2}{n_1}=\frac{W}{A_{21}+W}<1\)<br>需要引入亚稳态（不如基态稳定，但比激发态稳定得多）</p>
+<p><strong>三能级系统</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_61.png" width="300"></p>
+<p>图中E3是激发态，会快速衰减为E2亚稳态，E2和E1形成集居数反转<br>但是这样有一个问题，由于E2全部来自E3，需要将大量的E1先Pumping到E3，能耗太高</p>
+<p><strong>四能级系统</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_62.png" width="300"></p>
+<p>图中E4是激发态，E3&amp;E2是亚稳态，E2会快速衰减为E1，E2相当于一个空能级，\(n_2\approx 0\)<br>E3却不会快速衰减为E2，即\(n_3>>n_2\)，用E3和E2组成新的激发系统<br>这样，只需要Pumping很少的电子到E3，就能形成集居数反转</p>
+<p><strong>与自发辐射</strong><br>def  \(R=\frac{W_{21}}{A_{21}}\)，表示辐射光子中受激和自发的比值，得到\(R\approx 10^{-35}\)，完全可以忽略<br>即相干光子很少，无法生存</p>
+<p><strong>如何克服</strong><br>达到\(W_{21}=B_{21}\rho_\nu>A_{21}\)，使受激光子在竞争中存活（但是引起受激辐射的光子<strong>最初来自自发辐射</strong>）</p>
+<p><strong>光学谐振腔</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_63.png" width="300"></p>
+<p>光子在受激辐射的过程中会逐渐增多，当增长谐振腔\(\rho_\nu\)变大，就有可能达到\(B_{21}\rho_\nu>A_{21}\)<br>但是谐振腔不可能做的很长，使用<strong>反射镜面</strong>来增加光程，来回来回中受激光子就变多了<br><img src="/Category/Learning/Pictures/MedicalPhysica_64.png" width="300"></p>
+<p><strong>使用的光学谐振腔</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_65.png" width="300"></p>
+<p>在部分反射镜面上出射<br>由于两块镜面平行放置，对光子的方向选择很强，偏了的光子会逸出腔外，平行的光子会变多<br>所以激光由<strong>高度方向性</strong></p>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 光子振荡条件</h3>
+<p>增益系数\(g(z)=\frac{dI(z)}{dz}\cdot \frac{1}{I(z)}\)，当\(I<<I_m\)时，\(g(z)=g_0\)<br>损耗系数\(\alpha=-\frac{dI(z)}{dz}\cdot \frac{1}{I(z)}\)<br><img src="/Category/Learning/Pictures/MedicalPhysica_67.png" width="300"></p>
+<p>激光器中的光强变化\(dI(z)=[g(I)-\alpha]I(z)dz\)<br><img src="/Category/Learning/Pictures/MedicalPhysica_66.png" width="300"></p>
+<p><strong>振荡条件</strong>：\(I(z)=I_0e^{(g_0-\alpha)z}\geq I_0 \Rightarrow g_0\geq\alpha\)<br>当满足上述条件时，无论初始的光强多小，都能形成\(I_m\)的光</p>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>7.4 <font color=red>激光器的基本组成和分类</font></h3>
+<p><strong>基本组成</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_68.png" width="400"></p>
+<p><strong><font color=red>激光模式</font></strong></p>
+<ul>
+<li>纵模：沿着光轴的光强分布，与驻波有关</li>
+<li>横模：垂直光轴的截面上的光强分布，选择电场分布均匀的就行</li>
+</ul>
+<p><strong>共振腔的结构决定模式特征</strong></p>
+<p><strong><font color=red>驻波和谐振频率</font></strong><br>当激光器处于振荡状态时，激光器内部的光是<strong>满足一定相位条件的驻波</strong><br>驻波条件：\(\Delta\phi=k\Delta x=\frac{2\pi}{\lambda}\cdot 2nl=2m\pi \Rightarrow l=m\cdot\frac{\lambda}{2n}\)，其中n是介质折射率，\(m\in \mathbb{Z}\)<br>谐振条件：\(\nu=m\cdot\frac{c}{2nl}\)<br>纵模间隔：\(\Delta\nu=\frac{c}{2nl}\)<br>最终只有满足谐振条件的光子存活（因为增益最大）</p>
+<p><strong>明明在受激时已经确定了频率，为什么还会有谐振条件呢？</strong><br>因为原子的能级不是确定的，用<strong>能带</strong>更好理解，频率是一个小区间</p>
+<p>理想情况下，一个纵模对应一个谐振频率值，实际上存在带宽<br><img src="/Category/Learning/Pictures/MedicalPhysica_69.png" width="400"></p>
+<p><strong>起振纵模数</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_70.png" width="300"></p>
+<p>其中\(\Delta\nu_T\)是带宽，\(g<G_t\)的光波无法得到加强（认为\(g<\alpha\)）<br>起振模式数：\(\Delta m=\lceil \frac{\Delta \nu_T}{\Delta\nu}\rceil+1\)，向下取整加1，共有这么多个纵模</p>
+<ul>
+<li><em>不考计算</em></li>
+</ul>
+<p><font color=red>例：见图</font><br><img src="/Category/Learning/Pictures/MedicalPhysica_71.png" width="500"></p>
+<p>可见\(\nu_T/\nu\)是非常小的，故认为中心处必有一个纵模，向两边间隔\(\Delta \nu\)计算个数</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

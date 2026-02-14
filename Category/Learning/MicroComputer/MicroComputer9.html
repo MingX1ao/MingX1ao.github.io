@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="10 I/O接口芯片 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>10 I/O接口芯片</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>10 I/O接口芯片
+                    <ul>
+                            <li><a href="#9.1">10.1 为什么需要接口</a></li>
+                            <li><a href="#9.2">10.2 两种通信方式</a></li>
+                            <li><a href="#9.3">10.3 可编程并行接口芯片8255A</a></li>
+                            <li><a href="#9.4">10.4 串行通信</a></li>
+                            <li><a href="#9.5">10.4 可编程串行接口芯片8251A</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">10 I/O接口芯片</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="9.1" class="md-header-anchor" id="9.1"></a>
+<h3><font color=blue>10.1 为什么需要接口</font></h3>
+<p><strong>为什么</strong></p>
+<ul>
+<li>CPU和外设速度不匹配</li>
+<li>CPU和外设信号电平不匹配（CPU是TTL，即0为低5为高，外设各有不同）</li>
+<li>信号格式不匹配（CPU是8b，16b等并行数据，外设不一定）</li>
+<li>时序不匹配</li>
+</ul>
+<p><strong>接口电路的解决方法</strong></p>
+<ul>
+<li>数据缓冲：锁存器，缓冲器等</li>
+<li>加入电平转换电路</li>
+<li>AD/DA转换器</li>
+<li>以握手联络信号（Ready）保证同步</li>
+</ul>
+<p><strong>端口分类</strong>：数据端口；状态端口；命令端口</p>
+<p><strong>I/O端口的寻址方式</strong></p>
+<ol>
+<li><p>存储器映象寻址：将每一个I/O端口看作一个存储单元，所有的访问内存的指令都能直接访问端口</p>
+<p>优点：不用专门的I/O指令</p>
+<p>缺点：占用了大量存储单元的地址空间</p>
+</li>
+<li><p>I/O单独编址方式</p>
+<p>优点：程序更加明确；不占用内存空间；指令短，译码电路简单</p>
+<p>缺点：<code>IN,OUT</code>的功能不如访存指令强；CPU需要提供<code>M/IO</code>信号</p>
+<p><strong>8086/8088都是这个方式</strong></p>
+</li>
+</ol>
+<p><font color=green><strong>CPU与外设之间的数据传送方式</strong></font></p>
+<ul>
+<li><p>程序控制方式（软件）</p>
+<ul>
+<li><p>分为无条件（同步）传送和有条件（查询式）传送</p>
+</li>
+<li><p>前者用于简单外设的操作；后者需要<strong>先握手</strong></p>
+</li>
+<li><p>传输完一个字符，CPU持续发送请求，直到外设准备完；CPU不能干别的事</p>
+</li>
+</ul>
+</li>
+<li><p>中断方式（软件）</p>
+<ul>
+<li><p>只有当输入设备的数据准备好了（READY），或数据缓冲器已空时，才会发送中断</p>
+</li>
+<li><p>传输完一个字符，CPU发送请求并回到原来干的事，直到外设发送中断，继续传输</p>
+</li>
+</ul>
+</li>
+<li><p>DMA方式（硬件），Direct Memory Access</p>
+<ul>
+<li>DMA<strong>临时接管CPU的地址、数据和控制总线</strong>，实现批量的数据传送</li>
+<li>CPU可以继续干别的事</li>
+</ul>
+</li>
+</ul>
+<a name="9.2" class="md-header-anchor" id="9.2"></a>
+<h3>10.2 两种通信方式</h3>
+<p><strong>并行通信</strong>：一次性直接传输</p>
+<p>优点：速度快</p>
+<p>缺点：需要的线很多，远距离不现实</p>
+<p><strong>串行通信</strong>：在单根线上按顺序传送一段数据</p>
+<p>微机和远程终端进行数据交换都用这个方式</p>
+<a name="9.3" class="md-header-anchor" id="9.3"></a>
+<h3>10.3 可编程并行接口芯片8255A</h3>
+<p><strong>8255A并行接口芯片</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_34.png" width="200"></center>
+
+<p>含有3个独立的8bit并行In/Out端口，其中<code>PA,PB</code>是8bit端口，<code>PC</code>可以拆分为两个4bit端口</p>
+<p><strong>基本操作</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_35.png" width="500"></center>
+
+<p>其中控制字寄存器是每个IO设备都有的，决定工作模式的寄存器</p>
+<p><code>RESET</code>让系统复位，控制寄存器清0，各端口工作于<strong>输入模式</strong></p>
+<p><strong>与CPU的连接方式</strong></p>
+<p>在8bit系统中，<code>A1A0</code>地址线与芯片的<code>A1A0</code>连接。若基地址是<code>60H</code>，A、B、C和控制口的端口分别是<code>60H,61H,62H,63H</code></p>
+<p>在16bit系统中，<code>A0</code>地址线用来选取奇偶位，故使用<code>A2A1</code>地址线，注意计算端口时<code>A0</code>位也要计算，相邻端口相隔<code>2H</code></p>
+<p><strong>控制字的设置</strong></p>
+<p>在进行初始化时必须先输入</p>
+<p>根据标志位的不同有两个状态：</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_36.png" width="300"></center>
+
+<center><img src="/Category/Learning/Pictures/MicroComputer_37.png" width="400"></center>
+
+<p>注意到只有<code>PA</code>有方式2，<code>PC</code>只能工作在方式0，但是设置<code>D7=0</code>可以任意输出<code>PC</code>的引脚为<code>1/0</code></p>
+<p>三种方式：基本I/O，选通工作，双向传送</p>
+<p><font color=red>例：</font>检查8个开关，要求不断检测开闭状态，当开端断开时对应的LED灯点亮</p>
+<p>解：使用8086CPU，8255A，74LS138提供全译码</p>
+<p>​		设置<code>PA</code>用于读取，<code>PB</code>用于输出，都工作在方式0，8086是16bit系统，<code>AD2D1</code>接入<code>A1A0</code></p>
+<p>​		那么<code>PA</code>对应于<code>1111 0000B</code>，<code>PB</code>对应于<code>1111 0010B</code>，<code>PC</code>对应于<code>1111 0100B</code>，控制字对应于<code>1111 0110B</code></p>
+<p>​		接下来为全译码选择合适的信号，74LS138有3个门，3个选择信号，\(\mathsf{M/\overline{IO}}\)占一个\(\mathsf{\overline{G2A}}\)</p>
+<p>​		由于16bit的芯片，故一定要指明高低字节，<code>A0</code>一定作为一个选择信号，剩下的选两个不变的就行，这里选择<code>A4A3A0</code>作为选择信号，始终为<code>100B=4D</code>，因此\(\mathsf{\overline{Y4}}\)连接到\(\mathsf{\overline{CE}}\)，剩下的就是门</p>
+<p>​		硬件电路如下图：</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_38.png" width="400"></center>
+
+<p>​		还需要软件，一开始需要设置控制字，观察每个bit对应的信息</p>
+<pre><code class="language-assembly">mov dx, 0F6H		;指向控制字
+mov al, 10010000B
+out dx, al			;写入
+</code></pre>
+<p>​		然后检测开关状态</p>
+<pre><code class="language-assembly">watch:
+	mov dx, 0F0H		;指向PA
+    in al, dx			;读取状态
+    mov dx, 0F2H		;指向PB
+    out dx, al			;写入状态
+    call delay			;为了人看清楚需要延迟亮灯
+    jmp watch			;持续检测
+</code></pre>
+<a name="9.4" class="md-header-anchor" id="9.4"></a>
+<h3><font color=blue>10.4 串行通信</font></h3>
+<p><strong>数据传输方向</strong></p>
+<ol>
+<li>单工：单向通信，A只能发送，B只能接受；广播</li>
+<li>半双工：双向通信，但只有一根传输线，同一时间只能单工；对讲机</li>
+<li>全双工：两个通路，可以同时收发；电话</li>
+</ol>
+<p><strong>基本工作方式</strong></p>
+<ul>
+<li><p>异步方式</p>
+<ul>
+<li><p>数据规格：起始位1b；数据位5-8b，D0在先；奇偶校验位1b（可选）；停止位1/1.5/2b</p>
+</li>
+<li><p>传输效率低</p>
+</li>
+</ul>
+</li>
+<li><p>同步方式</p>
+<ul>
+<li><p>数据规格：1/2b同步字符（单/双同步）/外同步无同步字符，5-8b数据，2b校验字符</p>
+</li>
+<li><p>接受方利用同步字符，将周期与发送方同步，直接接受后面的数据段</p>
+</li>
+<li><p>效率高很多，但是错误率也高很多</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>波特率</strong>：每秒传输的数据的位数，异步远低于同步</p>
+<p><strong>调制解调</strong></p>
+<p>串行接口不适合远距离传送，可以用标准电话线传送</p>
+<p>首先要调制为音频信号，然后解调</p>
+<p>根据调制的不同分为调频，调幅，调相，多路载波等</p>
+<a name="9.5" class="md-header-anchor" id="9.5"></a>
+<h3><font color=red>10.4 可编程串行接口芯片8251A</font></h3>
+<p><strong>8251A接口芯片</strong></p>
+<p>是通用同步/异步数据收发器（USART）</p>
+<p><font color=red><strong>编程流程</strong></font></p>
+<p><strong>看ppt上的编程流程</strong></p>
+<ol>
+<li><p>向控制口写入<strong>复位</strong>字</p>
+</li>
+<li><p>写入<strong>方式字</strong>，确定工作方式</p>
+</li>
+<li><p>若是同步，则写入1/2个同步字符，后面写入命令字</p>
+<p>若是异步，则直接写入命令字</p>
+</li>
+<li><p>要是想改变方式，需要重复1-3</p>
+</li>
+</ol>
+<p>在工作中可以随时使用<code>IN</code>读取状态字，检查错误</p>
+<p>方式字的定义如下 </p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_39.png" width="500"></center>
+
+<p>其中异步方式的<code>x1, x16, x64</code>表示的是波特率系数，这是一个人为定义的概念，没有实际意义</p>
+<p>实际传输过程中的\(收发波特率=\frac{收发时钟频率}{波特率系数}\)</p>
+<p>初始化前需要先复位，复位字为<code>0100 0000B = 40H</code>，在写入控制字，然后再写入命令字<code>0001 0101B</code>，具体看ppt</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

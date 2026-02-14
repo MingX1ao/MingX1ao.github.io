@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="11 MSP430 GPIO接口原理 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>11 MSP430 GPIO接口原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>11 MSP430 GPIO接口原理
+                    <ul>
+                            <li><a href="#10.1">11.1 概述</a></li>
+                            <li><a href="#10.2">11.2 原理与配置</a></li>
+                            <li><a href="#10.3">11.3 GPIO代码解读</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">11 MSP430 GPIO接口原理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="10.1" class="md-header-anchor" id="10.1"></a>
+<h3>11.1 概述</h3>
+<p>MSP430一共有9个IO，每个IO8个口，共72个IO口</p>
+<p>大部分的接口都是复用的（GPIO和外设两个模式）</p>
+<p>其中<code>P1 ~ P4</code>都是中断复用口，一共32个外部中断输入</p>
+<a name="10.2" class="md-header-anchor" id="10.2"></a>
+<h3>11.2 原理与配置</h3>
+<ul>
+<li><strong>Input</strong>：PxIN；每个IO都有8bit寄存器存放输入</li>
+<li><strong>Output</strong>：PxOUT；当配置为IO的输出时，就是输出的电平；当配置为输入时，0表示下拉电阻，1上拉</li>
+<li><strong>Direction</strong>：PxDIR；一个方向寄存器用来确定是输入0/出1</li>
+<li><strong>上/下拉电阻使能</strong>：PxREN；0不使能，1使能</li>
+<li><strong>输出增强</strong>：PxDS；有输出增强寄存器，增强IO口的电流输出（电压恒定），输出驱动增强，但是功耗和电磁干扰变大</li>
+<li><strong>功能选择标志位</strong>：PxSEL；复用的IO口需要指定使用的功能：1=外设 ，0=IO；当选为外设时，方向根据外设的要求手动设置，且中断功能失效</li>
+<li><strong>中断标志位</strong>：PxIFG；0表示没有中断输入，1表示有</li>
+<li><strong>中断触发方式</strong>：PxIES；0表示上升沿触发，1表示下降沿触发</li>
+<li><strong>中断开启标志位</strong>：PxIE；0关，1开</li>
+<li><strong>不使用的管脚</strong>：将不使用的管脚配置为IO，方向输出，不连接，防止悬空输入，并减少功耗</li>
+</ul>
+<p>MSP430的管脚需要先初始化（配置寄存器）再使用，和51不同</p>
+<a name="10.3" class="md-header-anchor" id="10.3"></a>
+<h3>11.3 GPIO代码解读</h3>
+<p>按下按钮控制LED的程序中，管脚需要设置为IO</p>
+<pre><code class="language-c">#include &lt;msp430f6638.h&gt;
+
+void main(void)
+{
+	// 初始化阶段
+	WDTCTL = WDTPW + WDTHOLD;		// 关闭看门狗定时器
+	P4DIR |= BIT5;					// BITn表示第n位为1，从0开始
+									// P4DIR是方向寄存器
+									// 这里表示P4.5为输出
+	P4REN |= BIT0;					// P4.0上/下拉电阻使能
+	P4OUT |= BIT0;					// P4.0配置为上拉电阻
+	// 因为Px不能进行位操作，所以用这种方式配置
+    // 这样解读：上拉电阻在引脚悬空时读到的都是1，只有输入0才读到0，可以作为接地开关的入口
+    // 这样的开关按下后引脚读到0，因此需要配置为上拉电阻
+
+	// 真正的主程序
+	while (1)
+	{
+		if (P4IN &amp; BIT0)			// 按位与，只判断这个键
+									// 按下时P4.0=0
+		{
+			P4OUT |= BIT5;			// 没按下，灯亮
+		}
+		else
+		{
+			P4OUT &amp;= ~BIT5;			// 按下，灯灭，取反后按位与
+		}
+	}
+}
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="1 绪论 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>1 绪论</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 绪论
+                    <ul>
+                            <li><a href="#0.1">1.1 计算机中数的表示</a></li>
+                            <li><a href="#0.2">1.2 计算机的组成与发展</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 绪论</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 计算机中数的表示</h3>
+<p><font color=green><strong>数据单位</strong></font></p>
+<p>位bit：1位二进制，1b</p>
+<p>字节byte：8位二进制，1B=1byte=8bit</p>
+<p>字word：2B，1word=2B=高字节\(\mathsf{D_{15}\sim D_{8}}\)+低字节\(\mathsf{D_{7}\sim D_{0}}\)</p>
+<p>字长word length：计算机<strong>一次</strong>可以处理的二进制数据位数，64位机字长64，即一次最多处理\(2^{64}\)个bit</p>
+<p><font color=green><strong>打印数和字符的表示</strong></font></p>
+<p>BCD码（Binary Coded Decimal）</p>
+<p>ASCII码（American Standard Code for Information Interchange）：7位二进制编码的字符</p>
+<p>键盘输入到显示器的字符都要用ASCII码表示</p>
+<p><font color=orange><strong>原码，反码和补码</strong></font></p>
+<p>搞清楚原码、反码和补码，正数负数都是有的</p>
+<p><font color=red>例：7-19</font></p>
+<p>\(=[7]_{补}+[-19]_{补}=0000\space 0111+1110\space 1101=1111 \space 0100\) 到这一步是结果的补码，要还原</p>
+<p>\(=1111\space 0100 -0000\space 0001=1111 \space 0011\) 到这一步是结果的反码，把全部取反就是结果的绝对值</p>
+<p>\(=-(0000\space 1100)=-12\)</p>
+<p>要注意只有后7位是有效的，MSB是符号位，1一定是负数</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 计算机的组成与发展</h3>
+<p><font color=orange><strong>组成</strong></font></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_1.png" width="500"></center>
+
+<p>第一代通用计算机<strong>ENIAC</strong></p>
+<p>PC中的首个操作系统<strong>DOS</strong>，<strong>Disk Operating System</strong></p>
+<p><font color=orange>**主机系统（微机）**的组成</font></p>
+<ul>
+<li>CPU（Central Processing Unit）<ul>
+<li>运算器（Arithmetic and Logic Unit，ALU）</li>
+<li>CPU内部总线</li>
+<li>寄存器（Register）</li>
+<li>控制器（Control Unit）</li>
+</ul>
+</li>
+<li>存储器</li>
+<li>总线<ul>
+<li>地址总线（address bus）</li>
+<li>数据总线（data bus）</li>
+<li>控制总线（control bus）</li>
+</ul>
+</li>
+<li>IO接口</li>
+</ul>
+<p><strong>指令集架构</strong>：分为复杂指令集（CISC Complex Instruction Set Computer）和精简指令集（RISC Reduced ...）</p>
+<p><strong>存储器</strong>：<strong>数据和指令</strong>都存在内存或者硬盘上，都是<strong>二进制</strong>信息</p>
+<p><strong>总线</strong></p>
+<p>连接CPU和其他芯片</p>
+<ul>
+<li>地址总线：宽度决定可寻址的存储单元大小，N跟总线，可寻址\(2^N\)，8086有20跟地址总线（可寻址1M个存储单元，一般一个单元存一个字节，即最大可以寻址1MB）</li>
+<li>数据总线：宽度决定计算机的字长，64位机的64根，8086有16根（一次读写两个字节）</li>
+<li>控制总线</li>
+</ul>
+<p><strong>CPU对存储器的读写</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_2.png" width="300"></center>
+
+<p>读取内存3号位的“08”，记录在寄存器上（0-&gt;08）</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="现代操作系统速通">
+    <meta name="description" content="1 进程管理 - 现代操作系统速通">
+    <meta name="author" content="MingXiao">
+    <title>1 进程管理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 进程管理
+                    <ul>
+                            <li><a href="#0.1">1.1 多进程</a></li>
+                            <li><a href="#0.2">1.2 线程</a></li>
+                            <li><a href="#0.3">1.3 CPU调度</a></li>
+                            <li><a href="#0.4">1.4 进程同步</a></li>
+                            <li><a href="#0.5">1.5 死锁</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 进程管理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 多进程</h3>
+<p>正在运行的程序才是进程</p>
+<p>为了每一个进程能看上去在独立使用CPU，每个进程都需要一个PCB</p>
+<p><strong>PCB中记录</strong></p>
+<ul>
+<li>当前程序指针，栈指针</li>
+<li>寄存器状态</li>
+<li>所有的地址都是私有地址，本质是逻辑地址</li>
+<li>基地址，用于物理地址换算</li>
+</ul>
+<p><strong>进程状态图</strong></p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_1.png" width="500"></center>
+
+
+
+<p><strong>子进程</strong></p>
+<p>调用<code>fork()</code>函数，为父进程创建一个子进程，函数返回子进程的<code>pid</code></p>
+<p>子进程没有创建孙进程，其<code>pid_t</code>类变量为0</p>
+<p><strong>进程切换</strong></p>
+<p>内核在进程上下文切换时采取的行动</p>
+<ol>
+<li>保存PC和堆栈指针</li>
+<li>保存寄存器和其他机器状态（FLAGS）</li>
+<li>确定下一个要执行的进程</li>
+<li>检索下一个进程的PCB，利用PCB恢复这个进程的状态</li>
+</ol>
+<p><strong>硬件利用率</strong>：使用时间 /（使用时间+空闲时间）</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 线程</h3>
+<p>进程是资源分配的基本单位（PCB），线程是调度的基本单位</p>
+<p><strong>Amdahl定律</strong></p>
+<p>一个进程能被并行加速的上限<br>\[
+Q = \frac{1}{S+\frac{1-S}{N}}
+\]<br>其中\(S\)为必须串行的部分，\(1-S\)为可并行部分，\(N\)是并行资源数量</p>
+<p><strong>线程</strong></p>
+<p>CPU使用的基本单元，包括tid，PC，寄存器和堆栈</p>
+<p>同一进程的不同线程共享代码段、数据段和其他资源（基地址一致，用同一块PCB）</p>
+<p>进程由线程组成；线程的创建和切换开销小得多，因为不需要资源分配和上下文切换</p>
+<p><strong>并行与并发</strong></p>
+<p>并行：同时运行多个线程，必须要求多核</p>
+<p>并发：支持多个任务，单核可以实现，但是交换线程时需要切换</p>
+<p>可以有并发无并行：单核CPU交替执行多个线程</p>
+<p><strong>多线程模型</strong></p>
+<ul>
+<li>多对一：多个用户级线程到一个内核线程。用户的线程库完成调用，效率高；但一个线程执行阻塞时，整个进程都会阻塞；不能并行</li>
+<li>一对一：更好的并发度，可以并行；开销大，限制了线程数量</li>
+<li>多对多：任意多的用户线程，且增加了并发度</li>
+</ul>
+<p>多对一适用于计算密集型，多对多适用I/O密集型</p>
+<p>用户级线程的切换不需要内核支持，用户态调度就行</p>
+<p><strong>线程切换</strong></p>
+<p>TCB、栈和PC都要切换</p>
+<p><strong>MMU</strong>：memory manage unit</p>
+<p>多处理器独享MMU，对应对进程；多核共享一个MMU，对应多线程</p>
+<p>只有一套MMU时，只有多进程而没有多线程的情况下，不能提高并行度；需要多核心线程才能最大化利用CPU</p>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>1.3 CPU调度</h3>
+<p><strong>进程调度场景</strong></p>
+<ol>
+<li>运行——等待：等待I/O等</li>
+<li>运行——就绪：遇到中断</li>
+<li>等待——就绪：I/O完成</li>
+<li>终止</li>
+</ol>
+<p>14是非抢占式的主动调度，23是抢占式的调度</p>
+<p><strong>调度准则</strong></p>
+<ul>
+<li>CPU利用率：CPU尽可能忙碌</li>
+<li>吞吐量：一个时间单元内完成的进程数</li>
+<li>周转时间：进程提交到完成</li>
+<li>等待时间：在就绪队列中的等待时间</li>
+<li>响应时间：从提交到第一次响应</li>
+</ul>
+<p><strong>调度算法</strong></p>
+<ul>
+<li>先到先服务，FCFS</li>
+<li>最短作业优先，SJF，最短的周转时间<ul>
+<li>需要用指数加权平均预测下次CPU执行时间，\(\tau_{n+1} = \alpha t _n+(1-\alpha)\tau_n\)，其中\(t_n\)为第n时刻CPU的执行时间</li>
+<li>若是抢占式的，那就是最短剩余时间优先</li>
+</ul>
+</li>
+<li>优先级调度，Priority<ul>
+<li>优先级反转：高优先级等待低优先级，原因是高优先级所需的资源被更低优先级上锁，必须等到低优先级完成后更低优先级才能释放<ul>
+<li>解决方案：优先级继承：正在访问共享资源的京城获取需要这个资源的的更高优先级进程的优先级，完成后恢复</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>轮转，RR</li>
+<li>多级队列调度</li>
+<li>多级反馈队列调度</li>
+</ul>
+<p><strong>指标间的矛盾</strong></p>
+<ul>
+<li>CPU利用率和响应时间：快速切换可以降低响应时间，但是频繁的上下文切换会降低CPU利用率</li>
+<li>周转时间和等待时间：SJF的周转时间最短，但是这样会增大长任务的等待</li>
+<li>I/O利用率和CPU利用率：频繁切换上下文，CPU利用率低了，但是I/O高了</li>
+<li>前台任务和后台任务的关注点：响应和周转，I/O和CPU</li>
+<li>响应时间和吞吐量：频繁切换，前者小，但是后者差</li>
+</ul>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3>1.4 进程同步</h3>
+<p><strong>临界区</strong>：进程执行这个区可以修改公共变量，同时不允许其他进程在各自的临界区执行</p>
+<p>进入区：临界区之前</p>
+<p>其他是剩余区</p>
+<p><strong>临界区问题</strong></p>
+<p>需要满足下面的条件</p>
+<ul>
+<li>互斥：同时仅一个进程在临界区内</li>
+<li>进步：仅不在剩余区的进程可以进入临界区</li>
+<li>有限等待：一个进程从请求到进入临界区前，其余进程进入临界区此时有上限</li>
+</ul>
+<p><strong>Peterson算法</strong></p>
+<p>适用于两个进程交错执行临界区与剩余区</p>
+<p>对于单个进程来说，程序如下</p>
+<pre><code class="language-c++">do{
+	flag[i] = true;
+	turn = j;
+	while(flag[j] &amp;&amp; turn == j)
+		; // do nothing, pending
+	
+	/* critical section */
+	
+	flag[i] = false;
+	
+	/* remainder section */
+	
+}while(true)
+</code></pre>
+<p>仅在仅顺序执行命令的CPU上可用</p>
+<p><strong>硬件同步</strong></p>
+<p>三种方法：内存屏障，TsetAndSet()，CompareAndSwap()；后面两个都是原子化指令</p>
+<p><strong>内存屏障</strong></p>
+<p>确保多核处理器的内存访问顺序能排序和同步</p>
+<p>顺序保证：强：对共享内存修改会立刻广播至其他处理器；弱：无法保证，但存在Cache和MEM更新机制</p>
+<p><strong>硬件指令</strong></p>
+<p><code>TestAndSet()</code>如下</p>
+<pre><code class="language-c">boolean TestAndSet(boolean *target)
+{
+	boolean rv = *target;
+	*target = TRUE;
+	return rv;
+}
+</code></pre>
+<p>这三条指令是原子化的，也就是必须连续执行，不能中断；这可以用来设置锁</p>
+<pre><code class="language-c">do{
+	while(TestAndSet(&amp;lock))
+		;	// pending
+		
+	/* critical section */
+	
+	lock = FALSE;
+	
+	/* remainder section */
+}while(true)
+</code></pre>
+<p>可以用于大于两个进程的场景；<code>lock</code>初始化为<code>FALSE</code></p>
+<p><code>CompareAndSwap()</code>如下</p>
+<pre><code class="language-c">int CompareAndSwap(int *value, int expected, int new_value)
+{
+	int temp = *value;
+	if (*value == expected)
+		*value = new_value;
+	return temp;
+}
+</code></pre>
+<p>也是原子化的指令，也用在锁中</p>
+<pre><code class="language-c">while(true){
+	while(CompareAndSwap(&amp;lock, 0, 1) != 0)
+		; // pending
+	
+	/* critical section */
+	
+	lock = 0;
+	
+	/* remainder section */
+}
+</code></pre>
+<p><strong>互斥锁</strong></p>
+<p><code>acquire()</code>获取锁，<code>release()</code>释放锁</p>
+<pre><code class="language-c">bool avaliable = true;
+
+void acquire()
+{
+	while(!available)
+		; /* busy wait */
+	avaliable = false;
+}
+
+void release()
+{
+	avaliable = true;
+}
+</code></pre>
+<p>但是存在问题：当锁不可获取时，CPU一直在<code>acquire()</code>中，浪费周期</p>
+<p><strong>信号量</strong></p>
+<p>两个标准原子操作</p>
+<pre><code class="language-c">typedef struct{
+    int value;
+    struct process *list;
+}semaphore;
+
+void wait(semaphore *S)			// P(S)
+{
+	S-&gt;value--;
+    if (S-&gt;value &lt;= 0)
+    {
+        // add this process to S-&gt;list
+    	sleep();		// pending this process
+    }
+}
+
+void signal(semaphore *S)		// V(S)
+{
+	S-&gt;value++;
+    if (S-&gt;value &lt;= 0 &amp;&amp; S-&gt;list != NULL)
+        // remove a process P from S-&gt;list
+        wakeup(P);		// wake up the process
+}
+</code></pre>
+<p>信号量可以是负数，其绝对值表示正在等待它的进程数</p>
+<p>一个使用例子</p>
+<blockquote>
+<p>两个进程依次访问一个数组</p>
+</blockquote>
+<pre><code class="language-c">int arr[8] = {2, 5, 7, 4, 1, 3, 8, 10};
+int S1 = 1, S2 = 0;
+int arr1[8] = {0}, arr2[8] = {0};
+
+void P1()
+{
+    int index1 = 0;
+    for (index1; index1 &lt; 8; index1++)
+    {
+        P(S1);
+        if (arr[index1] % 2 == 0)
+            arr1.append(arr[index1]);
+        V(S2);
+    }
+}
+
+void P2()
+{
+    int index2 = 0;
+    for (index2; index2 &lt; 8; index2++)
+    {
+        P(S2);
+        if (arr[index2] % 2 == 1)
+            arr2.append(arr[index2]);
+        V(S1);
+    }
+}
+</code></pre>
+<a name="0.5" class="md-header-anchor" id="0.5"></a>
+<h3>1.5 死锁</h3>
+<p><strong>死锁</strong>：一系列被阻塞的进程持有部分资源，同时需要另一部分资源，这些资源被该系列中的进程所持有</p>
+<p><strong>死锁特征</strong></p>
+<ul>
+<li>互斥：至少一个资源是非共享的，一次只能有一个进程可使用</li>
+<li>占有并等待：占有一个资源，并等待另一个被占有的资源</li>
+<li>非抢占：资源不能抢占</li>
+<li>循环等待：在资源分配图中成环</li>
+</ul>
+<p><strong>资源分配图</strong></p>
+<p>成环并不要求在同一个资源点</p>
+<p>没有成环一定无死锁；成环不一定死锁，但资源仅一个实例那一定死锁</p>
+<p><strong>死锁处理</strong></p>
+<ul>
+<li>预防，确保至少一个条件不成立</li>
+<li>避免，得到申请后推算是否会发生死锁</li>
+<li>检测和恢复</li>
+</ul>
+<p>死锁预防：</p>
+<ul>
+<li>互斥：不可能不互斥</li>
+<li>占有并等待：每个进程在执行前申请并获取所有的资源；资源利用率低，会发生饥饿</li>
+<li>非抢占：将被阻塞的进程的资源隐式释放，可被抢占；但这些资源必须可恢复（PCB）</li>
+<li>循环等待：对资源排序，按需分配；用于资源不多的情况，因为不可能一直排序，开销太大</li>
+</ul>
+<p><strong>死锁避免</strong></p>
+<ul>
+<li>进程声明每种资源的最大数量</li>
+<li>动态检查资源分配状态，确保不会死锁</li>
+</ul>
+<p><strong>安全状态算法</strong></p>
+<p>按一定顺序分配资源，不发生死锁，那么存在安全序列</p>
+<p>安全一定不死锁；非安全不一定死锁；死锁一定非安全</p>
+<p>安全状态算法保证在安全状态内</p>
+<p><strong>银行家算法</strong></p>
+<ul>
+<li>每个资源类型有多个实例</li>
+<li>每个进程声明需要的最大数量</li>
+<li>每个进程必须在有限时间内释放资源</li>
+</ul>
+<p>在进程提出申请时，假设给出，调用安全状态算法，存在安全序列就真给，不存在就不给</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

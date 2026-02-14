@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="7 高级汇编语言技术 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>7 高级汇编语言技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 高级汇编语言技术
+                    <ul>
+                            <li><a href="#6.1">7.1 子程序的另一种写法</a></li>
+                            <li><a href="#6.2">7.2 程序的多文件组织</a></li>
+                            <li><a href="#6.3">7.3 汇编指令汇总</a></li>
+                            <li><a href="#6.4">7.4 汇编过程</a></li>
+                            <li><a href="#6.5">7.5 宏汇编</a></li>
+                            <li><a href="#6.6">7.6 条件汇编</a></li>
+                            <li><a href="#6.7">7.7 重复汇编</a></li>
+                            <li><a href="#6.8">7.8 反汇编</a></li>
+                            <li><a href="#6.9">7.9 混合编程</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 高级汇编语言技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 子程序的另一种写法</h3>
+<p>为了更方便地阅读和调用，子程序的另一种写法是</p>
+<pre><code class="language-assembly">func proc
+	;function realization
+func endp
+</code></pre>
+<p>其中<code>func</code>是子程序的标号，调用和返回的写法不变</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3><font color=blue>7.2 程序的多文件组织</font></h3>
+<p>一个程序可以由多个文件组成，一个文件由多个子程序组成</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_18.png" width="300"></center>
+
+<p>假定<code>p1.asm</code>是主程序所在的文件，<code>p2.asm</code>是被调用的子程序所在的文件，那么分别如下</p>
+<p><code>p1.asm</code></p>
+<pre><code class="language-assembly">extrn subp:far
+assume cs:code
+code segment
+start:
+	;xxxxx
+	call far ptr subp;	调用子程序
+	;xxxxx
+	mov ax, 4c00H
+	int 21H
+code ends
+end start
+</code></pre>
+<p><code>p2.asm</code></p>
+<pre><code class="language-assembly">public subp			;必须是public才能被调用
+assume cs:code		;子文件也要写这些
+code segment
+subp proc
+;xxxxxx
+retf				;注意是retf
+subp endp
+</code></pre>
+<p>在进行编译和连接时如下</p>
+<pre><code class="language-assembly">masm p1.asm;
+masm p2.asm;
+link p1.obj + p2.obj;
+</code></pre>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 汇编指令汇总</h3>
+<p>略，用到再查吧</p>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>7.4 汇编过程</h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_19.png" width="600"></center>
+
+
+
+<p><strong>汇编过程</strong></p>
+<p>有<strong>两次</strong>编译</p>
+<ol>
+<li>确定地址，翻译机器码，将字符标号原样写出</li>
+<li>标号代真，将字符标号用计算出的地址/偏移量代换</li>
+</ol>
+<a name="6.5" class="md-header-anchor" id="6.5"></a>
+<h3><font color=orange>7.5 宏汇编</font></h3>
+<p>程序开始之前的预处理，根据预处理命令对程序做出相应处理</p>
+<p>经过预处理后编译器才能对程序进行编译</p>
+<p>在C语言中，宏定义写法为</p>
+<pre><code class="language-c++">#define //xxx
+</code></pre>
+<p>在汇编语言中，宏是源程序中一段有独立功能的代码，由用户定义</p>
+<p>在编程时多次使用的功能可以打包为一条宏指令，定义和调用方法如下</p>
+<pre><code class="language-assembly">assume cs:code
+code segment
+
+mproc macro p1, p2, p3		;虚参
+mov ax, p1
+mov cx, p2
+mov dx, p3
+endm
+
+start:
+	mov ax, data
+	mov ds, ax
+	mproc [bx], bx, 100H	;实参
+	mov ax, 4c00H
+	int 21H
+code ends
+end start
+</code></pre>
+<p>其中<code>mproc</code>是宏的标号，<code>p1, p2, p3</code>是宏的虚拟参数表</p>
+<p>宏是<strong>先定义后调用</strong>，必须在开始前定义（不然start不好找）</p>
+<p>宏展开后如下</p>
+<pre><code class="language-assembly">mov ax, [bx]
+mov cx, bx
+mov dx, 100H
+</code></pre>
+<p>这在编译器编译时<strong>一定会展开，用实参代替虚参</strong>，而不像函数一样转移</p>
+<p><strong>子程序和宏的区别</strong></p>
+<p>子程序是模块化的，多次CALL也只是<strong>转移</strong>，因此可以先调用后定义，且不需要参数列表；但由于多次<code>push, pop</code>，时间开销大</p>
+<p>宏需要先定义，且需要指定参数列表，但是宏的参数传送简单，时间开销少；但是宏必须展开，空间开销大</p>
+<p>简单说：子程序用时间大换空间小，宏用空间大换时间小</p>
+<p>在子程序本身比较短，参数又很多的情况下，宏指令更有效</p>
+<p>当然，宏也可以没有参数</p>
+<pre><code class="language-assembly">pushreg macro
+	push ax
+	push bx
+	push cx
+	push dx
+	push bp
+	;.....
+endm
+
+popreg macro
+	;.....
+	pop bp
+	pop dx
+	pop cx
+	pop bx
+	pop ax
+endm
+</code></pre>
+<p>这可以在调用函数前后使用，这样子程序的时间开销也变小了，而且子程序更短</p>
+<pre><code class="language-assembly">pushreg
+call far ptr func
+popreg
+;......
+
+func:
+	;不用push
+	;....
+	;不用pop
+	retf
+</code></pre>
+<p><strong>宏中的局部标号</strong></p>
+<p>在定义宏的时候可以用一个局部标号，必须在宏头下的<strong>第一句话</strong></p>
+<pre><code class="language-assembly">func macro p1
+	local next			;局部标号next
+	cmp p1, 0
+	jge next
+	neg p1
+next:
+endm
+</code></pre>
+<p>如果这样的程序调用了宏</p>
+<pre><code class="language-assembly">func var
+;.....
+func bx
+</code></pre>
+<p>在展开后如下</p>
+<pre><code class="language-assembly">;第一个
+;...
+	cmp var, 0
+	jge xx0000
+	neg var
+xx0000:
+	endm
+	
+;第二个
+;...
+	cmp bx, 0
+	jge xx0001
+	neg bx
+xx0001:
+	endm
+</code></pre>
+<p>发现局部标号的地址不受宏之外的程序影响，按顺序排列</p>
+<p>不同标签共享一个排序</p>
+<p><strong>宏的虚参是操作码的一部分</strong></p>
+<p>宏的虚参也可以作为指令的一部分</p>
+<pre><code class="language-assembly">leap macro cond, lab
+	j&amp;cond lab
+endm
+</code></pre>
+<p>调用如下</p>
+<pre><code class="language-assembly">leap z, there
+leap nz, here
+</code></pre>
+<p>展开如下</p>
+<pre><code class="language-assembly">	jz there
+	jnz here
+</code></pre>
+<p>就是<code>jxxx</code>的<code>xxx</code>可以被参数代替</p>
+<p><strong>宏库</strong></p>
+<p>将用到的宏定义分类放到不同的宏库文件中，也是一个程序文件</p>
+<p>与<code>.asm</code>文件类似的，宏库的文件后缀是<code>.mac</code></p>
+<p>如<code>name.mac</code>，内容如下</p>
+<pre><code class="language-assembly">macro1 macro p1, p2
+	;xxxx
+	endm
+
+macro2 macro p3, p4
+	;xxxx
+	endm
+;xxxx
+</code></pre>
+<p>注意，<code>name</code>中不能含有数字</p>
+<p>在主程序文件中调用时</p>
+<pre><code class="language-assembly">include name.mac
+;xxxx
+macro1 bx, ax
+;xxxx
+</code></pre>
+<a name="6.6" class="md-header-anchor" id="6.6"></a>
+<h3><font color=green>7.6 条件汇编</font></h3>
+<p>根据条件把一段程序包括/排除在编译后的文件内，常常和宏一起使用</p>
+<p>下面是一个例子，用于求最大值</p>
+<pre><code class="language-assembly">max macro k, a, b, c
+	local next, out
+	mov ax, a
+	if k-1
+	if k-2 
+	cmp c, ax
+	jle next
+	mov ax, c
+	endif		;对应k-2
+next:
+	cmp b, ax
+	jle out
+	mov ax, b
+	endif		;对应k-1
+out:
+	endm
+</code></pre>
+<p>宏调用如下</p>
+<pre><code class="language-assembly">max 1, p
+max 2, p, q
+max 3, p, q, r
+</code></pre>
+<p>宏展开如下</p>
+<pre><code class="language-assembly">	mov ax, p	;k=1,k-1为假，将内部包括的都不执行
+??0001:			;结束宏，out的第一个局部标号
+
+	mov ax, p
+??0002:			;next的第一个局部标号，可以发现不同label是共享排序的
+	cmp q, ax
+	jle ??0003
+	mov ax, q
+??0003:			;out的第二个局部标号
+	
+	;最后一个宏展开是完整的宏，不赘述
+</code></pre>
+<p><code>ifndef p</code>（if not define）在虚参<code>p</code>未定义时满足，执行内部的语句</p>
+<a name="6.7" class="md-header-anchor" id="6.7"></a>
+<h3>7.7 重复汇编</h3>
+<p>用于连续产生类似的一组代码，如下面将字符A到Z的ASCII码填入了<code>table</code>数组</p>
+<pre><code class="language-assembly">char = &#39;A&#39;
+table label byte	;相当于定义了一个数组，数组名是table，数组类型是byte
+	
+	rept 26
+	db char
+	char = char + 1
+	endm
+</code></pre>
+<p>使用</p>
+<pre><code class="language-assembly">rept 表达式		;重复的次数
+;重复的操作
+endm
+</code></pre>
+<p><strong>不定重复伪操作<code>IRP</code></strong></p>
+<p>格式如下</p>
+<pre><code class="language-assembly">IRP	哑元，&lt;自变量表&gt;
+	;重复的内容
+endm
+</code></pre>
+<p>下面是一个例子，用于入栈</p>
+<pre><code class="language-assembly">IRP reg, &lt;ax, bx, cx, dx&gt;
+	push reg
+endm
+</code></pre>
+<p>对于字符串类型的变量表，有专用的表示</p>
+<pre><code class="language-assembly">array label byte
+IRPC k, 12345
+db &#39;NO.&amp;k&#39;
+endm
+</code></pre>
+<p>编译后<code>array</code>中存了<code>db &#39;NO.1&#39;</code>到<code>db &#39;NO.5&#39;</code></p>
+<a name="6.8" class="md-header-anchor" id="6.8"></a>
+<h3>7.8 反汇编</h3>
+<p>逆向工程，将机器语言转换为汇编语言（低级转高级）</p>
+<p>debug就是一个反汇编工具</p>
+<a name="6.9" class="md-header-anchor" id="6.9"></a>
+<h3>7.9 混合编程</h3>
+<p>使用两种或以上的语言变成，利用每种语言的优势</p>
+<p>在使用客场语言时，用对于的后缀包裹起来，例如在C++中使用汇编</p>
+<pre><code class="language-assembly">_asm
+{
+	;xxx
+}
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

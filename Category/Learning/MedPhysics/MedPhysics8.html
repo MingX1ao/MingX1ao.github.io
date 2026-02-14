@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="9 生物医学光学成像 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>9 生物医学光学成像</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>9 生物医学光学成像
+                    <ul>
+                            <li><a href="#8.1">9.1 普通显微成像</a></li>
+                            <li><a href="#8.2">9.2 激光显微成像</a></li>
+                            <li><a href="#8.3">9.3 非线性光学显微成像</a></li>
+                            <li><a href="#8.4">9.4 层析成像</a></li>
+                            <li><a href="#8.5">9.5 远场超分辨显微成像</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">9 生物医学光学成像</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点：</p>
+<p><font color=red>荧光显微成像</font><br><font color=red>激光共聚焦扫描显微成像</font><br><font color=red>多光子荧光扫描显微成像</font><br><font color=red>二/三次谐波扫描显微成像</font><br><font color=red>光学相干层析成像OCT</font><br><font color=red>STORM/PALM, STED, SIM</font><br><font color=red>各种能级图</font></p>
+<p><strong>成像原理</strong><br>利用<strong>生物体</strong>某些<strong>光学特性</strong>的<strong>时空变化</strong>来获取光学图像</p>
+<p><strong>优点</strong></p>
+<ol>
+<li>不会产生辐射伤害</li>
+<li>应用尺度广</li>
+<li>利用透射散射反射，实现多维成像</li>
+<li>监控化学和动力学变化</li>
+<li>选择性好、精密度高、灵敏度大</li>
+</ol>
+<a name="8.1" class="md-header-anchor" id="8.1"></a>
+<h3>9.1 普通显微成像</h3>
+<p><strong>单透镜成像</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_80.png" width="300"></p>
+<p>\(\frac{1}{u}+\frac{1}{v}=\frac{1}{f}\)，放大倍数=\(\frac{v}{u}\)</p>
+<p><strong>科勒照明（4f）</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_81.png" width="400"></p>
+<p>通过焦点的设置，使不均匀光源能够均匀照射样本<br><img src="/Category/Learning/Pictures/MedicalPhysica_82.png" width="400"></p>
+<p>在收集透镜后放场光阑，达到调整视场的目的（调整样本被照亮的区域）<br><img src="/Category/Learning/Pictures/MedicalPhysica_83.png" width="400"></p>
+<p>在场透镜后放孔径光阑，达到调整入角度的目的</p>
+<p><strong>分辨率</strong><br>见6.3<br>提高分辨率最佳的形式是提高物镜的n，用油或者水</p>
+<p><strong>暗场显微成像</strong><br>即成像的背景是暗的，适用于高透明度样本<br><img src="/Category/Learning/Pictures/MedicalPhysica_84.png" width="200"></p>
+<p>暗场显微镜使用挡光板，产生<strong>中空的锥形光</strong>，背景是暗的，成像时物镜仅仅收集到来自样品对照明光的<strong>散射信号</strong><br>限制：图像亮度低</p>
+<p><strong>相衬显微成像</strong><br>利用光透射产生的光程差成像，主要用于透明样本等光强变化小的情况</p>
+<p><strong>微分干涉显微成像</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_85.png" width="200"></p>
+<p>成像步骤</p>
+<ol>
+<li>先得到线偏振光，利用棱镜分出s光和p光</li>
+<li>透射样品</li>
+<li>将s光和p光叠加干涉，得到图像</li>
+</ol>
+<p>比相衬成像的图像<strong>质量高伪影少</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_86.png" width="300"></p>
+<p>最终是利用光程差的微分成像，图像有浮雕感</p>
+<p><font color=red><strong>落射荧光显微成像</strong></font><br>利用<strong>短波激发光</strong>激发<strong>长波荧光</strong>成像<br><img src="/Category/Learning/Pictures/MedicalPhysica_87.png" width="400"></p>
+<p>使用同一个物镜，滤光盒是一个长波通滤波器（低通），从右到左是：激发滤光片，二向色镜，发射滤光片<br>观察前需要用探针修饰</p>
+<p><strong>缺点</strong><br>不能分层，荧光多层堆叠，平面的分辨率低，深度分辨率低；光漂白强（荧光消失快）</p>
+<a name="8.2" class="md-header-anchor" id="8.2"></a>
+<h3>9.2 激光显微成像</h3>
+<p><strong>全内反射荧光显微成像</strong><br>利用全反射时产生的<strong>倏逝波</strong>对样品进行激发<br>倏逝波穿透力弱，约100~200nm，因此只有界面处约100nm的荧光信号被激发<br>是研究细胞膜表面问题的手段<br>光漂白降低，分辨率提高<br><img src="/Category/Learning/Pictures/MedicalPhysica_88.png" width="300"></p>
+<p><strong>光片照明显微镜</strong><br>激发光通过柱面镜产生<strong>光片</strong>，物镜位于光片的侧面，样品旋转，产生荧光，得到切片图像，进行重构<br><img src="/Category/Learning/Pictures/MedicalPhysica_89.png" width="400"></p>
+<p>优点<br>光漂白降低，分辨率提高，成像速度快，允许多色成像</p>
+<p>缺点<br>样品制备复杂，受限于物镜的大小，样品很小，无法进行活体成像</p>
+<p><font color=red><strong>激光共聚焦扫描显微成像</strong></font><br><img src="/Category/Learning/Pictures/MedicalPhysica_90.png" width="150"></p>
+<p>每次扫描一个点的信息；点光源、物点、针孔成共轭关系<br>焦点以外的信息被小孔挡住，减小焦点信息的干扰，<strong>空间分辨率高</strong><br>探测器是光电倍增管（PMT），获取光强信息，没有分布信息<br>通过移动物镜来改变成像点</p>
+<table>
+<thead>
+<tr>
+<th align="center">针孔尺寸</th>
+<th align="center">增大</th>
+<th align="center">变小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">图像分辨率</td>
+<td align="center">低</td>
+<td align="center">高</td>
+</tr>
+<tr>
+<td align="center">纵向光学切片</td>
+<td align="center">厚</td>
+<td align="center">薄</td>
+</tr>
+<tr>
+<td align="center">图像亮度</td>
+<td align="center">亮</td>
+<td align="center">暗</td>
+</tr>
+</tbody></table>
+<p>缺点</p>
+<ol>
+<li>扫描深度不足（&lt;80um）</li>
+<li>光漂白严重，几乎整个Z轴都受光</li>
+<li>不能产生紫外荧光（激发光的波长更短，对生物有害）</li>
+<li>空间分辨率收到衍射极限限制</li>
+</ol>
+<p><strong>FRET</strong><br>Fluorescence Resonance Energy Transfer<br>当两种荧光满足下图时，会发生荧光能量转移<br><img src="/Category/Learning/Pictures/MedicalPhysica_91.png" width="300"></p>
+<p>转移的荧光强度满足:\(I_A=I_D\cdot \frac{1}{R^6}\)<br>故只有当两种探针相距很近时才能探测<br>可以判断结合是否成功</p>
+<p><strong>FLIM</strong><br>Fluorescence Lifetime Imaging Microscopy<br>荧光寿命在不同环境中不同，利用荧光寿命的变化感知环境的变化<br>例如，肿瘤在酸性微环境中，而在酸性环境中荧光寿命很短<br>与<strong>FRET</strong>互补</p>
+<a name="8.3" class="md-header-anchor" id="8.3"></a>
+<h3>9.3 非线性光学显微成像</h3>
+<p><font color=red><strong>多光子激发荧光显微成像</strong></font><br><img src="/Category/Learning/Pictures/MedicalPhysica_92.png" width="400"></p>
+<p>注意，多光子过程存在光子的吸收和释放，存在能量损耗<br>多光子与单光子的区别<strong>仅在吸收能量的过程</strong>，<strong>发出荧光的过程是一致的</strong></p>
+<p>三光子激发产生的荧光信号比双光子<strong>弱得多</strong><br>吸收多光子的几率是吸收单光子几率的亿分之一<br>故需要能够在瞬间将光子集中发生的设备（高峰值功率，短脉冲+高NA物镜）</p>
+<p>n光子激发，则激发光的强度与荧光的强度关系为\(I_{out}\propto I_{in}^n\)</p>
+<p><strong>飞秒激光器</strong><br>\(1秒=10^{15}飞秒\)<br>可激发纯紫外染料</p>
+<p><strong>双光子扫描显微镜</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_93.png" width="300"></p>
+<p>左边是共聚焦，右边是双光子，不需要针孔<br>由于多光子激发的概率极低，只有焦点除得到激发，故不需要针孔去阻挡除</p>
+<p><strong>显著特点</strong></p>
+<ol>
+<li>扫描深度深（300~800um）</li>
+<li>高光子密度只在焦点处，其他可以忽略<br>故焦点外光损伤小，激光刺激和漂白也只在焦点位置</li>
+<li>可以激发纯紫外染料，生物损伤小<br>满足\(\lambda_{单光子}<\lambda_{双光子}<2\lambda_{单光子}\)时能够激发荧光</li>
+<li>和荧光的波长差距大，易于分离激发光和荧光</li>
+</ol>
+<p><font color=red><strong>二/三次谐波扫描显微成像</strong></font><br><img src="/Category/Learning/Pictures/MedicalPhysica_94.png" width="300"></p>
+<p>注意这个图中的能级不是实线，是虚能级</p>
+<p><strong>与多光子的区别</strong></p>
+<ol>
+<li>不涉及能级变化，即没有光子的吸收和释放，没有热损失</li>
+<li><strong>二次谐波生成只发生在非中心对称介质的界面</strong></li>
+<li>二次谐波信号的波长是泵浦激光波长的一半（多光子没有数值关系，必须实验测定）</li>
+<li>可以用于非荧光、无标记的样品</li>
+</ol>
+<p>相同点：非线性激发，无需针孔</p>
+<p><strong>二次和三次的区别</strong></p>
+<ol>
+<li>二阶非线性效应和三阶非线性效应</li>
+<li>二次谐波生成只能发生在非中心对称介质，三次任意<br>二次三次的对比可以找出病变组织</li>
+<li>波长分别是泵浦源的二/三分之一</li>
+</ol>
+<p>相同点：没有光子吸收，不用针孔，<strong>前向探测居多</strong>，可以用于非荧光、无标记样品</p>
+<p><strong>受激拉曼SRS/相干反斯托克斯成像CARS</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_95.png" width="400"></p>
+<p>自发拉曼：提供p，发射s，概率低，强度弱<br>受激拉曼：提供p和s，发射s，概率高，强度大</p>
+<p><strong>CARS</strong><br>无需荧光标记；信号波长短，无荧光干扰；信号强，成像快</p>
+<p><strong>SRS</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_96.png" width="300"></p>
+<p>发射p和s，其中p是泵浦，s产生受激辐射<br>通过信号中的\(\Delta I_s和\Delta I_p\)来获取样品信息<br>注意到s不是连续的，pOutput和sInput是有关的</p>
+<p>比CARS的优势：与样品浓度成线性关系；提供无背景且易于解释的化学对比</p>
+<a name="8.4" class="md-header-anchor" id="8.4"></a>
+<h3>9.4 层析成像</h3>
+<p><strong>B超</strong><br>利用声波再不同组织界面发生反射折射等，获取不同层面的信息</p>
+<p><strong>用光信号代替声波？</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_97.png" width="400"></p>
+<p><strong>困难</strong><br>时域上无法区分，脉冲相隔时间短（3.3fs）<br>有效光信号弱，弹道光太少了（红色是弹道光，打错字了）</p>
+<p><font color=red><strong>光学相干层析成像（OCT）</strong></font><br>是对眼睛成像的唯一手段</p>
+<p><strong>弱相干成像原理</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_98.png" width="400"></p>
+<p>左边的是相干性好，相干长度长的光的干涉图像，右边是相反的图像<br>相干性弱的光干涉后的相干长度短，且干涉信号集中在零光程差处<br>反应了深度（z轴）的信息，避免蛇形光和扩散光干扰<br><img src="/Category/Learning/Pictures/MedicalPhysica_99.png" width="400"></p>
+<p>其中\(l_c\)是相干长度（包络长度），只有当\(2\Delta z<l_c\)时才能发生干涉<br>换言之，当\(2\Delta z>l_c\)时，光束不在同一个包络面内，将不同层面的光分开（时域），分辨率很高</p>
+<p>\(l_c=\frac{4\ln{2}}{\pi}\cdot\frac{\lambda_0^2}{\Delta\lambda}\)，其中\(\Delta\lambda\)是光强下降到\(e^{-1}\)时的波长，\(\lambda_0\)是中心波长<br>带宽更宽的光谱，\(l_c\)更小，分辨率更高</p>
+<p><strong>包络的强度反映光强分布（即一层图像），包络的传递时间反映成像深度</strong></p>
+<p><strong>OCT的分辨率</strong><br>横向和纵向分辨率是<strong>独立</strong>的<br>纵向分辨率\(\delta z=\frac{l_c}{2}\)，横向分辨率由物镜焦距和光斑尺寸决定，\(\Delta x=\frac{4\lambda}{\pi}\cdot\frac{f}{d}\)<br>故即使没有严格的聚焦，OCT依然有精确的纵向分辨率</p>
+<p>OCT的成像过程任然是依靠干涉光强信息，上面是提高分辨率的方法</p>
+<p><strong>OCT光源</strong></p>
+<ol>
+<li>生物组织吸收少</li>
+<li>生物组织散射小</li>
+<li>横向纵向分辨率高</li>
+<li>功率高</li>
+<li>价格低。。。</li>
+</ol>
+<p><strong>频域OCT</strong><br>时域OCT依靠改变\(\Delta z\)来改变干涉光强，频域OCT依靠改变\(k\)来改变干涉光强<br>\(I\sim 2E_rE_s\cos{(2k\Delta z)}\)，是一个正弦波<br><img src="/Category/Learning/Pictures/MedicalPhysica_100.png" width="500"></p>
+<p>可见改变\(\Delta L\)对光谱的影响，对其做傅里叶变换得到频域上的冲击波形<br>\(\Delta L\)影响\(\omega\)，在频域上分开了z轴</p>
+<p>由于傅里叶变换的线性性，可以同时对不同层面成像，得到的是离散的冲击波形，成像很快<br><img src="/Category/Learning/Pictures/MedicalPhysica_101.png" width="500"></p>
+<p><strong>几种不同的OCT</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_102.png" width="600"></p>
+<p><strong>OCT特点</strong></p>
+<ol>
+<li>空间分辨率：高，横向纵向独立</li>
+<li>成像深度：比显微系统深很多</li>
+<li>成像时间：短，可以动态化成像</li>
+<li>临床适用性：损伤小，于内窥镜和导管结合</li>
+<li>对冠状动脉，眼睛，神经等成像，避免切除性活检的伤害</li>
+</ol>
+<p><strong>光学成像和超声成像的对比</strong></p>
+<ol>
+<li>对比度：光学高</li>
+<li>深度和分辨率：成像深度大时，光学质量低（z轴分辨率低）</li>
+</ol>
+<p>光学成像的分斌率随深度增加而变差</p>
+<p><strong>光声层析成像（PAT）</strong><br>用激光打击组织，组织产热，发生振动，产生声波（在体式流式细胞仪）<br>特点是<strong>光学对比度高，声学分辨率、深度高</strong><br>避免了光散射的影响，间距光学和超声成像的优点<br>缺点：<strong>无法做层析，对图像的判断、分析需要很大的经验</strong>，<strong>发光信号弱时成像速度慢</strong><br>在成像时必须选择<strong>目标组织会特异性吸收的波长的光</strong>，否则信噪比很高</p>
+<p><strong>光声效应</strong><br>短脉冲激光经过<strong>扩束</strong>，照射生物样本，组织快速吸收能量发热，周围组织热胀冷缩产生<strong>热弹效应</strong>，产生压力波（超声波）</p>
+<p><strong>活体成像的衰减曲线</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_103.png" width="400"></p>
+<p>绿色的是衰减曲线，一般PAT使用1700nm左右的波长的光</p>
+<a name="8.5" class="md-header-anchor" id="8.5"></a>
+<h3><font color=red>9.5 远场超分辨显微成像</font></h3>
+<p>光学成像的限制始终是衍射极限<br>将点光源经过光学系统成像的光强分布用<strong>点扩散函数</strong>表示，实际上就是光学系统的单位冲激响应PSF(x,y)<br>和激励卷积得到任意响应</p>
+<p><strong>受激辐射耗尽显微成像(STED)</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_104.png" width="400"></p>
+<p>绿光是激励，红光是擦除光（空心的圆）<br>绿光将荧光物质泵浦到高能级，红光会使高能级物质受激辐射<br>在红光的空心区域，高能级荧光物质不会受激辐射，而是正常跃迁发出荧光<br>由于荧光的波长（很宽，是带）和受激辐射的波长（单一）不同，使用滤波器将红光过滤就得到了很细的荧光<br>绿光是铅笔，红光是橡皮擦</p>
+<p>但是这依然无法避免衍射<br>使用PMT作为Detector，不记录分布，只记录一个点的光强</p>
+<p>擦除的过程具体而言<br>是擦除光的光强很大，使受激辐射强于自发辐射（荧光）<br>在激励和擦除光的交集处，受激辐射占主导</p>
+<p>擦除光的形状由<strong>涡旋相位滤片</strong>得到</p>
+<p>最大分辨率\(\Delta x=\frac{\lambda}{2n\sin{\alpha}\sqrt{1+I_{max}/I_{sat}}}\)<br>其中Imax是擦除光的光强极大值，Isat是荧光分子饱和激发光强<br>提高Imax可以提高分辨率</p>
+<p>STED光（擦除光）可以是高峰值功率的脉冲光，也可以是高功率的连续光<br>前者的平均功率低，对样品的热损伤小；后者更简单，便宜</p>
+<p><strong>光激活定位显微技术(PALM)</strong><br>既然衍射极限是两个光点的像重合，那么一开始就只成一个像就好了</p>
+<p>成像过程是：<br>在分辨率极限范围内让两个荧光分子分别单独发光<br>对单个光斑做高斯拟合，取中心点作为荧光分子的实际位置<br>当前一个荧光分子完全漂白后照亮下一个<br>各个荧光分子拼接到一张图上</p>
+<p>缺点：<br>荧光分子激活、漂白时间长，成像速度慢<br>荧光分子漂白后无法再激活，一次性<br>无法持续成像</p>
+<p><strong>随机光学重构显微技术(STORM)</strong><br>使用光开关控制荧光分子是否发出荧光<br>类似于PLAM</p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_105.png" width="600">
+
+<p>下面的绿光，红光仅代表对应的蛋白的光，而非光的波长<br>其中绿色的是光开关<br>当受到绿光照射时开关<strong>持续</strong>打开，此时照射微弱的红光可以使荧光蛋白发出荧光<br>若照射很强的红光则会使已经打开的开关关闭</p>
+<p>红色的蛋白可以替换，可以将多种不同的开关一起用，成彩像<br><img src="/Category/Learning/Pictures/MedicalPhysica_106.png" width="600"></p>
+<p>逻辑是：<br>绿光，强制持续打开；强红，关闭信号<br>弱红，若开关打开则发光</p>
+<p>优点：<br>荧光开关速度快，比PLAM快<br>每个荧光分子可以反复开关，可以多次成像<br>短时间多次尝试测量，受荧光分子随机运动的影响小</p>
+<p>缺点：<br>成像依然不够快，不能做活体实时成像</p>
+<p><strong>结构照明显微技术(SIM)</strong><br>利用摩尔效应<br>若样品的空间频率为k，结构光的空间频率为k0<br>在其照射下会产生\(k_{min}=k-k_0到k_{max}=k+k_0\)的摩尔纹</p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_107.png" width="600">
+
+<p>c中粗线为光学系统的分辨率极限，使用一个k0的结构光相当于将这个圆进行平移<br>最后得到的包络是SIM的分辨率极限<br>由于k0，km是知道的，可以通过\(\vec{k}=\vec{k_m}+\vec{k_0}\)得到原始图像信息</p>
+<p>相当于结构光将成像系统的分辨率极限由km扩展到km+k0</p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_108.png" width="300">
+
+<p>a图中上面用于产生结构光，用CCD记录<br>对记录的到原始信息进行FFT，对频域信号进行配准和融合（减去k0），得到的频谱做iFFT，得到时域信号<br>成像时间<strong>很短</strong></p>
+<p><strong>总结</strong></p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_109.png" width="400">
+
+<p>STED最终的绿光周围还有一圈红光，不过会被滤波器过滤<br>STORM是activation，PALM是localization</p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_110.png" width="600">
+
+<ul>
+<li>PLAM/STORM图像采集慢</li>
+<li>STED光路复杂，贵，对稳定性要求高</li>
+<li>SIM分辨率提高有限</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="17 多普勒彩超原理和应用 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>17 多普勒彩超原理和应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>17 多普勒彩超原理和应用
+                    <ul>
+                            <li><a href="#16.1">17.1 原理</a></li>
+                            <li><a href="#16.2">17.2 超声多普勒成像系统</a></li>
+                            <li><a href="#16.3">17.3 图谱解读</a></li>
+                            <li><a href="#16.4">17.4 多普勒血液测量信号处理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">17 多普勒彩超原理和应用</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="16.1" class="md-header-anchor" id="16.1"></a>
+<h3>17.1 原理</h3>
+<p>\[
+f  = \frac{v+v_r}{v-v_s}f_0
+\]</p>
+<p>当相互靠近时</p>
+<p>具体的测量公式推导见医学物理导论11.1节，下面直接给出<br>\[
+\Delta f = -\frac{v}{c}(\cos\phi_i + \cos\phi_r)f_0
+\]<br>其中\(v,c\)分别是血液流速和声速；不能垂直测，一般测量中\(\phi_i = \phi_r\)</p>
+<a name="16.2" class="md-header-anchor" id="16.2"></a>
+<h3>17.2 超声多普勒成像系统</h3>
+<p><strong>连续超声多普勒成像仪</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_59.png" width="600"></center>
+
+<p>缺点：所有运动目标产生的信号混合在一起，没有辨识深度的信息</p>
+<p>改进：收发分离；声束交叉域法</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_60.png" width="300"></center>
+
+
+
+<p><strong>脉冲式</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_61.png" width="500"></center>
+
+<p>多了一个距离选通门</p>
+<a name="16.3" class="md-header-anchor" id="16.3"></a>
+<h3>17.3 图谱解读</h3>
+<p><strong>血流运动状态的彩色显示方法</strong></p>
+<p>一般而言都是红色正向（靠近），蓝色背向（远离），这和物理上的红移蓝移相反</p>
+<p>颜色越亮，速度越快</p>
+<p><font color=red>湍流用绿色，表示流速方差的大小</font></p>
+<p>扇形探头会有这个问题</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_62.png" width="200"></center>
+
+
+
+<p>将在视野内的血液称为取样容积，回波信号越大，这个信号区间显示出来更亮，说明更多血细胞流速在这个区间内</p>
+<p>为了准确显示频移大小和方向，PRF必须大于多普勒频移的两倍，由采样定理可知</p>
+<a name="16.4" class="md-header-anchor" id="16.4"></a>
+<h3><font color=red>17.4 多普勒血液测量信号处理</font></h3>
+<p><strong>回波频率成分</strong></p>
+<p>是一个频带，需要进行调制解调</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_65.png" width="500"></center>
+
+<p>在频谱搬移后，先低通得到多普勒频移，再用壁滤波器消除低频杂波，是一个高通滤波器</p>
+<p>信号处理流程如下</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_66.png" width="500"></center>
+
+<p>变化的频率是远小于超声频率的，分离信号后用低通过滤出来，然后用时域自相关法进行频率估计</p>
+<p>时域自相关法：估算某一信号在不同时刻的相位差，由此获得信号的平均频率，进而推算出多普勒频移的频率</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

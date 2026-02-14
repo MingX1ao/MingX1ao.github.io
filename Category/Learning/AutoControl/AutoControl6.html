@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="7 控制系统的状态空间设计 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>7 控制系统的状态空间设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 控制系统的状态空间设计
+                    <ul>
+                            <li><a href="#6.1">7.1 控制器的极点配置</a></li>
+                            <li><a href="#6.2">7.2 状态观测器</a></li>
+                            <li><a href="#6.3">7.3 控制器-观测器系统</a></li>
+                            <li><a href="#6.4">7.4 最小阶观测器</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 控制系统的状态空间设计</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 控制器的极点配置</h3>
+<p>相比于根轨迹法只能确定主导极点，极点配置可以把<strong>所有的闭环极点</strong>配置到想要的位置</p>
+<p><strong>几个假设</strong></p>
+<ul>
+<li>系统完全可观测</li>
+<li>如果系统状态完全可控，那么通过状态反馈增益矩阵就行</li>
+<li>系统是单输入单输出</li>
+<li>参考输入为0</li>
+</ul>
+<h4>7.1.1 状态反馈法</h4>
+<p>此方法要求系统完全可控</p>
+<p>选取控制信号为<br>\[
+u = -K_{1\times n}X_{n\times 1}
+\]<br>即控制信号由瞬时状态决定，系统如下</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_70.png" width="400"></center>
+
+<p>这个闭环系统没有输入量，参考输出也为0，最终的目的就是输出量为0</p>
+<p>如果调节参考输入为<strong>常数</strong>，则这样的系统是<strong>调节器系统</strong></p>
+<p>如果会<strong>时变</strong>，则是<strong>控制系统</strong></p>
+<p>将控制信号带入状态空间方程，得到<br>\[
+\dot{X}(t) = (A-BK)X(t)
+\]<br>那么得到<br>\[
+X(t) = e^{(A-BK)t}X(0)
+\]</p>
+<ul>
+<li>矩阵\(A-BK\)的特征值为调节器的<strong>极点</strong></li>
+<li>如果这些极点都在\(s\)平面的左半边，则当\(t\rightarrow\infty\)时，系统状态\(x_i=0\)</li>
+<li>将调节器极点（也就是闭环极点）配置到所期望的位置，就是极点配置问题</li>
+</ul>
+<h4>7.1.2 任意配置极点</h4>
+<p>能够任意配置极点的充要条件是：<strong>系统状态完全可控</strong></p>
+<p>证明略，有两种方法配置\(K\)</p>
+<p><strong>变换矩阵T</strong>：一般用不到</p>
+<ol>
+<li><p>检验系统的可控性，若不可控，那没得谈</p>
+</li>
+<li><p>根据\(|sI-A|=s^n+a_1s^{n-1}+\ldots+a_{n-1}s+a_n\)确定原始系统的闭环极点和\(a_i\)的值</p>
+</li>
+<li><p>求解变换矩阵\(T=M_{n\times n}W_{n\times n}\)，其中<br>\[
+   M = [B, AB, \ldots,A^{n-1}B]_{n\times n}\\
+   W = 
+   \left[\begin{matrix}
+   a_{n-1},a_{n-2},\ldots,a_1,1\\
+   a_{n-2},a_{n-3},\ldots,1,0\\
+   \ldots\\
+   a_1,\,\,\,1,\,\,\,\,\ldots\,\,\,\,\,\,,0\,\,\,\,\,,0\\
+   1,\,\,\,\,0,\,\,\,\,\ldots\,\,\,,0\,\,\,\,0
+   \end{matrix}\right]
+   \]</p>
+</li>
+<li><p>利用期望的极点配置\(\Pi(s-p_i)=s^n+b_1s^{n-1}+\ldots+b_{n-1}s+b_n\)得到\(b_i\)的值</p>
+</li>
+<li><p>确定增益矩阵<br>\[
+   K = \left[ b_n-a_n,b_{n-1}-a_{n-1},\ldots,b_2-a_2,b_1-a_1\right]_{1\times n}T^{-1}_{n\times n}
+   \]</p>
+</li>
+</ol>
+<p>值得一提，当原系统是可控标准型时，\(T=I_{n}\)</p>
+<p><strong>直接带入</strong></p>
+<p>对于低阶的系统有效</p>
+<ol>
+<li><p>检验系统的可控性</p>
+</li>
+<li><p>假设增益矩阵是\(K=[k_1, k_2,k_3]_{1\times 3}\)</p>
+</li>
+<li><p>更改后的系统的闭环传递函数的特征方程应该是<br>\[
+   |sI-A+BK|=0
+   \]<br>其中\(BK_{n\times n}\)</p>
+</li>
+<li><p>利用<br>\[
+   |sI-A+BK| =\Pi(s-p_i)=s^n+b_1s^{n-1}+\ldots+b_{n-1}s+b_n
+   \]<br>来直接确定\(k_i\)的值</p>
+</li>
+</ol>
+<p>\(k_i\)越大，代表响应速度越大，所需要的能量也越大；实际系统中需要折衷考虑</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 状态观测器</h3>
+<p>思路和卡尔曼滤波一样</p>
+<p>实际情况中不是所有的状态变量都可以用来反馈，需要用状态观测器估计（观测）不可用的状态变量</p>
+<p>如果一个观测器能观测所有的状态变量，则称其为全阶状态观测器，对应于降阶和最小阶</p>
+<p>能够设计状态观测器的充要条件是：<strong>系统满足可观测条件</strong></p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_71.png" width="400"></center>
+
+<p>红框中的就是一个全阶状态观测器，基本思路如下</p>
+<ol>
+<li><p>使用状态变量的观测/估计值\(\tilde{X}\)代替\(X\)进行计算，得到的状态空间为<br>\[
+   \dot{\tilde{X}} = A\tilde{X}+Bu+K_e(y-\tilde{y})\\
+   \tilde{y} = C\tilde{X}
+   \]<br>其中\(K_{e\,\,{n\times 1}}\)是观测器的配置增益</p>
+</li>
+<li><p>结合系统的状态方程，得到<br>\[
+   \dot{X}-\dot{\tilde{X}} = (A-K_eC)(X-\tilde{X})
+   \]</p>
+</li>
+<li><p>令\(E=X-\tilde{X}\)，那么<br>\[
+   \dot{E} = (A-K_eC)E
+   \]</p>
+</li>
+<li><p>\(E\)的解就是上面极点配置的问题，如果系统完全可观测，那么\(A-K_eC\)将具有任意的特征值，也就是极点</p>
+<p>对这句话的解释：将\((A-K_eC)\)取转置，秩不变，得到\((A^T-C^TK_e^T)\)，根据可观和可控的对偶性，这就是对偶系统的可控，那么就是本系统的可观</p>
+</li>
+<li><p>由于\(E\)是观测量和实际值的误差，当然希望\(E=0_{n\times 1}\)，\(k_{ei}\)越大越好</p>
+<p>但是一般而言，实际系统存在噪声，故这是一个抗干扰和快速响应的trade-off</p>
+</li>
+</ol>
+<p>配置方法同7.1.2，不赘述；是根据观测器的期望闭环极点配置的</p>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 控制器-观测器系统</h3>
+<h4>7.3.1 控制和观测的独立性</h4>
+<p>一个完全可控和完全可观的系统，使用基于观测的状态变量进行极点配置，即<br>\[
+u=-K_{1\times n}\tilde{X}
+\]<br>那么<br>\[
+\dot{X} = AX-BK\tilde{X} = (A-BK)X+BK(X-\tilde{X})=(A-BK)X+BKE\\
+\dot{E} = (A-K_eC)E
+\]<br>那么状态空间为<br>\[
+\left[\begin{matrix}
+\dot{X}\\
+\dot{E}
+\end{matrix}\right]
+
+=
+\left[\begin{matrix}
+A-BK,\,\, BK\\
+0,\,\,\,\,\,A-K_eC
+\end{matrix}\right]
+\left[\begin{matrix}
+X\\
+E
+\end{matrix}\right]
+\]<br>那么特征方程为<br>\[
+\left|\begin{matrix}
+sI-A+BK,\,\,\, -BK\\
+0\,\,\,,\,\,\, sI-A+K_eC
+\end{matrix}\right| = 0\Rightarrow|sI-A+BK|\cdot|sI-A+K_eC|=0
+\]<br>根据行列式的性质，二者各自为0</p>
+<p>也就是控制器和观测器是独立的，互不影响</p>
+<h4>7.3.2 控制器-观测器的传递函数</h4>
+<p>系统完全可测量，但是不能直接测量，即<br>\[
+\dot{X} = AX+Bu\\
+y=CX\\
+u=- K\tilde{X}
+\]<br>观测器方程为<br>\[
+\dot{\tilde{X}} = (A-K_eC)\tilde{X}+Bu+K_ey\\
+\Rightarrow  \tilde{X} = (sI-A+K_eC+BK)^{-1}K_eY
+\]<br>那么系统的闭环传递函数的倒数（自身不好表示，但是倒数好表示）就是<br>\[
+\frac{U(s)}{Y{(s)}} = \frac{-K\tilde{X}}{Y(s)}=-K(sI-A+K_eC+BK)^{-1}K_e
+\]<br>很显然这个要是串联那么设计起来会非常麻烦，故实际中一般都是并联的系统</p>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>7.4 最小阶观测器</h3>
+<p>如果\(y\)仅仅是\(m\)个状态变量的线性组合，那么余下的\(n-m\)个变量需要估计，需要一个\(n-m\)阶的降阶观测器</p>
+<p>这个\(n-m\)的观测器就是最小阶观测器</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

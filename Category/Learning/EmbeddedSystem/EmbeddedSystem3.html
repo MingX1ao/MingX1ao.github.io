@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="4 I/O原理与接口技术 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>4 I/O原理与接口技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 I/O原理与接口技术
+                    <ul>
+                            <li><a href="#3.1">4.1 I/O结构与原理</a></li>
+                            <li><a href="#3.2">4.2 访问外部存储器总线与时序</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 I/O原理与接口技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 I/O结构与原理</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_14.png" width="500"></center>
+
+<p>锁存器就是专用寄存器<code>P0/1/2/3</code>，这个是<code>P0</code>口，故<code>MUX</code>控制输出的是低地址还是数据</p>
+<p>每个端口都有一个<strong>锁存器</strong>，一个<strong>输出驱动器</strong>，一个<strong>输入缓冲器</strong></p>
+<p>图中的输入缓冲器就是类似MosFET的东西，开关端加上电压就是能导通</p>
+<p>4个I/O口都是<strong>准双向</strong>，读引脚前必须写入<code>1</code>，否则引脚状态不定</p>
+<p><font color=red>仅<code>P0</code>口没有内部上拉电阻</font></p>
+<h4><font color=red>4.1.1 P0口的工作原理</font></h4>
+<p><strong>作为I/O口输出</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_15.png" width="500"></center>
+
+<p>控制信号为<code>0</code>，与门输出0，V1截止，不输出地址/数据；多路开关打到下方</p>
+<p>内部总线输出<code>1</code>时，\(\bar{Q}\)口输出<code>0</code>，V2截止，此时引脚<strong>既不接地，又不接Vcc</strong>，故需要<strong>外接上拉电阻</strong>，置为高电平</p>
+<p>内部总线输出<code>0</code>时，V2导通，引脚接地，输出<code>0</code></p>
+<p><strong>作为I/O口输入</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_16.png" width="500"></center>
+
+<p>控制信号为<code>0</code></p>
+<p><font color=red>在读写切换时，需要先向引脚写入<code>1</code>，经过图中线路使V2截止，防止干扰输入</font></p>
+<p>读引脚，通常是I/O为源的指令，如<code>MOV A, P2</code>，走下方的输入Buffer到内部总线</p>
+<p>读Reg，通常是I/O为操作数指令，如<code>ANL P1, A</code>，走上方的输入Buffer</p>
+<p><strong>作为地址/数据输出</strong></p>
+<p>控制信号为<code>1</code>，多路开关置为上方，由CPU自动设置</p>
+<p>A/D输入<code>0</code>，V1截止，A/D经过非门变为<code>1</code>输出</p>
+<p>反之，V1导通，直接输出Vcc，不需要上拉电阻</p>
+<p><strong>作为A/D输入</strong></p>
+<p>控制信号为<code>0</code>，开关在下方，V1截止；CPU自动向P0口写<code>1</code>（实际是<code>FFH</code>），V2截止</p>
+<p>真正的双向口</p>
+<h4>4.1.2 P2口的工作原理</h4>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_17.png" width="500"></center>
+
+<p><strong>片内有</strong>上拉电阻，不需要外接</p>
+<p>当作为普通I/O口时，和P0一样，不赘述</p>
+<p><strong>作为地址输出</strong></p>
+<p>控制口为<code>1</code>，开关向上</p>
+<p>地址输入<code>1</code>，T截止，输出Vcc；地址输入<code>0</code>，T导通，输出接地</p>
+<h4>4.1.3 P1口的工作原理</h4>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_18.png" width="500"></center>
+
+<p>非常简单，也是<strong>片内上拉</strong></p>
+<h4>4.1.4 P3口的工作原理</h4>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_19.png" width="500"></center>
+
+<p>片内上拉</p>
+<p>除了第二输出功能外，和P1一致</p>
+<p>第二输出功能时，是由<code>Q=W=1</code>，才会输出高电平</p>
+<h4>4.1.5 I/O口使用小结</h4>
+<ul>
+<li>准双向口，<strong>读引脚</strong>前必须先写入<code>1</code></li>
+<li>P3的<strong>第二功能使用前</strong>必须写入<code>1</code></li>
+<li>P0作为数据I/O口时，需要上拉电阻才能高电平</li>
+<li>P0作为A/D输入输出时是真的双向口</li>
+</ul>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 访问外部存储器总线与时序</h3>
+<p><strong>几个周期</strong></p>
+<ul>
+<li>振荡周期：晶振的振动周期，一般用12MHz；就是时钟周期</li>
+<li>状态周期：包含<strong>2个</strong>振荡周期</li>
+<li>机器周期：包含<strong>12个</strong>振荡周期，1MHz</li>
+<li>指令周期：执行一条指令的时间，<strong>最小单位是机器周期</strong></li>
+</ul>
+<p><font color=red><strong>访问外部MEM的时序</strong></font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_20.png" width="600"></center>
+
+<p>比较好懂</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

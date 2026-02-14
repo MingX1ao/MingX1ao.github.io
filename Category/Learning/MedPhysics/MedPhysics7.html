@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="8 光学检测技术 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>8 光学检测技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>8 光学检测技术
+                    <ul>
+                            <li><a href="#7.1">8.1 流式细胞仪</a></li>
+                            <li><a href="#7.2">8.2 在体流式细胞仪</a></li>
+                            <li><a href="#7.3">8.3 光镊</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">8 光学检测技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点：</p>
+<p>流式细胞仪的组成和<font color=red>工作原理</font><br>光镊的组成和<font color=red>工作原理</font></p>
+<a name="7.1" class="md-header-anchor" id="7.1"></a>
+<h3>8.1 流式细胞仪</h3>
+<p><strong>组成部分</strong><br><strong>流液系统、光学系统、电子系统和分析系统</strong>，对有生物颗粒分选功能的，还有<strong>分选系统</strong></p>
+<p><strong>流液系统</strong><br>负责将细胞或生物颗粒按照单个流形式送入检测器<br><img src="/Category/Learning/Pictures/MedicalPhysica_72.png" width="300"></p>
+<p><strong>光学系统</strong><br>使用几种<strong>激光</strong>对其进行照射，产生<strong>散射光</strong>和<strong>荧光</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_73.png" width="300"></p>
+<p>前向散射光小角度偏转，强度大，使用光电二极管检测，<strong>检测细胞大小</strong><br>侧向散射光位于90°偏转，强度小，使用<strong>光电倍增管</strong>检测，<strong>检测细胞复杂度</strong><br>荧光在经过偏光镜和滤光片后检测，强度小，使用<strong>光电倍增管</strong>检测，<strong>检测特定物质</strong><br>产生荧光的前提是<strong>事先在混合物中加入了不同的荧光探针，区分不同生物颗粒</strong></p>
+<p><strong>电子系统</strong><br>不重要</p>
+<p><strong>分析系统</strong><br>处理数据用的</p>
+<p><font color=red>例：下图横坐标表示凋亡相关荧光强度，纵坐标表示坏死，黑线代表检测阈值，右图是左图细胞加入某物质后的结果</font><br><img src="/Category/Learning/Pictures/MedicalPhysica_74.png" width="500"></p>
+<p>表面该物质会导致细胞的坏死，对凋亡不起作用</p>
+<p><strong>分选系统</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_75.png" width="300"></p>
+<p>激光束照射后根据颗粒表面的荧光探针，会产生不同的荧光<br>依据荧光颜色，充电器为液滴带上不同的电荷，在极板间偏转，收集</p>
+<a name="7.2" class="md-header-anchor" id="7.2"></a>
+<h3>8.2 在体流式细胞仪</h3>
+<p>由于流式细胞仪产生荧光需要实现孵育样品，无法在活体上运用<br>在体流式细胞仪则弥补了这一点</p>
+<p>在体流式细胞仪直接使用生物的<strong>血管</strong>作为流液系统，根据血液中不同细胞对光信号的响应判断</p>
+<p><strong>光声流式细胞仪</strong><br>激光照射细胞，细胞将辐射能转化为热振动，产生声波，记录声波即可得到信息<br><img src="/Category/Learning/Pictures/MedicalPhysica_76.png" width="600"></p>
+<p>该设备可以用于人体<strong>早期癌症转移</strong>的检测<br>最大的限制：光需要被特异性吸收</p>
+<a name="7.3" class="md-header-anchor" id="7.3"></a>
+<h3>8.3 光镊</h3>
+<p><strong>工作原理</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_77.png" width="200"></p>
+<p>光子具有动量，在于物质的作用中会给物质施加力，分为<strong>梯度力</strong>和<strong>散射力</strong></p>
+<p><strong>光学势阱及捕获条件</strong><br>\(n_{球}>n_{环境}\)，如图的一对光线经过折射后产生力\(F_a,F_b\)，其矢量和\(F\)指向光线焦点<br>当小球的球心偏离焦点时，F总是使其趋向焦点，故F是<strong>回复力</strong><br><strong>捕获条件</strong>：焦点附近的梯度力大于散射力时，才能形成一个三维光学势阱，稳定地捕获微粒</p>
+<p>上面是针对a，b光强一致而言，若\(I_a>I_b\)，则会偏向b</p>
+<p>在小球离光阱中心的位移<strong>不超过小球半径</strong>时，有\(F=-kx\)，其中k是光阱刚度<br>由此得到F与x的关系</p>
+<p><strong>光镊系统</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_78.png" width="300"></p>
+<p><strong>捕获光源要求</strong></p>
+<ol>
+<li>光源模式：纵模横模；横模选取\(\mathsf{TEM}_{00}\)，电场分布均匀</li>
+<li>工作方式：需要连续光源或准连续光源；不可以用脉冲</li>
+<li>光束指向性：激光的方向性很强</li>
+<li>激光波长：避免选择会被微粒强吸收的波长</li>
+<li>激光功率：尽量小，不破坏微粒</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

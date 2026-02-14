@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="3 瞬态响应和稳态响应分析 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>3 瞬态响应和稳态响应分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 瞬态响应和稳态响应分析
+                    <ul>
+                            <li><a href="#2.1">3.1 相关概念</a></li>
+                            <li><a href="#2.2">3.2 一阶系统</a></li>
+                            <li><a href="#2.3">3.3 二阶系统</a></li>
+                            <li><a href="#2.4">3.4 瞬态响应指标</a></li>
+                            <li><a href="#2.5">3.5 高阶系统的瞬态响应</a></li>
+                            <li><a href="#2.6">3.6 劳斯稳定判据</a></li>
+                            <li><a href="#2.7">3.7 积分和微分控制作用对系统性能的影响</a></li>
+                            <li><a href="#2.8">3.8 单位反馈控制系统的稳态误差</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 瞬态响应和稳态响应分析</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 相关概念</h3>
+<p>在系统一段加入信号\(r(t)\)后，得到输出\(c(t)\)，将其分为\(c(t)=c_t(t)+c_s(t)\)，分别时瞬态和稳态响应</p>
+<p>\(c_t(t)\)满足\(\lim\limits_{t\rightarrow\infty}c_t(t)=0\)</p>
+<p>对线性系统而言，\(r(t)\)<strong>只影响\(c_s(t)\)</strong>，因为\(c_t(t)\)在无穷时刻恒为0</p>
+<p><strong>稳定性</strong></p>
+<p><strong>绝对</strong>稳定性：指<strong>系统</strong>的稳定性，分为<strong>稳定</strong>，<strong>临界稳定</strong>，<strong>不稳定</strong>，分别表示稳定，周期振荡和不稳定的输出</p>
+<p><strong>相对</strong>稳定性：指在一个<strong>裕度</strong>内系统稳定，瞬态指标</p>
+<p><strong>稳态误差</strong>：达到稳态响应后，系统输出与预期值的误差，即\(e_{ss}=\lim\limits_{s\rightarrow0}sE(s)=s\cdot(X-HY)=\frac{sX}{1+GH}\)</p>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 一阶系统</h3>
+<p>讨论传递函数为\(\frac{C}{R}=G(s)=\frac{1}{Ts+1}\)的系统</p>
+<h4>3.1.1 单位阶跃响应</h4>
+<p>\(r(t)=u(t)\Rightarrow R(s)=\frac{1}{s}\)，得到\(c(t)=1-e^{-\frac{t}{T}}\)，其中\(c_t(t)=-e^{-\frac{t}{T}},c_s(t)=1\)，误差\(e(t)=e^{-\frac{t}{T}}\)</p>
+<p>稳态误差=0</p>
+<p>在\(t=4T\)时，系统达到98.2%稳定值，此时认为系统稳定，4T为<strong>响应时间</strong></p>
+<h4>3.1.2 单位斜坡响应</h4>
+<p>\(r(t)=tu(t)\Rightarrow R(s)=\frac{1}{s^2}\)，得到\(c(t)=t-T+Te^{-\frac{t}{T}}\)，\(e(t)=r(t)-c(t)=T(1-e^{-t/T})\)</p>
+<p>稳态误差=T，响应时间4T</p>
+<h4>3.1.3 单位脉冲响应</h4>
+<p>\(r(t)=\delta(t)\Rightarrow R(s)=1\)，得到\(c(t)=\frac{1}{T}e^{-\frac{t}{T}}\)，\(e(t)=r(t)-c(t)=\delta(t)-\frac{1}{T}e^{-\frac{t}{T}}\)</p>
+<p>稳态误差=0，响应时间4T</p>
+<h4>3.1.4 LTI系统特征</h4>
+<p>其实就是能用卷积表达输出，最终得到\(x^{(n)}*h=(x*h)^{(n)}=y^{(n)}\)</p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 二阶系统</h3>
+<p>讨论伺服系统（精确跟随或复现某个过程的反馈系统）</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_16.png" width="500"></center>
+
+<p>系统传递函数\(G(s)=\frac{K}{Js^2+Bs+K}=\frac{K/J}{[s+\frac{B}{2J}+\sqrt{(\frac{B}{2J})^2-\frac{K}{J}}][s+\frac{B}{2J}-\sqrt{(\frac{B}{2J})^2-\frac{K}{J}}]}\)</p>
+<p>令\(\frac{K}{J}=\omega_n^2,\frac{B}{J}=2\zeta\omega_n=2\sigma\)，其中σ是衰减系数，\(\omega_n\)为无阻尼自然频率，<strong>\(\zeta\)是系统的阻尼比</strong></p>
+<p>\(\zeta=\frac{B}{B_c}\)，其中\(B,B_c\)分别为实际阻尼、临界阻尼系数，\(B_c\)是\((\frac{B}{2J})^2-\frac{K}{J}=0\)的解，故\(\zeta=\frac{B}{2\sqrt{JK}}\)</p>
+<p>传递函数可以改写为\(G(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_ns+\omega_n^2}\)，极点为\(s_{1,2}=-\zeta\omega_n\pm j\omega_n\sqrt{1-\zeta^2}=-\sigma \pm j\omega_d\)，\(|s_{1,2}|=\omega_n\)</p>
+<p>记\(\omega_d=\omega_n\sqrt{1-\zeta^2}\)为阻尼自然频率，可观察到的总是\(\omega_d\)，总是小于\(\omega_n\)</p>
+<p>对\(\zeta\)做以下讨论：</p>
+<ol>
+<li>\(0<\zeta<1\)，<strong>欠阻尼</strong>，瞬态响应是振荡的</li>
+<li>\(\zeta=1\)，<strong>临界阻尼</strong>，瞬态响应不振荡</li>
+<li>\(\zeta>1\)，<strong>过阻尼</strong>，瞬态响应不振荡</li>
+<li>\(\zeta=0\)，<strong>无阻尼</strong>，瞬态响应为正弦振荡（等幅）</li>
+</ol>
+<p><strong>单位阶跃响应</strong></p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_17.png" width="500"></center>
+
+<p>上图为不同阻尼比下的响应</p>
+<p>在\(\zeta>0\)时，稳态误差总是0</p>
+<p>在\(\zeta=1\)时，两个极点重合，\(c(t)=1-e^{-\omega_nt}(1+\omega_nt)\)</p>
+<p>实际上，在两个极点<strong>接近相等</strong>时，系统也可以近似看为临界阻尼</p>
+<p>在\(\zeta>>1\)时，\(s_{1,2}=(-\zeta\pm \sqrt{\zeta^2-1})\omega_n\)，在频率不大的情况下，\(s_2\)对系统的影响很小，可忽略（\(e^{-\infty t}\)，那么\(t\)对结果就没有影响）</p>
+<p>\(c(t)\approx 1-e^{(-\zeta+\sqrt{\zeta^2-1})\omega_nt}\)</p>
+<p>由上图可知，当\(0.4<\zeta<0.8\)时，其响应曲线比临界阻尼或过阻尼系统<strong>更快</strong>达到稳定值</p>
+<p>且在无震荡系统中，临界阻尼有<strong>最快响应特性</strong>；而过阻尼系统对任何输入信号的响应都是<strong>缓慢</strong>的</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 瞬态响应指标</h3>
+<p>都是在0状态下的指标</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_18.png" width="600"></center>
+
+<p><strong>延迟时间\(t_d\)</strong>：第一次到达稳态值一半所需的时间</p>
+<p><strong>上升时间\(t_r\)</strong>：从稳态值的0%到100%所需要的时间</p>
+<p><strong>峰值时间\(t_p\)</strong>：到达<strong>过调量</strong>的第一个峰值所需的时间</p>
+<p><strong>最大过调量\(M_p\)</strong>：计算公式为\(M_p=\frac{最大峰值-c(\infty)}{c(\infty)}\times100\%\)，直接说明了系统的<strong>相对稳定性</strong></p>
+<p><strong>调整时间\(t_s\)</strong>：用一个稳态值的百分比误差范围，曲线达到并<strong>永远保持</strong>在这个范围内所需的时间，与系统的最大时间常数有关（如一阶系统的4T）</p>
+<p>很显然，最大过调量和上升时间是相互矛盾的，必须做一个取舍</p>
+<h4>3.4.1 二阶系统的瞬态响应指标</h4>
+<p>注意，以下所讲的都是对于二阶系统的阶跃响应而言<br>\[
+c(t)=1-e^{-\zeta\omega_n t}\left( \cos{\omega_d t}+\frac{\zeta}{\sqrt{1-\zeta^2}}\sin{\omega_d t}\right)
+\]</p>
+<p><strong>上升时间</strong></p>
+<p>当\(c(t)=1\)时，解得<br>\[
+t_r=\frac{1}{\omega_d}\tan^{-1}{\frac{\omega_d}{-\sigma}}=\frac{\pi - \beta}{\omega_d}
+\]<br>其中\(\beta\)如图</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_19.png" width="200"></center>
+
+
+
+<p><strong>峰值时间</strong></p>
+<p>当\(\frac{dc(t)}{dt}=0\)时就是峰值时间<br>\[
+\sin{\omega_d t_p}=0\Rightarrow t_p = \frac{k\pi}{\omega_d}
+\]<br>由于是第一个，\(t_p=\frac{\pi}{\omega_d}\)，是阻尼振荡周期的一半</p>
+<p><strong>最大过调量</strong></p>
+<p>显然发生在\(t_p\)上<br>\[
+M_p = \left(c(t_p)-1\right)/1=e^{-\frac{\sigma}{\omega_d}\cdot \pi}\times 100\%
+\]<br>如果阻尼比\(0.4<\zeta<0.8\)，那么\(2.5\%<M_p<25\%\)</p>
+<p><strong>衰减比</strong></p>
+<p>同方向的两个相邻波峰的比值，此处为\(M(t_{p1})/M(t_{p3})\)，是减去了稳态输出的<br>\[
+n=e^{2\pi {\zeta}/{\sqrt{1-\zeta^2}}}
+\]</p>
+<p>可见如果两个二阶系统用同样的ζ，它们就会出现相同的<strong>过调量和震荡模式</strong>，这类系统称为具有<strong>相同相对稳定性</strong>的系统</p>
+<p><strong>调整时间</strong></p>
+<p>对于欠阻尼二阶系统，其响应被两条曲线包围，分别是\(1\pm (e^{-\zeta\omega_n t}/\sqrt{1-\zeta^2})\)，这条曲线的时间常数是\(1/\zeta\omega_n\)<br>\[
+t_s = 4T = \frac{4}{\zeta \omega_n} \,\,\,\,\,\,\,\,2\% 误差标准\\
+t_s = 3T = \frac{3}{\zeta \omega_n} \,\,\,\,\,\,\,\,5\% 误差标准
+\]</p>
+<a name="2.5" class="md-header-anchor" id="2.5"></a>
+<h3>3.5 高阶系统的瞬态响应</h3>
+<p>对于闭环传递函数<br>\[
+\frac{C(s)}{R(s)}=k\frac{\Pi (s+z_i)}{\Pi(s+p_j)}
+\]<br>对于单位阶跃信号的响应可以化为</p>
+<h4>3.5.1 <strong>闭环极点均为不同的实数</strong></h4>
+<p>\[
+{C(s)} = \frac{a}{s}+\sum\frac{a_i}{s+p_i}
+\]</p>
+<p>其中\(a_i=(s+p_i)\frac{C(s)}{R(s)}|_{s=-p_i}\)，是\(s=-p_i\)这个极点的<strong>留数</strong>（默认都是一阶的）</p>
+<p>做几个讨论：</p>
+<ol>
+<li>如果一个<strong>闭环零点</strong>和闭环极点\(s_i\)接近，那么\(a_i\)会很小，这个极点的作用也比较小（即消去极点主导性的原理）</li>
+<li>如果一个闭环极点\(s_i\)离原点很远，那么\(a_i\)也会很小，且对应\(e^{-\sigma_it}\)的作用也很小（\(\sigma_i\)很大，这个指数的随时间变化不会很大）</li>
+<li>可以忽略留数很小的项，<strong>用低阶系统近似</strong></li>
+</ol>
+<h4>3.5.2 闭环极点由实数极点和成对的共轭复数极点组成</h4>
+<p>\[
+C(t) = a + \sum a_ie^{-p_it}+\sum b_ke^{-\zeta_k\omega_kt}\cos{(\omega_k\sqrt{1-\zeta^2}t)}+\sum b_ke^{-\zeta_k\omega_kt}\sin{(\omega_k\sqrt{1-\zeta^2}t)}
+\]</p>
+<p>稳定的高阶系统响应曲线是<strong>一些指数曲线</strong>和<strong>阻尼正弦曲线</strong>之和</p>
+<p>如果所有的极点都在左半平面，那么系统最终的稳定输出为\(a\)</p>
+<p>做几个讨论：</p>
+<ol>
+<li>远离虚轴的极点对应的指数项会迅速衰减到0</li>
+<li>极点距离虚轴越近，调整时间<strong>越长</strong></li>
+<li>响应<strong>类型</strong>（阻尼）由闭环极点决定，响应<strong>形状</strong>由闭环零点决定，因为零点决定留数大小</li>
+</ol>
+<h4>3.5.3 闭环主导极点</h4>
+<ol>
+<li>取决于闭环极点的<strong>实部</strong>与<strong>留数</strong>的相对大小</li>
+<li>附近不存在零点，离虚轴近</li>
+</ol>
+<h4>3.5.4 复平面上的稳定性分析</h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_21.png" width="300"></center>
+
+<p>在上述区域中，系统的稳定性最好</p>
+<p>但是，即使系统稳定，也不能保证有满意的瞬态响应特性</p>
+<a name="2.6" class="md-header-anchor" id="2.6"></a>
+<h3>3.6 劳斯稳定判据</h3>
+<h4>3.6.1 应用步骤</h4>
+<p>写出系统（<strong>闭环</strong>传递函数）的特征方程<br>\[
+a_0s^n+a_1s^{n-1}+\ldots+a_{n-1}s+a_0 = 0
+\]<br>其中\(a_0\neq0\)，排除所有0根</p>
+<p>系统稳定的<strong>必要条件</strong>：所有系数都是正数。即有负的系数那么一定不稳定</p>
+<p>若所有系数都是正数，按以下方式列数（没有就用0补齐）</p>
+<table>
+<thead>
+<tr>
+<th align="center">s</th>
+<th align="center">k1</th>
+<th align="center">k2</th>
+<th align="center">k3</th>
+<th align="center">k4</th>
+<th align="center">...</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">\(s^n\)</td>
+<td align="center">\(a_0\)</td>
+<td align="center">\(a_2\)</td>
+<td align="center">\(a_4\)</td>
+<td align="center">\(a_6\)</td>
+<td align="center">...</td>
+</tr>
+<tr>
+<td align="center">\(s^{n-1}\)</td>
+<td align="center">\(a_1\)</td>
+<td align="center">\(a_3\)</td>
+<td align="center">\(a_5\)</td>
+<td align="center">\(a_7\)</td>
+<td align="center">...</td>
+</tr>
+<tr>
+<td align="center">\(s^{n-2}\)</td>
+<td align="center">\(b_1\)</td>
+<td align="center">\(b_2\)</td>
+<td align="center">\(b_3\)</td>
+<td align="center">\(b_4\)</td>
+<td align="center">...</td>
+</tr>
+<tr>
+<td align="center">\(s^{n-3}\)</td>
+<td align="center">\(c_1\)</td>
+<td align="center">\(c_2\)</td>
+<td align="center">\(c_3\)</td>
+<td align="center">\(c_4\)</td>
+<td align="center">...</td>
+</tr>
+<tr>
+<td align="center">...</td>
+<td align="center">...</td>
+<td align="center">...</td>
+<td align="center">...</td>
+<td align="center">...</td>
+<td align="center">...</td>
+</tr>
+<tr>
+<td align="center">\(s^2\)</td>
+<td align="center">\(d_1\)</td>
+<td align="center">\(d_2\)</td>
+<td align="center">\(d_3\)</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">\(s\)</td>
+<td align="center">\(e_1\)</td>
+<td align="center">\(e_2\)</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">\(s^0\)</td>
+<td align="center">\(f_1\)</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>其中\(b_1=\frac{a_1a_2-a_0a_3}{a_1}, b_2=\frac{a_1a_4-a_0a_5}{a_1}, c_1=\frac{b_1a_3-a_1b_2}{b_1}\)，依次类推</p>
+<p>计算系数必须算到全为零位置（就是一列连续出现两个0，那么下一行的某个值一定是0）</p>
+<p>整个阵列可以用正数乘/除一整行，结论不变</p>
+<p>劳斯稳定判据：特征方程中具有的正实部的根的数目，等于阵列的<strong>第一列的系数符号改变次数</strong></p>
+<p><strong>稳定的充要条件</strong></p>
+<p>方程的全部系数都是正值，且第一列所有系数都是正号</p>
+<p><font color=red>例：</font>单位负反馈系统的前向传递函数为\(\frac{K}{s(s+1)(s+2)}\)，求系统稳定的K的范围</p>
+<p>解：系统的闭环传递函数为\(\frac{K}{s^3+3s^2+2s+K}\)，特征方程为\(s^3+3s^2+2s+K=0\)，列出阵列为</p>
+<table>
+<thead>
+<tr>
+<th align="center">s</th>
+<th align="center">K1</th>
+<th align="center">k2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">s^3</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">s^2</td>
+<td align="center">3</td>
+<td align="center">K</td>
+</tr>
+<tr>
+<td align="center">s^1</td>
+<td align="center">\(\frac{6-K}{3}\)</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">s^0</td>
+<td align="center">K</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>要使系统稳定，那么\(0<K<6\)，\(K>0\)是因为系统的增益为\(K\)，默认是\(>0\)</p>
+<h4>3.6.2 特殊情况</h4>
+<p><strong>第一列存在0</strong></p>
+<p>用一个很小的正数\(\varepsilon\)来代替0，继续进行阵列计算</p>
+<p>如果0上下的系数符号相同，那么系统存在一对<strong>虚根</strong>；如果不同，系统存在<strong>一个</strong>符号变化</p>
+<p>前者说明系统<strong>临界稳定</strong>；后者说明系统<strong>不稳定</strong></p>
+<p><strong>某一行的所有系数都是0</strong></p>
+<p>表明系统存在一对<strong>奇对称</strong>的根</p>
+<p>可以构造辅助多项式，如<br>\[
+s^5+2s^4+24s^3+48s^2-25s-50=0
+\]</p>
+<table>
+<thead>
+<tr>
+<th align="center">s</th>
+<th align="center">K1</th>
+<th align="center">k2</th>
+<th align="center">k3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">s^5</td>
+<td align="center">1</td>
+<td align="center">24</td>
+<td align="center">-25</td>
+</tr>
+<tr>
+<td align="center">s^4</td>
+<td align="center">2</td>
+<td align="center">48</td>
+<td align="center">-50</td>
+</tr>
+<tr>
+<td align="center">s^3</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">s^2</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">s^1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">s^0</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>将全0行的上一行用来构造辅助多项式<br>\[
+2s^4+48s^2-50=0
+\]<br>由于这是高一次的多项式，对这个多项式求导得到\(s^3\)的多项式<br>\[
+8s^3+96s=0
+\]<br>按这个系数代替全0行</p>
+<table>
+<thead>
+<tr>
+<th align="center">s</th>
+<th align="center">K1</th>
+<th align="center">k2</th>
+<th align="center">k3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">s^5</td>
+<td align="center">1</td>
+<td align="center">24</td>
+<td align="center">-25</td>
+</tr>
+<tr>
+<td align="center">s^4</td>
+<td align="center">2</td>
+<td align="center">48</td>
+<td align="center">-50</td>
+</tr>
+<tr>
+<td align="center">s^3</td>
+<td align="center">8</td>
+<td align="center">96</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">s^2</td>
+<td align="center">24</td>
+<td align="center">-50</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">s^1</td>
+<td align="center">112.7</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">s^0</td>
+<td align="center">-50</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>存在一个正实部的根，不稳定</p>
+<h4>3.6.3 相对稳定性分析</h4>
+<p>劳斯判据是将特征根与0比，得出系统的绝对稳定性</p>
+<p>令\(s = \hat{s}-\sigma\)，带入特征方程，重写对于\(\hat{s}\)的阵列，将\(\hat{s}\)与0对比，就可以判断系统在\(-\sigma\)右侧的根的个数</p>
+<a name="2.7" class="md-header-anchor" id="2.7"></a>
+<h3>3.7 积分和微分控制作用对系统性能的影响</h3>
+<h4>3.7.1 比例控制</h4>
+<p>对于阶跃信号，没有积分器时，系统的比例控制会造成稳态误差</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_22.png" width="300"></center>
+
+<p>这里的没有积分器指的是反馈环节没有积分器<br>\[
+E/R = (R-C)/R = 1-C/R=\frac{1}{1+G(s)}\\
+G(s)=\frac{K}{Ts+1}
+\]<br>得到稳态误差<br>\[
+E = \frac{Ts+1}{Ts+1+k}\frac{1}{s}\\
+e(\infty) = \lim\limits_{s\rightarrow0}sE(s)=\frac{1}{K+1}
+\]</p>
+<h4>3.7.2 积分控制</h4>
+<p>控制器存在积分环节，可消除误差</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_23.png" width="300"></center>
+
+<p>单位阶跃的稳态误差是<br>\[
+e_s = \lim\limits_{s\rightarrow 0}sE(s)=\lim\limits_{s\rightarrow 0}\frac{s^2(Ts+1)}{Ts^2+s+K}\cdot \frac{1}{s}=0
+\]<br>但是积分控制也使得输出振荡，不太好</p>
+<h4>3.7.3 微分控制</h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_24.png" width="300"></center>
+
+<p>系统的阻尼比为<br>\[
+\zeta = \frac{B+K_d}{2\sqrt{K_pJ}}
+\]</p>
+<p><strong>绝对不能单独使用</strong>，因为微分是非因果的，它在预测</p>
+<p>优点：能反映误差信号的变化速度，在误差变大前修正，提高系统稳定性；增加了系统的阻尼，允许更大的增益K，改善精度</p>
+<a name="2.8" class="md-header-anchor" id="2.8"></a>
+<h3>3.8 单位反馈控制系统的稳态误差</h3>
+<p>依照开环传递函数对系统进行分类，单位反馈的意思是<strong>反馈是\(H(s) = 1\)</strong><br>\[
+G(s) = \frac{K\cdot\Pi(T_i s+1)}{s^N\cdot \Pi (T_js+1)}
+\]<br>对<strong>纯积分环节</strong>数进行分类，也就是上式的\(N\)</p>
+<h4>3.8.1 稳态误差</h4>
+<p>一切的前提是<strong>单位反馈</strong><br>\[
+\frac{E}{R} = \frac{R-C}{R} = 1-\frac{G}{1+G}  =\frac{1}{1+G}\\
+E(s) = R(s)\frac{1}{1+G}\\
+e(\infty) = \lim\limits_{s\rightarrow 0}sE(s) = \lim\limits_{s\rightarrow 0}\frac{sR(s)}{1+G(s)}
+\]</p>
+<h4>3.8.2 静态位置误差常数\(K_p\)</h4>
+<p>是系统对<strong>单位阶跃信号</strong>的特性</p>
+<p>系统的稳定误差为\(e = \frac{1}{1+G(0)}\)，定义\(K_p = \lim\limits_{s\rightarrow 0}G(s)\)，\(e=\frac{1}{1+K_p}\)</p>
+<p>对于0型系统，\(K_p = K\)</p>
+<p>对于1型或更高系统，\(K_p = \infty\)，此时稳态误差为0</p>
+<h4>3.8.3 静态速度误差常数\(K_v\)</h4>
+<p>是系统对<strong>单位斜坡信号</strong>的特性</p>
+<p>系统的稳定误差为\(e = \frac{s}{(1+G(s))s^2}=\lim\limits_{s\rightarrow 0}\frac{1}{sG(s)}\)，定义\(K_v = \lim\limits_{s\rightarrow 0}sG(s)\)，\(e = \frac{1}{K_v}\)</p>
+<p>对于0型系统，\(K_v = 0\)</p>
+<p>对于1型系统，\(K_v = K\)​</p>
+<p>对于2型或更高系统，\(K_v =\infty\)，此时稳态误差为0</p>
+<h4>3.8.4 静态加速度误差常数\(K_a\)</h4>
+<p>是系统对<strong>单位抛物线信号</strong>的特性，单位抛物线信号为\(r(t) = \frac{t^2}{2},t>0\)</p>
+<p>系统的稳态误差为\(e =\lim\limits_{s\rightarrow 0}\frac{1}{s^2G(s)}\)，定义\(K_a=\lim\limits_{s\rightarrow 0}s^2G(s)\)，\(e = \frac{1}{K_a}\)</p>
+<p>对于0型和1型系统，\(K_a = 0\)</p>
+<p>对于2型系统，\(K_a = K\)</p>
+<p>对于3型或更高系统，\(K_a = \infty\)</p>
+<h4>3.8.5 小结</h4>
+<p>误差常数越大，系统的误差越小</p>
+<p>故为了满足系统的响应条件，可以增大误差常数</p>
+<p>如果\(K_v\)和\(K_a\)存在矛盾，应该先满足前者</p>
+<p>系统更高阶就是积分器更多，增加积分器可以更稳定，但是很难设计</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

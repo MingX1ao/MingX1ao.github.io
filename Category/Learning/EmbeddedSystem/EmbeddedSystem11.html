@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="12 段式LCD接口原理 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>12 段式LCD接口原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>12 段式LCD接口原理
+                    <ul>
+                            <li><a href="#11.1">12.1 概述</a></li>
+                            <li><a href="#11.2">12.2 原理</a></li>
+                            <li><a href="#11.3">12.3 代码解读</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">12 段式LCD接口原理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="11.1" class="md-header-anchor" id="11.1"></a>
+<h3>12.1 概述</h3>
+<p>专门用来输出LCD显示信号的引脚与IO复用</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_45.png" width="500"></center>
+
+
+
+<a name="11.2" class="md-header-anchor" id="11.2"></a>
+<h3>12.2 原理</h3>
+<p>存在专用显存单元，将需要显示的信号写入专用内存单元即可显示</p>
+<p><strong>静态模式</strong></p>
+<p>显示原理与51不同，在COM0模式，使用时钟信号与LCD段电压差来显示</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_46.png" width="600"></center>
+
+<p>显存单元如下</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_47.png" width="400"></center>
+
+<p>当前选通COM0，不用管其他的bit，只看COM0的位置，图中红框表示控制一个数码管的内存</p>
+<p>在连续的内存单元<code>91h ~ 94h</code>中依次写入<code>01h, 11h, 10h, 01h</code>可以显示数字<code>5</code></p>
+<p><strong>二复用模式</strong></p>
+<p>此时内存单元的表示有点区别，但是用法一样</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_48.png" width="400"></center>
+
+<p>此时只需要两个内存单元就能够表示一个数字，在<code>91h, 92h</code>中写入<code>03h, 23h</code>显示数字<code>5</code></p>
+<p>复用的模式越大，占用的管脚就越少，利用率大</p>
+<a name="11.3" class="md-header-anchor" id="11.3"></a>
+<h3>12.3 代码解读</h3>
+<p>已经封装好了显示函数</p>
+<pre><code class="language-c">void LCDSEG_SetDigit(int pos, int value);		// 在第pos位上显示数字value
+// 1&lt;=pos&lt;=6, 0&lt;=value&lt;=15, 但显示为16进制
+
+void LCDSEG_DispalyNumber(int32_t num, int dppos); 
+// 显示num，用dppos表示小数点位置
+// 0&lt;=num&lt;=999999(6个管子), 0&lt;=dppos&lt;=3，为0表示不显示小数点
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

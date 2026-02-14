@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="2 访问寄存器和内存 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>2 访问寄存器和内存</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 访问寄存器和内存
+                    <ul>
+                            <li><a href="#1.1">2.1 寄存器和数据存储</a></li>
+                            <li><a href="#1.2">2.2 MOV和ADD指令</a></li>
+                            <li><a href="#1.3">2.3 确定物理地址</a></li>
+                            <li><a href="#1.4">2.4 内存分段表示</a></li>
+                            <li><a href="#1.5">2.5 Debug常见命令</a></li>
+                            <li><a href="#1.6">2.6 CS、IP和代码段</a></li>
+                            <li><a href="#1.7">2.7 JMP指令</a></li>
+                            <li><a href="#1.8">2.8 内存中字的储存</a></li>
+                            <li><a href="#1.9">2.9 用ds寄存器和[address]实现字的传送</a></li>
+                            <li><a href="#1.10">2.10 mov和add的指令形式</a></li>
+                            <li><a href="#1.11">2.11 栈与栈操作的实现</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 访问寄存器和内存</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 寄存器和数据存储</h3>
+<p><font color=green><strong>8086的CPU和内存</strong></font></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_3.png" width="500"></center>
+
+<p>其中<strong>EU(Execution Unit)<strong>和</strong>BIU(Bus Interface Unit)</strong></p>
+<p>8086有<strong>14</strong>个寄存器</p>
+<ul>
+<li>通用寄存器AX,BX,CX,DX都可以分为高位和低位</li>
+<li>CS：IP是存放指令的地址组合</li>
+</ul>
+<p>所有寄存器都是<strong>16位</strong>的，可以存放两个字节，上述四个都可以<strong>分为两个独立的八位寄存器使用</strong>（AX=AH+AL）</p>
+<p>8086是16位字长（1个字），一次可以处理一个寄存器的内容，一个寄存器存储一个字</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2.2 MOV和ADD指令</h3>
+<table>
+<thead>
+<tr>
+<th align="center">汇编指令</th>
+<th align="center">控制CPU</th>
+<th align="center">高级语言</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mov ax, 18</td>
+<td align="center">把18送入ax</td>
+<td align="center">ax = 18</td>
+</tr>
+<tr>
+<td align="center">mov ax, bx</td>
+<td align="center">把bx的值送入ax</td>
+<td align="center">ax = bx</td>
+</tr>
+<tr>
+<td align="center">add ax, 8</td>
+<td align="center">ax的值加8</td>
+<td align="center">ax += 8</td>
+</tr>
+<tr>
+<td align="center">add ax, bx</td>
+<td align="center">ax的值加bx的值</td>
+<td align="center">ax += bx</td>
+</tr>
+</tbody></table>
+<p>汇编指令不区分大小写</p>
+<p><font color=red>例：</font>ax=8226h，bx=8226h，执行add ax, bx，得到ax=？</p>
+<p>解：ax=044ch，本来是1044ch，但是ax只有16位，去掉msb</p>
+<p><font color=red>例：</font>ax=00c5h，bx=8293h，执行add al, bl，得到ax=？</p>
+<p>解：ax=0058h，本来是0158h，但是al只有8位，去掉msb</p>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3><font color=green>2.3 确定物理地址</font></h3>
+<p>所有的内存单元构成的存储空间是<strong>线性</strong>的（C++的数组）</p>
+<p>8086的寻址能力是\(2^{20}\)，但是它是16位机，只能一次处理16bit，需要使用<strong>地址加法器</strong>合成物理地址</p>
+<p><strong>合成方法</strong>：段地址*16+偏移地址=物理地址</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_4.png" width="300"></center>
+
+<p>都是16进制表示，*16表示末尾加一个0，转为2进制就是多0000，变成了20bit</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_6.png" width="300"></center>
+
+
+
+<p><strong>8086处理物理地址的过程</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_5.png" width="300"></center>
+
+
+
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 内存分段表示</h3>
+<p>内存本身是连续的，段的划分来自CPU（就是段地址的划分）</p>
+<p>段地址由于<em>16，所以*<em>段的起始地址一定是16的倍数</em></em>，在二进制中表现为0000结尾；偏移地址为16bit，故每个段最大长度\(2^{16}=64\)kB</p>
+<p>不同的段地址和偏移地址可以表示一个物理地址，如2000h*16+1F60h=2100h*16+0F60h</p>
+<a name="1.5" class="md-header-anchor" id="1.5"></a>
+<h3>2.5 Debug常见命令</h3>
+<p>R（Register）查看、改变寄存器的内容；R 寄存器名 改变指定寄存器内容（-r ax /endl ax 1234，ax=1234）</p>
+<p>D（Data）查看内存内容，列出预设地址内存的128个字节（8*16，一个地址2bit）的内容</p>
+<ul>
+<li>-d 段地址：偏移地址 （结尾偏移地址）列出指定位置的内存内容</li>
+</ul>
+<p>E（Edit）改变内存内容</p>
+<ul>
+<li>-e 段地址：偏移地址 12 34 将起始位置开始的两个地址内容改为12 34</li>
+</ul>
+<p>U将内存中的机器指令翻译为汇编指令</p>
+<p>A以汇编指令的格式在内存里写指令</p>
+<ul>
+<li>-a 段地址：偏移地址 汇编指令</li>
+</ul>
+<p>T执行机器指令</p>
+<ul>
+<li>-t 执行CS:IP处的指令，每次执行一条</li>
+</ul>
+<a name="1.6" class="md-header-anchor" id="1.6"></a>
+<h3>2.6 CS、IP和代码段</h3>
+<p>CS：代码段寄存器</p>
+<p>IP：指令指针寄存器</p>
+<p>CS:IP：CPU将该地址指向的内容当作指令（不当作数据）</p>
+<p><strong>8086CPU的指令读取和执行</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_7.png" width="400"></center>
+
+<ol>
+<li>从CS:IP指向的单元读取指令，指令进入指令缓冲器</li>
+<li>IP += 上一段指令的长度（如 mov ax, 8长3个字节，ip从0100变为0103）</li>
+<li>执行这段指令</li>
+</ol>
+<p>重复上面三个步骤（一直-t）</p>
+<a name="1.7" class="md-header-anchor" id="1.7"></a>
+<h3>2.7 JMP指令</h3>
+<p>用于修改CS和IP的值，改变程序执行的顺序</p>
+<p><strong>修改CS/IP的方式</strong></p>
+<ol>
+<li>-rcs+值，-rip+值；但这是debug内部调试手段</li>
+<li>mov cs，2000H；<strong>错误</strong>，特殊的寄存器不能用mov</li>
+<li>转移指令jmp<ol>
+<li>jmp 段地址:偏移地址：修改CS:IP，用于<strong>段间</strong>程序跳跃</li>
+<li>jmp 某个值或寄存器：仅修改IP，用于<strong>段内</strong>程序跳跃</li>
+</ol>
+</li>
+</ol>
+<p><font color=red>例：</font>如图，从20000H开始执行，执行的序列是？</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_8.png" width="400"></center>
+
+<ol>
+<li>mov ax, 6622H;ax=6622H</li>
+<li>jmp 1000:3;段间跳跃</li>
+<li>mov ax, 0000H;ax=0000H</li>
+<li>mov bx, ax;bx=0000H</li>
+<li>jmp bx;段内跳跃</li>
+<li>mov ax, 0123H;ax=0123H</li>
+<li>mov ax,0000H;ax=0000H,开始循环</li>
+</ol>
+<a name="1.8" class="md-header-anchor" id="1.8"></a>
+<h3>2.8 内存中字的储存</h3>
+<p>16bit=2byte=1word，1word的高八位放在高字节，低八位放在低字节</p>
+<p>如&quot;4E20H,0012H&quot;，存放方式是</p>
+<table>
+<thead>
+<tr>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">20H</td>
+<td align="center">4EH</td>
+<td align="center">12H</td>
+<td align="center">00H</td>
+</tr>
+</tbody></table>
+<p><strong>字节型和字型</strong></p>
+<p><strong>字节型</strong>指一个字节；<strong>字型</strong>指从这个字节开始的2个字节，这个字节为<strong>低八位</strong></p>
+<p>如上的内存，1地址存放的<strong>字节型</strong>数据是“4EH”，1地址存放的<strong>字型</strong>数据是“124EH”</p>
+<p>但是，每次读内存段开始的一个字节</p>
+<p>图中就是偶数开始，故读0地址的字型数据要<strong>1</strong>次，读1地址的字型数据要<strong>2</strong>次</p>
+<a name="1.9" class="md-header-anchor" id="1.9"></a>
+<h3>2.9 用ds寄存器和[address]实现字的传送</h3>
+<p>ds(data segment)寄存器存放的是<strong>当前指向的段地址</strong>信息，[address]表示偏移地址</p>
+<p>下面代码：</p>
+<pre><code class="language-assembly">mov bx, 1000H
+mov ds, bx
+mov al, [0] #等价于 mov al, ds:[0]
+</code></pre>
+<p>由于mov无法直接操作ds，需要一个中间变量；bx表示base，常用来存放地址的中间变量</p>
+<p>上面对代码将段地址写为1000H，将1000H:0000H的数据写入al中（也可以用ax）</p>
+<p><font color=red>例：</font></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_9.png" width="600"></center>
+
+<p>注意ax是字型变量，al是字节型变量，故所有的mov操作都将内存地址视为字型变量的低地址</p>
+<p><strong>数据段</strong></p>
+<p>默认由ds寄存器的值决定，偏移地址由[address]决定</p>
+<p><strong>数据累加问题</strong></p>
+<p>看以下的区别：</p>
+<p>mov ax, 123BH								mov ax, 123BH</p>
+<p>mov ds, ax										mov ds, ax</p>
+<p>mov al, 0										   mov ax, 0</p>
+<p>add al, [0]										  add ax, [0]</p>
+<p>add al, [1]										  add ax, [2]</p>
+<p>add al, [2]										  add ax, [4]</p>
+<p>左边是用一个字节累加，是<strong>字节型</strong>累加；右边用2个字节累加，是<strong>字型</strong>累加</p>
+<a name="1.10" class="md-header-anchor" id="1.10"></a>
+<h3>2.10 mov和add的指令形式</h3>
+<table>
+<thead>
+<tr>
+<th align="center">mov指令</th>
+<th align="center">示例</th>
+<th align="center">add指令</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mov 寄存器， 数据</td>
+<td align="center">mov ax, 8</td>
+<td align="center">add 寄存器， 数据</td>
+<td align="center">add ax, 8</td>
+</tr>
+<tr>
+<td align="center">mov 寄存器， 寄存器</td>
+<td align="center">mov ax, bx</td>
+<td align="center">add 寄存器， 寄存器</td>
+<td align="center">add ax, bx</td>
+</tr>
+<tr>
+<td align="center">mov 寄存器， 内存单元</td>
+<td align="center">mov ax, [0]</td>
+<td align="center">add 寄存器， 内存单元</td>
+<td align="center">add ax, [0]</td>
+</tr>
+<tr>
+<td align="center">mov 内存单元， 寄存器</td>
+<td align="center">mov [0], ax</td>
+<td align="center">add 内存单元， 寄存器</td>
+<td align="center">add [0], ax</td>
+</tr>
+<tr>
+<td align="center">mov 段寄存器， 寄存器</td>
+<td align="center">mov ds/cs, ax</td>
+<td align="center">/</td>
+<td align="center">/</td>
+</tr>
+</tbody></table>
+<p>sub用法与add相同</p>
+<a name="1.11" class="md-header-anchor" id="1.11"></a>
+<h3><font color=orange>2.11 栈与栈操作的实现</font></h3>
+<p>栈：先进后出</p>
+<p>栈段(stack segment, ss)是专门开辟的一个区域，用于<strong>暂存数据</strong>（如函数调用等）</p>
+<p>栈的基本操作：push入栈，pop出栈</p>
+<p><strong>8086中栈的操作</strong></p>
+<p>CPU对栈的指定：SS寄存器存放<strong>栈顶</strong>的段地址，SP(stack pointer)存放<strong>栈顶</strong>的偏移地址</p>
+<p>栈指令操作：push ax和pop ax，没有push al和pop al</p>
+<p>任意时刻，SS:SP<strong>指向栈顶元素</strong>；栈顶的地址<strong>最低</strong></p>
+<p><strong>指定栈空间</strong></p>
+<p>mov ax, 1000H</p>
+<p>mov ss, ax</p>
+<p>mov sp, 0010H</p>
+<p>ss不能mov，但是sp可以</p>
+<p>栈空间范围：SS:0000H——SS:SP-1，由于SP最大64K，一个栈最大空间为64KB</p>
+<p>栈段和数据段可以<strong>共享段地址</strong></p>
+<p><strong>push和pop指令</strong></p>
+<p>push ax：将ax值送入SS:SP；SP -= 2</p>
+<p>pop ax：将SS:SP中的值送入ax；SP += 2</p>
+<p>push和pop无法保证指针不出栈，要自己注意</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

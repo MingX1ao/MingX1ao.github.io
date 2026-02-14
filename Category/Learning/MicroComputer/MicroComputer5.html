@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="6 中断和外部设备操作 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>6 中断和外部设备操作</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 中断和外部设备操作
+                    <ul>
+                            <li><a href="#5.1">6.1 位移指令</a></li>
+                            <li><a href="#5.2">6.2 操作显存单元</a></li>
+                            <li><a href="#5.3">6.3 描述内存单元的标号</a></li>
+                            <li><a href="#5.4">6.4 直接定址表</a></li>
+                            <li><a href="#5.5">6.5 中断</a></li>
+                            <li><a href="#5.6">6.6 编写一个中断指令</a></li>
+                            <li><a href="#5.7">6.7 单步中断</a></li>
+                            <li><a href="#5.8">6.8 由int Nh引发的中断</a></li>
+                            <li><a href="#5.9">6.9 BIOS和DOS中断处理</a></li>
+                            <li><a href="#5.10">6.10 端口的读写</a></li>
+                            <li><a href="#5.11">6.11 CMOS RAM芯片</a></li>
+                            <li><a href="#5.12">6.12 外设连接与中断</a></li>
+                            <li><a href="#5.13">6.13 PC机键盘处理过程</a></li>
+                            <li><a href="#5.14">6.14 操作外部设备</a></li>
+                            <li><a href="#5.15">6.15 定制和改写键盘中断例程</a></li>
+                            <li><a href="#5.16">6.16 磁盘读写</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 中断和外部设备操作</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3><font color=orange>6.1 位移指令</font></h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_14.png" width="500"></center>
+
+<center><img src="/Category/Learning/Pictures/MicroComputer_15.png" width="500"></center>
+
+<p>其中逻辑左移和算术左移是等价的</p>
+<p>当移动位数大于1时，必须使用<code>cl</code></p>
+<pre><code class="language-assembly">mov al, 01010001B
+mov cl, 3
+shl al, cl
+</code></pre>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 操作显存单元</h3>
+<p>显存总共<code>32kB</code>，占用了<code>B8000H</code>到<code>BFFFFH</code>的内存空间，将每<code>4kB</code>分为1页，一共存8页</p>
+<p>默认显示第0页，一页显示<code>80*25</code>个字符</p>
+<p>每一列由两个字节组成，低字节是要显示的字符的ASCII码，高字节是显示的属性</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_16.png" width="400"></center>
+
+
+
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 描述内存单元的标号</h3>
+<p>什么是标号（label），就是表示一个数据区域的东西，如<code>codesg, start</code>等</p>
+<p>也可以这样写</p>
+<pre><code class="language-assembly">code segment
+	a: db 1, 2, 3, 4
+	b: dw 0
+start:
+	mov si, offset a
+	;xxxxx
+</code></pre>
+<p>这些都是<strong>地址标号</strong></p>
+<p>当标号去了冒号后，就成了<strong>数据标号</strong>，含有存储数据的<strong>位置</strong>和<strong>类型（长度）</strong></p>
+<pre><code class="language-assembly">	a db 1, 2, 3
+	b dw 0
+s:	mov si, 0
+	mov al, a[si]
+	mov ah, 0
+	add b, ax
+</code></pre>
+<p>不再需要<code>byte ptr</code>或<code>word ptr</code></p>
+<p>同时数据标号可以在数据段和代码段使用，地址标号只能在代码段中使用</p>
+<p>扩展用法</p>
+<pre><code class="language-assembly">data segment
+	a db 1, 2, 3, 4
+	b dw 0
+	c dw a, b
+data ends
+</code></pre>
+<p><code>c dw a, b</code>等价于<code>c dw offset a, offset b</code></p>
+<pre><code class="language-assembly">data segment
+	a db 1, 2, 3, 4
+	b dw 0
+	c dd a, b
+data ends
+</code></pre>
+<p>储存的是段地址加偏移地址，等价于</p>
+<pre><code class="language-assembly">c dw offset a, seg a, offset b, seg b
+</code></pre>
+<p><code>seg</code>可以获取标号的段地址</p>
+<a name="5.4" class="md-header-anchor" id="5.4"></a>
+<h3>6.4 直接定址表</h3>
+<p>类似于哈希表，加快运算速度</p>
+<p>函数也可以这么调用</p>
+<pre><code class="language-assembly">assume cs:code, ds:data
+
+data segment
+	table dw sub1, sub2
+data ends
+
+code segment
+start:
+	mov ax, data
+	mov al, 0
+	mov ah, 2
+	call func
+	mov ax, 4c00H
+	int 21
+	
+func:
+	push bx
+	cmp al, 1
+	ja over					;当al&gt;1时就结束
+	mov bl, al
+	mov bh, 0
+	add bx, bx				;table是字型的，故要乘2
+	call word ptr table[bx]
+
+over:
+	pop bx
+	ret
+
+sub1:
+	;xxxx
+	
+sub2:
+	;xxxx
+</code></pre>
+<p>这样写的函数便于补充和调用</p>
+<a name="5.5" class="md-header-anchor" id="5.5"></a>
+<h3><font color=orange>6.5 中断</font></h3>
+<p>指CPU不再接着执行下面的任务，而是转移到别的地方执行</p>
+<p>内中断：CPU内部的事件导致</p>
+<p>外中断：外部设备导致，如键盘、鼠标的输入</p>
+<p>每一种中断都有对应的中断服务程序（ISP，Interrupt Service Program），也就是中断例程</p>
+<p><font color=green><strong>8086的内中断</strong></font></p>
+<ol>
+<li>除法溢出错误，0</li>
+<li>单步执行指令（-t），1</li>
+<li>执行<code>into</code>指令，4，是溢出时自动产生的（interrupt if overflow）</li>
+<li>执行<code>int n</code>指令，n是中断类型码</li>
+</ol>
+<p>在8086中有一个中断向量表，记录了不同类型的中断所需要跳转的<code>CS:IP</code>地址</p>
+<p><code>ip = 0000:[N*4], cs = 0000:[N*4+2]</code>，N是中断类型</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_17.png" width="300"></center>
+
+<p>随后CPU执行<code>CS:IP</code>处的指令</p>
+<p><strong>执行过程</strong></p>
+<ol>
+<li><p>CPU获取中断类型码<code>N</code></p>
+</li>
+<li><p><code>pushf</code></p>
+</li>
+<li><p>将标志位的<code>TF = 0, IF = 0</code>，<code>TF</code>是trap flag，等于1时单步调试，<code>IF</code>是interrupt flag，等于1时能被中断</p>
+<p>整个意思就是程序将<strong>不能再被中断且连续执行</strong></p>
+</li>
+<li><p><code>push cs,push ip</code></p>
+</li>
+<li><p><code>ip = 0000:[N*4], cs = 0000:[N*4+2]</code></p>
+</li>
+</ol>
+<a name="5.6" class="md-header-anchor" id="5.6"></a>
+<h3>6.6 编写一个中断指令</h3>
+<p>整个框架如下，<code>doN</code>表示中断类型码为N</p>
+<pre><code class="language-assembly">assume cs:code
+
+code segment
+	
+start:
+	;doN 安装程序
+	
+	;设置中断向量表
+	
+	mov ax, 4c00H
+	int 21H
+	
+	;doN主程序
+	mov ax, 4c00H
+	int 21H			;这是doN函数的返回
+doNend:	nop			;程序结束标志
+
+code ends
+end start
+</code></pre>
+<p><strong>安装程序</strong></p>
+<p>需要将主程序的内容复制到一段不会被使用的内存空间，在中断向量表的<code>0000:0200</code>之后的空间未被使用且不会被程序自动使用，可以储存</p>
+<pre><code class="language-assembly">;doN安装程序
+mov ax, cs
+mov ds, ax
+mov si, offset doN
+mov ax, 0
+mov es, ax
+mov di, 200H
+mov cx, offset doNend - offset doN		;长度就是doN的指令的长度
+cld
+rep movsb
+</code></pre>
+<p><strong>设置中断向量表</strong></p>
+<p>想要发生N中断时自动调用，那么需要修改中断向量表中原来<code>4N+2:4N</code>处的内容</p>
+<pre><code class="language-assembly">mov ax, 0
+mov es, ax
+mov word ptr es:[N*4], 200H		;保证中断后IP=200H
+mov word ptr es:[N*4+2], 0		;保证中断后CS=0
+</code></pre>
+<p><code>0000:0200H</code>是doN的入口地址，下面是doN的主程序</p>
+<a name="5.7" class="md-header-anchor" id="5.7"></a>
+<h3>6.7 单步中断</h3>
+<p><code>-t</code>指令到底干了些什么</p>
+<ol>
+<li>首先产生中断</li>
+<li>将<code>TF = 1</code></li>
+<li>CPU单步执行指令，返回修改后的寄存器内容和下一条指令</li>
+</ol>
+<p>如果一开始就是<code>TF = 1</code>，那么将一直重复<code>-t</code>指令的第一个指令，永远不能结束</p>
+<p>故进入中断前CPU会自动设置<code>TF = 0</code></p>
+<p><strong>单步中断不响应</strong></p>
+<p>有些时候，<code>-t</code>指令的单步中断不会被识别，如</p>
+<pre><code class="language-assembly">mov ax, 12H
+mov ss, ax
+mov sp, 21H
+</code></pre>
+<p>在执行完<code>mov ss, ax</code>后会<strong>自动执行下一条</strong>，因为规范就是<code>ss, sp</code>连续定义</p>
+<p>故<code>ss</code>下一条必须是<code>sp</code>的赋值</p>
+<a name="5.8" class="md-header-anchor" id="5.8"></a>
+<h3><font color=blue>6.8 由<code>int Nh</code>引发的中断</font></h3>
+<p>执行<code>int n</code>时，自动执行以下操作</p>
+<pre><code class="language-assembly">pushf
+push cs
+push ip
+</code></pre>
+<p>所以在中断调用的函数（<strong>中断例程</strong>）中需要在结束前加上一句<code>iret</code>，依次执行</p>
+<pre><code class="language-assembly">pop ip
+pop cs
+popf
+</code></pre>
+<p>共弹出6个元素</p>
+<a name="5.9" class="md-header-anchor" id="5.9"></a>
+<h3>6.9 BIOS和DOS中断处理</h3>
+<p><strong>BIOS中断</strong></p>
+<p>BIOS：Basic Input Output System，在主板的ROM（read only memory）存放的一套程序</p>
+<p>对于8086来说，这个程序长<code>8kB</code>，从<code>FE000H</code>开始，到<code>FFFFFH</code>结束</p>
+<p>主要内容：硬件系统的检测和初始化程序；外部和内部中断的中断例程；对外部设备进行I/O中断</p>
+<p><strong>DOS中断</strong></p>
+<p>比BIOS更高层，是系统层面的中断</p>
+<p>和硬件有关的中断，一般都是调用的BIOS的中断例程</p>
+<p><strong><code>int 21H</code></strong></p>
+<p>这个中断使用<code>ah</code>中的值作为功能号，返回结果保存在<code>al</code>中</p>
+<p><code>4cH</code>表示程序返回，结果保存在<code>al</code>中</p>
+<p><strong>BIOS和DOS的中断例程的安装过程</strong></p>
+<ol>
+<li>CPU供电，初始化使得<code>CS:IP = FFFF:0000</code>，执行这个位置的程序，跳转到BIOS的硬件检测和初始化</li>
+<li>建立BIOS中断的中断向量表</li>
+<li>调用<code>int 19H</code>，引导操作系统，交管控制权到OS（这里是DOS）</li>
+<li>DOS建立自己的中断向量表和中断例程</li>
+</ol>
+<a name="5.10" class="md-header-anchor" id="5.10"></a>
+<h3>6.10 端口的读写</h3>
+<p><strong>CPU的邻居</strong></p>
+<p>CPU可以直接读写三个地方的数据</p>
+<ol>
+<li>内部寄存器</li>
+<li>内存单元</li>
+<li>端口（连接到主板的外部设备和CPU的交流通道）</li>
+</ol>
+<p>端口有64K的地址空间</p>
+<p><font color=green><strong>读写指令</strong></font></p>
+<p><code>in</code>用于读端口</p>
+<p><code>in al, 60h</code>表示从<code>60h</code>这个端口号读入一个字节，赋值给<code>al</code></p>
+<p>执行过程：</p>
+<ol>
+<li>CPU通过地址总线将<code>60H</code>发出，通过控制总线发出<code>in</code>（读）命令</li>
+<li><code>60H</code>端口将内容通过数据总线送入CPU</li>
+</ol>
+<p><code>out</code>用于写端口</p>
+<p><code>out 21h, al</code>表示将<code>al</code>的内容写入到<code>21h</code>端口</p>
+<p>在<code>in, out</code>指令中，只能使用<code>ax, al</code>来进行读写，前者用于16bit，后者8bit</p>
+<a name="5.11" class="md-header-anchor" id="5.11"></a>
+<h3>6.11 CMOS RAM芯片</h3>
+<p>包含一个实时钟和一个128个单元的RAM存储器，该芯片依靠电池工作，主板断电后内容不会丢</p>
+<p>有两个端口，<code>70h, 71h</code>，前者存放读取的内存地址，后者存放选定的内存里的值</p>
+<p><strong>提取CMOS RAM中的时间</strong></p>
+<p>已知地址<code>08</code>存放月份，使用BCD码存放，如何提取？</p>
+<pre><code class="language-assembly">assume cs:code
+
+code segment
+	mov al, 8					;访问8号地址
+	out 70h, al					;写入8
+	
+	in al, 71h					;读出月份
+	;下面是将BCD转换为ASCII
+	;先将高四位和第四位分开，再直接+30h
+	;就得到月份的十位和个位的ASCII码
+	
+	mov ah, al
+	mov cl, 4			
+	shr ah, cl					;逻辑右移4次得到高四位，最高位补0
+	and al, 00001111B			;做and运算
+	
+	add al, 30H					;变成ASCII码
+	add ah, 30H
+	;打印
+code ends
+
+end
+</code></pre>
+<a name="5.12" class="md-header-anchor" id="5.12"></a>
+<h3>6.12 外设连接与中断</h3>
+<p>外中断分为<strong>不可/可屏蔽中断</strong>，前者是CPU必须响应的中断，后者可以不响应</p>
+<p>可屏蔽：看标志位寄存器的<code>IF</code>，<code>IF = 0</code>，则不响应这次中断；<code>IF = 1</code>，则在执行完当前指令后响应；几乎所有外设的中断都是可屏蔽中断；信息来自于CPU外部，通过数据总线送入CPU</p>
+<p>不可屏蔽：CPU必须在执行完当前指令后响应，对于8086来说，这个中断的<strong>中断码固定为2</strong>（<code>N = 2, int 2</code>）</p>
+<a name="5.13" class="md-header-anchor" id="5.13"></a>
+<h3>6.13 PC机键盘处理过程</h3>
+<p><strong>键盘按键</strong></p>
+<ol>
+<li>按下键盘，得到一个扫描码，表示按下的键的位置，称为通码</li>
+<li>通码送入寄存器的<code>60H</code>端口</li>
+<li>松开按键，得到一个扫描码，称为断码</li>
+<li>断码送入<code>60H</code></li>
+</ol>
+<p>断码的第七位为1，通码的第七位为0，有<code>通码 + 80H = 断码</code>，这都<strong>不是</strong>ASCII码</p>
+<p><strong>引发9号中断</strong></p>
+<ol>
+<li><p>键盘输入达到<code>60H</code>端口，芯片向CPU发出<code>N = 9</code>的可屏蔽中断</p>
+</li>
+<li><p><code>IF = 1</code>，响应中断，否则不管</p>
+</li>
+<li><p>接受的输入信息存放在<strong>BIOS键盘缓冲区</strong>（<code>16B</code>的空间），这个区域可以存放15个键盘输入，一个输入占<code>1B</code></p>
+<p>高位是扫描码，低位是对于的ASCII码</p>
+<p>如果输入的是控制键/切换键（shift，ctrl等），则会改变键盘状态字节，也是一个FLAG，按位生效，存放在<code>0040:0017</code>中</p>
+</li>
+</ol>
+<p><strong>执行9号中断</strong></p>
+<ol>
+<li>读出<code>60H</code>的扫描码</li>
+<li>如果是字符，将扫描码和对于的ASCII码送入键盘缓冲区；如果是控制键/切换键，将其转变为状态字节，送入FLAG的单元</li>
+<li>向键盘芯片发出回应</li>
+</ol>
+<a name="5.14" class="md-header-anchor" id="5.14"></a>
+<h3>6.14 操作外部设备</h3>
+<p>以键盘操作为例</p>
+<p>按下键盘时产生的<code>int 9</code>中断，如果响应了，那么跳转到BIOS的键盘中断处理程序<code>int 16H</code></p>
+<p><strong><code>int 16H</code>中断</strong></p>
+<p>当<code>ah = 0</code>时，从键盘缓冲区读取<code>1B</code>，并删除这个字节，返回值为<code>ah = 扫描码, al = ASCII码</code></p>
+<p>ASCII码会根据键盘状态字而改变，如果shift按下，caps为1，那么按键<code>A</code>的<strong>扫描码不会改变</strong>，ASCII码变为<code>61H</code>（小写a）</p>
+<p><strong><code>int 16H</code>的0号中断例程具体实现过程</strong></p>
+<ol>
+<li>检查缓冲区有无数据</li>
+<li>没有数据，重复1；有数据，向下走</li>
+<li>读取第一个字单元的键盘输入</li>
+<li>将扫描码送入<code>ah</code>，ASCII码送入<code>al</code></li>
+<li>将读取到的输入从缓冲区删除</li>
+</ol>
+<p><code>int 9</code>和<code>int 16H</code>是一对配合的中断例程，前者在键盘按下/松开时写数据，后者在被调用时读数据</p>
+<a name="5.15" class="md-header-anchor" id="5.15"></a>
+<h3>6.15 定制和改写键盘中断例程</h3>
+<p><font color=red>例：</font>现在想在屏幕上依次显示<code>a~z</code>，且人看得见；显示过程中，按下ESC后改变字体颜色，要求原先的<code>int 9</code>中断例程仍然能调用</p>
+<p>解：自动变化字母，人能看清，那么得延迟，延迟函数有两个</p>
+<ol>
+<li><p>调用中断例程</p>
+<pre><code class="language-assembly">delay:
+    push ax
+    push cx
+    push dx
+    mov cx, 000FH
+    mov dx, 4240H
+    mov ax, 8600H
+    int 15H
+    pop dx
+    pop cx
+    pop ax
+    iret
+</code></pre>
+<p><code>int 15H</code>在<code>ah=86H</code>时，会延迟<code>cx:dx</code>微秒的延迟，<code>1s = 10e6 us = F4240H us</code></p>
+</li>
+<li><p>CPU空循环</p>
+<pre><code class="language-assembly">delay:
+    push ax
+    push dx
+    mov dx, 10H
+    mov ax, 0
+s1:    sub ax, 1
+    sbb dx, 0        ;使用sbb，带借位的减法
+    cmp ax, 0
+    jne s1
+    cmp dx, 0
+    jne s1
+    pop dx
+    pop ax
+    ret
+</code></pre>
+<p>8086的时钟频率为5MHz，一个周期200ns，4个周期构成一个总线周期（存/取1B的时间）</p>
+<p>对于sub指令，占4B，需要4个总线周期，执行这条指令也需要1个总线周期，共5个，时间为\(200\times 4\times 5 = 4\mathsf{us}\)，为了实现秒级的延迟，<code>16B</code>的寄存器不够，需要<code>dx:ax</code>配合使用</p>
+</li>
+</ol>
+<p>​	按下ESC后改变颜色，得写新的<code>int 9</code>中断例程</p>
+<pre><code class="language-assembly">int 9:
+	push ax
+	push bx
+	push es
+	
+	in al, 60H		;从60H端口读入键盘的输入
+	pushf			;标志位寄存器压栈
+	
+	pushf			;为了手动设置IF，TF标志位为0而压栈，可以认为上面是准备工作
+	pop bx			;和上一句一起，将标志位赋给bx
+	and bh, 11111100B
+	push bx
+	popf 			;和上一句一起改变标志位寄存器
+	
+	;执行原来的int 9中断，取键盘输入，这里留空后面补上
+	
+	cmp ah, 1h		;ESC的扫描码为1H
+	jne int9ret		;不是就退出这个例程
+	
+	;改变颜色的函数
+	mov ax, 0B800H
+	mov es, ax
+	inc byte ptr es:[160*12+40*2+1]
+	
+int9ret:
+	pop es
+	pop bx
+	pop ax
+	iret			;中断例程的返回
+</code></pre>
+<p>要求原先的<code>int 9</code>中断例程忍让能用，那么得存放原先的入口</p>
+<pre><code class="language-assembly">data segment
+	dw 0, 0
+data ends			;datasg 用来保存原来的入口
+
+;下面是改变int 9的入口到自己定义的
+mov ax, 0
+mov es, ax
+
+;通过栈来实现存原先的入口
+push es:[9*4]
+pop ds:[0]
+push es:[9*4+2]
+pop ds:[2]
+
+;重定向int 9的入口
+mov word ptr es:[9*4], offset int9
+mov es:[9*4+2], cs
+
+;恢复原来的中断例程地址
+push ds:[0]
+pop es:[9*4]
+push ds:[2]
+push es:[9*4+2]
+</code></pre>
+<p>这样原来的中断指令的地址就在<code>ds:[0], ds:[2]</code>中，通过<code>call dword ptr ds:[0]</code>就能实现原先的中断例程（取键盘输入）</p>
+<p>完整的指令如下</p>
+<pre><code class="language-assembly">assume cs:code
+stack segment
+	db 128 dup (0)
+stack ends
+
+data segment
+	dw 0,0
+data ends
+
+code segment
+start: 
+    mov ax,stack
+    mov ss,ax
+    mov sp,128
+    mov ax,data
+    mov ds,ax
+
+;改变中断例程的入口地址
+    mov ax,0
+    mov es,ax
+;通过入栈出栈的方式将原始int9中断例程的入口地址放到定义好的数据段
+    push es:[9*4]
+    pop ds:[0]
+    push es:[9*4+2]
+    pop ds:[2]
+;将中断向量表的9号例程指向自定义的例程程序入口，即cs:offset int9处
+    mov word ptr es:[9*4], offset int9
+    mov es:[9*4+2],cs
+
+;显示“a~z”
+    mov ax,0b800h
+    mov es,ax
+    mov ah,&#39;a&#39;
+s: 	mov es:[160*12+40*2],ah
+    call delay
+    inc ah
+    cmp ah,&#39;z&#39;
+    jna s
+    mov ax,0
+    mov es,ax
+
+;恢复原来的中断例程地址
+    push ds:[0]
+    pop es:[9*4]
+    push ds:[2]
+    pop es:[9*4+2]
+
+    mov ax,4c00h
+    int 21h
+
+;延迟和变颜色子程序
+;延时子程序
+delay:
+    push ax
+    push cx
+    push dx
+    mov cx,000fh
+    mov dx,4240h
+    mov ah,86h
+    mov al,0
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+
+;新的int9中断例程
+int9: 
+;子程序中用到的寄存器压栈
+    push ax
+    push bx
+    push es
+;从60h 从端口读入键盘的输入
+	in al,60h
+;标志位寄存器压栈
+	pushf
+;手动设置IF、TF标志位为零
+    pushf
+    pop bx ;先push再pop，将标志位寄存器的值放到通用寄存器中
+    and bh,11111100b
+    push bx ;压栈改变后的标志位寄存器的值
+    popf ;设置IF、TF标志位为零
+    call dword ptr ds:[0] ;执行原来的int9中断例程，取键盘输入
+    cmp al,1h ; ESC扫描码1
+    jne int9ret
+;改变颜色
+    mov ax,0b800h
+    mov es,ax
+    inc byte ptr es:[160*12+40*2+1] ;改变字符属性
+int9ret:
+	pop es
+    pop bx
+    pop ax
+    iret ;中断例程返回
+
+code ends
+end start
+</code></pre>
+<p>注意到<code>int9</code>函数不用写在主程序中，这是在键盘输入时自动跳转的</p>
+<p><code>cli</code>指令可以屏蔽外部中断，保证代码运行，当保护的代码结束时，<code>sti</code>指令可以恢复外部中断的中断性</p>
+<a name="5.16" class="md-header-anchor" id="5.16"></a>
+<h3>6.16 磁盘读写</h3>
+<p>BIOS提供<code>int 13H</code>作为磁盘读写中断</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

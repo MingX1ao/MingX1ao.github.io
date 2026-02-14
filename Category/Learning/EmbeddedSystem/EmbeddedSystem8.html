@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="9 串口通信原理及接口技术 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>9 串口通信原理及接口技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>9 串口通信原理及接口技术
+                    <ul>
+                            <li><a href="#8.1">9.1 串口通信</a></li>
+                            <li><a href="#8.2">9.2 串口原理</a></li>
+                            <li><a href="#8.3">9.3 串口工作方式</a></li>
+                            <li><a href="#8.4">9.4 串口接口技术</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">9 串口通信原理及接口技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="8.1" class="md-header-anchor" id="8.1"></a>
+<h3>9.1 串口通信</h3>
+<p>UART，SPI都是全双工，I2C是半双工</p>
+<p><strong>并行通讯</strong>：多条线并行；特点是控制简单，速度快，但多根线长距离成本高且同时接收存在困难</p>
+<p><strong>串行通讯</strong>：单根线，长距离成本低，数据流控制复杂</p>
+<p><strong>同步通讯</strong>：两个时钟连接，每个周期采集数据</p>
+<p><strong>异步通讯</strong>：时钟周期尽量相近，相位可以不同，但是波特率是一致的</p>
+<ul>
+<li><font color=red>异步通讯数据格式：一个字符帧 = 1b低电平起始位 + 5-8b数据位 + 1b校验位 + 1b停止位</font></li>
+</ul>
+<p>UART是串行、全双工、异步通讯（在空闲时为高电平）</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_34.png" width="600"></center>
+
+<p>每一位持续的时间由波特率决定</p>
+<p><strong>SPI的主机、从机</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_35.png" width="400"></center>
+
+<p>主机提供时钟，选择要通讯的从机</p>
+<p>只能有一个主机</p>
+<p><font color=red><strong>UART连接方式</strong></font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_60.png" width="400"></center>
+
+<p>注意要对着连</p>
+<p><strong>波特率、比特率</strong></p>
+<p>波特率：信号电平在1s内的变化次数</p>
+<p>比特率：每秒传递的二进制位数</p>
+<p>二者的关系通过码元状态数目<br>\[
+R = Nb \cdot \log_2{M}
+\]<br>其中\(R,Nb,M\)分别是比特率，波特率和码元状态数目</p>
+<a name="8.2" class="md-header-anchor" id="8.2"></a>
+<h3>9.2 串口原理</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_36.png" width="400"></center>
+
+<p>接受和发送的物理上的BUFFER不是一个，但是地址是共享的<code>99H</code></p>
+<p>但是由于CPU可以区分发送和接收的状态，因此可以区分；发送时CPU是主动的</p>
+<p><strong>收发的触发</strong></p>
+<ul>
+<li>发送：任何将<code>SBUF</code>作为目的寄存器的写指令</li>
+<li>接收：<code>Mode=0</code>时，<code>RI=0, REN=1</code>；其他模式下，<code>REN=1</code>，接收到起始位，就开始接收</li>
+</ul>
+<p><strong>SCON控制寄存器</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_37.png" width="500"></center>
+
+<ul>
+<li><code>SM0SM1</code>的组合确定了4种工作方式，其中波特率由Timer产生，可变</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_38.png" width="500"></center>
+
+<ul>
+<li><p><code>SM2</code>控制方式2/3下的多机通讯</p>
+</li>
+<li><p><code>REN</code>是允许串行接收位，由软件置1，启动串行口接收数据；若软件置0，禁止接收</p>
+</li>
+<li><p><code>TB8</code>：在方式2/3中使用，是发送数据的第8位（BUFFER仅8位），作为奇偶校验位，或在多机通讯中作为地址/数据帧校验位</p>
+</li>
+<li><p><code>RB8</code>：方式2/3中如上，方式1中，若<code>SM2=0</code>，则<code>RB8</code>是接收到的停止位</p>
+</li>
+<li><p><code>TI/RI</code>：中断标志位，在发送/接收第7位数据时，由硬件置1，发送中断；中断完成后不会自动置0，必须软件置0取消申请</p>
+<p>在中断前CPU会知道是接受还是发送</p>
+</li>
+</ul>
+<p><strong>PCON控制寄存器</strong></p>
+<p>仅最高位的<code>SMOD</code>与串口工作有关，是波特率倍增位</p>
+<ul>
+<li>当工作在方式1/2/3时，波特率与之有关</li>
+<li><code>SMOD=1</code>，波特率翻倍，否则不变</li>
+</ul>
+<a name="8.3" class="md-header-anchor" id="8.3"></a>
+<h3>9.3 串口工作方式</h3>
+<p><strong>方式1</strong></p>
+<p>数据格式：1b起始位 + 8b数据位 + 1b停止位</p>
+<ul>
+<li><p>发送时序</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_39.png" width="500"></center>
+</li>
+<li><p>接收时序</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_40.png" width="500"></center></li>
+</ul>
+<p>当<code>REN=1</code>时，用16倍波特率进行RXD引脚采样</p>
+<p>当检测到第一个低电平（起始位）时，将其移入输入移位寄存器（不是SBUF），从右呈队列左移，当起始位移动到MSB时，控制电路进行最后一次位移</p>
+<p>当<code>RI=0</code>时，若<code>SM2=2</code>或接收到停止位=1时，将接收到的9b数据的前8b装入SBUF，停止位进入<code>RB8</code>，置<code>RI=1</code>，发送中断请求</p>
+<p>在方式1，若<code>SM2=1</code>，则只有接收到停止位才置<code>RI=1</code></p>
+<p><strong>方式2/3</strong></p>
+<p>数据格式如下</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_41.png" width="500"></center>
+
+<p>多了一个附加的第8位</p>
+<p>方式2的波特率固定为内部晶振的1/64或1/32，方式3的波特率由T1的溢出率决定</p>
+<p><strong>波特率的计算与配置</strong></p>
+<ul>
+<li>方式0，固定为晶振的1/12，即机器频率</li>
+<li>方式1，波特率 = \(2^{\mathsf{SMOD}}/32\cdot\)(T1溢出率)</li>
+<li>方式2，波特率 = \(2^{\mathsf{SMOD}}/64\cdot\)晶振频率</li>
+<li>方式3，波特率 = \(2^{\mathsf{SMOD}}/32\cdot\)(T1溢出率)</li>
+</ul>
+<p>其中T1初值和波特率的关系查表如下，溢出率指定时器每秒钟的溢出次数</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_42.png" width="500"></center>
+
+
+
+<p><strong>UART初始化</strong></p>
+<ol>
+<li>确定T1工作方式，编程<code>TMOD</code></li>
+<li>计算T1初值，装载<code>TH1,TL1</code></li>
+<li>启动T1</li>
+<li>确定串口工作，编程<code>SCON</code></li>
+<li>若是中断方式，要进行中断设置，编程<code>IE,IP</code>寄存器</li>
+</ol>
+<a name="8.4" class="md-header-anchor" id="8.4"></a>
+<h3>9.4 串口接口技术</h3>
+<p>8051 UART 通过 RS232 与 PC USB 连接，实际并没有使用USB，而是模拟RS232进行电平转换</p>
+<p>UART除了收发线之外还有一个共地线</p>
+<p><strong>I2C通讯</strong></p>
+<p>特点是同步、半双工、串行通讯</p>
+<p><font color=red><strong>判断题</strong></font></p>
+<ul>
+<li>51的UART不支持多机通讯，错误</li>
+<li>单片机的UART和PC通讯，需要通过USB模拟一个RS232，通过UART-RS232-USB实现，正确</li>
+<li>51的UART通讯的收发共用一个中断例程，正确；但是可以用RI和TI判断</li>
+<li>51的UART接收中断指的是UART收到一帧后，通知CPU读取数据的中断，正确</li>
+<li>51的UART发送中断指的是UART发完一帧后，通知CPU可以写SBUF，正确</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

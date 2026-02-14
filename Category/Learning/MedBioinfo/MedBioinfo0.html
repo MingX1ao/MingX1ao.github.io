@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学生物信息学">
+    <meta name="description" content="1 序列比对 - 医学生物信息学">
+    <meta name="author" content="MingXiao">
+    <title>1 序列比对</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 序列比对
+                    <ul>
+                            <li><a href="#0.1">1.1 序列比对评价</a></li>
+                            <li><a href="#0.2">1.2 全局比对和动态规划</a></li>
+                            <li><a href="#0.3">1.3 马尔可夫模型</a></li>
+                            <li><a href="#0.4">1.4 多序列比对</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 序列比对</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>目的：根据序列之间的功能或演化关系，有效地<strong>检测序列之间的相似性</strong></p>
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 序列比对评价</h3>
+<p>序列比对后得到的结果是匹配分数和匹配序列</p>
+<p>匹配序列如下<br>\[
+MV-SA\\
+|\,\,|\,\,\,\,\,\,\,\,\,\,:\,\,\,.\\
+MVHTE
+\]<br>其中&quot;\(|\)&quot;表示两个序列identical，&quot; &quot;表示一方是空白的，&quot;\(:\)&quot;表示二者similar，&quot;\(.\)&quot;表示not similar</p>
+<p>这些符号由<strong>替换矩阵</strong>决定，替换矩阵规定了每个残基和其他残基匹配时的分数</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_1.png" width="400"></center>
+
+<p>当存在空白时，认为是发生了indel(insertion/deletion)，即一条序列的插入就是另一条序列的删除</p>
+<p>空白会带来惩罚，惩罚规则如下</p>
+<ul>
+<li>opening：第一个空位，penalty = d</li>
+<li>extending：后续的空位扩展，penalty = e</li>
+<li>一般而言\(e<d\)，因为首次打开一个空位的难度更大</li>
+<li>Penalty = d + (n-1)*e</li>
+</ul>
+<p>最终两条序列的匹配总分为<br>\[
+\mathsf{Score} = \sum \mathsf{Substitution\, Scores} -\sum\mathsf{Gap\, Penalty}
+\]</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 全局比对和动态规划</h3>
+<h4>1.2.1 全局比对</h4>
+<p>全局比对：将输入序列的<strong>所有残基</strong>排列起来，根据评价规则求出<strong>最大的得分</strong>，即最优比对结果</p>
+<p>全局比对的思想：<strong>最好的比对 = 前一个最好的比对 + 这个位置的最好比对</strong></p>
+<p>也就是动态规划而非贪心，因为前一项不是\(\sum\)局部最优</p>
+<h4>1.2.2 动态规划</h4>
+<p>Dynamic Programming（DP），写为公式就是</p>
+<p>对于\(X,Y\)两条序列<br>\[
+F(i,j) = \max \begin{cases}
+F(i-1,j-1) + s(x_i,y_j)\,\,, x_i 与y_j配对 \\
+F(i-1,j) + d\,\,\,,\,\,\,x的第i位是gap\\
+F(i,j-1) + d\,\,\,,\,\,\,y的第j位是gap\\
+\end{cases}
+\]<br>其中\(F(i,j)\)是这个序列匹配到\((i,j)\)位置时的分数，\(s(x_i,y_j)\)是\(x_i,y_j\)匹配时的分数，\(d\)是gap penalty</p>
+<p>表示为图像就是</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_2.png" width="300"></center>
+
+<p>一共有三条路通向下一个，目标是找到能使\(F(i,j)\)最大的，因此，可以用填空的方式求解</p>
+<p><font color=red>例：</font>假定碱基的空白惩罚为-5，替换矩阵为</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_3.png" width="200"></center>
+
+<p>配对序列&quot;AAG&quot;和&quot;AGC&quot;</p>
+<p>解：画出这两个序列的表格，其中空白表示gap，箭头表示延伸方向，结果为</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_4.png" width="400"></center>
+
+<p>那么就有两条路进行选择：\(AAG-\\A-GC\)     和      \(AAG-\\-AGC\)      ;      前者是0,2,-3,-1,-6，后者是0,-5,-3,-1,-6</p>
+<p>在画表格时，先计算水平和竖直两个方向会简化计算</p>
+<p>在得到最终结果后进行回溯，可以得到序列</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_5.png" width="400"></center>
+
+
+
+<h4>1.2.3 从全局到局部</h4>
+<p>全局比对是在全局范围内的最优数学解，但是这个算法忽略了生物学上的问题，即</p>
+<ul>
+<li>所有片段的<strong>重要性</strong>不尽相同</li>
+<li>占基因很大的<strong>内含子不表达</strong>，比对这一部分无意义</li>
+</ul>
+<p>因此，使用优化后的局部比对算法，公式为<br>\[
+F(i,j) = \max \begin{cases}
+F(i-1,j-1) + s(x_i,y_j)\,\,, x_i 与y_j配对 \\
+F(i-1,j) + d\,\,\,,\,\,\,x的第i位是gap\\
+F(i,j-1) + d\,\,\,,\,\,\,y的第j位是gap\\
+0						\,\,\,\,,\,\,\,\,\mathsf{BeginAgain}
+\end{cases}
+\]<br>即当某一步出现了负值时，将其认为新的序列的开始，效果上，就是</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_6.png" width="400"></center>
+
+<p>最优序列是：\(AG\\AG\)      ；    次优序列是：\(A\\A\)</p>
+<p>与全局比对相比，局部比对的效果更能反映生物学关系</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_7.png" width="400"></center>
+
+
+
+<h4>1.2.4 BLAST</h4>
+<p>将一个DNA片段在基因库中进行比对时，如果总是指向上面的DP算法，将会非常耗时</p>
+<p>可以预见，<strong>匹配的基因只会出现在表格的主对角线附近</strong>，那么只需要在网格的<strong>主对角线两侧有限区域</strong>内进行评分，将大大减少时间而不减少准确度</p>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>1.3 马尔可夫模型</h3>
+<p>马尔可夫模型用来模拟<strong>伪随机</strong>变化的系统</p>
+<h4>1.3.1 马尔可夫模型</h4>
+<p>以天气变化为例，下面是天气变化的<strong>马尔科夫链</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_8.png" width="400"></center>
+
+<p>概率都是条件概率，那么可以写出<strong>状态转移概率矩阵</strong>和初始概率分布</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_9.png" width="200"></center>
+
+<p>\[
+\pi =(0.7, 0.25, 0.05)
+\]</p>
+<p>注意每一<strong>行</strong>之和都是1，而每一<strong>列</strong>不一定</p>
+<p>下面给出定义：</p>
+<p>马尔可夫链描述一个<strong>连续的离散随机过程</strong>，即一种状态的序列的变化<br>\[
+\{q_1,q_2,\ldots,q_k\}
+\]<br>其中\(q_i\)一定属于状态<br>\[
+\{S_1, S_2,\ldots,S_n\}
+\]<br>中的某一个，状态之间的转移概率<br>\[
+a_{ij} = P(q_t=S_j| q_{t-1}=S_i)
+\]<br>构成的矩阵就是状态转移概率矩阵，显然这<strong>不是对称阵</strong></p>
+<p>给定的初始概率分布记为<br>\[
+\pi = P[q_0 = S_i]
+\]</p>
+<p>对于天气变化序列</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_10.png" width="600"></center>
+
+<p>给出概率，为<br>\[
+P(O) = 0.7 * 0.15 * 0.6 * 0.6 * 0.02 * 0.2
+\]</p>
+<h4>1.3.2 在序列比对中的作用</h4>
+<p>假定序列比对存在以下状态</p>
+<ul>
+<li>M：Match，即配对，不必须identical</li>
+<li>X：在X链发生了一次插入，即X链的A配对了Y链的Gap</li>
+<li>Y：相反，在Y链的B配对了X链的Gap</li>
+</ul>
+<p>给出马尔科夫链</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_11.png" width="300"></center>
+
+<p>为什么X与Y之间没有转移？</p>
+<p>在序列对比中，形如\(A-\\-B\)的配对是不允许的，即Gap Closing一定会到Match，而不会在对面新开一个</p>
+<p>根据惩罚给出发生的概率</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_12.png" width="600"></center>
+
+
+
+<h4>1.3.3 隐马尔可夫模型</h4>
+<p>状态路径无法预测，但是有观测结果可以反映状态变化</p>
+<p>隐马尔科夫模型可以解决三大问题</p>
+<ul>
+<li>评估：计算在给定模型下观测序列出现的概率，反推最可能的过程</li>
+<li>模型学习</li>
+<li>解码/预测问题</li>
+</ul>
+<p>以天气为例，首先知道天气的状态转移概率矩阵和初始状态概率，也知道天气对人的穿着的影响的<strong>生成概率矩阵</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_13.png" width="400"></center>
+
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_14.png" width="600"></center>
+
+<p>给定一组观测结果：coat，coat，umbrella，umbrella，bathing suit，umbrella，umbrella</p>
+<p>那么根据全概率公式和贝叶斯公式，有<br>\[
+P(O) = \sum P(O|Q_i)P(Q_i) = \sum P(O|q_1,q_2,\ldots,q_k)P(q_1,q_2,\ldots,q_k)\\
+=\Pi P(o_i|q_1,q_2,\ldots,q_k)P(q_1,q_2,\ldots,q_k)
+\]<br>在这组观测结果下，当条件为全晴天时的概率为<br>\[
+P(O|q_1\sim q_7 =sunny)P(q_1\sim q_7) = (0.7*0.8^6)*(0.3*0.3*0.1*0.1*0.6*0.1*0.1)
+\]<br>当然，使用前提后一天状态仅受前一天影响</p>
+<h4>1.3.4 隐马尔科夫预测模型</h4>
+<p>使用隐马尔科夫模型来预测一段基因序列是否为编码区/非编码区，给出转移概率矩阵和生成概率矩阵</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_15.png" width="600"></center>
+
+<p>其中n为non-coding area。在有了矩阵之后，根据给定的序列，求其生成概率最大的可能<br>\[
+S = \mathsf{arg max} P(S|X)
+\]<br>利用动态规划的思想，那么<br>\[
+P_{coding}(i+1) = e_{coding}(x+1) \max\{P_k(i)p_{k\rightarrow coding}\}
+\]<br>其中\(k\in\{coding, non-coding\}\)，是转移概率；对于non-coding的概率，同理，不赘述</p>
+<p>上面的计算会造成大量的乘法计算，对于计算机而言很慢，使用对数变为加法，那么新的矩阵就是</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_16.png" width="400"></center>
+
+<p>列出表格，进行填充；与全局/局部比对不同，此时没有竖直方向的箭头</p>
+<p>假设初始概率\(\pi(P(N)=0.7, P(C)=0.3)\)，那么对数化后就是\(-0.155, -0.523\)</p>
+<p>对于序列<code>CG</code>，表格为</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">C</th>
+<th align="center">G</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">non-coding</td>
+<td align="center">-0.155+(-0.523)=-0.678</td>
+<td align="center">-0.678+(-0.097-0.523)=-1.298</td>
+</tr>
+<tr>
+<td align="center">coding</td>
+<td align="center">-0.523+(-0.699)=-1.222</td>
+<td align="center">-0.678+(-0.699-0.699)=-2.076</td>
+</tr>
+</tbody></table>
+<p>最大概率是<code>CG</code>均为非编码区</p>
+<p><font color=red>例：</font>判断一阶HMM是否在以下场景适用</p>
+<ul>
+<li>通过股票价格波动推断市场情绪<ul>
+<li>可以，隐藏状态是市场情绪，观测值是价格、交易量等；局限：短期有效</li>
+</ul>
+</li>
+<li>通过笔迹轨迹识别书写字符<ul>
+<li>可以，隐藏状态是字符，观测值是笔迹的轨迹；字符独立，符合HMM假设</li>
+</ul>
+</li>
+<li>预测十年后平均温度<ul>
+<li>不行，长期依赖不能预测</li>
+</ul>
+</li>
+<li>自动驾驶根据传感器数据规划路径<ul>
+<li>不行，HMM离散状态假设不正确</li>
+</ul>
+</li>
+<li>根据脑电信号对癫痫发作预测<ul>
+<li>分两类：适用：通过脑电推测电线前期状态；不适用：脑电信号可以划分地更简单，用分类模型就行</li>
+</ul>
+</li>
+<li>通过传感器振动信号推断设备健康状态<ul>
+<li>可以，隐藏状态是设备状态，观测值是传感器信号；HMM模型广泛用于状态退化建模</li>
+</ul>
+</li>
+<li>通过视频帧序列推断人体动作<ul>
+<li>不行，一阶不行</li>
+</ul>
+</li>
+</ul>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3>1.4 多序列比对</h3>
+<h4>1.4.1 用途</h4>
+<ul>
+<li>进化分析：鉴定物种的同源性，建立系统发育树，测试进化模型</li>
+<li>功能分析：在蛋白质对比中鉴定保守区域，鉴定蛋白质家族</li>
+<li>结构分析：识别序列的共同变化，用于同源性建模</li>
+<li>鉴定保守的引物结合位点，用于突变分析的诱变实验等</li>
+</ul>
+<p>下面的例子展示了蛋白质的保守性质</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_17.png" width="400"></center>
+
+
+
+<h4>1.4.2 比对方法</h4>
+<p><strong>比对和 打分法</strong>：Sum-of-pairs scoring</p>
+<p>将序列两两进行比对，累和所有的分数，一共对比\(C_n^2\)次</p>
+<p><strong>渐进式比对</strong></p>
+<p>用于已经归类的子组之间的比对，组间序列顺序不可变，Gap只能加不能减</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_18.png" width="600"></center>
+
+
+
+<p><strong>Clustal</strong></p>
+<p>采用全局序列比对法进行所有序列的两两比对，构建距离矩阵（即差异性矩阵），矩阵用于聚类算法的分析</p>
+<h4>1.4.3 DNA vs Protein</h4>
+<p>哪个对比更有说服力？蛋白质</p>
+<p>因为DNA/核酸只有4种碱基，其变化更少，随机匹配更加不准确，即序列的独特性不足，易匹配错误</p>
+<p>而氨基酸的残基有20多种，更难配错</p>
+<p>当使用DNA很难匹配时，可以将其翻译为蛋白质进行比对</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

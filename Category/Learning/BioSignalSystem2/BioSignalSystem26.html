@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="7 DFT - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>7 DFT</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 DFT
+                    <ul>
+                            <li><a href="#6.1">7.1 DFT的概念</a></li>
+                            <li><a href="#6.2">7.2 几个变换的区别</a></li>
+                            <li><a href="#6.3">7.3 补零，用于信号分析</a></li>
+                            <li><a href="#6.4">7.4 DFT的性质</a></li>
+                            <li><a href="#6.5">7.5 基于DFT的LTI系统：如何让线性卷积等于圆周卷积</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 DFT</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 DFT的概念</h3>
+<p>在离散信号经过DTFT后，得到的频谱是连续的，但是数字信号需要离散的表达，由此引出了离散傅里叶变换DFT</p>
+<p>DFT表现为对\(X(\omega)\)进行抽样，表达为<br>\[
+X(k)=X(\omega)|_{\omega=\frac{2\pi}{N}k}\,\,\,, k=0,1,\ldots, N-1
+\]<br>其中\(N\)是有限长时域信号的长度，因此<br>\[
+X(k)=\sum_{n=0}^{N-1}x(n)e^{-j\frac{2\pi}{N}kn}
+\]<br>令\(W_N=e^{-j\frac{2\pi}{N}}\)对上式展开，可以发现<br>\[
+X(0)=x(0)+x(1)+\ldots+x(N-1)\\
+X(1)=x(0)+x(1)W_N+x(2)W_N^2+\ldots+x(N-1)W_N^{N-1}\\
+\ldots\\
+X(N-1) = x(0)+x(1)W_N^{N-1}+\ldots+x(N-1)W_N^{(N-1)(N-1)}
+\]<br>因此，可以使用矩阵简化计算，得到</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_20.png" width="500"></center>
+
+
+
+<p>为了得到逆变换，可以假设\(x=AX\)，带入DFT，得到<br>\[
+X=Wx=WAX
+\]<br>故\(WA=I\Rightarrow A=W^{-1}\)，得到逆变换为<br>\[
+x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(k)W_N^{-nk}
+\]<br>矩阵如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_21.png" width="500"></center>
+
+
+
+<p>注意，DFT变换对应该有同样的长度</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 几个变换的区别</h3>
+<p><strong>DTFT，DFT，DFS</strong></p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_22.png" width="600"></center>
+
+<p>其中\(\tilde{x}\)是周期信号，对周期信号的DFT称为DFS</p>
+<p>DFT和DFS没有本质区别，前者是后者的主值区间，后者是前者的周期延拓</p>
+<p><strong>DTFT，DFT，Z</strong></p>
+<p>容易得到<br>\[
+X(k)=X(z)|_{z=e^{j\frac{2\pi}{N}k}}=X(\omega)|_{\omega=\frac{2\pi}{N}k}
+\]</p>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 补零，用于信号分析</h3>
+<p>当想要的\(X(k)\)序列更加密集时，需要增大\(N\)的值，此时需要对\(x(n)\)进行添0处理，即<br>\[
+x^{'}(n)=\
+\begin{cases}
+x(n)\,\,\,, n<N_0\\
+0\,\,\,\,\,\,\,\,\,\,\,\, ,N_0\leq n< N
+\end{cases}
+\]<br>即扩展了时域信号，相对的频域信号就会进行压缩，即两个采样点之间的距离会变小，采样更密集</p>
+<p>注意：</p>
+<ol>
+<li>补零对DTFT无影响，很显然0对累和无效果</li>
+<li>对DFT来说，只是增加了采样点，整个信号的包络依然是DTFT的图像</li>
+<li>对于周期信号，只有信号的长度是周期的整数倍，DFT的频谱才不会丢失峰值信息</li>
+</ol>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>7.4 DFT的性质</h3>
+<p><strong>圆周位移</strong></p>
+<p>序列的圆周位移的DFT，等价于其周期延拓的线性位移后主周期内的DFT</p>
+<p>简单理解就是转过头了就取模</p>
+<p><strong>线性</strong></p>
+<p>易证</p>
+<p><strong>序列共轭</strong><br>\[
+x^*(n) \leftrightarrow X^*(N-k)
+\]<br>其中\(N\)是序列长度</p>
+<p><strong>序列圆周位移、相移</strong><br>\[
+x(n-l) \leftrightarrow X(k)e^{-j\frac{2\pi}{N}kl}\\
+x(n)e^{j\frac{2\pi}{N}ln} \leftrightarrow X(k-l)
+\]</p>
+<p>插播一条DFS的性质：</p>
+<p><strong>周期卷积</strong></p>
+<p>两个周期都为\(N\)的周期序列，其卷积结果也是周期为\(N\)的序列<br>\[
+\tilde{y} = \tilde{x}_1 \otimes \tilde{x}_2
+\]<br><strong>周期卷积定理</strong><br>\[
+\tilde{Y}(k) = \tilde{X}_1(k) \cdot \tilde{X_2}(k)
+\]</p>
+<p>对于非周期序列来说，可以用圆周位移来构造圆周卷积</p>
+<p><strong>圆周卷积</strong><br>\[
+y = x_1 \bigcirc x_2
+\]<br>其中\(\bigcirc\)中应该有一个\(N\)，但是这里打不出来，\(N\)是\(x_1,x_2\)序列长度；后面统一用\(\circledast\)代替</p>
+<p>圆周卷积与DFT存在对应关系<br>\[
+x_1 \circledast x_2 \leftrightarrow X_1(k)\cdot X_2(k)
+\]<br><strong>这个东西有什么用？</strong></p>
+<p>圆周卷积本身没有任何物理意义，但是由于其能被对应成DFT直乘，那么就存在一定用处</p>
+<p>由于离散序列的卷积对应于DTFT的直乘，而\(X(\omega)\)是连续函数，这在计算机中是无法做到的</p>
+<p>因此，若能有方法使得<br>\[
+x_1(n) * x_2(n) = x_1(n) \circledast x_2(n)
+\]<br>那么就有<br>\[
+X_1(\omega) \cdot X_2(\omega) = X_1(k) \cdot X_2(k)
+\]<br>这样计算机就能做了</p>
+<p><strong>帕斯瓦尔定理</strong><br>\[
+\sum_{n=0}^{N-1} x(n)y^*(n) = \frac{1}{N}\sum_{k=0}^{N-1}X(k)Y^*(k)
+\]</p>
+<a name="6.5" class="md-header-anchor" id="6.5"></a>
+<h3>7.5 基于DFT的LTI系统：如何让线性卷积等于圆周卷积</h3>
+<p><strong>线性卷积</strong></p>
+<p>两个序列\(x(n),h(n)\)，分别长\(L, M\)，得到的输出\(y(n)\)<br>\[
+y(n) = x(n) * h(n) =\sum_{k=1}^{L-1}x(k)h(n-k)
+\]<br>\(y(n)\)的长度为\(N_1=L+M-1\)</p>
+<p><strong>圆周卷积</strong></p>
+<p>\(y(n)\)的长度为\(N_2=\max\{L,M\}\)(短的一方用0补齐)</p>
+<p>因此，想要使用圆周卷积表示线性卷积，那么需要用\(N_2\geq N_1=L+M-1\)的DFT</p>
+<p><font color=red>例：</font>\(h(n)=\{1(0),2,3\},x(n)=\{1(0),2,2,1\}\)，使用DFT和iDFT，求\(y(n)\)</p>
+<p>解：线性卷积的长度为6，因此需要使用6点的DFT，得到结果是\(y(n)=\{1(0),4,9,11,8,3\}\)</p>
+<p>​		如果用4点DFT呢？得到的结果是\(y(n)=\{9,7,9,11\}\)，产生这个结果的原因是\(8,3\)经过圆周到了\(1,4\)的位置</p>
+<p>​		\(1+8=9, 4+3=7\)</p>
+<p><strong>利用圆周卷积计算线性卷积</strong></p>
+<p>步骤如下</p>
+<ol>
+<li>\(x(n)\)添加\(M-1\)个0，\(h(n)\)添加\(L-1\)个0，二者的长度都是\(L+M-1\)</li>
+<li>利用\(L+M-1\)点的DFT计算\(Y(k)\)，逆变换为\(y(n)\)</li>
+</ol>
+<p>优点：在引入FFT后很快</p>
+<p>缺点：必须等到所有的信号，延迟巨大</p>
+<p><strong>解决大延迟</strong></p>
+<p>将信号分为小片段进行处理，步骤如下</p>
+<ol>
+<li>将\(h(n)\)补到\(L+M-1\)，将输入\(x(n)\)划分为长度为\(L\)的小段，这个\(L\)相比于整个序列很小</li>
+<li>对输入的\(x_i(n)\)补\(M-1\)个0，计算\(X_i(k)\cdot H(k)\)</li>
+<li>得到\(y_i(n)\)，注意\(y_i(n)\)之间存在重叠部分，将重叠部分相加，得到\(y(n)\)</li>
+</ol>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_23.png" width="300"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

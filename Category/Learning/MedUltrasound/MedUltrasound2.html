@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="3 声学物理基础 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>3 声学物理基础</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 声学物理基础
+                    <ul>
+                            <li><a href="#2.1">3.1 机械振动和机械波</a></li>
+                            <li><a href="#2.2">3.2 声波和分类</a></li>
+                            <li><a href="#2.3">3.3 声学参量</a></li>
+                            <li><a href="#2.4">3.4 生物组织的声学特性</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 声学物理基础</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 机械振动和机械波</h3>
+<p>产生机械波的条件</p>
+<ol>
+<li>有机械振动的波源</li>
+<li>能传播波的<strong>弹性</strong>介质</li>
+</ol>
+<p>描述一个机械波</p>
+<ul>
+<li>波幅</li>
+<li>频率：通常波动频率在数值上<strong>等于波源振动频率</strong></li>
+<li>波速：<strong>仅由介质决定</strong>，一般比质点振动快</li>
+<li>波长：\(\lambda = c\cdot T\)</li>
+<li>相位</li>
+</ul>
+<p>一般用<br>\[
+p = p_a\cos(\omega t-kx+\varphi)
+\]<br>来描述一个波，其中\(p_a\)是声压的振幅，\(k = \frac{2\pi}{\lambda}\)是波矢</p>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 声波和分类</h3>
+<p><strong>根据质点振动方向</strong></p>
+<ul>
+<li>纵波：凡是能受拉/压的介质都能传播</li>
+<li>横波：<strong>仅固体</strong>能传播，因为只有固体能受剪切力</li>
+<li>表面波：椭圆运动，短轴在传播方向</li>
+</ul>
+<p><strong>根据波阵面分类</strong></p>
+<p>由于能量守恒，能流\(I\)与面积\(S\)的乘积不变，而\(I\propto A^2\)，那么波幅\(A\)与传播距离\(r\)的关系是</p>
+<ul>
+<li><p>平面波：\(A\)不随\(r\)变化，波源是一个平面</p>
+</li>
+<li><p>柱面波：\(A\propto \frac{1}{\sqrt{r}}\)，波源是一条直线</p>
+</li>
+<li><p>球面波：\(A\propto \frac{1}{r}\)，波源是一个点</p>
+</li>
+</ul>
+<p>平面圆片换能器发射的超声波：离换能器<strong>近</strong>的区域，认为是<strong>平</strong>面波；<strong>远</strong>的区域，认为是<strong>球</strong>面波</p>
+<p>同样的，太阳光是平面波而星光是球面波</p>
+<p><strong>根据振动持续时间</strong></p>
+<ul>
+<li><p>连续波</p>
+</li>
+<li><p>脉冲波，视为连续波乘矩形窗</p>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_2.png" width="300"></center>
+
+
+
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 声学参量</h3>
+<h4>3.3.1 <strong>声速</strong></h4>
+<p>给定介质的声速是个常量，但受温度和波<strong>型</strong>的影响</p>
+<p>声速与介质的<strong>密度反相关</strong>，<strong>弹性模量正相关</strong>，固体中还与泊松比有关</p>
+<p>根据声速随水温的变化还能用声速反推温度</p>
+<p>声速的本质：反映了介质受声扰动时的压缩特性，记为<br>\[
+c^2 = \left(\frac{dp}{d\rho}\right)_S
+\]<br>其中\(S\)表示绝热过程，若介质可压缩性较大（\(p\)变化不大而\(\rho\)变化大），那么声速就较低</p>
+<h4>3.3.2 <strong>声压</strong></h4>
+<p>定义为声波引起的<strong>压强差</strong><br>\[
+p = P - P_0
+\]<br>前者是当前压强，后者是静态压强，有</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_3.png" width="500"></center>
+
+<p><strong>有效声压</strong>：瞬时声压的方均根<br>\[
+p_e = \sqrt{\frac{1}{T}\int _T p^2dt}
+\]<br>平面余弦波的\(p_e = \frac{\sqrt{2}}{2}p_a\)</p>
+<p><strong>声压级</strong></p>
+<p>用分贝表示<br>\[
+L_p = 20\lg{\frac{p}{p_0}} \,\,\,\mathsf{dB}
+\]<br>其中\(p_0=2\times 10^{-5}\mathsf{Pa}\)，是基准声压，对应于1000Hz下人耳能听到的最低声压</p>
+<p>用奈培表示<br>\[
+L_n = \ln {\frac{p_1}{p_0}} \,\,\,\mathsf{Np}
+\]<br>二者的换算关系为 1 Np / cm = 8.686 dB / cm</p>
+<h4>3.3.3 <strong>质点振动速度</strong></h4>
+<p>注意与声波速度区分</p>
+<p>一维声波的质点振动速度可以通过牛顿第二定律推导<br>\[
+\rho \frac{dv}{dt} = -\frac{dp}{dx}
+\]<br>其中\(\rho\)是介质密度，分为静态密度\(\rho_0\)和扰动下的密度变化，在线性声波下可以认为密度不变</p>
+<p>\(p = p_a \cos{(\omega t-kx+\varphi)}\)是声压，于是得到<br>\[
+v = -\frac{1}{\rho_0} \int \frac{dp}{dx}dt = \frac{p_a}{\rho_0 c}\cos(\omega t -kx+\varphi)
+\]<br>其中\(c\)是波速</p>
+<h4>3.3.4 声阻抗和声阻抗率</h4>
+<p><strong>声阻抗</strong>：界面声压与通过界面的声通量之比<br>\[
+Z_a = \frac{p}{U} = \frac{p}{vS} = R_a + jX_a
+\]<br>\(R_a\)表示能量传递，\(X_a\)表示存储在介质中的能量（不传播）</p>
+<p><strong>声阻抗率</strong>：归一化，<strong>最能反映介质声学特性</strong>的量<br>\[
+Z_s = \frac{p}{v} = Z 
+\]<br>带入\(v\)的表达式，得到<br>\[
+Z = \rho_0 c
+\]<br>波速\(c\)能用绝热压缩系数表示为\(c = \frac{1}{\sqrt{\rho_0 K}}\)，那么<br>\[
+Z = \sqrt{\frac{\rho_0}{K}}
+\]<br>一般而言，声阻抗率是复数；但是对无衰减的平面波，声阻抗率是一个与频率无关的实数</p>
+<p>此时声阻抗率完全由介质决定</p>
+<h4>3.3.5 声强</h4>
+<p><strong>声强</strong>：单位面积上的声功率<br>\[
+I(t) = p(t)\cdot v(t)
+\]<br>在稳态声场中，用一段时间的平均值来表示</p>
+<p>对于平面余弦波，其平均声强为<br>\[
+I = \frac{1}{2}\rho_0 cA^2\omega^2 = \frac{p_a^2}{2\rho_0c}=\frac{p_a^2}{2Z}
+\]<br>其中\(A\)是质点振幅，\(A = \frac{p_a}{\omega \rho_0 c}\)</p>
+<p><strong>声强级</strong><br>\[
+L_I = 10\lg \frac{I}{I_0} \,\,\,\mathsf{dB}
+\]<br>从20变为10的原因是\(I\propto p_a^2\)</p>
+<h4>3.3.6 声功率</h4>
+<p>\[
+W = \int_S IdS
+\]</p>
+<p>声强在一个面上的通量</p>
+<p><strong>声功率级</strong><br>\[
+L_W = 10\lg\frac{W}{W_0}
+\]</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 生物组织的声学特性</h3>
+<p><strong>声阻抗率</strong>最能反映生物组织的声学特性</p>
+<p>生物组织之间的声速差不大，不超过5%；脂肪声速小于水，其他生物组织与水相近；骨骼和固体类似</p>
+<p><strong>生物组织的超声特性</strong></p>
+<ul>
+<li>似水组织</li>
+<li>多脂类组织</li>
+<li>骨骼等固体组织</li>
+<li>肺泡、肠胃气等含气生物组织</li>
+</ul>
+<p>主要区别是声阻抗率</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

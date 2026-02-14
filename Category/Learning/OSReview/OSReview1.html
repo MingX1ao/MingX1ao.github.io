@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="现代操作系统速通">
+    <meta name="description" content="2 内存管理 - 现代操作系统速通">
+    <meta name="author" content="MingXiao">
+    <title>2 内存管理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 内存管理
+                    <ul>
+                            <li><a href="#1.1">2.1 逻辑地址和物理地址</a></li>
+                            <li><a href="#1.2">2.2 分段</a></li>
+                            <li><a href="#1.3">2.3 分页</a></li>
+                            <li><a href="#1.4">2.4 多级页表</a></li>
+                            <li><a href="#1.5">2.5 虚拟内存</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 内存管理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 逻辑地址和物理地址</h3>
+<p><strong>背景</strong></p>
+<ul>
+<li>CPU能直接访问的存储仅内存和寄存器</li>
+<li>内存单元只能看到地址流，不知道其如何产生，分别是什么数据的地址</li>
+</ul>
+<p><strong>基地址与界限地址</strong></p>
+<p>由于每个进程中仅使用逻辑地址来寻址，需要在PCB中包含这些逻辑地址的基地址和界限地址</p>
+<ul>
+<li>基地址寄存器：含有最小的合法物理地址</li>
+<li>界限地址寄存器：指定了范围的大小（scale）</li>
+</ul>
+<p>取指的第一步，先取基地址</p>
+<p><strong>内存空间保护</strong></p>
+<p>通过硬件实现，比较用户模式下产生的地址与寄存器的地址相对大小</p>
+<p>当用户试图访问其他进程的内存时，系统将其视作致命错误</p>
+<p><strong>逻辑到物理</strong></p>
+<p>由MMU的硬件完成，映射方法很多</p>
+<ul>
+<li>最简单：重定位寄存器，基地址加偏移地址</li>
+</ul>
+<p>用户程序看不到真实的物理地址</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2.2 分段</h3>
+<p><strong>分段</strong>：将连续的逻辑地址分配到不连续的物理地址空间内；通常用于代码段，数据段这样的划分</p>
+<p>程序是一组段的集合，分段的优点是：灵活，可扩展段数据</p>
+<p>通过&lt;段名，段偏移&gt;这组有序对来确定段，使用段表来进行二维元组-物理地址映射</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_2.png" width="300"></center>
+
+
+
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>2.3 分页</h3>
+<p><strong>固定分区</strong></p>
+<p>孔：一整块可用的内存，可以分配给一个完整的进程</p>
+<p>分配方式</p>
+<ul>
+<li>首次适应：分配首个足够大的孔</li>
+<li>最优适应：分配最小的足够大的孔；遍历列表，会产生最小剩余孔</li>
+<li>最差适用：分配最大的孔；遍历列表，产生最大剩余孔</li>
+</ul>
+<p><strong>外部碎片</strong>：存储空间被分为了大量的小孔</p>
+<p>内部碎片：为了避免小孔，进程分配的内存比需要的大，二者之差称为内部碎片</p>
+<p><strong>分页</strong>：将每个段分为很多页（逻辑page，物理frame）；先分段，再分页</p>
+<p>通过页表将page翻译为frame，page和frame的大小是一致的，因此页偏移很好算，减去页码就行</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_3.png" width="300"></center>
+
+<p>对于逻辑地址为50的内存单元，其位于0page50，对应1frame50</p>
+<p>一般而言，一页4K，也就是末12bit地址作为页偏移，前面都是页码</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_4.png" width="400"></center>
+
+<p>页表存放在内存中，因此进程访问一次内存实际需要访问两次，一次查页表，一次干正事</p>
+<p>为了加快，使用高速缓存存储，称为转换表缓冲区（TLB），和Cache很像，硬件实现</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_5.png" width="400"></center>
+
+
+
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 多级页表</h3>
+<p>页表的开销也很大，一个32bit按字节编址内存，4KB的页表一共有1M条，需要4MB内存来存放页表；根本原因在于很多页是不会用到但必须编址的，如果页表在物理地址内不连续，就会增加查找开销（本来是哈希）</p>
+<p>可以用一个表来查询页表，就不用连续分配这个页表</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_6.png" width="400"></center>
+
+<p>蓝色的空间没有分配，页表的开销减小</p>
+<p>内存地址被划分为三块：p1用于索引一级页表，p2索引二级页表，d索引偏移</p>
+<a name="1.5" class="md-header-anchor" id="1.5"></a>
+<h3>2.5 虚拟内存</h3>
+<p><strong>虚拟内存</strong></p>
+<p>程序很大，内存放不下；直接放硬盘运行的速度太慢</p>
+<p>允许程序大于物理内存，实际内存对用户透明；逻辑内存与物理内存分离，不在物理内存中的数据通过请求调页来实现</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_7.png" width="400"></center>
+
+
+
+<p><strong>请求调页</strong>：仅在需要时将磁盘中的页面调出到内存中</p>
+<p><strong>有效位</strong>：避免读入不使用的页，区分内存/磁盘中的页面，用1bit来表示</p>
+<ul>
+<li>valid，bit=1，在内存中</li>
+<li>invalid，bit=0，不是这个进程的内容，或是但在磁盘中</li>
+</ul>
+<p>当访问invalid的页面时，会发生缺页错误，发出请求调页中断</p>
+<p>页面的有效访问时间与缺页错误率正比</p>
+<p><strong>页面置换</strong></p>
+<p>当内存没有空闲帧时，从内存换出一个页面，从磁盘拿入一个页面</p>
+<p>实现了逻辑内存和物理内存的分离</p>
+<p>步骤如下：</p>
+<ol>
+<li>选择替换页面</li>
+<li>将该页面有效位CLR</li>
+<li>将该页面写入磁盘</li>
+<li>修改页表和帧表</li>
+<li>将目标页面从磁盘换入内存</li>
+<li>将目标页面有效位set</li>
+<li>缺页错误中断返回，继续用户进程</li>
+</ol>
+<p>读入读出两倍的时间，耗时长；可以用修改位（脏位）减小开销：</p>
+<ul>
+<li>设置一个由硬件管理的脏位</li>
+<li>当页面被修改时，置位</li>
+<li>若置位，则一定要写回内存；否则，不需要写回去，直接替换就行</li>
+</ul>
+<p>降低一半I/O时间</p>
+<p><strong>页面置换算法</strong></p>
+<ul>
+<li>FIFO：维护一个队列</li>
+<li>最优页面置换：后续最长时间不会使用的页面，仅存在于理论分析中</li>
+<li>LRU：最近最少使用的页面，看前面<ul>
+<li>可以用计数器的方法为每一个页面设置最近使用时间</li>
+<li>也可以用堆栈的方法将最近使用的页面置于顶端</li>
+</ul>
+</li>
+<li>近似LRU算法：硬件资源不能支持完全LRU<ul>
+<li>引用位：被引用的页面set</li>
+<li>额外引用位：8bit的引用位，包含最近8个时钟周期的页面使用情况，每个时钟周期向右移动1bit，更新MSB；替换时将最小的换出去</li>
+<li>第二次机会：引用位=0，直接替换；=1，置为0，给第二次机会，选择下一个页面；所哟引用位都是1，就退化为FIFO</li>
+</ul>
+</li>
+</ul>
+<p><strong>Belady现象</strong></p>
+<p>使用FIFO算法时，增加物理内存的帧数反而导致缺页率上升；原因在于FIFO总是淘汰最早进入的页面，而某些关键页面就是会更早进入，从而导致了错误替换</p>
+<p><strong>系统抖动</strong></p>
+<p>一个进程的调页时间大于执行时间，称为系统抖动</p>
+<p>原因：CPU看到自己的利用率降低，增加更多进程，每个进程分配到的页面更小，产生更多缺页错误，进一步降低利用率</p>
+<p><strong>工作集</strong></p>
+<p>一个进程当前正在使用的逻辑页面集合，用二元函数\(W(t,\Delta)\)表示</p>
+<p>表示\(\Delta\)时间段内使用过的页面序号，\(|W|\)越小，表面进程的局部性越好</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

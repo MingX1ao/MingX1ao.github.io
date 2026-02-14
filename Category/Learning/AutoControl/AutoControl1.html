@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="2 控制系统的数学模型 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>2 控制系统的数学模型</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 控制系统的数学模型
+                    <ul>
+                            <li><a href="#1.1">2.1 数学模型的分类</a></li>
+                            <li><a href="#1.2">2.2 传递函数和脉冲响应</a></li>
+                            <li><a href="#1.3">2.3 自动控制系统</a></li>
+                            <li><a href="#1.4">2.4 工业控制器分类</a></li>
+                            <li><a href="#1.5">2.5 方框图的简化</a></li>
+                            <li><a href="#1.6">2.6 状态空间模型</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 控制系统的数学模型</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>建立方法：</p>
+<ol>
+<li>解析法。依据数理规律建立准确模型</li>
+<li>实验法。把系统当黑箱，也称系统辨识</li>
+</ol>
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 数学模型的分类</h3>
+<p>线性/非线性，分布性/集总性（能否用有限原件描述），参数时变性</p>
+<p>只考虑线性时不变集总模型，用线性常微分方程描述</p>
+<p>方程的输出阶次<strong>大于</strong>输入阶次，否则会有<strong>不因果</strong></p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2.2 传递函数和脉冲响应</h3>
+<p>在<strong>全部初始条件为0</strong>的假设下，传递函数\(H(s)=\frac{Y(s)}{X(s)}\)</p>
+<p>称\(X(s)=0\)为<strong>系统的特征方程</strong>，\(X(s)\)的最高阶次为系统的阶次</p>
+<p>s=0时，\(H(0)\)的值是<strong>系统的放大系数/增益</strong>，表示系统处于静态时输出与输入之比</p>
+<p>这里有必要说明：\(X(s)=0\)指的就是传递函数的极点，这种表述在定义上不准确，但是在数学上是等价的</p>
+<p>说明：</p>
+<ol>
+<li>H(s)仅取决于系统，与输入无关</li>
+<li>H(s)<strong>不提供</strong>系统的<strong>物理结构的信息</strong></li>
+<li>当H(s)已知时，系统的<strong>动态特性被充分的描述</strong></li>
+<li>h(t)称为系统的<strong>权函数</strong>，是初始条件全部为零时得到的</li>
+<li>当系统的时间常数较大时，很短的脉动信号可以视为脉冲信号</li>
+</ol>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>2.3 自动控制系统</h3>
+<h4>2.3.1 <strong>方框图</strong></h4>
+<p>各个元件的功能和信号回流的图解表示，表示各种元件之间的互相关系</p>
+<p><strong>闭环系统框图</strong></p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_2.png" width="300"></center>
+
+<p>定义：\(开环传递函数=\frac{反馈信号}{误差信号} , 前向传递函数=\frac{输出量}{误差信号}\)</p>
+<p>有\(开环传递函数=\frac{B(s)}{E(s)}=\frac{E(s)G(s)H(s)}{E(s)}=G(s)H(s)，前向传递函数=\frac{C(s)}{E(s)}=\frac{E(s)G(s)}{E(s)}=G(s)\)</p>
+<p>\(闭环传递函数=\frac{输出量}{出入量}=\frac{C(s)}{R(s)}=\frac{G(s)}{1+G(s)H(s)}\)</p>
+<h4>2.3.2 <strong>扰动下的闭环系统</strong></h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_3.png" width="400"></center>
+
+<p>扰动也是输入量，由于是LTI系统，可以将R(s)与D(s)单独作用后叠加</p>
+<p>扰动的闭环传递函数=\(\frac{G_2}{1+G_2\cdot G_1H}\)，可以将扰动视为以G2为增益，以HG1为反馈的系统</p>
+<p>激励的闭环传递函数=\(\frac{G_1G_2}{1+G_1G_2\cdot H}\)</p>
+<p>系统的闭环传递函数为二者相加，在\(|G_1G_2H|>>1\)时，扰动的干扰很小</p>
+<h4>2.3.3 <strong>自动控制器</strong></h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_4.png" width="500"></center>
+
+
+
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 工业控制器分类</h3>
+<h4>2.4.1 双位/开关控制</h4>
+<p>\[
+u(t)=\begin{cases}
+U_1,\,\, e(t)>0\\
+U_2,\,\, e(t)<0\\
+\end{cases}
+\]<br>其中e(t)为误差</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_5.png" width="500"></center>
+
+
+
+<h4>2.4.2 <strong>比例控制</strong></h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_6.png" width="300"></center>
+
+<p>\[
+u(t)=K_pe(t)
+\]</p>
+<p>比例增益为\(\frac{U(s)}{E(s)}=K_p\)</p>
+<h4>2.4.3 <strong>积分控制</strong></h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_7.png" width="300"></center>
+
+<p>\[
+u(t)=K_i\int_0^t e(a)da
+\]</p>
+<p>积分增益为\(\frac{U(s)}{E(s)}=\frac{K_i}{s}\)</p>
+<h4>2.4.4 <strong>比例积分控制</strong></h4>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_8.png" width="300"></center>
+
+<p>\[
+u(t)=K_pe(t)+\frac{K_p}{T_i}\int_0^te(a)da
+\]</p>
+<p>其中\(T_i\)为积分时间常数，PI增益为\(\frac{U(s)}{E(s)}=K_p(1+\frac{1}{T_is})\)</p>
+<h4>2.4.5 <strong>比例微分控制</strong></h4>
+<p>由于微分的非因果性，PD控制一定程度上可以预测误差</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_9.png" width="300"></center>
+
+<p>\[
+u(t)=K_pe(t)+K_pT_d\frac{de(t)}{dt}
+\]</p>
+<p>其中\(T_d\)为微分时间常数，PD增益为\(\frac{U(s)}{E(s)}=K_p(1+T_ds)\)</p>
+<h4>2.4.6 <strong>比例积分微分控制</strong></h4>
+<p>比较难调</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_10.png" width="300"></center>
+
+<p>\[
+u(t)=K_pe(t)+\frac{K_p}{T_i}\int_0^t e(a)da+K_pT_d\frac{de(t)}{dt}
+\]</p>
+<p>PID增益为\(\frac{U(s)}{E(s)}=K_p(1+\frac{1}{T_is}+T_ds)\)</p>
+<a name="1.5" class="md-header-anchor" id="1.5"></a>
+<h3>2.5 方框图的简化</h3>
+<p><strong>原则</strong></p>
+<ol>
+<li>前向通路中传递函数的乘积不变</li>
+<li>反馈回路中传递函数的乘积不变</li>
+</ol>
+<h4>2.5.1 代数法则简化</h4>
+<p>利用传递函数在频域的代数法则进行化简</p>
+<p><font color=red>例：</font>化简并求总体传递函数C/R</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_11.png" width="400"></center>
+
+<p>有兴趣就画吧，这种方法比较麻烦，结果是\(\frac{G_1G_2G_3}{1-G_1G_2H_1+G_2G_3H_2+G_1G_2G_3}\)</p>
+<h4>2.5.2 代数法求传递函数</h4>
+<p>将中间变量用输入量表示，比较麻烦</p>
+<p><font color=red>例：</font>化简并求总体传递函数</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_12.png" width="400"></center>
+
+<p>结果是\(X_2=\frac{G_1G_2}{1+G_1G_3+G_2G_4}X_1+\frac{G_2}{1+G_1G_3+G_2G_4}X_3\)</p>
+<h4>2.5.3 梅逊公式</h4>
+<p>当方框图有多个前向通路，且存在不接触的回路时，系统的总体传递函数C/R有<br>\[
+\frac{C}{R}=\frac{1}{\Delta}\sum\limits_{k=1}^n {P_k\Delta_k}
+\]<br>其中\(\Delta =1-\sum L_{(1)}+\sum L_{(2)}+\ldots+(-1)^m\sum L_{(m)}\)</p>
+<p>\(\sum L_{(1)}\)是所有不同<strong>回路</strong>的传递函数之和（正负反馈的符号要注意）</p>
+<p>\(\sum L_{(2)}\)是两两不接触的回路传递函数<strong>乘积</strong>之和，依次类推</p>
+<p>\(P_k\)是第k条前向通路</p>
+<p>\(\Delta_k\)是第k条前向通路的余因子，由\(\Delta\)将所有<strong>与这条通路接触的回路</strong>置零得到</p>
+<p>对余因子的理解：重点在“余”，也就是必须包含前向通路没有的信息，舍弃<strong>所有</strong>已知信息，那么无论\(L_{(i)}\)，只要其中一个回路接触了这个通路，就令\(L_{(i)}=0\)</p>
+<p>例子可以拿前面两个练手，下面也给一个</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_13.png" width="500"></center>
+
+<p>P1=G1G2G3, P2=G4G3</p>
+<p>L1=-G1G2G5, L2=-G1G2G3G6G5, L3=-G7</p>
+<p>为什么G3G5不是？因为箭头不构成回路; 为什么G4G3G6G5不是？因为G5不能回到G4</p>
+<p>L(1)=L1+L2+L3, L(2)=0，都是有接触的</p>
+<p>Δ=1-L(1), Δ1=1+G7, Δ2=1+G1G2G5+G7</p>
+<p>C/R=(P1Δ1+P2Δ2)/Δ</p>
+<p>另一个例子：</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_20.png" width="800"></center>
+
+
+
+<a name="1.6" class="md-header-anchor" id="1.6"></a>
+<h3>2.6 状态空间模型</h3>
+<p>多输入多输出模型，无论线性和时变性，任何系统都行，能在时域和频域建模</p>
+<h4>2.6.1 基本概念</h4>
+<p><strong>状态</strong>：一组最小变量，能确定系统</p>
+<p><strong>状态变量</strong>：确定动态系统的状态</p>
+<p><strong>状态向量</strong>：将状态变量写成向量形式</p>
+<p><strong>状态空间</strong>：状态向量组成的空间</p>
+<p>对于连续时间控制系统，<strong>积分器</strong>是记忆元件，其数目<strong>等于</strong>状态变量数目</p>
+<h4>2.6.2 状态空间方程</h4>
+<p>设系统的状态变量是\(x_i\)，输入量是\(u_i\)，输出量是\(y_i\)</p>
+<p>有\(x(t)=[x_1(t),x_2(t),\ldots,x_n(t)]^\top\)，y(t),u(t)同理，组成向量，得到方程<br>\[
+\dot{x}(t)=f(x,u,t);y(t)=g(x,u,t)
+\]<br>这是矩阵运算，对方程线性化为状态方程和输出方程<br>\[
+\dot{x}(t)=A(t)x(t)+B(t)u(t)\,\,\,\,\,\,\,y(t)=C(t)x(t)+D(t)u(t)
+\]</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_14.png" width="500"></center>
+
+
+
+<p><font color=red>例：</font>已知系统方程为\(m\ddot{y}+B\dot{y}+Ky=u\)，求状态方程</p>
+<p>解：有二阶导，显然需要2次积分，故状态变量为2个，令\(x_1=y,x_2=\dot{y}\)，因为还要求导，所以这么设</p>
+<p>​		则有\(\dot{x_1}=\dot{y}=x_2,\dot{x_2}=\ddot{y}=-\frac{K}{m}x_1-\frac{B}{m}x_2+\frac{1}{m}u,y=x_1\)</p>
+<p>​		得到\(A=\left(\begin{matrix} 0 & 1\\ -\frac{K}{m} & -\frac{B}{m}  \end{matrix}\right),B=\left(\begin{matrix} 0 \\ \frac{1}{m} \end{matrix}\right),C=\left(\begin{matrix} 1 & 0\end{matrix}\right),D=0\)</p>
+<h4>2.6.3 传递函数和状态空间方程的关系</h4>
+<p>对状态空间方程进行拉氏变换，带入0状态，得到<br>\[
+sX(s)=AX(s)+BU(s)\,\,\,\,\,\,\, Y(s)=CX(s)+DU(s)
+\]<br>将X(s)用U(s)带入，得到<br>\[
+Y(s)=\left(C(sI-A)^{-1}B+D\right)U(s)
+\]<br>即传递矩阵为\(C(sI-A)^{-1}B+D\)</p>
+<p><font color=red>例：</font>求状态空间表达式</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_15.png" width="500"></center>
+
+<p>首先得到\(Y=X_1=\frac{10}{s+5}X_2,X_3=\frac{1}{s+1}X_1,X_2=(U-X_3)/s\)</p>
+<p>由于复频域状态空间方程形式为\(sX(s)=AX(s)+BU(s)\)，将上面等式化为<br>\[
+sX_1=-5X_1+10X_2, sX_2=U(s)-X_3, sX_3=X_1-X_3
+\]<br>易得矩阵</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

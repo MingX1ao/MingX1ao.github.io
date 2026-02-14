@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="6 非线性声学及应用 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>6 非线性声学及应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 非线性声学及应用
+                    <ul>
+                            <li><a href="#5.1">6.1 非线性</a></li>
+                            <li><a href="#5.2">6.2 非线性声学参数B/A</a></li>
+                            <li><a href="#5.3">6.3 超声非线性效应</a></li>
+                            <li><a href="#5.4">6.4 非线性应用</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 非线性声学及应用</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>6.1 非线性</h3>
+<ul>
+<li>gamma变换</li>
+<li>TGC变换：时间增益补偿。由于声波传播会衰减，在接收到声波时需要进行指数补偿，否则区域的明暗差别很大（依靠幅度进行明暗显示）</li>
+</ul>
+<p><strong>线性声学的近似条件</strong></p>
+<ul>
+<li>\(v\ll c\)</li>
+<li>\(x\ll \lambda\)，\(x\)是质点振动幅度</li>
+<li>\(\rho_1\ll \rho_0\)</li>
+<li>绝热状态传播，没有热交换</li>
+</ul>
+<p><strong>不同的适用场景</strong></p>
+<ul>
+<li>线性：能量低，超声成像等</li>
+<li>非线性：能量大，HIFU等超声治疗，需要非线性参量\(\frac{B}{A}\)表示</li>
+</ul>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 非线性声学参数B/A</h3>
+<p><strong>定义</strong></p>
+<p>是大振幅声波的二级小量，表达式为<br>\[
+\frac{B}{A} = \rho_0c_0^{-2}\left( \frac{\part^2p}{\part\rho^2} \right)_{S,\rho_0}
+\]<br>其中\(S\)表示绝热等熵条件<br>\[
+A = \rho_0\left( \frac{\part p}{\part\rho} \right)_{S,\rho_0} \,\,\,,\,\,\, B = \rho_0^2\left( \frac{\part^2 p}{\part\rho^2} \right)_{S,\rho_0}
+\]<br>在生物组织中，\(c,\rho,\alpha\)等常常相差不多（5%），但\(\frac{B}{A}\)相差很大（30%）</p>
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 超声非线性效应</h3>
+<p>常见的非线性效应有</p>
+<ul>
+<li>波形畸变</li>
+<li>声辐射力</li>
+<li>声冲流</li>
+<li>色散</li>
+<li>激波</li>
+</ul>
+<p><strong>波形畸变</strong></p>
+<p>由于<br>\[
+c(x) = c_0 + \left( 1+\frac{B}{2A} \right)v(x)
+\]<br>波形会畸变为锯齿波</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_11.png" width="200"></center>
+
+
+
+<p><strong>声辐射力</strong></p>
+<p>当考虑非线性效应时，声压变为<br>\[
+p = (\rho_0+\rho_1)c_0v
+\]<br>结合物态方程\(p=c_0^2\rho_1\)（声速的本质中出现），得到<br>\[
+p = c_0\rho_0v + \frac{pv}{c_0} = c_0\rho_0v+(\rho_0+\rho_1)v^2 \approx c_0\rho_0v+\rho_0v^2
+\]<br>声压的平均值就是<br>\[
+\bar{p} = \frac{1}{T}\int_Tpdt = \frac{1}{T}\int_T\rho_0v^2dt
+\]<br>而\(\rho_0v^2 = \frac{p^2}{c_0^2\rho_0}\)，根据有效值的定义，得到<br>\[
+\bar{p} = \frac{p_e^2}{\rho_0c_o^2}
+\]<br>而声辐射力<br>\[
+F = A\cdot\bar{p}
+\]<br>其中\(A\)是有效面积</p>
+<p><strong>应用</strong>：声镊，用声辐射力夹住物体</p>
+<p><strong>声冲流</strong>：声波在介质中传播时，引起的<strong>介质质量单向流动</strong></p>
+<a name="5.4" class="md-header-anchor" id="5.4"></a>
+<h3>6.4 非线性应用</h3>
+<p><strong>声功率的测量</strong></p>
+<p>不同的靶有不同的声功率计算公式</p>
+<ul>
+<li>全吸收靶：\(P = F\cdot c\)</li>
+<li>全反射靶垂直入射：\(P = \frac{Fc}{2}\)</li>
+<li>全反射靶斜入射：\(P = \frac{Fc}{2\cos^2\theta}\)，其中\(\theta\)是入射角</li>
+</ul>
+<p>辐射力天平法测量速度快，量值准确，容易自动化</p>
+<p><strong>声辐射力产生的剪切波</strong></p>
+<p>在超声弹性成像时，会产生侧向的剪切波</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_12.png" width="200"></center>
+
+
+
+<p><strong>声孔效应传送药物</strong></p>
+<p>包膜造影剂在超声下瞬间<strong>将细胞膜打开</strong>，将大分子通过声激发进入细胞</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

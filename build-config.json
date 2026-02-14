@@ -1,5 +1,23 @@
 [
     {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/Biology.md",
+        "courseId": "BiologyIntroduction",
+        "courseName": "生物学导论",
+        "outputDir": "Category/Learning/BiologyIntroduction",
+        "category": "学习笔记",
+        "description": "SJTU-BME1203，课程简要介绍生物学几个大类",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/BiologyReview.md",
+        "courseId": "BiologyReview",
+        "courseName": "生物学导论复习",
+        "outputDir": "Category/Learning/BiologyReview",
+        "category": "学习笔记",
+        "description": "生物学导论期末复习笔记",
+        "author": "MingXiao"
+    },
+    {
         "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/BiomedicalStats.md",
         "courseId": "BMStats",
         "courseName": "生物医学统计基础",
@@ -9,12 +27,138 @@
         "author": "MingXiao"
     },
     {
-        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/Biology.md",
-        "courseId": "BiologyIntroduction",
-        "courseName": "生物学导论",
-        "outputDir": "Category/Learning/BiologyIntroduction",
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/BiomedicalSignalAndSystem 2.md",
+        "courseId": "BioSignalSystem2",
+        "courseName": "生物医学信号与系统 2",
+        "outputDir": "Category/Learning/BioSignalSystem2",
         "category": "学习笔记",
-        "description": "SJTU-BME1203，课程简要介绍生物学几个大类",
+        "description": "生物医学信号与系统课程第二部分",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/Biosensor.md",
+        "courseId": "Biosensor",
+        "courseName": "生物医学传感器",
+        "outputDir": "Category/Learning/Biosensor",
+        "category": "学习笔记",
+        "description": "生物医学传感器原理与应用",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/AnatomyPhysiology 1.md",
+        "courseId": "AnatomyPhysiology1",
+        "courseName": "解剖与生理 1",
+        "outputDir": "Category/Learning/AnatomyPhysiology1",
+        "category": "学习笔记",
+        "description": "解剖与生理学第一部分",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/解生1速通.md",
+        "courseId": "AnatomyReview1",
+        "courseName": "解生1速通",
+        "outputDir": "Category/Learning/AnatomyReview1",
+        "category": "学习笔记",
+        "description": "解剖与生理1期末速通复习",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/解生2速通.md",
+        "courseId": "AnatomyReview2",
+        "courseName": "解剖与生理2 速通",
+        "outputDir": "Category/Learning/AnatomyReview2",
+        "category": "学习笔记",
+        "description": "解剖与生理2期末速通复习",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/AutomaticControlPrinciples.md",
+        "courseId": "AutoControl",
+        "courseName": "自动控制原理",
+        "outputDir": "Category/Learning/AutoControl",
+        "category": "学习笔记",
+        "description": "自动控制原理课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/DatabasePrinciples.md",
+        "courseId": "Database",
+        "courseName": "数据库原理",
+        "outputDir": "Category/Learning/Database",
+        "category": "学习笔记",
+        "description": "数据库原理课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/EmbeddedSystem.md",
+        "courseId": "EmbeddedSystem",
+        "courseName": "嵌入式系统",
+        "outputDir": "Category/Learning/EmbeddedSystem",
+        "category": "学习笔记",
+        "description": "嵌入式系统课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/ImgProcessing.md",
+        "courseId": "ImgProcessing",
+        "courseName": "生物医学图像处理",
+        "outputDir": "Category/Learning/ImgProcessing",
+        "category": "学习笔记",
+        "description": "生物医学图像处理课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/MedicalBioinformatics.md",
+        "courseId": "MedBioinfo",
+        "courseName": "医学生物信息学",
+        "outputDir": "Category/Learning/MedBioinfo",
+        "category": "学习笔记",
+        "description": "医学生物信息学课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/MedicalPhysics.md",
+        "courseId": "MedPhysics",
+        "courseName": "医学物理导论",
+        "outputDir": "Category/Learning/MedPhysics",
+        "category": "学习笔记",
+        "description": "医学物理导论课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/MedicalUltrasound.md",
+        "courseId": "MedUltrasound",
+        "courseName": "医学超声基础",
+        "outputDir": "Category/Learning/MedUltrasound",
+        "category": "学习笔记",
+        "description": "医学超声基础课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/MicroComputerPrinciple.md",
+        "courseId": "MicroComputer",
+        "courseName": "微机原理",
+        "outputDir": "Category/Learning/MicroComputer",
+        "category": "学习笔记",
+        "description": "微机原理课程笔记",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/现代操作系统速通.md",
+        "courseId": "OSReview",
+        "courseName": "现代操作系统速通",
+        "outputDir": "Category/Learning/OSReview",
+        "category": "学习笔记",
+        "description": "现代操作系统期末速通复习",
+        "author": "MingXiao"
+    },
+    {
+        "source": "c:/Users/25167/OneDrive/collaborate/Notebook/notes/计算机体系结构速通.md",
+        "courseId": "CompArchReview",
+        "courseName": "计算机体系结构速通",
+        "outputDir": "Category/Learning/CompArchReview",
+        "category": "学习笔记",
+        "description": "计算机体系结构期末速通复习",
         "author": "MingXiao"
     }
 ]

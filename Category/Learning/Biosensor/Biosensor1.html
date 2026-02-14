@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学传感器">
+    <meta name="description" content="2 物理量传感器 - 生物医学传感器">
+    <meta name="author" content="MingXiao">
+    <title>2 物理量传感器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 物理量传感器
+                    <ul>
+                            <li><a href="#1.1">2.1 电阻式传感器</a></li>
+                            <li><a href="#1.2">2.2 电容式传感器</a></li>
+                            <li><a href="#1.3">2.3 光电式传感器</a></li>
+                            <li><a href="#1.4">2.4 压电式传感器</a></li>
+                            <li><a href="#1.5">2.5 热电式传感器</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 物理量传感器</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 电阻式传感器</h3>
+<h4>2.1.1 应用</h4>
+<p>一个典型的应用是测量血压</p>
+<p>正常的血压范围：90/60 mmHg ~ 140/90 mmHg</p>
+<p>当外界施加的压力与血压相等时，产生共振，发出的信号幅度最大</p>
+<p>一个典型的血压仪框图如图</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_8.png" width="500"></center>
+
+<p>其中气压传感器如下</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_9.png" width="500"></center>
+
+
+
+<p><strong>如何设计</strong></p>
+<p>先查标准，血压仪的测量范围要在4000 -- -400 mmHg，保护用</p>
+<h4><font color=red>2.1.2 电阻应变式传感器</font></h4>
+<h5>2.1.2.1 电阻应变效应</h5>
+<p>电阻的计算公式为\(R=\rho\frac{l}{s}\)，很显然对于\(\rho,l\)，R的响应是线性的，而s是非线性的</p>
+<p>对上式取对数并求导得到<br>\[
+\frac{dR}{R}=\frac{d\rho}{\rho}+\frac{dl}{l}-\frac{ds}{s}
+\]<br>其中\(\frac{dl}{l}=\varepsilon\)为正应变，由于正应变与切应变满足\(\tau=-\mu\varepsilon\)，即\(\frac{dr}{r}=-\mu\frac{dl}{l}\)</p>
+<p>对\(s=\pi r^2\)取对数求导得到\(\frac{ds}{s}=2\frac{dr}{r}=-2\mu\frac{dl}{l}\)</p>
+<p>\(\frac{d\rho}{\rho}=\pi_l\sigma=\pi_lE\varepsilon\)，其中\(\pi_l\)为材料沿某晶向的压阻系数，金属约为0，半导体不为0；\(\sigma\)是应力，\(E\)是杨氏模量</p>
+<p>将上面格式带入原式，得到<br>\[
+\frac{dR}{R}=(\pi_lE+1+2\mu)\frac{\sigma}{E}=(\pi_lE+1+2\mu)\varepsilon
+\]<br>称为电阻应变效应</p>
+<p>将电阻丝的灵敏度定义为<strong>单位应变</strong>引起的<strong>电阻相对变化</strong>，计算灵敏度</p>
+<p>金属：测量范围广，线性度高</p>
+<p>半导体：灵敏度高，温漂大</p>
+<h5>2.1.2.2 电阻应变片</h5>
+<p>通常长这样</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_10.png" width="500"></center>
+
+<p>中间绕很多层可以增加正应变，增大电阻变化</p>
+<h5>优缺点</h5>
+<p>优点</p>
+<ol>
+<li>测量范围广</li>
+<li><strong>结构简单</strong></li>
+<li><strong>便宜，多样</strong></li>
+</ol>
+<p>缺点</p>
+<ol>
+<li><strong>易产生温漂和零漂：电阻发热</strong></li>
+<li>对于大应变有较大的非线性，但是可以补偿</li>
+<li>输出易受环境影响</li>
+<li><strong>高功耗</strong></li>
+</ol>
+<p>电阻式传感器在<strong>自动测试</strong>和<strong>控制技术</strong>中广泛应用</p>
+<h5><strong>温漂补偿</strong></h5>
+<ol>
+<li>单丝自补偿应变片</li>
+<li>双丝组合式自补偿应变片</li>
+<li>电路补偿（最常用）</li>
+</ol>
+<p>其中2的方法具体是</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_22.png" width="200"></center>
+
+<p>补偿片不在拉伸方向上，产生的应变可以不计，但是二者的温漂是一致的，差分得到结果</p>
+<h4><font color=red>2.1.3 电桥</font></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_23.png" width="300"></center>
+
+<p>电桥平衡条件：\(R_1R_4 = R_2R_3\)</p>
+<p>负载\(R_L\)很大，可以视为断路，此时的\(U_0\)为<br>\[
+U_0 = U_E \frac{R_1R_4-R_2R_3}{(R_1+R_4)(R_2+R_3)}
+\]<br>定义平衡时的桥臂比\(n = \frac{R_2}{R_1}=\frac{R_4}{R_3}\)</p>
+<p>若\(R_1\)是电阻传感器，其他是定值电阻，定义\(\delta_R = \frac{\Delta R}{R_1}\)，那么有<br>\[
+U_0 = U_E \frac{n\delta_R}{(1+n)(1+\delta_R+n)}
+\]<br>由上文，\(\delta_R = K_s \varepsilon\)，这个值往往很小，有\(\delta_R < < 1\)，那么有<br>\[
+U_0^{'} = U_E \frac{n}{(1+n)^2}\cdot \delta_R
+\]<br>定义灵敏度\(K_U = \frac{U_0}{\delta_R}=\frac{n}{(1+n)^2}U_E\)，显然\(n=1\)时取最大值，\(U_E\)不能过大（温漂压不住）</p>
+<p>这样近似的非线性误差为<br>\[
+\gamma = \left|\frac{ U_0 -U_0^{'}}{U_0^{'}} \right| = \frac{\delta_R}{1+\delta_R+n}
+\]<br>是比较小的</p>
+<p>上面是单臂电桥，还有其他的</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_24.png" width="500"></center>
+
+<p>都是\(n=1\)</p>
+<p><strong>半桥</strong><br>\[
+U_0 = U_E\left(\frac{R+\Delta R}{2R}-\frac{R}{2R}\right)=U_E\frac{\Delta R}{2R}
+\]<br><strong>无非线性误差</strong>，灵敏度是单臂的2倍，还有温度补偿作用</p>
+<p><strong>全桥</strong><br>\[
+U_0 = U_E\left(\frac{R+\Delta R}{2R}-\frac{R-\Delta R}{2R}\right)=U_E\frac{\Delta R}{R}
+\]<br><strong>无非线性误差</strong>，灵敏度是单臂的4倍，有温度补偿作用</p>
+<p>\(U_o\)一般都比较小，需要直流放大器，但是直流的电路容易零漂，因此就有了交流电桥</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3><font color=red>2.2 电容式传感器</font></h3>
+<h4>2.2.1 应用</h4>
+<p>触摸屏，麦克风</p>
+<p>电容式心音传感器</p>
+<p>助听器，一般使用驻极体作为电容材料，没有电压也有电荷存在，减小能耗</p>
+<h4>2.2.2 电容传感器</h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_11.png" width="300"></center>
+
+<p>不考虑边缘效应，\(C=\frac{Q}{U}\)，用高斯定理可得，平行板电容器\(C=\frac{\varepsilon S}{d}\)</p>
+<p>当极板受压时，极板间距\(d\)发生变化，导致电容C的变化，\(C^{'} = \frac{\varepsilon S}{d-\Delta d}\)，\(\Delta C =C^{'}-C_0=C_0\frac{\Delta d/d}{1-\Delta d/d}\)</p>
+<p>得到<br>\[
+\Delta C /C_0=\frac{\Delta d/d}{1-\Delta d/d}=\frac{\Delta d}{d}\sum_{n=0}^{+\infty} \left(\frac{\Delta d}{d}\right)^n=\frac{\Delta d}{d}\cdot\left(1+\frac{\Delta d}{d}+\left(\frac{\Delta d}{d}\right)^2+\ldots\right)
+\]<br>可以发现C与d是非线性的关系</p>
+<p>当\(\Delta d<< d_0\)时，可以近似舍去2次及以上项，得到<br>\[
+\frac{\Delta C}{C}=\frac{\Delta d}{d}
+\]<br>灵敏度\(K=\frac{\Delta C /C_0}{\Delta d }=\frac{1}{d}\mathsf{mm^{-1}}\)或\(K=\frac{\Delta C /C_0}{\Delta d /d}=1\)，后者无量纲</p>
+<p>由此近似的模型在\((0,\Delta d)\)内的非线性误差（与保留到二次项对比）为\(\delta = (\frac{\Delta d}{d})^2/\frac{\Delta d}{d}=\frac{\Delta d}{d}\)，发现d相对Δd越大，线性度越好</p>
+<p><strong>为什么不用电阻式的分析方式？</strong></p>
+<ul>
+<li><p>那样可以很容易看出灵敏度K，但是看不出非线性误差δ</p>
+</li>
+<li><p>定义的变化量也不同，电阻定义应变\(\varepsilon=\frac{\Delta l }{l}\)，而电容使用的是\(\Delta d\)</p>
+</li>
+<li><p>那样分析也存在误差</p>
+</li>
+</ul>
+<h4>2.2.3 差动变极距型电容式传感器</h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_12.png" width="200"></center>
+
+<p>\[
+\Delta C_1 /C_0=\frac{\Delta d}{d}\cdot\left(1+\frac{\Delta d}{d}+\left(\frac{\Delta d}{d}\right)^2+\ldots\right)\\
+\Delta C_2 /C_0=-\frac{\Delta d}{d}\cdot\left(1-\frac{\Delta d}{d}+\left(\frac{\Delta d}{d}\right)^2+\ldots\right)
+\]</p>
+<p>用差分电路检测两个电容的差值\(\Delta C_1/C_0-\Delta C_2/C_0\)，得到<br>\[
+\Delta C_1/C_0-\Delta C_2/C_0=2\frac{\Delta d}{d}\cdot\left(1+\left(\frac{\Delta d}{d}\right)^2+\ldots\right)
+\]<br>灵敏度\(K=\frac{2}{d}\)，非线性误差\(\delta = \left( \frac{\Delta d}{d}\right)^2\)</p>
+<p>这是假设向\(C_1\)移动</p>
+<h4>2.2.4 差动传感器材料和结构选择</h4>
+<p>\(d_0\)较小，灵敏度高；过小则容易引起击穿</p>
+<p>极板间使用高介电常数材料（云母），此时\(C=\frac{S}{\frac{d_g}{\varepsilon_g \varepsilon_0}+\frac{d_0}{\varepsilon_0}}\)，由于\(\frac{d_g}{\varepsilon_g \varepsilon_0}\)是常数，这可以让非线性误差减小</p>
+<h4>2.2.5 变面积和变介质式传感器</h4>
+<p><strong>变面积式</strong></p>
+<p>可以横向位移，\(C=\frac{\varepsilon b x}{d}\)，b为宽度，x可变<br>\[
+\Delta C = \frac{\varepsilon b}{d}\Delta x
+\]<br>是线性的，\(K=\frac{\Delta C}{\Delta x}=\frac{\varepsilon b}{d}=\mathsf{const}\)</p>
+<p><strong>变介质式</strong></p>
+<center><img src="/Category/Learning/Pictures/Biosensor_13.png" width="200"></center>
+
+<p>视为两个电容并联，\(C=\frac{\varepsilon_0}{d}(\varepsilon_{r1}(l_0-l)b+\varepsilon_{r2}lb)\)</p>
+<p>若右边是空气且\(l\)一开始为0，则<br>\[
+\frac{\Delta C}{C_0}=\frac{(\varepsilon_{r2}-1)\Delta l}{l_0}
+\]<br>是线性的</p>
+<h4>2.2.6 电容式传感器优缺点</h4>
+<p>优点</p>
+<ol>
+<li>温漂小（发热小）</li>
+<li>结构简单</li>
+<li>动态响应好</li>
+<li>非接触式</li>
+<li><strong>能耗低</strong></li>
+</ol>
+<p>缺点</p>
+<ol>
+<li><strong>阻抗大，带载能力弱</strong></li>
+<li>寄生电容影响</li>
+<li>非线性，测量范围小</li>
+<li><strong>成本高</strong></li>
+</ol>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>2.3 光电式传感器</h3>
+<h4><font color=red>2.3.1 应用</font></h4>
+<p>典型应用是<strong>血氧仪</strong></p>
+<p>原理如下：</p>
+<p>血液是<strong>胶体</strong>，当光通过均匀无散射的溶液时，溶液的透光系数如下<br>\[
+T = \frac{I}{I_0}=10^{-acl}\\
+A = -\lg\frac{I}{I_0} =-\lg{T}=acl
+\]<br>其中a是液体吸光系数，c是溶液摩尔浓度，l是光程</p>
+<p>血液中存在两种红细胞，一种富氧，一种乏氧，富氧细胞占总细胞的百分数即为血氧值，记为\(\mathsf{SaO_2}\)</p>
+<p>血液的总吸光系数为\(a=a_o\mathsf{SaO_2}+a_H(1-\mathsf{SaO_2})\)，其中\(a_o\)是富氧的系数，\(a_H\)是乏氧的系数</p>
+<p>使用两个波长的光对样品进行检测，得到<br>\[
+\lambda_1 : A_1 = \left[(a_o-a_H)\mathsf{SaO_2}+a_H\right]cl\\
+\lambda_2 : A_2 = \left[(b_o-b_H)\mathsf{SaO_2}+b_H\right]cl\\
+Q = \frac{A_1}{A_2} = \frac{\left[(a_o-a_H)\mathsf{SaO_2}+a_H\right]}{\left[(b_o-b_H)\mathsf{SaO_2}+b_H\right]}
+\]<br>得到\(\mathsf{SaO_2}\)的值为<br>\[
+\mathsf{SaO_2}=\frac{a_H-Qb_H}{(b_o-b_H)Q-(a_o-a_H)}
+\]<br>要使传感器是线性的，就让\(b_o=b_H=b\)，选择合适的波长的光可以做到，得到最终表达式<br>\[
+\mathsf{SaO_2} = \frac{b}{a_o-a_H}Q-\frac{a_H}{a_o-a_H}
+\]</p>
+<h4><font color=red>2.3.2 内光电效应</font></h4>
+<p>当<strong>半导体</strong>材料受光照时，对光子的吸收会在材料<strong>内部</strong>激发<strong>电子-空穴对</strong>，使物体的<strong>电导率变化</strong>或<strong>产生光电动势</strong>，分别对应<strong>光电导效应</strong>和<strong>光生伏特效应</strong></p>
+<h5>2.3.2.1 光电导效应</h5>
+<p>光电导体受光线作用，其<strong>电导率</strong>发生变化</p>
+<p>本质是价带中的电子受到能量<strong>大于或等于禁带宽度</strong>的光子轰击，使其跃入导带，导带中的电子和价带中的空穴浓度增加，电导率变大</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_14.png" width="500"></center>
+
+<p>应用：光敏电阻，光导管</p>
+<h5>2.3.2.2 光生伏特效应</h5>
+<p>光线作用下，半导体或电介质产生一定方向的<strong>电动势</strong></p>
+<p>在PN结及附近吸收足够能量的光子后，产生载流子，在内电场（耗尽层，N指向P）作用下，电子由P区涌入N区，空穴相反，使得<strong>P区带正电，N区带负电</strong>，并在外回路产生电流</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_15.png" width="500"></center>
+
+<p>应用：光电池，光敏二极管</p>
+<h4><font color=red>2.3.3 外光电效应</font></h4>
+<p>光子能量足够大，使物质表面逸出电子<br>\[
+h\nu = \frac{1}{2}mv_m^2+\phi
+\]<br>不赘述</p>
+<p>应用：光电管，光电倍增管</p>
+<h4>2.3.4 光电式传感器的特性参数</h4>
+<p><strong>灵敏度</strong></p>
+<p>定义为输出信号\(S\)的变化量与入射光功率变化量\(P_s\)之比<br>\[
+K = \frac{\Delta S}{\Delta P_s}=\frac{\Delta S}{\Delta H A_d}
+\]<br>其中H是辐照度变化，Ad是受光面积</p>
+<p><strong>光谱特性</strong></p>
+<p>传感器的<strong>灵敏度</strong>和<strong>入射光波长</strong>的关系</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_16.png" width="300"></center>
+
+
+
+<p><strong>线性度</strong></p>
+<p>输出信号与输入光功率成线性比例的程度和范围</p>
+<p><strong>响应时间</strong></p>
+<p>对入射光变化的响应快慢，是叫时间常数</p>
+<p><strong>等效噪声功率</strong></p>
+<p>产生强度正好等于传感器的噪声输出值的辐射功率，用NEP表示，是表征传感器的品质优劣的重要参数<br>\[
+NEP = P_s\frac{S}{N}
+\]<br>其中S/N是信号/噪声的有效值（方均根），S/N是信噪比，NEP越小，性能越好</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_17.png" width="200"></center>
+
+
+
+<p><strong>还有其他传感器都有的特性</strong></p>
+<h4><font color=red>2.3.5 光电敏感器件</font></h4>
+<h5>2.3.5.1 光敏电阻</h5>
+<p>使用半导体材料制成的电阻，光照作用于半导体时，<strong>载流子密度发生变化</strong>，电导率变化（光电导效应）</p>
+<p>光敏电阻没有极性，可以加交流电</p>
+<p>结构示意图如下</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_18.png" width="450"></center>
+
+<p><strong>参数</strong></p>
+<p><strong>暗电阻</strong>：不受光时的阻值，很大（MΩ），此时的电流是暗电流</p>
+<p><strong>亮电阻</strong>：受光照射的阻值，比较小（kΩ），亮电流</p>
+<p><strong>光电流</strong>：亮电流 - 暗电流</p>
+<p>希望暗电阻越大、亮电阻越小越好</p>
+<p><strong>特性</strong></p>
+<p><strong>伏安特性</strong>：在一定照度下的伏安关系。在一定电压范围，I-U为直线；入射光不同，I-U斜率不同</p>
+<p><strong>光谱特性</strong>：光敏电阻的相对灵敏度与入射波长的关系</p>
+<p><strong>温度特性</strong>：影响光谱响应、灵敏度和暗电阻等</p>
+<p><strong>优点</strong>：灵敏度高；光谱响应范围宽</p>
+<p><strong>缺点</strong>：强光下线性度差；光电弛豫时间长；频率响应低；发热</p>
+<h5>2.3.5.2 光电管</h5>
+<p>光线照射到<strong>金属感光材料</strong>时，有电子<strong>逸出</strong>（外光电效应），在外加电场作用下移动到阳极，在光电管内部产生电子流，在外电路产生电流</p>
+<p>光电子数目（电流大小）与光照强度有关</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_19.png" width="200"></center>
+
+<p>中间是阳极，四周是金属感光材料的阴极</p>
+<p><strong>特性</strong></p>
+<p><strong>伏安特性</strong>：光通量一定时的I-U关系</p>
+<p><strong>光电特性</strong>：电压一定时，光通量（流明）与光电流的关系</p>
+<p><strong>光谱特性</strong>：在单位辐照通量（w）下，不同波长的光照射光电管时产生的饱和光电流和光波波长的关系，主要取决于阴极材料</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_20.png" width="500"></center>
+
+
+
+<h5>2.3.5.3 光电倍增管</h5>
+<p>一个阴极，多个阳极</p>
+<p>从阴极K上逸出的光电子被第一倍增极D1加速，高速轰击D1，使D1表面逸出更多<strong>二次电子</strong>，逐级前进，直到最后的阳极A</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_21.png" width="400"></center>
+
+<p>由<strong>光阴极K</strong>，<strong>次阴极（倍增电极Dn）</strong>，<strong>阳极A</strong>组成</p>
+<p><strong>特性</strong></p>
+<p><strong>灵敏度</strong>：每单位光通量使阳极产生的饱和光电流（入射一个光子后在阳极上能收集到的平均光电子数目），衡量探测能力；光电倍增管的灵敏度极高，设\(n\)个次阴极，每个次阴极二次电子发射倍增率为\(\delta\)，总共增大\(\delta^n\)倍</p>
+<p><strong>光谱特性</strong>：对不同频率的入射光的灵敏度，故描述灵敏度时需要指明光波长</p>
+<p><strong>暗电流</strong>：没有光照，但是有电压时的电流大小，由热发射或场致发射造成，可用补偿电路消除；决定了PMT的<strong>可检测光通量的阈值</strong></p>
+<p><strong>伏安特性</strong>：与光电管类似</p>
+<p><strong>磁特性</strong>：磁场会使电子轨迹偏移</p>
+<p><strong>应用</strong></p>
+<p>分光光度计，γ射线探测（pet），各种荧光显微镜的检测端，流式细胞仪</p>
+<h5>2.3.5.4 光电池</h5>
+<p>利用光生伏特效应，半导体内部产生光生电动势，可以储能</p>
+<h5>2.3.5.5 光纤</h5>
+<p>设纤维芯和覆盖层的折射率分别为\(n_1,n_2\)，角度定义为与光纤轴的偏角（即在界面入射角的余角），定义\(\theta_0\)为临界角，有<br>\[
+\cos{\theta_0} = \frac{n_2}{n_1}
+\]<br>定义数值孔径\(N.A. = n_1\sin{\theta_0} = \sqrt{n_1^2 - n_2^2}\)，反应了光纤对入射光的吸收能力，越大越好</p>
+<p>为什么这样定义？因为这样的话使得\(N.A.\)与\(\theta_0\)正相关</p>
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 压电式传感器</h3>
+<center><img src="/Category/Learning/Pictures/Biosensor_25.png" width="400"></center>
+
+
+
+<h4>2.4.1 应用</h4>
+<p>机器人的表面仿生皮肤，拥有了触觉</p>
+<h4><font color=red>2.4.2 压电效应</font></h4>
+<p><strong>压电效应</strong>：一些非中心对称的<strong>晶体</strong>，在外界压力作用下内部产生<strong>极化</strong>，在两个表面上产生等量异种电荷；外力消失后，电荷中和；电荷量大小<strong>正比于</strong>外力大小</p>
+<p><strong>逆压电效应</strong>：外部附加交变电场产生机械形变</p>
+<p>本质上是介质极化产生电偶极矩，一般都是<strong>各向异性</strong>的晶体</p>
+<p>表面电荷密度的公式为<br>\[
+\delta _i = d_{ij} \cdot \sigma _j=d_{ij} \frac{F_j}{A_j}
+\]<br>其中\(d_{ij}\)为压电系数，表示在\(j\)方向上受力而在\(i\)方向上产生电荷</p>
+<h4>2.4.3 常见材料</h4>
+<p><strong>石英</strong>：不是任何方向都有，而且不是很大</p>
+<p><strong>钛酸钡</strong>：第一个压电陶瓷材料</p>
+<p><strong>锆钛酸铅</strong>：PZT，性能比钛酸钡好</p>
+<h4><font color=red>2.4.4 应用</font></h4>
+<p><strong>特点</strong>：<strong>频带宽，灵敏度和信噪比高</strong>，结构简单，工作可靠</p>
+<p><strong>压电振子</strong></p>
+<p>在材料上铺设激励和接收电极，在激励电极上施加电信号，利用逆压电效应产生机械形变</p>
+<p>可以产生位移，也在光电传感器中作为精密微调环节（<strong>位移台</strong>）</p>
+<p><strong>石英微天平</strong></p>
+<p>一层吸附膜可以吸附被探测物体，吸附后膜的总质量变化，固有频率改变，引起谐振频率的改变</p>
+<p>加入不同频率的交流电可以测量谐振频率</p>
+<p>精度很高</p>
+<a name="1.5" class="md-header-anchor" id="1.5"></a>
+<h3>2.5 热电式传感器</h3>
+<h4>2.5.1 应用</h4>
+<p>典型应用是电子体温计和温度报警器</p>
+<h4>2.5.2 原理</h4>
+<p>信号转换过程为：温度\(\rightarrow\)电阻\(\rightarrow\)电压</p>
+<p><strong>金属热电阻</strong></p>
+<p>金属的电阻率随温度变化，经验公式为\(R_T = R_0[1+\alpha(T-T_0)]\)，没啥用</p>
+<p>常用材料：铂（稳定，标准，贵）；铜（工业，便宜）；铁，镍（高灵敏）</p>
+<p><font color=red><strong>半导体热敏电阻</strong></font></p>
+<p>一些金属氧化物，分为三类</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_26.png" width="400"></center>
+
+<p><strong>PTC</strong>：B&lt;0，可以作为限流元件</p>
+<p><strong>NTC</strong>：B&gt;0，变化的范围广，测温，线性度好</p>
+<p><strong>CTR</strong>：在某个临界温度变化极快，灵敏度高，响应快，分辨率高，适合测量<strong>微弱</strong>的温度变化，但是线性度差</p>
+<p><strong>伏安特性</strong></p>
+<p>在不同温度下的电压电流曲线</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_27.png" width="600"></center>
+
+
+
+<h4>2.5.3 热电偶传感器</h4>
+<p>两种不同的金属导体组成闭合回路，两端产生温度差，电子的运动产生差异，热运动快的电子扩散向另一端，产生了一个空间电场区</p>
+<p>由于是导体，有电势差就有电流</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_28.png" width="400"></center>
+
+<p>其中参考端的温度已知，根据电流/电势大小可以粗略测量温差</p>
+<p>这是一个无源元件，不需要额外供能，结构简单，测量范围宽，但是灵敏度低</p>
+<p>响应曲线近似表达为<br>\[
+E_{AB}(T, T_0) = a(T-T_0)+b(T^2-T_0^2)
+\]</p>
+<h4>2.5.4 其他热电式传感器</h4>
+<p>温敏三极管和外围电路集成在一个芯片上，构成独立的温度传感器</p>
+<p>热辐射传感器，不同温度的波源产生的热辐射的波长不同，在内部存在一个热电偶堆，热电偶串联，电势加强</p>
+<p>总结起来，热电式传感器的工作原理如下</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_29.png" width="400"></center>
+
+
+
+<p><strong>几种热电式传感器对比</strong></p>
+<p>热敏电阻：</p>
+<ol>
+<li>原理：半导体材料的电阻随温度变化，主要因素是载流子浓度和迁移率随温度的变化关系</li>
+<li>温度变化特性：分为三类，但都是非线性<ol>
+<li>负温度系数（NTC）热敏电阻，随温度上升，电阻值减小</li>
+<li>正温度系数（PTC）热敏电阻，随温度上升，电阻值增加</li>
+<li>临界温度系数（CTR）热敏电阻，当温度升高到某临界点时，电阻值突然下降</li>
+</ol>
+</li>
+<li>测量范围：相对来说最小</li>
+<li>灵敏度：相对来说最高</li>
+<li>精度：三者的中间水平</li>
+</ol>
+<p>RTD热电阻：</p>
+<ol>
+<li>原理：由线圈或纯金属沉积膜组成，电阻以已知且可重复的方式随温度变化</li>
+<li>温度变化特性：几乎是纯线性，正温度系数</li>
+<li>测量范围：三者的中间水平</li>
+<li>灵敏度：三者的中间水平</li>
+<li>精度：相对来说最高</li>
+</ol>
+<p>热电偶：</p>
+<ol>
+<li>原理：当热电偶的两端处于不同温度时，两种不同的金属的连接产生可测量的电压</li>
+<li>温度变化特性：非线性</li>
+<li>测量范围：相对来说最大</li>
+<li>灵敏度：相对来说最低</li>
+<li>精度：相对来说最低</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

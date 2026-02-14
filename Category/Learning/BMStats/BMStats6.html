@@ -341,12 +341,12 @@
 </details>
 <font color=red>正态分布的例子</font>
 
-<img src="Pictures/Bmestats_12.png" width="500">
+<img src="/Category/Learning/Pictures/Bmestats_12.png" width="500">
 
 <p>选取每个区间的中间值作为代表值，构造观测值数组count<br>如果认为应该服从\(N(\mu,\sigma^2)\)，通过观测值计算，即\(\mu=\mathsf{mean(Count)},\sigma=s\)，此时q=2<br>根据每组差值计算此时正态分布的\(E_i\)，即\(E_i=(\Phi(u_i)-\Phi(u_{i-1}))\times N\)，再加上两头的<br>用\(O_i和E_i\)构造\(\chi^2\)</p>
 <p>如果认为服从\(N(1,8)\)，那么此时q=0，因为没用样本观测值，\(\mu=1,\sigma=2\sqrt{2}\)</p>
 <p><font color=red>例：如下图</font></p>
-<img src="Pictures/Bmestats_14.png" width="600">
+<img src="/Category/Learning/Pictures/Bmestats_14.png" width="600">
 
 <p>（1）能，使用GoF卡方检验，Exp是分布均匀，故df=50-1=49</p>
 <p>​		   或者，使用RC联表卡方检验，df= (50-1)(2-1)=49</p>

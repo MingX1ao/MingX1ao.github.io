@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="13 MSP430低功耗模式及中断 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>13 MSP430低功耗模式及中断</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>13 MSP430低功耗模式及中断
+                    <ul>
+                            <li><a href="#12.1">13.1 低功耗模式</a></li>
+                            <li><a href="#12.2">13.2 中断原理</a></li>
+                            <li><a href="#12.3">13.3 中断例程</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">13 MSP430低功耗模式及中断</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="12.1" class="md-header-anchor" id="12.1"></a>
+<h3>13.1 低功耗模式</h3>
+<p>MSP430的每个模块可以独立运行，因此CPU的活跃时间很短</p>
+<p><strong>进入和退出</strong></p>
+<p>进入：设置<code>LPM0 - LPM4</code>的<code>SR</code>寄存器中的<code>CPUOFF, OSCOFF, SCG0, SCG1</code>来实现</p>
+<p>退出：任何使能的中断和非屏蔽中断将使CPU进行Active Mode</p>
+<p>进入中断：<code>PC, SR</code>被保存在Stack中，<code>CPUOFF, SCG1, SCG0, OSCOFF</code>自动置零</p>
+<p>中断返回：<code>PC, SR</code>弹栈，CPU重新进入低功耗模式</p>
+<p>在中断例程中可以修改Stack中的<code>SR</code>bit，使得中断返回后修改低功耗状态</p>
+<p><strong>初始化</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_49.png" width="600"></center>
+
+
+
+<a name="12.2" class="md-header-anchor" id="12.2"></a>
+<h3>13.2 中断原理</h3>
+<p>可以用<code>GIE=0</code>进行屏蔽的中断为可屏蔽，其余为非屏蔽中断</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_50.png" width="500"></center>
+
+<p>MSP430不希望发生中断嵌套，因为很多中断进行嵌套时，堆栈等资源会大量消耗，导致效率不如没有嵌套</p>
+<p>级别越高的中断，中断例程的处理速度要越快（牛老师的工程师经验）</p>
+<p><strong>中断响应机制</strong></p>
+<ol>
+<li>当前正在进行的指令要完成</li>
+<li>PC进栈</li>
+<li>SR进栈（低功耗模式类型）</li>
+<li>多个中断排队，最高优先级先处理</li>
+<li>正在处理的中断对应的中断请求标志位IRF置0，其余保持为1</li>
+<li><font color=red>除了<code>SCG0</code>外其他<code>SR</code>的bit置0，这一步清除了低功耗模式，并了关闭中断<code>GIE=0</code>，防止嵌套</font></li>
+<li>中断向量装入PC，进行中断例程</li>
+</ol>
+<p>中断优先级别只在进入中断前的排队系统里起作用</p>
+<a name="12.3" class="md-header-anchor" id="12.3"></a>
+<h3>13.3 中断例程</h3>
+<p>写法如下</p>
+<pre><code class="language-c">// P4中断
+#pragma vector=PORT4_VECTOR
+__interrupt void Port_4(void)
+{
+	P4OUT ^= BIT5;	
+	P4IFG &amp;= ~BIT0;				// 清除P4.0的中断标志位
+}
+</code></pre>
+<p>因为<code>P4</code>口8个bit都能作为中断，因此系统不会自动清0（因为可能别的口有中断输入），故需要手动清0</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

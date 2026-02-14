@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="数据库原理">
+    <meta name="description" content="3 SQL语句 - 数据库原理">
+    <meta name="author" content="MingXiao">
+    <title>3 SQL语句</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 SQL语句
+                    <ul>
+                            <li><a href="#2.1">3.1 SQL查询语言分类</a></li>
+                            <li><a href="#2.2">3.2 SQL语句</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 SQL语句</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 SQL查询语言分类</h3>
+<ol>
+<li>数据定义语言：定义一种关系和键</li>
+<li>数据操作语言：关系运算</li>
+<li>数据控制语言：定义管理权限</li>
+<li>事务控制：对一个操作分步</li>
+<li>存储过程和调用：编程和调包</li>
+<li>触发器：事件发生后执行</li>
+</ol>
+<center><img src="/Category/Learning/Pictures/DataBase_2.png" width="500"></center>
+
+
+
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 SQL语句</h3>
+<p>MySql不区分大小写，即使变量名是大小写混杂的</p>
+<p><strong>关系代数和SQL语句的关系</strong></p>
+<center><img src="/Category/Learning/Pictures/DataBase_43.png" width="600"></center>
+
+
+
+<h4>3.2.1 建库和表</h4>
+<p> <strong>建库并使用</strong></p>
+<pre><code class="language-mysql">create database student_db;
+use student_db;
+</code></pre>
+<p><strong>建表</strong></p>
+<pre><code class="language-mysql">create table student
+(
+	student_id char(10) not null,
+	student_name varchar(50) not null,
+	gender char(2),
+	age integer,
+	department varchar(50),
+	primary key (student_id)		#指明主键
+    unique uq_student_student_id(student_id)	#唯一性约束
+    foreign key (course_id) references course(course_id)	#外键约束，这张表没有这个属性
+    														#仅做演示
+);
+</code></pre>
+<p>使用<code>show tables</code>返回<strong>库</strong>中所有的表；使用<code>desc student</code>返回表的属性，按降序排列</p>
+<p><strong>修改表</strong></p>
+<pre><code class="language-mysql">alter table student add hobby varchar(50);		#添加属性hobby
+alter table	student change column hobby interest varchar(50);	#重命名hobby为interest
+alter table student drop interest;				#删除interest属性
+alter table student add/drop foreign key FK_course_course_id;
+alter table student add primary key student_id
+</code></pre>
+<p>添加属性和删除属性<strong>不对应任一个</strong>关系运算，重命名就是重命名</p>
+<p><strong>删除表</strong></p>
+<pre><code class="language-mysql">drop table student
+</code></pre>
+<p>当一个表的某个属性是另一个表的外键时，这个表不能直接删除</p>
+<h4>3.2.2 数据查询</h4>
+<p>select语言很强大</p>
+<pre><code class="language-mysql">select student_id, student_name 
+from student
+where department = &#39;CS&#39; and student_name = &#39;A&#39;;
+
+select * from student where xxx #返回所有属性
+</code></pre>
+<p>上面是一个选择，投影的操作，where语句就是选择运算</p>
+<p><strong>广义投影</strong></p>
+<pre><code class="language-mysql">select 2023-age as birthyear, lower(student_name)
+from student
+where department = &#39;CS&#39;;
+</code></pre>
+<p>将2023-age作为出生年份</p>
+<pre><code class="language-mysql">select student_id, student_name 
+from student
+where department = &#39;CS&#39; and student_name like &#39;%A&#39;;
+</code></pre>
+<p>like用于查询和匹配字符串，<code>_</code>匹配字符串中的<strong>一个</strong>任意字符，<code>%</code>匹配字符串中的<strong>任意</strong>个任意字符（包括0和1）</p>
+<pre><code class="language-mysql">select distinct department from student;
+</code></pre>
+<p>distinct：消除重复的行，返回所有出现过的值</p>
+<p><strong>聚集</strong></p>
+<pre><code class="language-mysql">select count(*) from student where xxx #*指所有，返回元组数
+#sum(), avg(), max(), min()同理
+</code></pre>
+<p><strong>分组</strong></p>
+<pre><code class="language-mysql">select course_id, count(*) 
+from courseselection 
+group by course_id;
+</code></pre>
+<p>查询每门课的选课人数</p>
+<pre><code class="language-mysql">select course_id, count(*) 
+from courseselection 
+group by course_id having count(*)&gt;5
+</code></pre>
+<p>加上条件，选课人数大于5人</p>
+<p><strong>排序</strong></p>
+<pre><code class="language-mysql">select * from courseselection
+order by grade desc;
+</code></pre>
+<p>desc是降序，asc是升序，不写默认升序</p>
+<p><strong>连接</strong></p>
+<pre><code class="language-mysql">select * 
+from student,courseselection 
+where student.student_id = courseselection.student_id;
+</code></pre>
+<p>一个自然连接</p>
+<h4>3.2.3 数据更新</h4>
+<p><strong>插入</strong></p>
+<pre><code class="language-mysql">insert into student
+(student_id, student_name, gender, age, department)
+values (&#39;1&#39;, &#39;xx&#39;, 1, 30, &#39;CS&#39;), (&#39;2&#39;, &#39;XA&#39;, 0, 22, &#39;PE&#39;);
+</code></pre>
+<p>没有出现的属性，除非有默认值，否则都认为是NULL</p>
+<p><strong>修改</strong></p>
+<pre><code class="language-mysql">update student
+set age = 31 
+where student_id = &#39;2&#39;
+</code></pre>
+<p>没有<code>where</code>，所有的元组都会被修改</p>
+<p><strong>删除</strong></p>
+<pre><code class="language-mysql">delete from student
+where xxx 
+</code></pre>
+<p>没有<code>where</code>，表就变空表了</p>
+<p><strong>自增长、默认值和检查约束</strong></p>
+<pre><code class="language-mysql">create table exchangestudent
+(
+	student_id integer not null auto_increment,
+    home varchar(50) default &#39;shanghai&#39;,
+    age integer check(age&gt;0)
+);
+</code></pre>
+<p>自增长一般用于主键，每次插入记录时自动生成一个唯一的数字值</p>
+<p>默认值可以在插入数据不指明该属性值时默认填充</p>
+<p>检查约束是用户自定义的</p>
+<p>有时候在实践过程中也会放弃一些约束，原因是</p>
+<ol>
+<li>某些约束太复杂，不适合在sql中验证</li>
+<li>额外的性能开销在高并发下不合适</li>
+<li>有些历史数据/新规则不符合约束</li>
+</ol>
+<p><strong>索引</strong></p>
+<pre><code class="language-mysql">creatr index id_index
+on exchangestudent
+(student_id asc);
+</code></pre>
+<p>asc升序，desc降序</p>
+<pre><code class="language-mysql">drop index id_index on exchangestudent;
+alter table exchangestudent drop index id_index
+</code></pre>
+<p>两种方法都能删除索引</p>
+<p>索引的优劣</p>
+<p>优势：提高查询速度</p>
+<p>劣势：增加空间需求（索引占空间）；插入、更新和删除的同时需要更新索引，提高性能开销；导致过度优化，还不如服务器自动优化</p>
+<p><strong>视图</strong></p>
+<pre><code class="language-mysql">create view total as select student.student_id as student_id, student.age as age
+from student 
+where xxx;
+</code></pre>
+<p>创建一个名叫“total”的视图来存储信息，相当于一张表，操作和table差不多，将table换成view就行</p>
+<p>视图是一种虚关系，实际操作还是通过定义语句<strong>对底层的table进行操作</strong>，在MySQL中对视图进行更新会对table进行更新</p>
+<h4>3.2.4 存储过程，函数和触发器</h4>
+<p><strong>存储过程</strong></p>
+<pre><code class="language-mysql">delimiter // #注意有空格，不然编译不过的
+create procedure incrementNumber (in num int, out result int, inout abc int)
+begin
+	set result = num + 1;
+end // #有空格
+delimiter;
+</code></pre>
+<p>相当于一个函数，in是需要输入的变量，out是函数返回值，可以没有；inout既可以作为输入也可以作为输出，看有没有</p>
+<p>调用过程如下</p>
+<pre><code class="language-mysql">set @result = 1
+call incrementNumber(5, @result);
+select @result;  #@result = 6
+</code></pre>
+<p>@表示这个变量是用户定义的会话变量，在这次会话结束会销毁</p>
+<pre><code class="language-mysql">show procedure status where db = &#39;student&#39;; #不用_db，打印所有的存储过程
+drop procedure incrementNumber;  #删除存储过程
+</code></pre>
+<pre><code class="language-mysql">declare v_counter int;  #声明变量，必须紧跟在begin之后
+set v_counter = 10;  #变量赋值
+
+if v_counter &gt; 10 then
+	v_counter = 10
+elseif v_counter &lt; 5 then
+	v_counter = 5
+else
+	v_counter = 1
+end if;
+</code></pre>
+<p>存储过程中的循环定义如下</p>
+<pre><code class="language-mysql">while condition do
+#do something
+end while;
+</code></pre>
+<p><strong>游标</strong></p>
+<p>存储过程中还可以使用<strong>游标</strong>，相当于指针，在解引用后会自增，使用方法如下</p>
+<pre><code class="language-mysql">declare cur_name cursor for select student_id from student order by age;
+open cur_name;				#打开光标
+while xxx do
+fetch cur_name into id, name; #存储过程的临时变量
+end while;					#关闭光标
+close cur_name;
+</code></pre>
+<p>在<code>fetch</code>过后光标会自增，不需要手动操作</p>
+<p>光标也可以用很复杂的函数，如</p>
+<pre><code class="language-mysql">declare cur cursor for
+select student_id, AVG(grade) as avg_grade
+from courseselection
+group by student_id
+having avg_grade &gt; 80;
+</code></pre>
+<p><strong>函数</strong></p>
+<pre><code class="language-mysql">delimiter //
+create function addTwoNumbers(a int, b int)
+returns int
+deterministic
+begin
+	return a + b
+end //
+
+delimiter;
+</code></pre>
+<pre><code class="language-mysql">select addTwoNumbers(5, 3);	#返回8
+</code></pre>
+<p>返回的是结果单值，不是一个集合</p>
+<p><strong>存储过程和函数的区别</strong></p>
+<ol>
+<li>存储过程可以是out/inout组成的一个集合，函数只能是return语句声明的值</li>
+<li>函数的参数只能in</li>
+<li>存储过程通过call调用，函数可以在查询语句中调用</li>
+<li>函数内必须要有一个returns</li>
+</ol>
+<p><strong>触发器</strong></p>
+<pre><code class="language-mysql">DELIMITER //
+
+create trigger name
+after insert on student
+for each row
+begin
+#触发体动作
+end;
+//
+DELIMITER ;
+</code></pre>
+<p>其中<code>after</code>表示在<code>student</code>这张表发生<code>insert</code>之后，执行触发器内容，也可以是<code>before</code></p>
+<p>对于作用的每一行（for each row），都会执行触发体动作，在触发事件之前的该行内容是<code>OLD</code>，之后是<code>NEW</code></p>
+<p>可以这样访问</p>
+<pre><code class="language-mysql">new.student_id;
+old.course_id
+</code></pre>
+<p>当是修改一行内容时，存在<code>old</code>和<code>new</code>；当是插入一行时，只有<code>new</code>，指代新插入的那行</p>
+<p>触发器可以认为是特殊的存储过程，但是触发器<strong>只允许数据操作</strong>行为，不允许建表，指定主键等定义行为，而触发器可以</p>
+<p>因此，当触发器需要数据定义时，可以调用对应的存储过程</p>
+<h4>3.2.5 事务控制</h4>
+<pre><code class="language-mysql">start transaction
+</code></pre>
+<p>指定一个事务的开始</p>
+<pre><code class="language-mysql">commit
+</code></pre>
+<p>指定事务的结束</p>
+<pre><code class="language-mysql">rollback
+</code></pre>
+<p>回退所有操作，直到最近的标记点，若无标记点则回退到<code>start transaction</code>，类似于撤销</p>
+<pre><code class="language-mysql">savepoint sp_name
+</code></pre>
+<p>设置回退标记点</p>
+<pre><code class="language-mysql">release savepoint sp_name	#删除标记点
+rollback to sp_name 		#退回到这个点
+</code></pre>
+<h4>3.2.6 用户权限控制</h4>
+<pre><code class="language-mysql">create user &#39;username&#39;@&#39;hostname&#39; identified by &#39;password&#39;;		#创建用户
+drop user &#39;username&#39;@&#39;hostname&#39;;								#删除用户
+select user, host from mysql.user								#查看用户
+
+grant insert					#授予insert的权限
+on table student_db1.student	#在这个库的这个表
+to &#39;123&#39;@&#39;localhost&#39;			#给这个用户
+with grant option;				#可以给别人这个权限
+
+revoke insert					#回收权限
+on table student_db1.student
+from &#39;123&#39;@&#39;localhost&#39;;			#mysql不支持级联回收，123给出去的权限收不回来
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="7 声学参量及测量 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>7 声学参量及测量</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 声学参量及测量
+                    <ul>
+                            <li><a href="#6.1">7.1 声学参量的测量</a></li>
+                            <li><a href="#6.2">7.2 声场的测量</a></li>
+                            <li><a href="#6.3">7.3 脉冲波声强</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 声学参量及测量</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 声学参量的测量</h3>
+<h4>7.1.1 声速</h4>
+<p>核心公式<br>\[
+c = \lambda \cdot f
+\]</p>
+<p><strong>干涉共振驻波法</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_13.png" width="500"></center>
+
+<p>驻波的方程为<br>\[
+p = 2Ae^{j\omega t}\cos(\frac{2\pi}{\lambda}x)
+\]<br>根据相邻的波腹的位置获取\(\lambda\)的值，求出\(c\)</p>
+<p><strong>水浸式脉冲插入取代法</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_14.png" width="200"></center>
+
+<p>测量物体存在/不存在时声波的传递时间，得到<br>\[
+t_1 = \frac{x}{c_w}\\
+t_2 = \frac{x-D}{c_w}+\frac{D}{c_y}\\
+\Delta t = t_1 - t_2
+\]<br>其中\(D\)是介质厚度，\(c_y\)是介质声速，得到<br>\[
+c_y = \frac{Dc_w}{D-\Delta tc_w}
+\]</p>
+<h4>7.1.2 声阻抗率</h4>
+<p><strong>公式法</strong></p>
+<p>声阻抗率的决定式为<br>\[
+Z = \rho c
+\]<br>而\(\rho=\frac{m}{V}\)，\(c\)已经测得，求出\(\rho\)</p>
+<p><strong>垂直入射反射系数测量法</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_15.png" width="200"></center>
+
+<p>根据反射系数计算式<br>\[
+r = \frac{p_r}{p_i} = \frac{Z_x-Z_0}{Z_x+Z_0}
+\]<br>得到<br>\[
+Z_x = \frac{1+r}{1-r} Z_0
+\]<br>\(r\)通过测量\(p_r,p_i\)得到</p>
+<p>影响精度因素：</p>
+<ul>
+<li>垂直入射？</li>
+<li>平面波？</li>
+<li>介质尺寸足够大？（散射少）</li>
+</ul>
+<h4>7.1.3 声功率</h4>
+<p>声功率\(W\)定义为<br>\[
+W = I \cdot A
+\]<br>其中\(I\)是声强</p>
+<p><strong>辐射力天平法</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_17.png" width="300"></center>
+
+<ul>
+<li>隔振平台隔绝外界的干扰</li>
+<li>消声水槽防止反射波和散射波的干扰</li>
+<li>薄膜很薄，相当于三层介质模型的中间介质很薄，对超声没有损失</li>
+<li>薄膜将换能器与天平隔离，防止声流的影响；</li>
+<li>圆锥体靶的设计是为了防止产生驻波（压力大大增加）</li>
+<li>主要适合于连续波和长脉冲波，对于聚焦声场和短脉冲不适用</li>
+</ul>
+<p><strong>量热法</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_16.png" width="200"></center>
+
+<p>系统热平衡时声辐射功率为<br>\[
+W = m C_p \Delta T
+\]<br>其中\(C_p\)是工作液体比热，\(m\)是每秒流过的质量，\(\Delta T\)是输出液体和输入液体温度差</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 声场的测量</h3>
+<p><strong>原理</strong>：声波引起介质密度的交替变化，进而使介质的光学折射率变化，相当于一个光栅，光发生衍射</p>
+<p>存在声场的介质为声光栅</p>
+<p><strong>计算公式</strong><br>\[
+W = \frac{\rho c^3\lambda^2v^2}{32\pi(n-1)^2}
+\]</p>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 脉冲波声强</h3>
+<p>诊断超声大部分是脉冲波</p>
+<p><strong>定义</strong></p>
+<ul>
+<li>空间平均时间平均：spatial average, temporal average，SATA，空间内积分取平均后除以一个周期时间</li>
+<li>空间峰值时间平均：SPTA，只用峰值除以周期</li>
+<li>空间平均脉冲平均：spatial average, pulse average，SAPA，只在脉冲存在的时间内</li>
+<li>空间峰值脉冲平均：SPPA</li>
+<li>空间平均时间峰值：SATP，空间内的平均在时间上的峰值</li>
+<li>空间峰值时间峰值：SPTP</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_18.png" width="400"></center>
+
+<p>要求\(I_{\mathsf{spta}}<100\,\mathsf{mW/cm^2}\)，对生物组织大致无害；但对生殖细胞/胎儿等有别的规定</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

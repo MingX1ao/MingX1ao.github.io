@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学图像处理">
+    <meta name="description" content="3 图像增强 - 生物医学图像处理">
+    <meta name="author" content="MingXiao">
+    <title>3 图像增强</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 图像增强
+                    <ul>
+                            <li><a href="#2.1">3.1 点运算增强</a></li>
+                            <li><a href="#2.2">3.2 直方图处理</a></li>
+                            <li><a href="#2.3">3.3 空间滤波</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 图像增强</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>定义：使图像比处理前更适合一个特定的应用</p>
+<p>图像增强：不估计图像退化过程，求得平均图像质量改进</p>
+<p>图像复原：估计图像退化过程，有点像逆过程</p>
+<p><strong>空间域图像增强</strong></p>
+<p>空间域内将一个灰度区间映射到另一个灰度区间：\(g(x,y)=T[f(x,y)]\)，T为在(x,y)邻域上定义的算子</p>
+<p>1x1的邻域算子：点运算增强</p>
+<p>全图像邻域算子：直方图处理</p>
+<p>mxn邻域算子：空间滤波</p>
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 点运算增强</h3>
+<p>改变某一位置的灰度值，与像素位置无关，即：\(s=T[r]\)，其中r是原灰度，s是变换后灰度</p>
+<p><strong>常见的点运算增强函数</strong></p>
+<p><strong>阈值处理函数</strong></p>
+<p>增强<strong>图像轮廓</strong><br>\[
+s=T[r]=\begin{cases}
+s_0, r<k\\
+s_1, r\geq k\\
+\end{cases}
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_7.png" width="500"></center>
+
+
+
+<p><strong>灰度反转函数</strong><br>\[
+s=T[r]=L-r-1
+\]<br>注意要-1，防止溢出，增强<strong>暗区域中的亮细节或亮区域内的暗细节</strong></p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_8.png" width="500"></center>
+
+
+
+<p><strong>对数变换函数</strong><br>\[
+s=T[r]=c\log{(1+r)}
+\]<br>低灰度区：拉伸；高灰度区：压缩</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_9.png" width="300"></center>
+
+<p>典型应用：图像的傅里叶频谱范围很广，压缩高频噪点，可以显示低频信息</p>
+<p><strong>幂律变换函数</strong><br>\[
+s=T[r]=cr^\gamma
+\]<br>也称伽马变换；γ&gt;1，压缩低灰度区；γ&lt;1，扩展低灰度区</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_10.png" width="300"></center>
+
+<p>应用最广泛；让太暗的图像变亮，γ&lt;1</p>
+<p><strong>分段线性变换</strong></p>
+<p>一个分段的线性函数，可以拉伸对比度</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_11.png" width="400"></center>
+
+
+
+<p><strong>灰度级分层</strong></p>
+<p>比阈值处理函数灵活</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_12.png" width="500"></center>
+
+
+
+<p><strong>比特平面分层</strong></p>
+<table>
+<thead>
+<tr>
+<th>十进制灰度</th>
+<th>比特平面8</th>
+<th>比特平面7</th>
+<th>...</th>
+<th>比特平面1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>255</td>
+<td>1</td>
+<td>1</td>
+<td>...</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>用二进制表示灰度，将一张图分成8张图，按位显示</p>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 直方图处理</h3>
+<p><strong>灰度直方图</strong>：图像中某一灰度的像素个数的分布情况，只反映灰度的分布，不反应图像位置</p>
+<p>一幅图像的各个子区域的直方图之和等于全图的直方图</p>
+<p>PDF：\(P_r(r_k)=\frac{n_k}{\sum n}\) ； CDF：\(F_r(r_k)=\sum\limits_{i=0}^k P_r(r_i)\)</p>
+<p>一般来说，像素占据整个灰度级且分布均匀的图像，将具有高对比度和多种灰色调，最好看细节</p>
+<p>将一副图像处理成上述样子的过程，为<strong>直方图均衡化</strong></p>
+<h4>3.2.1 直方图均衡化</h4>
+<p>目标</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_13.png" width="500"></center>
+
+<p>CDF：\(F_r(k)=\int_0^k{p_r(r)dr}\)，\(F_s(k)=\int_0^k{p_s(s)ds}\)</p>
+<p>为了防止黑白颠倒，\(T[\cdot]\)应该是一个单增函数，即对任意的k，都有\(F_r(k)=F_s(k)\)（极端反例，黑色变得比白少，图像变白了）</p>
+<p>得到\(p_r(r)dr=p_s(s)ds\Rightarrow ds=(L-1)p_r(r)dr\Rightarrow s=(L-1)\int _0^r p_r(w)dw\)</p>
+<p>对于数字图像，灰度级离散，有\(s_k=[T(r_k)]=[(L-1)\sum\limits_{j=0}^k p(r_j)]\)，一般四舍五入</p>
+<p>由于<strong>取整</strong>操作的存在，直方图均衡化<strong>不是线性操作</strong>，可能引起<strong>灰度级数变化</strong>和图像<strong>细节损失</strong></p>
+<p>不同图像经过直方图均衡化后的直方图<strong>类似</strong>，直方图均衡化不需要输入任何参数</p>
+<p>优点：能自动增强图像的对比度</p>
+<p>缺点：灰度级减少，细节损失；存在高峰的直方图，处理后不自然；结果唯一不能交互</p>
+<h4>3.2.2直方图规定化</h4>
+<p>目标：修改直方图，使其与事先预定的直方图匹配</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_14.png" width="500"></center>
+
+<p>方法</p>
+<ol>
+<li>先将原图和目标图进行直方图均衡化，分别得到\(p_s(s)\)和\(p_v(v)\)</li>
+<li>对每一个\(s_k\)，找到使得\(|v_q-s_k|\)最接近0的\(v_q\)所对应的均衡化前的\(z_q\)</li>
+<li>重复2，建立\(r_k\rightarrow z_q\)的映射，其中\(r_k\)与\(s_k\)对应</li>
+<li>3中得到的映射就是最接近目标的转换函数</li>
+</ol>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_15.png" width="500"></center>
+
+<p>由于取整操作，存在一定偏差</p>
+<h4>3.2.3<strong>局部直方图均衡化</strong></h4>
+<p>对图像的小细节增强，在图像的<strong>每一个像素</strong>的邻域中，根据灰度级分布设计变换函数，进行直方图规定化</p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 空间滤波</h3>
+<h4>3.3.1 <strong>基础定义</strong></h4>
+<p>机制：输出图像中<strong>每一点</strong>关于<strong>相关区域</strong>的映射，实质是<strong>相关/卷积</strong>运算</p>
+<p>空间滤波器又称掩膜，窗口，核，模板（Spatial Kernel）</p>
+<p>模板中的值是<strong>无量纲</strong>的</p>
+<p>滤波器的形状和大小<strong>没有规定</strong>，不需要一定是矩阵，没有原点</p>
+<p>对于一个mxn，中心坐标为(0,0)的模板w(s,t)，定义以下运算</p>
+<p><strong>相关运算</strong><br>\[
+g(x,y)=\sum\limits_{s=-(m-1)/2}^{(m-1)/2}\,\sum\limits_{t=-(n-1)/2}^{(n-1)/2}w(s,t)f(x+s,y+t)
+\]<br>即<br>\[
+\left|\begin{matrix}
+a & b & c\\
+d & e & f\\
+g & h & i\\
+\end{matrix}\right|
+*
+\left|\begin{matrix}
+z & y & x\\
+w & v & u\\
+t & s & r\\
+\end{matrix}\right|
+=az+by+cx+dw+ev+fu+gt+hs+ir
+\]</p>
+<p><strong>卷积运算</strong><br>\[
+g(x,y)=\sum\limits_{s=-(m-1)/2}^{(m-1)/2}\,\sum\limits_{t=-(n-1)/2}^{(n-1)/2}w(s,t)f(x-s,y-t)=\sum\limits_{s=-(m-1)/2}^{(m-1)/2}\,\sum\limits_{t=-(n-1)/2}^{(n-1)/2}w(-s,-t)f(x+s,y+t)
+\]<br>即先将模板<strong>中心对称</strong>，然后做相关运算<br>\[
+\left|\begin{matrix}
+a & b & c\\
+d & e & f\\
+g & h & i\\
+\end{matrix}\right|
+*
+\left|\begin{matrix}
+z & y & x\\
+w & v & u\\
+t & s & r\\
+\end{matrix}\right|
+=ar+bs+ct+du+ev+fw+gx+hy+iz
+\]</p>
+<p>一般模板是中心对称的，此时相关运算与卷积运算一致</p>
+<h4>3.3.2 <strong>边界处理</strong></h4>
+<p>很显然空间滤波后，原图的<strong>边界</strong>无法被映射</p>
+<p>一副MxN的图，经过mxn的模板处理后，得到的图像大小是\([M-(m-1)][N-(n-1)]\)</p>
+<p>处理图象时要说明边界处理的方法</p>
+<p><strong>舍弃边缘像素点</strong></p>
+<p>图片变小</p>
+<p><strong>边缘外圈补零</strong></p>
+<p>用0灰度补边缘，看起来就是多了一圈黑框</p>
+<p><strong>边缘外圈补边缘点像素</strong></p>
+<p>分为三种补法：重复（replicate），对称（symmetric），循环（cirular）</p>
+<table>
+	<tr>
+    	<td><img src="/Category/Learning/Pictures/ImgProcessing_16.png"></td>
+        <td><img src="/Category/Learning/Pictures/ImgProcessing_17.png"></td>
+        <td><img src="/Category/Learning/Pictures/ImgProcessing_18.png"></td>
+    </tr>
+</table>
+
+
+
+<p><strong>图像识别</strong></p>
+<p>不是中心对称的图像，要用相关运算，不能用卷积运算（会先中心对称一次，识别不了）</p>
+<h4>3.3.3 <strong>空间滤波器分类</strong></h4>
+<p>按数学形态</p>
+<ol>
+<li>线性滤波器：结果像素值\(R=\sum\limits_{k-1}^{mn}w_kz_k\)<ol>
+<li>低通滤波器：用于<strong>平滑图像</strong>和<strong>去除噪音</strong></li>
+<li>高通滤波器：用于<strong>边缘增强</strong>和<strong>边缘提取</strong></li>
+<li>带通滤波器：用于<strong>删除特定频率</strong>，用的少</li>
+</ol>
+</li>
+<li>非线性滤波器：结果像素由邻域决定<ol>
+<li>中值滤波器：\(R=\mathsf{mid}\{z_k|k=1,2,...,mn\}\)，用于<strong>平滑图像</strong>和<strong>去除噪音</strong></li>
+<li>最大值滤波器：\(R=\max\{z_k|k=1,2,...,mn\}\)，用于寻找<strong>亮点</strong>或<strong>腐蚀亮区相邻的暗域</strong></li>
+<li>最小值滤波器：\(R=\min\{z_k|k=1,2,...,mn\}\)，用于寻找<strong>暗点</strong>或<strong>腐蚀暗区相邻的亮域</strong></li>
+</ol>
+</li>
+</ol>
+<p>按处理效果</p>
+<ol>
+<li>平滑滤波器：<strong>削弱高频</strong>，<strong>突出低频</strong>，来<strong>滤除噪声，模糊图像</strong></li>
+<li>锐化滤波器：<strong>突出高频</strong>，<strong>削弱低频</strong>，来<strong>加强细节和边缘，去模糊</strong></li>
+</ol>
+<p>平滑--求和平均（积分）；锐化--微分差分（梯度）</p>
+<p><strong>常见噪声分类</strong></p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_19.png"></center>
+
+
+
+<h4>3.3.4 平滑滤波器</h4>
+<p><strong>平滑线性滤波器</strong></p>
+<p>分为<strong>盒状滤波器</strong>和<strong>加权平均滤波器</strong></p>
+<p>前者所有的系数相同，采用邻域均值法；后者依据像素的重要性赋予权重</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_20.png"></center>
+
+<p>注意为了防止灰度值溢出，需要对滤波器进行<strong>归一化</strong>、</p>
+<p><strong>盒状滤波器</strong></p>
+<p>半径越大，信噪比提升越大，平滑效果越好，但是图像更模糊</p>
+<p>优点：算法简单，速度快</p>
+<p>缺点：在边缘和细节处模糊</p>
+<p><strong>加权平均滤波器</strong></p>
+<p>重点在于选择参与平均的点数和各点的权重；<strong>待处理</strong>的点和<strong>离它越近</strong>的点权重越大</p>
+<p>优点：保留了边缘细节</p>
+<p><strong>平滑非线性滤波器</strong></p>
+<p>主要是中值滤波器，它对<strong>滤波脉冲干扰</strong>和<strong>颗粒噪声</strong>（如椒盐噪声）很有效，在消除噪声的时不会/小程度边缘模糊</p>
+<p>但是对一些<strong>细节多</strong>（点/线/尖顶）的图像，不能用中值滤波</p>
+<p>在医学图像中，病灶一般符合细节特点，故医学图像不能中值滤波</p>
+<p><strong>平滑滤波器小结</strong></p>
+<ol>
+<li>本质是低通，模板的所有系数为正数</li>
+<li>通常要求行列数为奇数</li>
+<li>模板越大，去噪能力越强</li>
+<li>一般会模糊边缘和细节</li>
+</ol>
+<h4>3.3.5 <strong>锐化滤波器</strong></h4>
+<p><strong>梯度运算</strong></p>
+<p>一阶差分：\(\frac{\part f}{\part x}=f(x+1,y)-f(x,y)\)</p>
+<p>二阶差分：\(\frac{\part^2 f}{\part x^2}=[f(x+1,y)-f(x,y)]-[f(x,y)-f(x-1,y)]=f(x+1,y)+f(x-1,y)-2f(x,y)\)</p>
+<p>一阶差分对<strong>灰度阶梯</strong>有较强响应，会产生<strong>较宽的边缘</strong></p>
+<p>二阶差分对<strong>细节</strong>有较强响应，对灰度阶梯产生双响应</p>
+<p>二阶的处理比一阶好（细节），一阶主要提取边缘</p>
+<p><strong>拉普拉斯算子</strong><br>\[
+\nabla^2f=\frac{\part^2f}{\part x^2}+\frac{\part^2f}{\part y^2}
+\]<br>Laplace算子的模板是<br>\[
+\left|\begin{matrix}
+0 & 1 & 0\\
+1 & -4 & 1\\
+0 & 1 & 0\\
+\end{matrix}\right|
+\]<br>是最简单的各向同性算子（旋转90°不变），且是<strong>线性</strong>的</p>
+<p>以上是水平竖直的差分，也能定义斜的差分<br>\[
+\left|\begin{matrix}
+1 & 0 & 1\\
+0 & -4 & 0\\
+1 & 0 & 1\\
+\end{matrix}\right|
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_21.png" width="500"></center>
+
+<p>当α取0，表示水平竖直；当α=1，表示斜向</p>
+<p>所有的Laplace算子模板，其数值之和<strong>恒等于0</strong></p>
+<p><strong>拉普拉斯增强</strong></p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_22.png" width="500"></center>
+
+<p>可以增加边缘的亮度，注意正负号</p>
+<p>有<strong>锐化</strong>作用</p>
+<p>由于Laplace算子存在负数，在处理后可能出现负的灰度，一般有两个处理</p>
+<ol>
+<li>所有负值<strong>用0</strong>替代，结果导致黑色部分多</li>
+<li>将（min，max）映射到（0，L-1）</li>
+</ol>
+<p>\(g(x,y)=f(x,y)+\nabla^2f(x,y)\)，α=0时的算子<br>\[
+\left|\begin{matrix}
+0 & -1 & 0\\
+-1 & 5 & -1\\
+0 & -1 & 0\\
+\end{matrix}\right|
+\]<br>这个模板的锐化效果更好<br>\[
+\left|\begin{matrix}
+-1 & -1 & -1\\
+-1 & 9 & -1\\
+-1 & -1 & -1\\
+\end{matrix}\right|
+\]</p>
+<p><strong>钝化掩蔽</strong></p>
+<p>也叫非锐化掩蔽</p>
+<p>记\(\overline f(x,y)\)为原图的<strong>平滑</strong>处理，则\(g_{\mathsf{mask}}(x,y)=f(x,y)-\overline{f}(x,y)\)为锐化模板（损失低频，保留高频）</p>
+<p>最终得到\(g(x,y)=g_{\mathsf{mask}}(x,y)+f(x,y)\)</p>
+<p><strong>梯度增强</strong></p>
+<p>存在<strong>负值</strong>和<strong>溢出</strong></p>
+<p>利用梯度算子的模量\(M(x,y)=|\nabla f(x,y)|=\sqrt{f_x^2+f_y^2}\)</p>
+<p>由于这个运算很耗时，用近似处理</p>
+<p>\(\sqrt{f_x^2+f_y^2}=\sqrt{(f(x+1,y)-f(x,y))^2+(f(x,y+1)-f(x,y))^2}\)</p>
+<p>\(=\sqrt{(z_6-z_5)^2+(z_8-z_5)^2}\approx|z_6-z_5|+|z_8-z_5|\)</p>
+<p>得到基本梯度算子（保证一正一负即可，有绝对值）</p>
+<p>x掩膜：\(\left|\begin{matrix}1 & -1\\0 & 0\\\end{matrix}\right|\)；y掩膜：\(\left|\begin{matrix}1 & 0\\-1 & 0\\\end{matrix}\right|\)</p>
+<p>如果α=1.则是Roberts算子：x淹膜：\(\left|\begin{matrix}-1 & 0\\0 & 1\\\end{matrix}\right|\)；y掩膜：\(\left|\begin{matrix}0 & -1\\1 & 0\\\end{matrix}\right|\)</p>
+<p>这个算子<strong>边缘定位准，对噪声敏感</strong>，突出斜线</p>
+<p><strong>Sobel梯度算子</strong></p>
+<p>\(M(x,y)\approx |(z_7+2z_8+z_9)-(z_1+2z_2+z_3)|+|(z_3+2z_6+z_9)-(z_1+2z_4+z_7)|\)</p>
+<p>x掩膜：\(\left|\begin{matrix}-1 & -2 & -1\\0 & 0 & 0\\1 & 2 & 1\\\end{matrix}\right|\)；y掩膜：\(\left|\begin{matrix}-1 & 0 & 1\\-2 & 0 & 2\\-1 & 0 & 1\\\end{matrix}\right|\)</p>
+<p>优点：</p>
+<ol>
+<li>奇数大小，方便卷积</li>
+<li>突出中心，平滑</li>
+<li>突出横竖线</li>
+</ol>
+<p><strong>混合空间增强</strong></p>
+<p>使用多个滤波器，当使用线性滤波器时，在数学上是可以换序的（不能对整型灰度操作）</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

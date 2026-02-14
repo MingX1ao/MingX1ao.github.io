@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学图像处理">
+    <meta name="description" content="4 形态学 - 生物医学图像处理">
+    <meta name="author" content="MingXiao">
+    <title>4 形态学</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 形态学
+                    <ul>
+                            <li><a href="#3.1">4.1 集合论</a></li>
+                            <li><a href="#3.2">4.2 结构元</a></li>
+                            <li><a href="#3.3">4.3 在二值图像中的操作</a></li>
+                            <li><a href="#3.4">4.4 灰度级形态学</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 形态学</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p><strong>基本想法</strong></p>
+<p>用具有一定形态的<strong>结构元素</strong>去度量和提取图像中的对应形状，为了识别和分析</p>
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 集合论</h3>
+<p><strong>补集</strong>：记为\(A^c=\{w|w\notin A\}\)</p>
+<p><strong>差集</strong>：\(A-B=A\cap B^c = \{w|w\in A \and w\notin B\}\)</p>
+<p><strong>平移</strong>：将集合B的<strong>原点</strong>平移到\(z=(z_1, z_2)\)，则集合B重新记为\((B)_z=\{w|w = d+z,d\in B\}\)</p>
+<p><strong>反射</strong>：集合B按照原点<strong>中心对称</strong>，\(\hat{B}=\{w|w=-b, b\in B\}\)</p>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 结构元</h3>
+<p>一个像素集合，<strong>没有</strong>大小和形状<strong>限制</strong>，但必须有<strong>原点</strong>（可以任意位置，filter没有原点）</p>
+<p>通常情况下假定结构元是矩阵，数值是<strong>逻辑</strong>0/1，原点是中心点</p>
+<p>在形态学运算中，只关心结构元的前景（1）的逻辑运算</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_23.png" width="300"></center>
+
+<p>逻辑运算的结果是像素点，使用结构元的原点遍历图像的每一个像素</p>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 在二值图像中的操作</h3>
+<h4>4.3.1 基本操作：适合（Fit）和击中（Hit）</h4>
+<p><strong>适合</strong>：结构元中所有1都和图像区域重合</p>
+<p><strong>击中</strong>：结构元中存在1和图像区域重合</p>
+<h4>4.3.2 腐蚀</h4>
+<p>集合A用结构元B来腐蚀，记为\(A\ominus B\)，定义为<br>\[
+A \ominus B = \{z|(B)_z\subseteq A\} \Leftrightarrow \{z|(B)_z\cap A^c = \phi\}\\
+A(z)=
+\begin{cases}
+1\,\,\,\, (B)_z \mathsf{Fits} A\\
+0\,\,\,\, o.w.
+\end{cases}
+\]<br>表示B移动后完全在A中，B的<strong>原点位置</strong>的集合</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_24.png" width="500"></center>
+
+<p>腐蚀可以<strong>消除边界点</strong>，使边界向内部收缩，可以消除小且无意义的物体</p>
+<h4>4.3.3 膨胀</h4>
+<p>集合A用结构元B来膨胀，记为\(A\oplus B\)，定义为<br>\[
+A \oplus B = \{z|\hat{(B)_z}\cap A\neq \phi\}\\
+A(z)=
+\begin{cases}
+1\,\,\,\, \hat{(B)_z} \mathsf{Hits} \,\,\,A\\
+0\,\,\,\, o.w.
+\end{cases}
+\]<br>表示B的<strong>反射</strong>进行平移且与A存在非空交集，B的<strong>原点的位置</strong>的集合</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_25.png" width="500"></center>
+
+<p>膨胀使得边界<strong>向外部扩展</strong>，增加大小，填补缺口和凹陷</p>
+<h4>4.3.4 腐蚀与膨胀的对偶性</h4>
+<p>\[
+(A\ominus B)^c = A^c\oplus \hat{B}\\
+(A\oplus B)^c = A^c\ominus \hat{B}
+\]</p>
+<h4>4.3.5 开运算</h4>
+<p>集合A用结构元B进行开运算，就是先用B腐蚀A，再对结果进行膨胀，记为\(A\circ B\)<br>\[
+A\circ B = (A\ominus B)\oplus B
+\]<br>开运算能后去除孤立的小点，毛刺和小桥</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_26.png" width="500"></center>
+
+<p><strong>几何解释</strong></p>
+<p>B在A边界<strong>内部</strong>转动，B中的点能达到的A的内部的最远的点，即<br>\[
+A\circ B = \bigcup \{(B)_z|(B)_z\subseteq A\}
+\]<br>所有的平移后的<strong>结构元</strong>的集合（与原点的集合区分）</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_27.png" width="500"></center>
+
+
+
+<h4>4.3.6 闭运算</h4>
+<p>结构元B对集合A做闭运算，就是先用B对A膨胀，后用B对结果进行腐蚀，记为\(A\cdot B\)<br>\[
+A \cdot B = (A\oplus B )\ominus B
+\]<br>闭运算可以填补物体内细小空洞，连接临近物体</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_28.png" width="500"></center>
+
+<p><strong>几何解释</strong></p>
+<p>B在A的<strong>外边界</strong>转动，B中的点能达到的A的边界的最近点</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_29.png" width="500"></center>
+
+
+
+<h4>4.3.7 开运算与闭运算</h4>
+<ol>
+<li>先开操作，构成了噪声滤波器，将小的噪声颗粒去除</li>
+<li>但是内部的一些有效性息也没了，需要闭运算进行修补</li>
+</ol>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_30.png" width="500"></center>
+
+
+
+<p><strong>对偶性</strong><br>\[
+(A\cdot B)^c = A^c \circ \hat{B}\\
+(A\circ B)^c = A^c \cdot \hat{B}
+\]</p>
+<p><strong>开运算性质</strong></p>
+<ol>
+<li>\(A\circ B \subseteq A\)</li>
+<li>如果\(C \subseteq D\)，那么\(C\circ B \subseteq D\circ B\)</li>
+<li>\((A\circ B )\circ B = A \circ B\)</li>
+</ol>
+<p><strong>闭运算性质</strong></p>
+<ol>
+<li>\(A \subseteq A\cdot B\)</li>
+<li>如果\(C \subseteq D\)，那么\(C\cdot B \subseteq D\cdot B\)</li>
+<li>\((A\cdot B )\cdot B = A \cdot B\)</li>
+</ol>
+<h4>4.3.8 击中-击不中变换</h4>
+<p>定义两个结构元\(B_1,B_2\)，在前景中使用\(B_1\)进行腐蚀，在背景中使用\(B_2\)<br>\[
+A \circledast B_{1,2} = \{z|(B_1)_z\subseteq A \and(B_2)_z\subseteq A^c  \} = (A\ominus B_1)\cap(A^c\ominus B_2)
+\]<br>一般选定的\(B_1 = B, B_2=B^c\)，此时的返回结果就是<strong>A中与B一摸一样的结构的<font color=red>原点</font></strong></p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_31.png" width="500"></center>
+
+
+
+<h4>4.3.9 边界提取</h4>
+<p>边界定义为\(\beta(A)\)，使用结构元B腐蚀A，然后求其与A的差集<br>\[
+\beta(A) = A - (A \ominus B)
+\]<br>其中B是8邻接的</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_32.png" width="400"></center>
+
+<p>边界提取相对于锐化滤波的好处：后者通常对噪声敏感，边缘不连续不规则</p>
+<h4>4.3.10 孔洞填充</h4>
+<p>将<strong>闭合</strong>边界内部的空洞填满<br>\[
+X_k = (X_{k-1} \oplus B) \cap A^c
+\]<br>当\(X_k = X_{k-1}\)时，停止迭代；A是原图中的一个轮廓，B是4邻接的</p>
+<p>需要先给定一个<strong>种子点</strong>，从种子点膨胀至整个孔洞，最后与原图做并集，得到填充完的图像</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_33.png" width="500"></center>
+
+
+
+<p>为了找出所有的孔洞，可以使用阈值变换</p>
+<p>当边缘未闭合时，收敛次数会很大，因为背景也在填充。通过设置收敛次数的阈值，可以用来检测<strong>图像是否闭合</strong></p>
+<p><strong>如何一次性找出所有的种子点？</strong></p>
+<p>利用白顶帽，将本就灰度低的孔洞灰度变得更低，可以认为灰度为0，然后用阈值反变换，将0变为255，得到所有的孔洞种子</p>
+<p>但是风险也很明显</p>
+<h4>4.3.11 连通分量提取</h4>
+<p>\[
+X_k = (X_{k-1} \oplus B) \cap I
+\]</p>
+<p>当\(X_k = X_{k-1}\)时，停止迭代；I是原图，B是8邻接的</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_34.png" width="500"></center>
+
+<p>算法和孔洞填充很像，但是B和I不同</p>
+<h4>4.3.12 凸壳</h4>
+<p>一个多边形内任意两点的连线在多边形内，则称这是个凸集</p>
+<p>集合\(S\)的<strong>最小凸集</strong>\(H\)称为S的凸集合，\(H-S\)称为凸缺</p>
+<p>图像在采集时可能由于光照等原因发生缺损，凸壳处理可以弥补缺损</p>
+<p>求\(A\)的凸壳\(C(A)\)的算法如下：</p>
+<p>令\(B^i\)如下所示，其中\(\times\)表示don&#39;t care term</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_35.png" width="300"></center>
+
+<p>\[
+X^i_k = (X^i_{k-1}\circledast B^i)\cup X_{k-1}^i
+\]</p>
+<p>其中\(X^i_0 = A\)，当\(X_k^i = X_{k-1}^i\)时结束，记\(D^i = X_k^i\)，则凸壳为<br>\[
+C(A) = \bigcup \limits_{i=1}^4 D^i
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_36.png"></center>
+
+
+
+<p>但是还没结束，这样并不是最小的，需要在水平和垂直方向上再限制大小</p>
+<p>或者设计更精准的结构元，代价是时间复杂度更高</p>
+<table>
+	<tr>
+    	<td><img src="/Category/Learning/Pictures/ImgProcessing_37.png"></td>
+        <td><img src="/Category/Learning/Pictures/ImgProcessing_38.png"></td>
+    </tr>
+</table>
+
+
+
+<h4>4.3.13 细化</h4>
+<p>细化表示为<br>\[
+A \otimes B = A - (A\circledast B) = A\cap (A\circledast B)^c
+\]<br>定义结构元序列\(\{B^i\}\)，\(B^{i+1}\)通常是\(B^i\)的旋转，使用这个序列对\(A\)连续细化，直到\(A\)不再发生改变为止</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_39.png" width="500"></center>
+
+
+
+<h4>4.3.14 粗化</h4>
+<p>粗化表示为<br>\[
+A \odot B = A\cup (A\circledast B)
+\]<br>与细化类似，可以用一系列的\(B^i\)操作</p>
+<p>实际中通常是先对\(A^c\)细化得到\(C\)，再求\(C^c\)得到粗化的结果，不过会产生一些断点</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_40.png" width="500"></center>
+
+
+
+<h4>4.3.15 骨架</h4>
+<p>角平分线</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_41.png" width="500"></center>
+
+<p>可以通过腐蚀和开运算来实现<br>\[
+S(A) = \bigcup\limits_{k=0}^N S_k(A)
+\]<br>其中\(S_k(A)=(A\ominus kB)-(A\ominus kB)\circ B\)，\(A\ominus kB\)表示连续\(k\)次腐蚀，\(N\)是\(A\)被腐蚀为空集前最后一次迭代</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_42.png" width="500"></center>
+
+<p>上面\(N=2\)</p>
+<p>可以通过\(A\)的骨架的<strong>子集</strong>来重建\(A\)，注意存储的是子集<br>\[
+A = \bigcup\limits_{k=0}^N (S_k(A)\oplus kB)
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_43.png" width="500"></center>
+
+
+
+<h4>4.3.16 剪裁</h4>
+<p>是对细化和骨架化的补充</p>
+<p>分为以下几步：</p>
+<p>细化<br>\[
+X_1 = A\otimes \{B\}
+\]<br>多次细化消除毛刺</p>
+<p>寻找端点<br>\[
+X_2 = \bigcup\limits_{k=1}^N (X_1\circledast B^k)
+\]<br>其中\(N\)是\(B^i\)的个数</p>
+<p>膨胀，次数等于细化的次数（也就是删除的毛刺的最大元素个数）<br>\[
+X_3 = (X_2\oplus H)\cap A
+\]<br>其中\(H\)是一个满的正方形</p>
+<p>取并集<br>\[
+X_4 = X_1\cup X_3
+\]<br>得到的\(X_4\)就是目标结果</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_44.png" width="500"></center>
+
+<p>上面有3个删除的毛刺，膨胀了3次</p>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 灰度级形态学</h3>
+<p>结构元分为<strong>平坦/非平坦</strong>，前者只有0和1，后者多样</p>
+<p>同样地，结构元存在原点，但是不同的是结构元的每一个像素值是<strong>灰度值</strong></p>
+<h4>4.4.1 腐蚀与膨胀</h4>
+<p>对平坦结构元\(b\)，当其原点位于\((x,y)\)时，腐蚀和膨胀分别如下，也就是这个范围内灰度的<strong>极值</strong><br>\[
+[f \ominus b](x,y) = \min\limits_{(s,t)\in b}\{f(x+s,y+t)\}\\
+[f \oplus b](x,y) = \max\limits_{(s,t)\in b}\{f(x-s,y-t)\}\\
+\]<br>\("-"\)产生自对b的中心对称</p>
+<p>对非平坦结构元，定义为<br>\[
+[f \ominus b](x,y) = \min\limits_{(s,t)\in b}\{f(x+s,y+t)-b(s,t)\}\\
+[f \oplus b](x,y) = \max\limits_{(s,t)\in b}\{f(x-s,y-t)+\hat{b}(s,t)\}\\
+\]<br>其中\(\hat{b}(x,y) = b(-x,-y)\)，一一对应相加减</p>
+<p>对偶特性依然在<br>\[
+[f\ominus b]^c = f^c\oplus \hat{b}\\
+[f\oplus b]^c = f^c\ominus \hat{b}
+\]<br>其中\(f^c(x,y) = -f(x,y)\)</p>
+<p>一般腐蚀后更暗，膨胀后更亮</p>
+<h4>4.4.2 开闭运算</h4>
+<p>定义同二值图像</p>
+<p>满足<br>\[
+[f\circ b]^c  = f^c\cdot \hat{b}\\
+[f\cdot b]^c = f^c\circ \hat{b}
+\]<br>几何解释如下</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_45.png" width="300"></center>
+
+<p>这是一维的灰度刨面图，开运算就是从下方削去峰值，闭运算就是从上方填平谷值</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_46.png" width="500"></center>
+
+<p>红字的\(f\)改为\(r\)</p>
+<p>开运算对图像的暗特征和背景的影响<strong>忽略不计</strong>，但<strong>亮特征变小</strong>；闭运算相反；<strong>效果取决于结构元大小</strong></p>
+<p><strong>开闭运算的组合可以产生形态学滤波器进行平滑和去噪</strong></p>
+<h4>4.4.3 形态学梯度</h4>
+<p>定义<br>\[
+g = (f\oplus b)-(f\ominus b)
+\]<br>为灰度图像的形态学梯度，其中\(b = I_{3\times 3}\)，原点在中心</p>
+<h4>4.4.4 顶帽变换和底帽变换</h4>
+<p>白顶帽变换和黑底帽变换分别是<br>\[
+T_{hat}(f) = f - (f\circ b)\\
+B_{hat}(f) = (f \cdot b) -f
+\]<br>白顶帽可以获取大的亮特征，除去暗特征</p>
+<p>黑底帽可以获取大的暗特征，除去亮特征</p>
+<p>一个重要应用是矫正不均匀光照的影响，进行阈值处理之前先进行对应的帽变换</p>
+<h4>4.4.5 粒度测定</h4>
+<p>特殊大小的开运算会对包含类似大小颗粒的区域产生最大影响，用不同大小的结构元对图像进行开运算，除去的就是类似大小的结构，可以进行粒度的检测和统计</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_47.png" width="500"></center>
+
+
+
+<h4>4.4.6 纹理分割</h4>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_48.png" width="500"></center>
+
+<p>如何一步一步得到右边的图像：</p>
+<ol>
+<li>选用小结构元进行闭运算，得到第二张图</li>
+<li>用很大的结构元进行开运算，得到第三张图</li>
+<li>对第三张图进行形态学梯度变换得到纹理边界，将边界叠加到原图上得到第四张图</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

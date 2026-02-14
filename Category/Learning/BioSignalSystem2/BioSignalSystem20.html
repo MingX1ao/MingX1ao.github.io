@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="1 离散时间信号与系统 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>1 离散时间信号与系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 离散时间信号与系统
+                    <ul>
+                            <li><a href="#0.1">1.1 常见的典型序列</a></li>
+                            <li><a href="#0.2">1.2 离散时间信号常见的特征、描述参数</a></li>
+                            <li><a href="#0.3">1.3  离散时间信号基本运算</a></li>
+                            <li><a href="#0.4">1.4 离散系统</a></li>
+                            <li><a href="#0.5">1.5 离散时间系统分类</a></li>
+                            <li><a href="#0.6">1.6 离散时间LTI系统分析</a></li>
+                            <li><a href="#0.7">1.7 LTI系统的因果性和稳定性</a></li>
+                            <li><a href="#0.8">1.8 有限/无限冲击响应</a></li>
+                            <li><a href="#0.9">1.9 差分方程描述的离散时间系统</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 离散时间信号与系统</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 常见的典型序列</h3>
+<p><strong>单位采样序列</strong><br>\[
+\delta (n)=\begin{cases}
+1,\,\, n=0\\
+0,\,\, o.w.\\
+\end{cases}
+\]</p>
+<p><strong>单位阶跃序列</strong><br>\[
+u(n)=\begin{cases}
+1,\,\, n\geq 0\\
+0,\,\, n<0\\
+\end{cases}
+\]<br>注意\(u(0)=1\)</p>
+<p>\(u(n)=\sum\limits_{k=0}^\infty \delta(n-k)\)，\(\delta (n)=u(n)-u(n-1)\)</p>
+<p><strong>矩形序列</strong><br>\[
+R_N(n)=\begin{cases}
+1,\,\, 0\leq n\leq N-1\\
+0,\,\, o.w.\\
+\end{cases}
+\]<br>N为矩形序列的长度，\(R_N(n)=u(n)-u(n-N)\)</p>
+<p><strong>实指数序列</strong><br>\[
+x(n)=a^nu(n)
+\]<br>|a|&lt;1，|x(n)|递减，x(n)收敛</p>
+<p><strong>正弦序列</strong><br>\[
+x(n)=\sin(\omega n)
+\]<br>\(\omega\)是序列的<strong>数字域频率</strong>，单位rad</p>
+<p>若正弦序列由模拟信号\(x_a(t)=\sin(\Omega t)\)采样得到，则\(x_a(nT)=\sin(\Omega nT)=x(n)=\sin(\omega n)\)</p>
+<p>得到\(\omega =\Omega T\)，其中Ω是模拟角频率，T是采样周期</p>
+<p><strong>复指数序列</strong><br>\[
+x(n)=e^{(\sigma+j\omega_0)n}
+\]<br>我估计用不到</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 离散时间信号常见的特征、描述参数</h3>
+<p><strong>信号能量</strong><br>\[
+E_x=\sum\limits_{i=0}^{n-1}|x(i)|^2
+\]</p>
+<p><strong>信号功率</strong><br>\[
+P_X=\frac{1}{N}\sum\limits_{i=0}^{n-1}|x(i)|^2
+\]</p>
+<p><strong>周期信号</strong></p>
+<p>存在最小正整数，使得\(x(n)=x(n+N)\)在\(n\in\N\)上成立</p>
+<p><strong>奇信号和偶信号</strong></p>
+<p>奇：\(x(n)=-x(-n)\)；偶：\(x(n)=x(-n)\)</p>
+<p>任意的信号\(x(n)\)，其<strong>奇分量</strong>\(x_o=\frac{1}{2}[x(n)-x(-n)]\)，<strong>偶分量</strong>\(x_e=\frac{1}{2}[x(n)+x(-n)]\)</p>
+<p><strong>共轭对称和共轭反对称</strong></p>
+<p>反对称：\(x(n)=-x^*(-n)\)；对称：\(x(n)=x^*(-n)\)</p>
+<p>任意的信号\(x(n)\)，其<strong>反对称分量</strong>\(x_o=\frac{1}{2}[x(n)-x^*(-n)]\)，<strong>对称分量</strong>\(x_e=\frac{1}{2}[x(n)+x^*(-n)]\)</p>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>1.3  离散时间信号基本运算</h3>
+<p><strong>位移</strong><br>\[
+y(n)=x(n-n_0)
+\]</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_1.png" width="300"></center>
+
+
+
+<p><strong>翻转</strong><br>\[
+y(n)=x(-n)
+\]</p>
+<p><strong>加法</strong><br>\[
+y(n)=x_1(n)+x_2(n)
+\]</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_2.png" width="300"></center>
+
+
+
+<p><strong>乘法</strong><br>\[
+y(n)=x_1(n)\cdot x_2(n)
+\]</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_3.png" width="300"></center>
+
+
+
+<p><strong>缩放</strong><br>\[
+y(n)=c\cdot x(n)
+\]</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_4.png" width="300"></center>
+
+
+
+<p><strong>抽样</strong></p>
+<p>分为<strong>抽取（下采样）<strong>和</strong>插值（上采样）</strong></p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_5.png" width="500"></center>
+
+<p>插值一般<strong>插0</strong>或<strong>均值</strong></p>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3>1.4 离散系统</h3>
+<p>将输入转换为输出的一种运算，\(y(n)=T[x(n)]\)，其中\(T[]\)是离散系统</p>
+<p><font color=red>例：</font>已知输入输出关系\(y(n)=0.25y(n-1)+0.5[x(n)+x(n-1)]\)，画出系统的离散时间结构图</p>
+<p>解：</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_6.png" width="400"></center>
+
+
+
+<a name="0.5" class="md-header-anchor" id="0.5"></a>
+<h3>1.5 离散时间系统分类</h3>
+<p><strong>静态系统（无记忆）与动态系统（记忆）</strong></p>
+<p>输出只取决于<strong>此刻</strong>的输入，为无记忆系统</p>
+<p><strong>时变系统与时不变系统</strong></p>
+<p>同SaS1</p>
+<p><font color=red>例：</font>判断\(y(n)=x(-n)\)是否时变</p>
+<p>解：令\(x_1(n)=x(n-N)\)，则\(y_1(n)=x_1(-n)=x_1(-n-N)\)，\(x(n-N)\)的输出则是\(y(n-N)=x(N-n)\)</p>
+<p>​		故时变</p>
+<p><strong>线性系统与非线性系统</strong></p>
+<p>同时满足<strong>叠加性</strong>和<strong>齐次性</strong></p>
+<p>\(y(n)=ax(n)+b\)是增量线性系统</p>
+<p><strong>因果系统与非因果系统</strong></p>
+<p>输出与之后的输入无关，为因果</p>
+<p>形如\(y(n)=f[x(n),x(n-m),y(n-k)],k>0,m>0\)为<strong>因果</strong>系统</p>
+<p><strong>稳定系统与非稳定系统</strong></p>
+<p>对于有界输入，输出有界，则稳定</p>
+<a name="0.6" class="md-header-anchor" id="0.6"></a>
+<h3>1.6 离散时间LTI系统分析</h3>
+<p>\(x(n)\)可以表示为所有时刻\(x(k)\)值的累加和，即\(x(n)=\sum\limits_{k=-\infty}^{+\infty}x(k)\delta(n-k)\)</p>
+<p>又已知\(\delta(t)\rightarrow h(t)\)，系统是LTI系统，得到\(\delta(n-k)\rightarrow h(n-k),\sum x(k)\delta (n-k)\rightarrow \sum x(k)h(n-k)=x(n)*h(n)\)</p>
+<p>故\(y(n)=x(n)*h(n)\)，该式称为离散卷积</p>
+<p><strong>离散卷积的过程</strong></p>
+<p>观察公式\(\sum x(k)h(n-k)\)，得到以下四步</p>
+<ol>
+<li>将\(h(k)\)反转，得到\(h(-k)\)</li>
+<li>将\(h(-k)\)向右位移n，得到\(h(n-k)\)</li>
+<li>将\(x(k)\)和\(h(n-k)\)对应值相乘</li>
+<li>将所有k处的乘积相加，得到\(y(n)\)</li>
+</ol>
+<p>若序列\(x(n)\)和\(h(n)\)分别长N、M，<strong>卷积和/线性卷积</strong>的序列长度为<strong>N+M-1</strong></p>
+<p><font color=red>例：</font>一个LTI系统，\(h(n)=\{1,2,2,-1\}\)，输入\(x(n)=\{1,2,3,1\}\)，求输出结果</p>
+<p>解：首先反转\(h(n)\)（或\(x(n)\)，都行）得到\(h(-n)=\{-1,2,2,1\}\)</p>
+<p>​		然后从无穷远处向右移动\(h(-n)\)，第一个结果是\(x(1)=1\)与\(h(4)=1\)相交</p>
+<p>​		然后再移动直到分离，最终序列为\(y(n)=\{1,4,9,10,6,-1,-1\}\)，个数符合4+4-1=7个</p>
+<p>**注：**序列表示法用箭头表示0时刻的位置</p>
+<p>卷积和表明，n时刻系统的输出，与之前的输入也有关</p>
+<p>即某一时刻的输出是<strong>之前很多次输入乘以</strong>各自的<strong>衰减系数</strong>之后的<strong>叠加</strong></p>
+<p><strong>卷积遵守的数学定律</strong></p>
+<p>交换律：\(x(n)*h(n)=h(n)*x(n)\)</p>
+<p>结合律：\(x(n)*[h_1(n)*h_2(n)]=[x(n)*h_1(n)]*h_2(n)\)</p>
+<p>分配律：\(x(n)*[h_1(n)+h_2(n)]=x(n)*h_1(n)+x(n)*h_2(n)\)</p>
+<p>可以用框图证明</p>
+<p><strong>卷积用途</strong></p>
+<ol>
+<li>是数据变化更加<strong>平滑</strong></li>
+<li><strong>提取</strong>图像或者数据的<strong>特征</strong></li>
+</ol>
+<a name="0.7" class="md-header-anchor" id="0.7"></a>
+<h3>1.7 LTI系统的因果性和稳定性</h3>
+<p><strong>因果性</strong></p>
+<p>对于LTI系统，因果性与**\(h(n)=0,n<0\)<strong>互为</strong>充要条件**</p>
+<p>利用卷积的展开形式证明：<br>\[
+y(n)=\sum h(k)x(n-k)=\sum\limits_{k=0}^\infty h(k)x(n-k)+\sum\limits_{k=-\infty}^{-1}h(k)x(n-k)
+\]<br>后一项为0</p>
+<p><font color=red>例：</font>已知\(h(t)=a^nu(n)\)，求阶跃响应</p>
+<p>解：\(y(n)=\sum\limits_{k=-\infty}^{\infty}a^ku(k)u(n-k)=\sum\limits_{k=0}^na^k=\frac{a^{n+1}-1}{a-1}\)</p>
+<p>等比数列求和公式：\(S_n=a_1\frac{1-q^n}{1-q}\)</p>
+<p><strong>稳定性</strong></p>
+<p>LTI系统，稳定与\(\sum\limits_{n=-\infty}^{+\infty}|h(n)|<\infty\)互为<strong>充要条件</strong></p>
+<p>利用有界性的定义证明</p>
+<a name="0.8" class="md-header-anchor" id="0.8"></a>
+<h3>1.8 有限/无限冲击响应</h3>
+<p><strong>有限（Finite Impulse Response,FIR）</strong></p>
+<p>即\(h(n)=0\)，当\(n<0,n\geq M\)时，此时\(y(n)=\sum\limits_{k=0}^{M-1}h(k)x(n-k)\)</p>
+<p><strong>无限（IIR）</strong></p>
+<p>即\(h(n)\)的非零区间无限大，此时\(y(n)=\sum\limits_{k=-\infty}^{\infty}h(k)x(n-k)\)</p>
+<a name="0.9" class="md-header-anchor" id="0.9"></a>
+<h3>1.9 差分方程描述的离散时间系统</h3>
+<p>N阶线性常系数差分方程，形如<br>\[
+\sum\limits_{i=0}^Na_iy(n-i)=\sum\limits_{j=0}^Mb_jx(n-j)
+\]<br>线性：\(y(n-i),x(n-j)\)只有一次幂，无交叉项</p>
+<p>常系数</p>
+<p>N阶：输出的阶次确定</p>
+<p>方框图见<strong>1.3的位移运算</strong></p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="14 数字B超的原理及关键技术 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>14 数字B超的原理及关键技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>14 数字B超的原理及关键技术
+                    <ul>
+                            <li><a href="#13.1">14.1 关键参数</a></li>
+                            <li><a href="#13.2">14.2 多元线阵换能器的结构与功能</a></li>
+                            <li><a href="#13.3">14.3 扫描技术</a></li>
+                            <li><a href="#13.4">14.4 数字B超的架构和DSC技术</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">14 数字B超的原理及关键技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="13.1" class="md-header-anchor" id="13.1"></a>
+<h3><font color=red>14.1 关键参数</font></h3>
+<p><strong>分辨率</strong>：单位是mm</p>
+<p>纵向分辨率：脉冲频率（衍射），脉冲宽度（时间差），振铃效应（阻尼不够），被测物移动，接收增益</p>
+<p>横向分辨率：声束直径，聚焦特性，显示器件，频率（主瓣宽度）</p>
+<p><strong>工作频率和脉冲重复频率(PRF)</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_49.png" width="600"></center>
+
+<p>PRF越大，探测深度越小，因为能够不被干扰的传播时间少了</p>
+<p><strong>脉冲宽度和振铃</strong></p>
+<p>脉冲宽度指脉冲从产生到截止的时间长度，不能太小，受探测深度和接收带宽的限制</p>
+<p>振铃：阻尼不够产生的，越短越好</p>
+<p><strong>帧频</strong></p>
+<p>完成一幅图像需要的时间的倒数，记为Fve<br>\[
+Fve = \frac{c}{2DN}
+\]<br>其中\(c,D,N\)分别是声速，每条扫描线能达到的最大深度，扫描线数目</p>
+<a name="13.2" class="md-header-anchor" id="13.2"></a>
+<h3><font color=red>14.2 多元线阵换能器的结构与功能</font></h3>
+<p><strong>电子线阵超声探头</strong></p>
+<ul>
+<li><p>开关控制器：一个译码器，使得探头和主机的连线减少</p>
+</li>
+<li><p>阻尼垫衬：阻抗率与晶片接近，减少反射；声波衰减系数大，吸收背向信号；会降低发射效率，对于收发一体的降低灵敏度</p>
+</li>
+<li><p>换能器阵列：压电材料制成的线性换能器阵</p>
+<ul>
+<li><p>阵元数量：多，主瓣窄，横向分辨率高，但是探头变大</p>
+</li>
+<li><p>阵元厚度：见9.3.4节</p>
+</li>
+<li><p>单个阵元面积：</p>
+<ul>
+<li>辐射强度：窄，辐射弱</li>
+<li>主瓣扩散角：宽，扩散角好</li>
+<li>栅瓣：阵元中心间距\(d<0.5\lambda\)时可以消除</li>
+</ul>
+<p>综合考虑：单个阵元宽:厚 &lt; 0.6</p>
+</li>
+<li><p>开槽深度：开槽深互耦少，浅则干扰大，分辨率低</p>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_50.png" width="250"></center>
+</li>
+<li><p>声学匹配层：声透镜同时与振元和人体接触，具体见三层结构</p>
+</li>
+<li><p>透镜作用：一般不用凹透镜，因为难以与人体接触，用反转材料的凸透镜</p>
+</li>
+</ul>
+<a name="13.3" class="md-header-anchor" id="13.3"></a>
+<h3>14.3 扫描技术</h3>
+<p>分为机械扫描和电子扫描；主要的扫描方式为线扫和扇扫</p>
+<p>每次将相邻的m个阵元一起扫描，若总共n个阵元，一共产生N = n-m+1个扫描线，扫描线在激活的阵元的中轴</p>
+<p>为什么m个一起扫，见14.2节</p>
+<p>缺点：帧频低；扫描线减少</p>
+<p><strong>交错扫描</strong>：扫描线增加一倍，但干扰变多</p>
+<p><strong>飞跃扫描</strong>：扫描线N不变，降低前后两次扫描束的干扰</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_51.png" width="600"></center>
+
+
+
+<p><strong>扇扫</strong>：按扇形来扫描，尾端不动；适用于心脏</p>
+<p><strong>线扫</strong>：平行移动；适用于观察腹部脏器</p>
+<a name="13.4" class="md-header-anchor" id="13.4"></a>
+<h3><font color=red>14.4 数字B超的架构和DSC技术</font></h3>
+<p>DSC: Digital Scan Converter，数字扫描变换器</p>
+<p>工作原理</p>
+<ul>
+<li>A/D转换</li>
+<li>波束形成：对采样信号进行延时加权，见11.4节，以达到动态聚焦的目的</li>
+<li>前处理：对波束形成二次采样，图像预处理和TCG等</li>
+<li>帧存储器：DSC的核心，用来存储扇形扫描的超声图像</li>
+<li>像素地址逻辑单元：DSC的核心，进行空间变换（极坐标变直角坐标）</li>
+<li>D/A转换</li>
+</ul>
+<p><strong>回声的动态范围压缩和扩展</strong></p>
+<p>回声的范围很大，需要对信号预处理做非线性变换，采样小信号和大信号</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_52.png" width="500"></center>
+
+
+
+<p><strong>AD转化</strong></p>
+<p>采样，量化和编码</p>
+<p><strong>前处理</strong></p>
+<ul>
+<li>二次采样：做下采样，减少数据量</li>
+<li>平滑处理，滤过高频噪声</li>
+<li>TCG等</li>
+</ul>
+<p><strong>坐标变换和帧存储</strong></p>
+<p>见14.4节</p>
+<p><font color=red><strong>后处理</strong></font></p>
+<ul>
+<li><p>图像插补后处理：扫描线在比较深的地方空隙大，会产生没有回声的区域，需要插值处理</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_70.png" width="300"></center>
+</li>
+<li><p>灰阶处理：也就是回波强度映射为灰度</p>
+</li>
+<li><p>γ变化矫正亮度</p>
+</li>
+<li><p>帧相关：几帧的均值作为输出，就是一个均值低通滤波，消除白噪声；这个可以参考 cv2.fastNlMeansDenoisingMulti()</p>
+</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

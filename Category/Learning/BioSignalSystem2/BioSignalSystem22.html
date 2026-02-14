@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="3 Z变换 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>3 Z变换</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 Z变换
+                    <ul>
+                            <li><a href="#2.1">3.1 从Laplace到Z</a></li>
+                            <li><a href="#2.2">3.2 收敛域ROC</a></li>
+                            <li><a href="#2.3">3.3 典型序列的z变换</a></li>
+                            <li><a href="#2.4">3.4 Z反变换</a></li>
+                            <li><a href="#2.5">3.5 Z变换性质和定理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 Z变换</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 从Laplace到Z</h3>
+<p>对连续信号\(x_a(t)\)采样得到\(x(n)=x_a(nT_s)\)，对\(x(n)\)做Laplace变换<br>\[
+\begin{align}
+\mathcal{L}[x(n)]&=\int_{-\infty}^{+\infty} x(n)e^{-st}dt\\
+&=\sum\limits_{n}x_a(nT_s)\int_{-\infty}^{+\infty}\delta(t-nT_s)e^{-st}dt\\
+&=\sum\limits_{n=-\infty}^{+\infty}x_a(nT_s)e^{-snT_s}\\
+&\triangleq X(e^{sT_s})\\
+\end{align}
+\]<br>令\(z=e^{sT_s}\)，得到<br>\[
+X(z)=\sum\limits_{n=-\infty}^{+\infty}x(n)\cdot z^{-n}
+\]<br>这就是Z变换的公式</p>
+<p>类似的，有单边Z变换</p>
+<p><strong>s到z的映射</strong></p>
+<p>\(s=\sigma + j\Omega\Rightarrow z=e^{\sigma T_s}\cdot e^{j\Omega T_s}\triangleq re^{j\omega}\)</p>
+<p>当\(\sigma<0\)时，\(r<1\)，对应于单位圆内；\(\sigma>0\)则映射到单位圆外</p>
+<p>\(\omega=\Omega T_s=2\pi F/F_S\)，\(\Omega\)每变化\(2\pi F_s\)都对应一个\(\omega\)，有周期性</p>
+<p>\(\sigma\)映射为圆半径，\(\Omega\)映射为角度</p>
+<p>特别的，当\(r=1\)时，\(X(z)=\sum x(n)z^{-n}\)退化为\(X(\omega)=\sum x(n)e^{-j\omega n}\)，为离散时间傅里叶变换（DTFT）</p>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 收敛域ROC</h3>
+<p>只有\(X(z)\)收敛，这个变换才有意义，因此必须满足</p>
+<ol>
+<li>X(z)绝对可和，\(\sum|x(n)z^{-n}|<\infty\)</li>
+<li>所有满足上式的\(|z|\)，组成了z变换的ROC</li>
+<li>\(X(z)=\frac{P(z)}{Q(z)}\)，0点极点</li>
+</ol>
+<p>必须指明收敛域</p>
+<p>有限长度的信号ROC是<strong>整个z平面</strong>，但是z=0和z=∞需要另外考虑</p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 典型序列的z变换</h3>
+<p>牢记：\(\sum\limits_{i=1}^na_i=a_1\frac{1-q^n}{1-q}\)</p>
+<p><strong>单位抽样序列</strong><br>\[
+\Delta(z)=\sum \delta(n)z^{-n}=1\,\,\,\,\,\,\, ROC:0\leq|z|\leq\infty
+\]</p>
+<p><strong>单位阶跃序列</strong><br>\[
+U(z)=\sum u(n)z^{-n}=\sum\limits_{n=0}^{+\infty}z^{-n}=\frac{1}{1-z^{-1}}\,\,\,\,\,\,\, ROC:|z|>1
+\]</p>
+<p><strong>实指数右边序列</strong></p>
+<p>\(x(n)=a^nu(n)\)<br>\[
+X(z)=\sum\limits_{n=0}^{+\infty}a^nz^{-n}=\sum\limits_{n=0}^{+\infty}\left(\frac{a}{z}\right)^n=\frac{1}{1-a/z}\,\,\,\,\,\,\,\, ROC:|z|>a
+\]<br>一般右边序列的ROC一定在最大极点的圆周外（考虑s平面上最大极点的右边）</p>
+<p>实指数左边序列和双边序列同理，不赘述</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 Z反变换</h3>
+<p>将\(X(z)\)表示为分式，最终化为分式之和，逆变换</p>
+<p><font color=red>例：</font>\(X(z)=\frac{1}{(1-1/4z)(1-1/2z)},ROC:|z|>1/2\)，求\(x(n)\)</p>
+<p>解：\(X(z)=\frac{2}{1-1/2z}-\frac{1}{1-1/4z}\)，得到\(x(n)=2\left(\frac{1}{2}\right)^nu(n)-\left(\frac{1}{4}\right)^nu(n)\)</p>
+<a name="2.5" class="md-header-anchor" id="2.5"></a>
+<h3>3.5 Z变换性质和定理</h3>
+<p><strong>线性</strong><br>\[
+Z[a_1x_1(n)+a_2x_2(n)]=a_1X_1(z)+a_2X_2(z),ROC:ROC_1\cap ROC_2
+\]</p>
+<p><strong>时移</strong><br>\[
+Z[x(n-n_0)]=z^{-n_0}X(z),ROC:ROC_x
+\]</p>
+<p><strong>Z域尺度变换</strong><br>\[
+Z[a^nx(n)]=X\left(\frac{z}{a}\right),ROC:|a|ROC_x
+\]</p>
+<p><strong>时间反转</strong><br>\[
+Z[x(-n)]=X(z^{-1}),ROC:\frac{1}{r_2}<|z|<\frac{1}{r_1}
+\]</p>
+<p><strong>Z域微分</strong><br>\[
+Z[nx(n)]=-z\frac{dX(z)}{dz},ROC:ROC_x
+\]</p>
+<p><strong>时域卷积</strong><br>\[
+Z[x_1(n)*x_2(n)]=X_1(z)\cdot X_2(z),ROC:ROC_1\cap ROC_2
+\]</p>
+<p><strong>序列相关</strong></p>
+<p>定义相关操作：\(r_{x_1,x_2}(l)=\sum\limits_{n=-\infty}^{+\infty}x_1(n)x_2(n-l)=x_1(l)*x_2(-l)\)<br>\[
+Z[r_{x_1,x_2}(l)]=R_{x_1,x_2}(z)=X_1(z)\cdot X_2(z^{-1})
+\]</p>
+<p><strong>初值定理</strong></p>
+<p>对因果序列\(x(n)\)，有<br>\[
+\lim\limits_{z\rightarrow \infty}X(z)=x(0)
+\]</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

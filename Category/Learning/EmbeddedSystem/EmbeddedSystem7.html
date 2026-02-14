@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="8 定时器原理与应用 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>8 定时器原理与应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>8 定时器原理与应用
+                    <ul>
+                            <li><a href="#7.1">8.1 定时器概述</a></li>
+                            <li><a href="#7.2">8.2 结构与原理</a></li>
+                            <li><a href="#7.3">8.3 工作模式</a></li>
+                            <li><a href="#7.4">8.4 应用实例</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">8 定时器原理与应用</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="7.1" class="md-header-anchor" id="7.1"></a>
+<h3>8.1 定时器概述</h3>
+<p><strong>定时的方法</strong></p>
+<ul>
+<li>软件定时：占用了CPU时间，降低利用率</li>
+<li>时基电路：如555等，不可编程</li>
+<li>定时芯片：8253/8254等，很好</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_27.png" width="600"></center>
+
+<p>两个<code>16bit</code> Timer；仅<code>PC, DPTR</code>和两个Timer是<code>16bit</code></p>
+<p>本质是+1计数器；如果使用外部时钟，称为计数器；如果是内部时钟，称为定时器<br>\[
+t = n\cdot T
+\]<br>其中\(t,n,T\)分别是定时，计数和周期</p>
+<a name="7.2" class="md-header-anchor" id="7.2"></a>
+<h3>8.2 结构与原理</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_28.png" width="600"></center>
+
+<p>分为两个<code>8bit</code>，当MSB溢出时产生一个中断信号</p>
+<p><strong>定时</strong>：对机器周期进行定时，是震荡周期的12倍</p>
+<p><strong>计数</strong>：每个机器周期进行采样，根据采样定理，计数脉冲频率必须是机器频率的一半以下，即计数脉冲周期大于2us</p>
+<p><font color=red>计数的原理：</font></p>
+<blockquote>
+<p>设置为计数器模式时，外部事件计数脉冲由T0或T1引脚输入到计数器。在每个机器周期的S5P2期间采样T0、T1引脚电平。当某周期采样到一高电平输入，而下一周期又采样到一低电平时，则计数器加1，更新的计数值在下一个机器周期的S3P1期间装入计数器。由于检测一个从1到0的下降沿需要2个机器周期，因此要求被采样的电平至少要维持一个机器周期。当晶振频率为12MHz时，最高计数频率不超过1/2MHz，即计数脉冲的周期要大于2 us。</p>
+</blockquote>
+<p><strong>工作模式</strong>：初始化寄存器</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_29.png" width="600"></center>
+
+<p>高4bit和低4bit分别控制两个Timer</p>
+<ul>
+<li><code>GATE=0</code>时，用软件将<code>TR0/TR1=1</code>就可以定时/计数</li>
+<li><code>GATE=1</code>时，除了软件置位外，还需要外部中断引脚<code>INT0/INT1=1</code></li>
+<li>\(\mathsf{C/\bar{T}}\)：定时/计数选择；=0为定时，接内部时钟；=1为计数，接外部脉冲</li>
+<li><code>M1M0</code>的用处如下</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_30.png" width="600"></center>
+
+<p>方式2用于精确定时</p>
+<p><strong>控制寄存器TCON</strong></p>
+<p><code>0/1</code>分别控制Timer0/1，以<code>1</code>为例</p>
+<ul>
+<li><code>TF1</code>：是T1溢出中断请求标志位。T1溢出时硬件自动置为<code>1</code>，CPU响应后自动清零；CPU可以查询/更改<code>TF1</code>状态，可作为标志位或进行软件更改，效果和硬件一致</li>
+<li><code>TR1</code>：<code>TR1=1</code>，T1开始工作；<code>TR1=0</code>，T1停止工作；由软件决定，故可以软件控制Timer的启动/停止；硬件不会改变这值，程序员自己改变</li>
+</ul>
+<a name="7.3" class="md-header-anchor" id="7.3"></a>
+<h3>8.3 工作模式</h3>
+<p><strong>方式0</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_31.png" width="600"></center>
+
+<p>注意计数位只有13位，且中间是不用的，在初始化时要注意；TMOD选为<code>00</code></p>
+<p>初值的计算公式为<br>\[
+x = 2^{13} - N
+\]<br>其中\(N\)为要计的时长对应的数字</p>
+<p><strong>方式1</strong></p>
+<p>16位，都能用，TMOD选为<code>01</code></p>
+<p>初值计算公式为<br>\[
+x = 2^{16} - N
+\]</p>
+<p><strong>方式2</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_32.png" width="600"></center>
+
+<p>此时是自动补充模式，8位，TMOD选为<code>10</code></p>
+<p>初值计算公式为<br>\[
+x = 2^{8} - N
+\]</p>
+<p><strong>方式3</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_33.png" width="600"></center>
+
+<p>此时将T0拆分为两个独立的8位计数器，高八位占用了T1的资源，因此T1不能工作在这个模式；此时T1只能作为非中断方式使用，如作为串口波特率发生器等</p>
+<a name="7.4" class="md-header-anchor" id="7.4"></a>
+<h3>8.4 应用实例</h3>
+<p><font color=red>例：</font>测量外部中断管脚输入的正脉冲宽度</p>
+<p>解：初值为0，<code>GATE=1, TR0=1</code>，等待外部正脉冲开始计时，工作在<code>MOD=0</code>，将脉冲接在<code>INT0</code>作为中断输入，在电平转为负时停止计数，读出计数值，乘以周期</p>
+<p><font color=red>例：</font>扩展外部中断</p>
+<p>解：工作在<code>MOD=2</code>，<code>TH0=TL0=FFH</code>，此时只要<code>T0</code>口来一个脉冲下降沿，<code>TL0+=1</code>产生一个定时器中断</p>
+<p><font color=red>例：</font>用T0的方式1，产生10ms的定时，并使P1.0引脚上输出20ms的方波，系统时钟频率为12MHz</p>
+<p>解：机器周期为1us，需要计数\(N=10000\)次，\(X=2^{16}-N=\mathsf{D8F0H}\)，将D8送入TH0，将F0送入TL0</p>
+<p>​		<code>M1M0=01, GATE=0, C/T=0</code>，程序如下</p>
+<pre><code class="language-assembly">ORG   0000H
+		LJMP  MAIN              ;跳转到主程序
+ORG   000BH              		;T0的中断入口地址
+		LJMP  DVT0              ;转向中断服务程序
+ORG   0100H
+MAIN:	MOV   TMOD, #01H		;置T0工作于方式1
+        MOV   TH0, #0D8H        ;装入计数初值
+        MOV   TL0, #0F0H          
+        SETB  ET0               ;T0开中断
+        SETB  EA                ;CPU开中断
+        SETB  TR0               ;启动T0
+        SJMP $                  ;等待中断
+DVT0:	CPL   P1.0              ;P1.0取反输出
+        MOV   TH0, #0D8H        ;重新装入计数值
+        MOV   TL0, #0F0H
+		RETI                    ;中断返回
+END
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

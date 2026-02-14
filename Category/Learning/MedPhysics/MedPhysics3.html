@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="4 核磁共振及医学应用 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>4 核磁共振及医学应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 核磁共振及医学应用
+                    <ul>
+                            <li><a href="#3.1">4.1 基本原理</a></li>
+                            <li><a href="#3.2">4.2 成像过程</a></li>
+                            <li><a href="#3.3">4.3 人体的磁共振成像</a></li>
+                            <li><a href="#3.4">4.4 氢核密度\(\rho\)和\(T_1,T_2\)加权图像的产生</a></li>
+                            <li><a href="#3.5">4.5 磁共振成像系统简介</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 核磁共振及医学应用</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点<br><strong><font color=red>基本原理</font></strong><br><font color=red><strong>成像过程</strong></font> </p>
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 <font color=red>基本原理</font></h3>
+<p><strong>磁场中的磁矩</strong><br>环形电流的磁矩\(\overrightarrow{\mu}=I\overrightarrow{S}\)，单位J/T，其中S为面积，方向与I构成<strong>右手螺旋</strong>关系<br><img src="/Category/Learning/Pictures/MedicalPhysica_24.png" width="150"></p>
+<p><strong>磁矩在磁场中的能量</strong><br>\[E=-\overrightarrow{\mu}\cdot\overrightarrow{B_0}=-\mu B_0 \cos{\phi},\phi=\langle \overrightarrow{\mu},\overrightarrow{B_0}\rangle\]<br>式中\(B_0\)是外加磁场  </p>
+<p><strong>核自旋角动量</strong><br>核自旋是量子化的，有<br>\[P_I=\sqrt{I(I+1)}\hbar\]<br>其中I是核自旋量子数，有以下规律：</p>
+<ol>
+<li>质子数和中子数<strong>都是偶数</strong>，I=0</li>
+<li>质子数和中子数有<strong>一个是奇数</strong>，I是半整数（X.5）</li>
+<li>质子数和中子数<strong>都是奇数</strong>，I是正整数</li>
+</ol>
+<p><strong>核自旋角动量的空间分量</strong><br>也具有量子化的性质，有<br>\[P_{Iz}=m_I\hbar，m_I=I，I-1,I-2,\ldots,-I\]<br>\(m_I\)是自旋磁量子数，共\(2I+1\)个可能值，z方向为外磁场方向，表明\(P_{Iz}\)有\(2I+1\)个可能值  </p>
+<p><strong>核磁矩和核自旋的关系</strong><br>核磁矩用于描述自旋核在其周围空间所产生的磁场特性，有<br>\[\mu_I=g_N\frac{e}{2m_p}P_I\triangleq\gamma P_I\]<br>\[\Rightarrow\mu_I=g_N\frac{e}{2m_p}\sqrt{I(I+1)}\hbar\triangleq g_N\sqrt{I(I+1)}\mu_N\]<br>其中\(g_N\)是朗德因子，是常数；\(\gamma\triangleq\frac{g_Ne}{2m_P}\)是原子核的磁旋比，对于特定的核是常数；\(\mu_N=\frac{e\hbar}{2m_P}\)为核磁子，是核磁矩的最小单位  </p>
+<p><strong>核磁矩的空间量子化</strong><br>\[\mu_{Iz}=g_N\frac{e}{2m_P}P_{Iz}=g_N\frac{e}{2m_P}m_I\hbar=m_Ig_N\mu_N\]  </p>
+<p><font color=red>例：下面哪些核可以用于MRI：\(^{12}C,^{18}O,^1H,^{19}F,^6Li,^{14}N\)</font><br>解：用于MRI，则其必须有核磁矩，其量子数不能是零，故前两个不行，后面都可以<br><strong>最常用的是\(^1H\)，人体内含量大，灵敏度高，自旋数=1/2，只有两种取向，探测简单</strong>  </p>
+<p><strong>宏观磁矩</strong><br>本质是核磁矩从<strong>无序排列变成有序排列</strong>，磁场越强，核磁矩取向越一致，宏观磁矩越大<br>\[\overrightarrow{M}=\sum_{i=1}^n\overrightarrow{\mu_i}\]  </p>
+<p><strong>塞曼效应</strong><br>自旋核在磁场中的取向改变和能级分裂<br><img src="/Category/Learning/Pictures/MedicalPhysica_25.png" width="500"><br>相邻两级的能量差有\(\Delta E=\Delta m_Ig_N\mu_NB_0\cos{\phi}=g_N\mu_NB_0\)，即\(\Delta m_I\equiv1,\cos{\phi}\equiv1\)<br>由于\(^1H\)的自旋量子数\(I=\frac{1}{2}\)，仅有\(\pm \frac{g_N\mu_NB_0}{2}\)两个能级  </p>
+<p><font color=red><strong>核磁共振条件和拉莫尔公式</strong></font><br>在外磁场中氢核磁矩受外磁场作用，会产生进动，其进动角频率为\[\omega_N=\gamma B_0\]<br>在频率为\(\nu\)的射频射线（RF）作用下，若有<br>\[h\nu=\Delta E=g_N\mu_NB_0=g_N\frac{e\hbar}{2m_P}B_0\]<br>\[\Rightarrow \nu = \frac{1}{2\pi}\cdot\frac{g_Ne}{2m_P}\cdot B_0=\frac{\gamma}{2\pi}B_0\Leftrightarrow\omega=\gamma B_0\]<br>上式称为<strong>拉莫尔公式</strong><br>低能级的原子核吸收RF的能量而跃迁到高能级  </p>
+<p><strong>α角RF脉冲</strong><br>宏观磁矩\(\overrightarrow{M}\)与RF之间发生共振吸收，原先处于低能级（此时宏观磁矩与外磁场同向）的核跃迁到高能级，其磁矩方向改变，最终导致\(\overrightarrow{M}\)与\(\overrightarrow{B_0}\)的夹角会变化，如果\(\Delta \phi=\alpha\)，称该RF为<strong>α角RF脉冲</strong><br>90°和180°是两个基本脉冲<br><img src="/Category/Learning/Pictures/MedicalPhysica_26.png" width="500"></p>
+<p><strong>MR信号检测</strong><br>大量的氢核发射和吸收能量，产生感应电场，其强度与参与共振的<strong>氢核数目</strong>和射频脉冲后的<strong>提取信号的时刻</strong>有关  </p>
+<p><strong>弛豫过程</strong><br><strong>横向</strong>弛豫过程：<br>核磁矩在<strong>水平</strong>方向趋于平衡，各磁矩旋进的相位完全错乱。各磁矩在水平方向的磁性<strong>完全抵消</strong>，宏观上水平磁矩\(M_{xy}\)趋于零。是同种核之间交换能量的过程，也称<strong>自旋-自旋弛豫过程</strong>  </p>
+<p><strong>纵向</strong>弛豫过程：<br>整个氢核磁矩系统恢复到未偏离磁场前的宏观磁矩（方向和大小），纵向分量\(M_z\)从小到大。是氢核和周围物质的热交换，达到热平衡，又称<strong>自旋-晶格弛豫过程</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_27.png" width="300"></p>
+<p><strong>弛豫时间</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_28.png" width="500"><br>\(T_1\)是\(M_{z'}\)达到\(0.63M_0\)是的时间，\(T_2\)是\(M_{x'y'}\)减小到\(0.37M_{x'y'_{max}}\)的时间</p>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 <font color=red>成像过程</font></h3>
+<p><strong>选择层面</strong><br>外加Z方向主均匀磁场\(B_0\)，再叠加同方向的线性梯度场\(G_z\varpropto z\)，得到<br>\[B=B_0+zG_z\]<br>要使氢核跃迁，RF的频率也要随z改变，有<br>\[\nu=\frac{\gamma}{2\pi}(B_0+zG_z)\Leftrightarrow\omega=\gamma(B_0+zG_z)\]<br>不同的共振频率表示自旋核所在层面，\(G_z\)称为<strong>选片梯度场</strong>，由此完成z轴定位</p>
+<p><strong>选择位置</strong><br>在x轴向叠加\(G_x\)编码相位，在y轴向叠加\(G_y\)编码频率，确定坐标<br>具体而言，<strong>在RF的照射下</strong>，向x轴向一个<strong>很小</strong>的线性梯度场，磁矩的旋进速度发生变化；停止RF照射，<strong>撤去\(G_x\)</strong>，磁矩旋进速度重新一致，但是产生了<strong>稳定的相位差</strong>，分出了x坐标<br>在<strong>停止脉冲的前提下</strong>，加上<strong>较大</strong>的线性梯度场\(G_y\) ，改变进动的频率，进行频率编码，接收信号时分出了y坐标<br><img src="/Category/Learning/Pictures/MedicalPhysica_29.png" width="500"></p>
+<p><strong>图像重建</strong><br>RF照射、选片、相位编码、停止脉冲、频率编码、信号采集处理、成像<br><img src="/Category/Learning/Pictures/MedicalPhysica_30.png" width="500"></p>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 人体的磁共振成像</h3>
+<p>人体的各个组织的\(T_1,T_2\)值是不同的，可以形成\(T_1,T_2\)加权图像<br>各个组织的氢核密度\(\rho\)也不同，可以形成\(\rho\)加权图像</p>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 氢核密度\(\rho\)和\(T_1,T_2\)加权图像的产生</h3>
+<p><strong>自旋-回波序列</strong><br>由90°和180°RF脉冲组成，\(T_E\)是回波时间，\(T_R\)是脉冲周期<br><img src="/Category/Learning/Pictures/MedicalPhysica_31.png" width="300"><br>在该信号下，MR信号的幅度满足<br>\[A=A_0\rho(1-e^{-\frac{T_R}{T_1}})e^{-\frac{T_E}{T_2}}\]  </p>
+<p><strong>氢核密度图像</strong><br>当\(T_R>>T_1,T_E<<T_2\)时，\(A\approx A_0\rho\)，仅与氢核密度有关<br>氢核密度不同的两种组织，除开始之外，宏观磁矩大小不同，利用这种差距产生对比，得到灰度  </p>
+<p><strong>\(T_1\)加权图像</strong><br>当\(T_R\leq T_1,T_E<<T_2\)时，\(A=A_0\rho(1-e^{-\frac{T_R}{T_1}})\)<br>不同组织的\(T_1\)不同，在某一时刻得到的图像各个组织强度不同，灰度不同  </p>
+<p><strong>\(T_2\)加权图像</strong><br>当\(T_R>>T_1,T_E\geq T_2\)时，\(A=A_0\rho e^{-\frac{T_E}{T_2}}\)<br>注意在不同时刻采集的图像，灰度可能截然不同  </p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_32.png" width="500">
+
+ 
+
+<p>人体组织含水量差别不大（即氢核密度差不多），故后面两个的成像反差度更好  </p>
+<p><strong>MRI造影剂</strong><br>使用<strong>顺磁性</strong>物质，可以使\(T_2\)减小，在\(T_2\)加权图中含有造影剂的部分反差增大，提高分辨率  </p>
+<p><strong>磁共振血管成像（MRA）</strong><br>利用流动血液的MR信号与周围静态组织MR信号差异来建立对比度，用**时间飞跃法（TOF）和相位对比法（PC）**来重建  </p>
+<p><strong>磁共振功能成像</strong><br>两类方法</p>
+<ol>
+<li>弥散成像。分子热运动导致扩散的快慢</li>
+<li>灌注成像。流动效应，测量区域内的血容量</li>
+</ol>
+<a name="3.5" class="md-header-anchor" id="3.5"></a>
+<h3>4.5 磁共振成像系统简介</h3>
+<p><strong>磁场系统</strong>  </p>
+<ol>
+<li>静磁场<ol>
+<li>常导电磁体</li>
+<li>永磁体</li>
+<li>超导磁体</li>
+</ol>
+</li>
+<li>梯度场（实现体素编码）</li>
+</ol>
+<p><strong>射频系统</strong>  </p>
+<ol>
+<li>射频发生器<ol>
+<li>射频振荡器</li>
+<li>发射门</li>
+<li>脉冲功率放大器</li>
+<li>脉冲程序器</li>
+</ol>
+</li>
+<li>射频接收器（在线圈中感应MR信号）</li>
+</ol>
+<p><strong>图像重建系统</strong>  </p>
+<ol>
+<li>A/D转换器（便于计算机处理）</li>
+<li>计算机（复杂的算法）</li>
+<li>D/A转换器（按灰度显示）</li>
+<li>图像显示器</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

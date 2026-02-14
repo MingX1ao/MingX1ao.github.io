@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="14 总线技术和DMA控制器 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>14 总线技术和DMA控制器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>14 总线技术和DMA控制器
+                    <ul>
+                            <li><a href="#13.1">14.1 总线概述</a></li>
+                            <li><a href="#13.2">14.2 总线的性能指标</a></li>
+                            <li><a href="#13.3">14.3 代表性总线</a></li>
+                            <li><a href="#13.4">14.4 DMA控制器</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">14 总线技术和DMA控制器</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="13.1" class="md-header-anchor" id="13.1"></a>
+<h3>14.1 总线概述</h3>
+<p><strong>分类</strong></p>
+<ul>
+<li>根据传输类型：数据/地址/控制，电源总线</li>
+<li>根据在位置：片内/间，内/外总线</li>
+<li>根据传输方式：串行总线，并行总线</li>
+</ul>
+<p><font color=orange><strong>总线数据传输的四个步骤</strong></font></p>
+<ol>
+<li>申请（Arbitration）：多个主模块提交申请，仲裁机构确定授权给谁</li>
+<li>寻址（Addressing）</li>
+<li>传输（Data Transferring）：主从模块之间进行数据传输</li>
+<li>结束（Ending）：主从模块的有关信息撤出总线，让给下一个模块</li>
+</ol>
+<a name="13.2" class="md-header-anchor" id="13.2"></a>
+<h3>14.2 总线的性能指标</h3>
+<p><strong>总线频率</strong>：总线每秒能传输数据的次数，和时钟频率区分</p>
+<p><strong>总线宽度</strong>：20bit等</p>
+<p><strong>总线带宽</strong>：总线最大数据传输速率，单位MB/s</p>
+<ul>
+<li>并行总线的带宽：总线宽度 / 8 * 总线频率；但是宽度越大，总线之间的干扰越严重，故不会很大</li>
+<li>串行总线的带宽：用高频率取得高带宽，用多条管线增加效率；带宽 = 总线频率 * 管线数 / 8</li>
+</ul>
+<p><strong>同步方式</strong>：</p>
+<ul>
+<li>同步：总线上主从模块依次传输时间固定，用时钟统一，速度快</li>
+<li>异步：应答式传输，灵活，适应性高，但是带宽小</li>
+</ul>
+<p><strong>总线复用</strong>：分时复用，如8086的<code>AD0-AD15</code></p>
+<p><strong>信号线数</strong>：所有总线的数目之和，与性能无关</p>
+<p><strong>寻址能力</strong>：\(2^{宽度}\)</p>
+<p><strong>定时协议</strong>：同步/异步等同步手段</p>
+<a name="13.3" class="md-header-anchor" id="13.3"></a>
+<h3><font color=green>14.3 代表性总线</font></h3>
+<ul>
+<li><p>PC总线，第一台IBM PC机的总线，共62根信号线，用于PC/XT机；数据线8bit</p>
+</li>
+<li><p>ISA，Industry Standard Architecture，工业标准体系结构，一种总线标准，总线频率8MHz</p>
+<p>用于8086的PC/AT机和386/486机，共98根信号线；数据线16bit，地址线24bit，中断15bit，DMA通道8bit</p>
+</li>
+<li><p>PCI，Peripheral Component Interconnect，周边部件互连，总线频率为33.3/66.6MHz；数据线32bit；在ISA总线和CPU之间，形成独特的中间缓冲隔绝，高速外设可以直接接在PCI总线上；速度快，局部总线</p>
+</li>
+<li><p>PCI-E，Express，升级的高速总线</p>
+</li>
+<li><p>USB，Universal Serial Bus，通用串行总线，外部总线</p>
+</li>
+</ul>
+<p><font color=red><strong>USB总线的数据传输</strong></font></p>
+<p>传输的是<code>D+, D-</code>上的差动信号，幅度3.3V；将<code>0/1</code>信号定义为：电压跳变/电压保持</p>
+<p>这样的定义称为不归零反转编码NRZI（Non-Return-to-Zero Inverted Code）</p>
+<p>但是这样有一个问题：当一长串的<code>1</code>输入时双方会丢失同步，使用为填充在连续的6个<code>1</code>后添加<code>0</code>；接收方采用同一套标准，会自动丢弃这个<code>0</code></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_61.png" width="400"></center>
+
+
+
+<a name="13.4" class="md-header-anchor" id="13.4"></a>
+<h3>14.4 DMA控制器</h3>
+<p>在10.1节提到过，Direct Memory Access</p>
+<p><font color=green><strong>基本功能</strong></font></p>
+<ul>
+<li>控制数据传输<ol>
+<li>向CPU的<code>HOLD</code>引脚发出DMA请求信号</li>
+<li>CPU响应后，DMAC（Controller）获得总线控制权，控制数据的传输，CPU停止工作</li>
+<li>传送完，发送DMA结束信号<code>EOP</code></li>
+</ol>
+</li>
+<li>提供读/写MEM/IO的各种命令</li>
+<li>确定数据传输的起始地址、目的地和长度，每传送一个数据就修改地址，长度-1</li>
+</ul>
+<p><strong>8237A</strong></p>
+<p>具有4个具有优先级的、64K地址和字节计数能力的DMA通道，每个通道的请求可以接受/拒绝</p>
+<p>有两种工作状态</p>
+<ul>
+<li>从态：开始DMA传输前，是系统总线的从属</li>
+<li>主态：控制总线的数据传输</li>
+</ul>
+<p>每个通道有4种传送方式，分别是</p>
+<ul>
+<li>单字节传送：每次只传送1B数据</li>
+<li>块数据传送：连续传输一批数据</li>
+<li>请求传送：连续传输，每传送1B后都要测试DREQ，若无效则马上停止</li>
+<li>级联传送：连接多个8237A扩充DMA通道</li>
+</ul>
+<p>任一通道完成数据传输后，会产生<code>EOP</code>信号，结束传输；也可由外界产生引入</p>
+<p><strong>自动预置</strong>：该通道完成一次 DMA 传送，出现 EOP信号后，又能自动恢复有关寄存器的初值，继续执行另一次 DMA 传送</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

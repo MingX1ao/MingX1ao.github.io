@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="1 绪论 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>1 绪论</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 绪论
+                    <ul>
+                            <li><a href="#0.1">1.1 一些定义</a></li>
+                            <li><a href="#0.2">1.2 控制系统分类</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 绪论</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 一些定义</h3>
+<p><strong>被控变量</strong>：一种被测量和被控制的量值或状态，系统输出量</p>
+<p><strong>操作变量</strong>：一种由控制器改变的量值或状态</p>
+<p><strong>扰动</strong>：一种对系统的输出量产生不利影响的信号；分为<strong>内部</strong>和<strong>外部</strong>扰动，外部扰动是系统的<strong>输入量</strong></p>
+<p><strong>给定量</strong>：系统输入量，也叫参考量</p>
+<p><strong>反馈</strong>：输出量返回输入端，与参考量比较</p>
+<p><strong>反馈控制</strong>：<strong>检测</strong>输出量与参考量的<strong>偏差</strong>，再<strong>纠正</strong></p>
+<p><strong>前馈控制</strong>：根据扰动作用的大小或给定值变化进行控制；<strong>扰动产生后、被控变量变化前</strong>进行的控制</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 控制系统分类</h3>
+<p>按信号传递方向：反馈控制和前馈控制</p>
+<p>按系统构成：开环控制，闭环控制，半闭环控制</p>
+<h4>1.2.1 <strong>闭环控制</strong></h4>
+<p>输出和输入之间存在<strong>反馈</strong>，可以<strong>减小偏差</strong></p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_1.png" width="300"></center>
+
+<p>优点：精度高，对外部扰动和系统参数变化不敏感</p>
+<p>缺点：存在<strong>稳定、振荡、超调</strong>等问题</p>
+<h4>1.2.2 <strong>开环控制</strong></h4>
+<p>只有当输出量与输入量关系已知，且<strong>不存在扰动</strong>时，才能用</p>
+<p>优点：简单，稳定可靠；精密制造的元件可以保证一定控制精度</p>
+<p>缺点：精度低，无自动纠偏能力</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

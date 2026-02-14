@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="8 FFT - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>8 FFT</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>8 FFT
+                    <ul>
+                            <li><a href="#7.1">8.1 为什么有FFT</a></li>
+                            <li><a href="#7.2">8.2 FFT的改善思路</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">8 FFT</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="7.1" class="md-header-anchor" id="7.1"></a>
+<h3>8.1 为什么有FFT</h3>
+<p>首先是DFT带来的问题</p>
+<p><strong>频谱泄露</strong></p>
+<p>当截取小片段时，相当于使用了一个长度为\(L\)的窗，其DTFT是一个主瓣宽度为\(\frac{4\pi}{L}\)的\(\mathsf{sinc}\)函数</p>
+<p>这样会引入杂波，如下图</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_24.png" width="600"></center>
+
+<p>当主瓣很宽时，两个相邻的冲激峰就会重叠，定义当sinc的0点恰好在另一个峰的频率时，两个峰不可辨认</p>
+<p>即要求<br>\[
+\frac{2\pi}{L} \leq \min\{\omega_i-\omega_j\}
+\]<br>故小序列不是能无限小的</p>
+<p><font color=red>例：</font>\(x(n)=\cos\omega_0 n+\cos\omega_1 n+\cos\omega_2n\)，其中\(\omega_0=0.2\pi,\omega_1=0.22\pi,\omega_2=0.6\pi\)，求序列最短能是多少</p>
+<p>解：带入上面的公式，得到\(L_{\min}=100\)</p>
+<p><strong>DFT对频谱分辨率的影响</strong></p>
+<p>根据定义，\(\omega_k = \frac{2\pi k}{N}\)，那么\(\Delta \omega=\frac{2\pi}{N}\)就是\(X(k)\)在频域的分辨率</p>
+<p>为了将DTFT的两个峰\(|\omega_1-\omega_2|\)在DFT中分开，需要有<br>\[
+\Delta \omega \leq \min\{\omega_1-\omega_2\}
+\]</p>
+<p><strong>计算量</strong></p>
+<p>由于\(X(k)\)的计算都是复数计算，根据公式\(N\)个序列的DFT计算量为\(O(N^2)\)</p>
+<p>这是NP问题的时间复杂度，非常不好</p>
+<p>由此，引出了FFT</p>
+<a name="7.2" class="md-header-anchor" id="7.2"></a>
+<h3>8.2 FFT的改善思路</h3>
+<p>首先需要明确，FFT不是一种新的计算，没有物理意义；它只是DFT的一个快速算法</p>
+<p><strong>关键思路</strong></p>
+<p>关键在\(W_N^k = e^{-j\frac{2\pi}{N}k}\)</p>
+<ol>
+<li><p>对称性：<br>\[
+   W_N^{k+\frac{N}{2}} = -W_N^{k}
+   \]</p>
+</li>
+<li><p>周期性：<br>\[
+   W_N^{k+N} = W_N^{k}
+   \]</p>
+</li>
+</ol>
+<p>预处理：\(x(n)\)的长度\(N\)通过补0，到最近的\(2^M\)</p>
+<p>将\(x(n)\)分为奇偶序列，\(x_1(r)=x(2r),x_2(r)=x(2r+1),r=0,1,\ldots,\frac{N}{2}-1\)</p>
+<p>那么</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_25.png" width="600"></center>
+
+<p>其中\(X_1,X_2\)分别是\(x_1,x_2\)的前\(N/2\)个点的DFT，根据周期性，\(W_{N/2}^{k+N/2}=W_{N/2}^k\)</p>
+<p>那么<br>\[
+X_1(k+N/2) = X_1(k)\\
+X_2(k+N/2) = X_2(k)
+\]<br>两部分的\(X_i(k)\)是相等的</p>
+<p>那么得到<br>\[
+X(k) = X_1(k) + W_N^k X_2(k)\\
+X(k+N/2) = X_1(k) - W_N^k X_2(k)
+\]<br>这样就将计算DFT的时间复杂度降为了\(O(N^2/2)\)，因为只算了一半的序列</p>
+<p>输出的线路图如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_26.png" width="600"></center>
+
+
+
+<p>将\(X_1(k),X_2(k)\)视为新的\(X(k)\)，上面的算法完全适用，因此一开始需要将\(N\)scale到\(2^M\)，就是为了一级级减半</p>
+<p>最终可分出\(M\)级蝶形图，一个蝴蝶图的运算时间是\(O(1)\)，就只有2次加法和1次乘法</p>
+<p>每级一共N/2个蝶形图，需要的运算时间是\(O(N/2)\)，一共\(\log_2N\)级，总共花了\(\frac{N\log_2N}{2}\)的时间，相比于DFT提升了\(\frac{2N}{\log_2N}\)倍</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_27.png" width="600"></center>
+
+<p>如何计算输入序列的排列</p>
+<table>
+<thead>
+<tr>
+<th align="center">原始排列</th>
+<th align="center">二进制</th>
+<th align="center">翻转二进制</th>
+<th align="center">输入序列</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">000</td>
+<td align="center">000</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">001</td>
+<td align="center">100</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">010</td>
+<td align="center">010</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">011</td>
+<td align="center">110</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">100</td>
+<td align="center">001</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">101</td>
+<td align="center">101</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">110</td>
+<td align="center">011</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">111</td>
+<td align="center">111</td>
+<td align="center">7</td>
+</tr>
+</tbody></table>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

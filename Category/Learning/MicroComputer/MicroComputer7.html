@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="8 CPU的结构和工作模式 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>8 CPU的结构和工作模式</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>8 CPU的结构和工作模式
+                    <ul>
+                            <li><a href="#7.1">8.1 计算机体系结构</a></li>
+                            <li><a href="#7.2">8.2 8086CPU的构成</a></li>
+                            <li><a href="#7.3">8.3 CPU的工作模式</a></li>
+                            <li><a href="#7.4">8.4 CPU的总线时序</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">8 CPU的结构和工作模式</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="7.1" class="md-header-anchor" id="7.1"></a>
+<h3>8.1 计算机体系结构</h3>
+<p>冯诺依曼结构和哈佛结构的区别：后者的指令和数据存在不同的Memory</p>
+<p><strong>计算机的基本组成</strong></p>
+<ul>
+<li>存储器（Memory）</li>
+<li>运算器（Arithmetic Unit）：包含累加器（Accumulator）和ALU</li>
+<li>控制器（Control Unit）</li>
+<li>输入/输出设备（I/O Device）</li>
+</ul>
+<p>将运算器和控制器称为CPU，将CPU和存储器称为<strong>主机</strong>，将I/O称为外设</p>
+<p><strong>微机的基本结构</strong></p>
+<p>和计算机没有本质区别，只是CPU采用集成化的微处理器，各部件通过总线相连</p>
+<a name="7.2" class="md-header-anchor" id="7.2"></a>
+<h3>8.2 8086CPU的构成</h3>
+<p>由两部分组成：</p>
+<ol>
+<li>总线接口单元：BUs Interface Unit，BUI</li>
+<li>指令执行单元：Execution Unit，EU</li>
+</ol>
+<p>BIU和EU独立，取指和执行可以同时进行（流水线）</p>
+<p><strong>外部引脚</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_20.png" width="200"></center>
+
+<p>其中<code>AD</code>指Address/Data，8086的地址总线宽20bit，共20根（<code>AD0 - A19</code>），其中<code>AD0-AD15</code>是地址和数据复用，<code>A16-A19</code>是地址和状态复用</p>
+<p><strong>与中断有关的引脚</strong></p>
+<ul>
+<li>INTR：可屏蔽中断请求（Request）信号，当<code>IF=0</code>时不读取，当<code>IF=1, INTR=1</code>时，执行中断</li>
+<li>NMI：不可屏蔽中断（Non-Maskable）</li>
+<li>\(\overline{\mathsf{INTA}}\)：中断响应信号（Acknowledge），在CPU响应外部的可屏蔽中断后<strong>向外设发送的应答</strong></li>
+</ul>
+<p><strong>RESET引脚</strong></p>
+<p>这是复位信号，至少要维持4个时钟周期</p>
+<p>复位后CPU停止所有操作，总线无效</p>
+<p>设置<code>DS,ES,SS,FLAGS,IF = 0</code>，<code>CS:IP = FFFF:0000</code>；指令队列清空，禁止中断</p>
+<p>复位结束，CPU执行重启过程</p>
+<a name="7.3" class="md-header-anchor" id="7.3"></a>
+<h3>8.3 CPU的工作模式</h3>
+<p>当<code>MN/MX</code>接+5V时，CPU工作在最小模式，是单处理器系统；当接地时，处于最大模式，支持构成多处理器系统</p>
+<p><strong>最小模式</strong></p>
+<p>送到存储器和I/O接口的所有信号都是CPU自身产生的</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_21.png" width="400"></center>
+
+<p>使用3个74LS373（8位地址锁存器）和2个74LS245（8位双向数据总线缓冲器），一个时钟发生器8284A</p>
+<p>锁存器：2片与<code>AD0-AD15</code>连接，1片与<code>A16/S3-A19/S6, BHE/S7</code>连接</p>
+<p><strong>为什么是这个数量？</strong></p>
+<p>8086地址总线有20位，8*3=24才够；数据总线16位，8*2就够了</p>
+<p><strong>为什么需要锁存器？</strong></p>
+<p>在数据和地址线复用的情况下，地址信息可能被数据信息干扰，在总线上先传地址，锁存，再传数据/状态信号</p>
+<p><strong>为什么需要缓冲器？</strong></p>
+<p>作为双向的数据总线接收器；协调高速CPU和慢速外设的速度差；提高驱动能力；隔离后级电路</p>
+<p><strong>时钟提供了什么？</strong></p>
+<p>系统时钟；复位信号（CPU重启）；READY信号；供外设使用的时钟信号</p>
+<p>注意，这个芯片可以外接时钟，输出外接时钟的信号，对于8086来说，就是用的<strong>外接</strong>15/24MHz信号经过8284A3分频后产生的5/8MHz信号作为时钟</p>
+<p><strong>最大模式</strong></p>
+<p>某些控制信号有8288总线控制器产生</p>
+<p>最大模式主要用于解决总线的<strong>共享控制</strong>和产生<strong>总线控制信号</strong></p>
+<p>需要增加一片总线控制器8288 </p>
+<a name="7.4" class="md-header-anchor" id="7.4"></a>
+<h3>8.4 CPU的总线时序</h3>
+<p><strong>总线操作时序</strong></p>
+<p>CPU读写一次的时间叫做<strong>总线周期</strong></p>
+<p>执行一条指令的时间交<strong>指令周期</strong>，一个指令周期可包含若干个总线周期</p>
+<p>1个总线周期需要4个系统的<strong>时钟周期</strong>（\(T_1\)-\(T_4\)），时钟周期是8086CPU动作的最小单位</p>
+<p>在5MHz时钟频率下，一个总线周期为800ns</p>
+<p><strong>最小模式下的读总线周期</strong></p>
+<p>CPU读取一个数据的时序逻辑</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_22.png" width="400"></center>
+
+
+
+<p><strong>最小模式下的写总线周期</strong></p>
+<p>CPU写入一个数据的时序逻辑</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_23.png" width="400"></center>
+
+
+
+<p><strong>最大模式下的读/写总线周期</strong></p>
+<p>没有<code>M/IO</code>信号，使用<code>MEMR</code>和<code>IOR</code>来区分是存储器还是I/O</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

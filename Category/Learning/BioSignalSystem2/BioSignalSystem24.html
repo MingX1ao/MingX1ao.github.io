@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="5 数字信号的频域分析 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>5 数字信号的频域分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 数字信号的频域分析
+                    <ul>
+                            <li><a href="#4.1">5.1 连续周期信号的傅里叶级数</a></li>
+                            <li><a href="#4.2">5.2 连续非周期时间信号的傅里叶变换</a></li>
+                            <li><a href="#4.3">5.3 离散周期时间信号的傅里叶级数（DTFS）</a></li>
+                            <li><a href="#4.4">5.4 离散非周期时间信号的傅里叶变换（DTFT）</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 数字信号的频域分析</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>5.1 连续周期信号的傅里叶级数</h3>
+<p>信号\(x(t)=x(t+T)\)，基波频率\(\Omega_0 = \frac{2\pi}{T}\)，谐波频率\(\Omega_k = \frac{2\pi k}{T},k\in\Z\)</p>
+<p>可以将信号分解为傅里叶级数，也可以由傅里叶级数合成原始信号<br>\[
+x(t) = \sum\limits_{k=-\infty}^\infty C_k e^{j\frac{2\pi}{T}kt }\\
+C_k = \frac{1}{T}\int_T x(t) e^{-j\frac{2\pi}{T}kt}dt
+\]<br>存在帕萨瓦关系，平均功率\(P_x\)和功率谱密度\(|C_k|^2\)的关系为<br>\[
+P_x = \frac{1}{T}\int_T|x(t)|^2dt = \sum\limits_{k=-\infty}^\infty |C_k|^2
+\]</p>
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>5.2 连续非周期时间信号的傅里叶变换</h3>
+<p>将周期拉为无限长，得到傅里叶变换<br>\[
+x(t) = \frac{1}{2\pi}\int_\infty X(j\omega)e^{j\omega t}d\omega\\
+X(j\omega) = \int_\infty x(t)e^{-j\omega t}dt
+\]<br>能量谱密度为\(S_{xx}(\omega) = |X(\omega)|^2\)</p>
+<p>帕萨瓦关系为<br>\[
+E_x = \int|x(t)|^2dt = \frac{1}{2\pi}\int|X(j\omega)|^2d\omega
+\]</p>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>5.3 离散周期时间信号的傅里叶级数（DTFS）</h3>
+<p>离散信号\(x(n)\)满足\(x(n) = x(n+N)\)，基波频率\(\Omega_s = \frac{2\pi}{N}\)，谐波频率\(\Omega_k = \frac{2\pi k}{N},k\in\Z\)</p>
+<p>同样可以分解为傅里叶级数<br>\[
+x(n) = \sum\limits_{k=0}^{N-1}C_k e^{j\frac{2\pi}{N}kn}\\
+C_k = \frac{1}{N} \sum\limits_{n=0}^{N-1}x(n) e^{-j\frac{2\pi}{N}kn}
+\]<br>功率谱密度为\(|C_k|^2\)</p>
+<p>帕萨瓦关系为<br>\[
+P_x = \sum\limits_{k=0}^{N-1}|C_k|^2 = \frac{1}{N}\sum\limits_{n=0}^{N-1}|x(n)|^2
+\]<br>\(C_k\)往往是一个复数，其相位谱的含义就是这个频率的分量的时延</p>
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>5.4 离散非周期时间信号的傅里叶变换（DTFT）</h3>
+<p>将周期拉为无限长，得到傅里叶变换<br>\[
+x(n) = \frac{1}{2\pi}\int _{-\pi}^{\pi} X(\omega)e^{j\omega n }d\omega\\
+X(\omega) = \sum\limits_{n=-\infty}^\infty x(n)e^{-j\omega n}
+\]<br>观察下面的式子（DTFT），不难发现\(X(\omega) = X(\omega + 2\pi)\)，故实际操作中只看一个周期\([-\pi,\pi]\)的频谱</p>
+<p>在时域上\(x(n)\)非周期，得到的\(X(\omega)\)是<strong>连续函数</strong>，有对应的相位谱和幅度谱，<strong>相位谱的值域为\([-\pi,\pi]\)</strong></p>
+<p>能量谱密度为\(S_{xx}(\omega) = |X(\omega)|^2\)</p>
+<p>帕萨瓦关系为<br>\[
+E_x = \sum\limits_{n=-\infty}^\infty|x(n)|^2 = \frac{1}{2\pi}\int_{-\pi}^{\pi}|X(\omega)|^2d\omega
+\]<br>实际上，DTFT就是在\(r=1\)时的\(Z\)变换，上文已经证明</p>
+<p><strong>常用的DTFT变换对</strong></p>
+<p><strong>指数序列</strong></p>
+<p>\(x(n) = a^nu(n),|a|<1\)，带公式得到<br>\[
+X(\omega) = \frac{1}{1-ae^{-j\omega}}
+\]<br>这个信号的幅度谱为\(|X(\omega)| =\left| \frac{1}{1-a\cos\omega+ja\sin{\omega}} \right|=\frac{1}{\sqrt{(1-a\cos\omega)^2+(a\sin{\omega})^2}}=\frac{1}{\sqrt{1+a^2-2a\cos\omega}}\)</p>
+<p>相位谱为\(\angle X(\omega) = -\tan^{-1}{\frac{a\sin{\omega}}{1-a\cos{\omega}}}\)</p>
+<p><strong>窗序列</strong></p>
+<p>定义窗序列为<br>\[
+x(n) = 
+\begin{cases}
+1\,\,\,\, -L\leq n\leq L\\
+0\,\,\,\, o.w.
+\end{cases}
+\]<br>那么\(X(\omega)\)就是<br>\[
+X(\omega) = \frac{\sin\left[(L+1/2)\omega\right]}{\sin{(\frac{1}{2} \omega)}}
+\]<br><strong>如果频域上是窗函数呢？</strong><br>\[
+x(n) = \frac{1}{2\pi}\int_{-\pi}^\pi X(\omega)e^{j\omega n}d\omega=
+\begin{cases}
+\frac{\sin(n\omega_c)}{\pi n}\,\,\,\,\, n\neq0\\
+\frac{\omega_c}{\pi}\,\,\,\,\, n=0
+\end{cases}
+\]<br>其中\(\omega_c\)是奈奎斯特频率</p>
+<p>注意需要将\(n=0\)的情况分开，因为\(n=0\)指数项消失了</p>
+<p><strong>吉布斯现象</strong></p>
+<p>就是窗函数边缘是振荡的，因为做不到时域无限长的信号，相当于将无限长的信号在时遇上乘一个窗函数</p>
+<p>那么频域就是一个理想的窗函数卷积一个辛格函数，就造成了边缘的振荡</p>
+<p>吉布斯现象就是在\(X(\omega)\)的不连续点处，\(X_N(\omega)\)逼近\(X(\omega)\)的振荡行为</p>
+<p><strong>DTFT的性质</strong></p>
+<ol>
+<li>线性，\(ax_1(n)+bx_2(n) \leftrightarrow aX_1(\omega)+bX_2(\omega)\)</li>
+<li>时移特性，\(x(n-k)\leftrightarrow X(\omega)e^{-jk\omega}\)</li>
+<li>频移特性，\(x(n)e^{j\omega_0n} \leftrightarrow X(\omega - \omega_0)\)</li>
+<li>翻转特性，\(x(-n)\leftrightarrow X(-\omega)\)</li>
+<li>时域微分，\(\frac{d}{dn}x(n) \leftrightarrow j\omega X(\omega)\)</li>
+<li>频域微分，\(nx(n) \leftrightarrow j\frac{d}{d\omega}X(\omega)\)</li>
+<li>卷积定理，\(x_1(n)*x_2(n) \leftrightarrow X_1(\omega)\cdot X_2(\omega)\)</li>
+<li>窗口定理/调制定理，\(x_1(n)\cdot x_2(n) \leftrightarrow \frac{1}{2\pi}X_1(\omega)*X_2(\omega)\)</li>
+<li>共轭对称，若\(x(n)\)为实信号，那么\(X(\omega) = X^*(-\omega)\)，这个定理说明，在实信号的DTFT中，只需要变换一半的频谱</li>
+</ol>
+<p><strong>一些例子</strong></p>
+<p>对下面的信号做DTFT</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_12.png" width="300"></center>
+
+<p>这是一个窗函数乘以相位因子，如果\(x(n)\)是窗函数，那么这个信号就是\(y(n) = e^{j\pi n}x(n)\)，其DTFT就是\(X(\omega-\pi)\)，就可以从低通滤波器变成高通</p>
+<p>对下面的信号做iDTFT</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_13.png" width="300"></center>
+
+<p>这是一个大窗减去小窗，是长度为\(3\pi/2\)的频域窗减去一个长度为\(\pi/2\)的频域窗，得到的时域信号也就是二者相减<br>\[
+x(n) = 
+\begin{cases}
+\frac{1}{\pi n }(\sin(\frac{3\pi}{4}n)-\sin(\frac{\pi}{4}n))\,\,\, n\neq 0\\
+\frac{1}{2}\,\,\, n=0
+\end{cases}
+\]</p>
+<p><font color=red>例：</font>已知\(X(\omega)\)，求\(x(2n+1)\)的DTFT</p>
+<p>解：常规做法是\(N=2n+1 \rightarrow x(N)\)，但是\(x(2n+1)\)是一个奇数序列，那么在<br>\[
+X_1(\omega) = \sum_{N} x(N)e^{-j\omega \frac{N}{2}}e^{j\frac{\omega}{2}}
+\]<br>这里，\(N\)是一个奇数序列，换言之这个不是常规的DTFT，故不能这么做</p>
+<p>观察到<br>\[
+\hat{x} = \frac{1}{2}(x+(-1)^{n+1}x)=\frac{1}{2}(x-e^{jn\pi}x)
+\]<br>利用DTFT的性质进行变换</p>
+<p>但是观察到\(x(2n+1)\)是对序列\(\hat{x}(n)\)的平移加缩放，因此还需要进行变换</p>
+<p>此时有\(X_1(\omega) = \sum\limits_{N}x(N)e^{-j\omega\frac{N}{2}}e^{j\omega/2}\)，这里是奇数序列，可以用\(\hat{x}(n)\)代替，得到<br>\[
+X_1(\omega) = e^{j\frac{\omega}{2}}\hat{X}(\frac{\omega}{2})
+\]</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

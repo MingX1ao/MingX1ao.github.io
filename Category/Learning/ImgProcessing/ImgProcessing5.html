@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学图像处理">
+    <meta name="description" content="6 频域滤波图像增强 - 生物医学图像处理">
+    <meta name="author" content="MingXiao">
+    <title>6 频域滤波图像增强</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 频域滤波图像增强
+                    <ul>
+                            <li><a href="#5.1">6.1 傅里叶变换</a></li>
+                            <li><a href="#5.2">6.2 低通滤波</a></li>
+                            <li><a href="#5.3">6.3 高通滤波</a></li>
+                            <li><a href="#5.4">6.4 同态滤波</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 频域滤波图像增强</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>6.1 傅里叶变换</h3>
+<h4>6.1.1 基本概念</h4>
+<p>使用二维傅里叶变换将图像从空间域变换到频率域，公式如下<br>\[
+F(\mu, \nu) = \int_\infty\int_\infty f(x,y) e^{-j2\pi(\mu x+\nu y)}dxdy\\
+f(x,y) = \int_\infty\int_\infty F(\mu, \nu)e^{j2\pi(\mu x+\nu y)}d\mu d\nu
+\]<br>这是连续图像，一般用的是数字图像，那么退化为DFT，公式如下<br>\[
+F(\mu, \nu) = \sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)e^{-j2\pi\left(\frac{\mu x}{M}+\frac{\nu y}{N}\right)}\\
+f(x,y) = \frac{1}{MN} \sum_{\mu=0}^{M-1}\sum_{\nu =0}^{N-1} F(\mu, \nu)e^{j2\pi\left( \frac{\mu x}{M}+\frac{\nu y}{N}\right)}
+\]<br>其中\(\mu=0,1,\ldots,M-1, \nu=0,1,\dots, N-1\)</p>
+<p>注意，图像中心往往是一个幅值非常大的点，需要对DFT后的图像做<strong>对数变换</strong></p>
+<p>正常情况下，做完DFT后中心是高频信号，四周是低频信号，需要进行<code>fftshift</code>，将低频信号放在中心，因为人脑习惯这么思考</p>
+<p>需要做如下变换，实际上，后文中所有的\(F(\mu,\nu)\)都是下面的形式<br>\[
+F(\mu, \nu) \rightarrow F\left(\mu - \frac{M}{2}, \nu - \frac{N}{2}\right)
+\]<br>那么对应到空间域中，<br>\[
+f(x,y) \rightarrow f(x,y)(-1)^{x+y}
+\]</p>
+<p>对于实信号，\(F(\mu,\nu)\)是共轭对称的，所以采集一半就行；但是一般会多采一点，用于相位矫正</p>
+<h4>6.1.2 几个性质</h4>
+<ol>
+<li><p>线性</p>
+</li>
+<li><p>空间域位移 等价于 频率域相移；频率域位移 等价于 空间与相移</p>
+</li>
+<li><p><strong>旋转</strong><br>\[
+   f(r, \theta+\theta_0) \leftrightarrow F(\omega,\phi+\theta_0) 
+   \]<br>其中，\(\omega = \sqrt{\mu^2+\nu^2}, \phi = \tan^{-1}\frac{\nu}{\mu}\)</p>
+<p>简言之，即空间域和频率域图像旋转相同角度</p>
+</li>
+<li><p><strong>可分性</strong></p>
+<p>即\(x,y\)独立，可以先后变换</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_58.png" width="500"></center>
+</li>
+<li><p>均值定理<br>\[
+   \overline{f}(x,y) = \frac{1}{MN}F(0,0)
+   \]</p>
+</li>
+<li><p>对称性，即实函数的傅里叶变换共轭对称</p>
+</li>
+<li><p>周期性，即DFT周期延拓为DFS</p>
+</li>
+<li><p>卷积定理<br>\[
+   f(x,y) * h(x,y) \leftrightarrow F(\mu, \nu)\cdot H(\mu, \nu)\\
+   f(x,y)\cdot h(x,y) \leftrightarrow F(\mu, \nu) *H(\mu,\nu)
+   \]</p>
+</li>
+</ol>
+<h4>6.1.3 频率域图像增强</h4>
+<p>图像的频谱反应了什么？</p>
+<p>频谱的直流低频分量，代表图像的平滑区域；交流高频分量，代表图像的边界区域</p>
+<p>因此，可以根据这个特点在频域上对图像进行滤波</p>
+<p><strong>主要步骤</strong></p>
+<ol>
+<li><strong>fftshift</strong>， \(f(x,y)(-1)^{x+y}\)，这步非常重要</li>
+<li>DFT，得到\(F(\mu-M/2, \nu-N/2)\)</li>
+<li>使用滤波器\(H(\mu, \nu)\)与\(F(\mu, \nu)\)相乘</li>
+<li>反变换得到\(g(x,y)(-1)^{x+y}\)，注意需要反转一下，得到滤波图像</li>
+</ol>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 低通滤波</h3>
+<p>消除随机噪声，减弱边缘效应，平滑图像</p>
+<p>常用的滤波器：理想低通；巴特沃斯低通；高斯低通</p>
+<h4>6.2.1 理想低通</h4>
+<p>物理上做不到，只能在计算机中实现<br>\[
+H(\mu, \nu)=
+\begin{cases}
+1\,\,\,\, , D(\mu, \nu)<D_0\\
+0\,\,\,\, , o.w.
+\end{cases}
+\]<br>其中\(D(\mu,\nu)\)是点\((\mu,\nu)\)到图像中心的欧氏距离</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_59.png" width="500"></center>
+
+
+
+<p>但是，使用理想低通滤波器产生的图像，存在振铃现象（吉布斯效应，图像还是连续的，一定会存在sinc函数）</p>
+<p>这个现象在图像的边界等<strong>突变点</strong>最明显</p>
+<h4>6.2.2 n阶巴特沃斯低通</h4>
+<p>\[
+H(\mu, \nu) = \frac{1}{1+[D(\mu,\nu)/D_0]^{2n}}
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_60.png" width="500"></center>
+
+<p>截止频率处变化地更平滑</p>
+<p>相比于理想低通，它</p>
+<ol>
+<li>没有明显突变，导致了吉布斯现象很弱</li>
+<li>过渡平滑，模糊程度减少</li>
+<li>但是相对的，尾部的高频成分也更多，平滑效果没理想低通好</li>
+</ol>
+<h4>6.2.3 高斯低通</h4>
+<p>\[
+H(\mu, \nu) = e^{-D^2(\mu,\nu)/2D_0^2}
+\]</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_61.png" width="500"></center>
+
+<p>几个典型应用：将破碎的文字片段连接起来；减少眼角皱纹；减小水平扫面线对宏观边界检测的影响</p>
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 高通滤波</h3>
+<p>增强图像的边缘，起到锐化作用</p>
+<p>常见的高通滤波器有：理想高通；巴特沃斯高通；高斯高通；频域拉普拉斯；高频加强锐化等</p>
+<h4>6.3.1 与低通对应</h4>
+<p>既然低通已经存在了，那么将\(H_h = C - H_l\)不就行了吗？</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_62.png" width="500"></center>
+
+
+
+<h4>6.3.2 频域拉普拉斯</h4>
+<p>空间域的拉普拉斯算子由上可知，根据傅里叶变换的性质，得到<br>\[
+\mathcal{F}\{\nabla ^2f(x,y)\} = -(\mu^2+\nu^2)F(\mu,\nu)
+\]<br>利用了\(\frac{df}{dx} \leftrightarrow j\mu F\)</p>
+<p>那么传递函数为<br>\[
+H(\mu, \nu) = -(\mu^2+\nu^2)
+\]<br>为了shift，平移滤波器，得到<br>\[
+H(\mu,\nu) = -[(\mu-M/2)^2+(\nu-N/2)^2]
+\]<br>为什么\(H\)也要平移？：对原图先Laplace，然后再\((-1)^{x+y}\)，即\((\nabla^2f(x,y))(-1)^{x+y}\)</p>
+<p>即<br>\[
+\nabla^2 f(x,y) \leftrightarrow H(\mu,\nu) F(\mu,\nu)
+\]</p>
+<h4>6.3.3 高频加强图像增强</h4>
+<p>\[
+g(x,y) = \mathcal{F}^{-1}\{[k_1+k_2H_{h}(\mu,\nu)]F(\mu,\nu)\}
+\]</p>
+<p>就是将高频信息叠加到原图上</p>
+<a name="5.4" class="md-header-anchor" id="5.4"></a>
+<h3>6.4 同态滤波</h3>
+<p>非均匀光照的处理：同态滤波，顶帽变换，凸壳处理，滑动平均阈值处理手写/打印图像</p>
+<p>研究问题：非均匀光照或非均匀强度检测的图像，二者都能近似表达为<br>\[
+f(x,y) = i(x,y)r(x,y)
+\]<br>其中前者是检测器分量，后者是检测量分量，在非均匀光照的例子中，前者是不均匀的光照，后者是光反射分量（即成像灰度）</p>
+<p>目标是实现亮度调整和对比度提升，<strong>消除非均匀光照的影响</strong></p>
+<p>考虑到<strong>人眼对图像亮度的响应类似于对数运算</strong>，可以对\(f\)取对数进行计算</p>
+<p>由此引入<strong>同态滤波</strong>，这是一种将<strong>频率过滤</strong>和灰度变化结合的方法，优点是符合人眼的响应，避免了直接变换的失真</p>
+<p>流程如下：</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_63.png" width="500"></center>
+
+<p>经过取对数之后，\(\ln f = \ln i + \ln r\)，其中\(\ln i\)是<strong>变化缓慢的低频分量</strong>，利用傅里叶的线性性可以解</p>
+<p>为了压制\(\ln i\)，同时增强高频的反射分量\(\ln r\)，可以构造一个滤波器<br>\[
+H(\mu,\nu) = (\gamma_h-\gamma_l)H_h(\mu,\nu) +\gamma_l
+\]<br>其中\(\gamma_h >1,\gamma_l < 1\)，\(H_h\)为高通滤波器</p>
+<center><img src="/Category/Learning/Pictures/ImgProcessing_64.png" width="300"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

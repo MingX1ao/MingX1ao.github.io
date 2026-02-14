@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="11 超声医学 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>11 超声医学</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>11 超声医学
+                    <ul>
+                            <li><a href="#10.1">11.1 超声波的基本性质</a></li>
+                            <li><a href="#10.2">11.2 几种超声成像</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">11 超声医学</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点</p>
+<p><strong>超声的产生及基本性质</strong><br><strong>A超、M超、B超工作方式及区别</strong></p>
+<a name="10.1" class="md-header-anchor" id="10.1"></a>
+<h3>11.1 超声波的基本性质</h3>
+<p><strong>超声探头应用压电式换能法接收和发射超声</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_117.png" width="500"></p>
+<p>临床应用时超声速度在软组织中近似1500m/s</p>
+<p><strong>声压</strong><br>\(p=A\rho u\omega\cos{[\omega(t-\frac{x}{u})+\frac{\pi}{2}]}=p_m\cos{[\omega(t-\frac{x}{u})+\frac{\pi}{2}]}\)<br>其中A为振动幅值，\(\rho\)为介质密度，\(\omega\)为声波圆频率，u为声速</p>
+<p><strong>声强</strong><br>即能流<br>\(I=\frac{1}{2}\rho A^2\omega^2u=\frac{p_m^2}{2\rho u}\)</p>
+<p><strong>声阻抗</strong><br>声压与声振动速度之比<br>\(Z=\frac{p}{u}=\rho u\)，与温度有关</p>
+<p><strong>声强级与声压级</strong><br>\(L_I=10\lg{\frac{I}{I_0}}\)，单位分贝dB，I0为基准声强，\(I_0=10^{-12}W\cdot m^{-2}\)<br>\(L_p=20\lg{\frac{p}{p_0}}\)<br>带入p和I的式子可得，\(L_I=L_p\)，二者在数值上相同</p>
+<p><strong>声阻抗相差过大的介质不能折射声波</strong><br>人体组织和空气的声阻抗相差大，必须用耦合剂过渡</p>
+<p>人体组织也分为三类，低声阻或气体（肺部），中声阻液体或软组织（肌肉），高声阻矿物组织（骨骼）<br>三类组织声阻相差大，彼此不能传播声波<br>但在<strong>第二类组织</strong>中，声阻相差不大，可以利用不同类组织间的<strong>声阻抗造成的反射、散射</strong>识别不同组织的形态和性质<br>当两个介质声阻抗差达到1%时，其界面上会发生声波的发射（反射）</p>
+<p><strong>传播原则</strong></p>
+<ol>
+<li>直线传播</li>
+<li>遇到界面发生反射和透射<ul>
+<li>界面线度远大于声波波长和声束直径</li>
+<li>介质声阻抗界面处不同（1%）</li>
+</ul>
+</li>
+</ol>
+<p>反射回升带来体内脏器及大界面信息</p>
+<p><strong>传播特性</strong></p>
+<ol>
+<li><p>能量守恒</p>
+</li>
+<li><p>声压连续</p>
+<ul>
+<li>\(p_{incident}+p_{reflect}=p_{transmit}\)</li>
+</ul>
+</li>
+<li><p>法向速度连续</p>
+<ul>
+<li>质点振动速度在垂直界面的分量相等</li>
+<li>\(v_i\cos{\theta_i}-v_r\cos{\theta_r}=v_t\cos{\theta_t}\)</li>
+</ul>
+</li>
+<li><p>反射系数为反射声压\(p_r\)与入射声压\(p_i\)之比<br>\(r_p=\frac{p_r}{p_i}=\frac{Z_2-Z_1}{Z_2+Z_1}\)</p>
+<ul>
+<li>Z2&gt;&gt;Z1，全反射无透射</li>
+<li>Z2=Z1，全透射</li>
+<li>Z1&gt;&gt;Z2，半波损失全反射</li>
+<li>Z1&gt;Z2，半波损失</li>
+</ul>
+<p><strong>全反射</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_118.png" width="300"></p>
+</li>
+</ol>
+<p>超声波透射定律\(\frac{\sin{\theta_i}}{\sin{\theta_t}}=\frac{u_1}{u_2}\)<br>若u1&lt;u2（即Z1&gt;Z2，p相等），则存在全反射临界角\(b=\sin^{-1}{\frac{u_1}{u_2}}\)</p>
+<p>由于b的存在，实际使用中<strong>探头探测角度不超过24°</strong><br>为了减少信号强度损失和避免<strong>透射伪像</strong>和全反射（对诊断无意义）</p>
+<p><strong>透射系数</strong><br>\(t_p=\frac{p_t}{p_i}=\frac{2Z_2\cos{\theta_i}}{Z_1\cos{\theta_t}+Z_2\cos{\theta_r}}\)<br>当声波垂直入射时，\(t_p=\frac{2Z_2}{Z_2+Z_1}\)</p>
+<ul>
+<li>Z1&gt;&gt;Z2，强烈反射，无透射</li>
+<li>Z1=Z2，全部透射</li>
+<li>Z2&gt;&gt;Z1，Z1界面产生驻波，强烈的反射</li>
+</ul>
+<p><strong>声影</strong><br>障碍物太大，衍射无法完全绕开，其后存在声波不能到达的空间，图像上表现为暗区（探测不到的盲区）</p>
+<p><strong>与波长相仿的病灶探测不到</strong>，因为衍射可以完全绕过<br>不形成反射回波，故没有病灶轮廓图像<br>但是可能存在反向散射，可判定病灶性质（脂肪肝等）</p>
+<p><strong>散射</strong><br>障碍线度d小于或接近波长，传播方向连续改变</p>
+<ul>
+<li>d&gt;&gt;λ，散射不明显，主要是反射、透射，有声影</li>
+<li>d&lt;&lt;λ，散射明显，散射场强度均匀分布，散射声强<strong>与入射波频率四次方成反比</strong></li>
+<li>d=λ，散射场分布角分布，散射声强<strong>与入射波频率四次方成反比</strong>，与距离平方反比</li>
+</ul>
+<p><strong>多普勒效应</strong></p>
+<ul>
+<li>波源不动，观察者动</li>
+</ul>
+<p>\(f_R=\frac{u_R}{\lambda_R}\)，这里只有u变了，\(u_R=u+v_R,f_R=\frac{u+v_R}{u}\cdot f_0\)</p>
+<ul>
+<li>波源动，观察者不动</li>
+</ul>
+<p>\(f_R=\frac{u_R}{\lambda_R}\)，这里只有λ变了，相邻的波峰之间间隔为λ，则\(\lambda_R=\lambda-T\cdot v_s,f_R=\frac{u}{u-v_s}\cdot f_0\)</p>
+<ul>
+<li>都动</li>
+</ul>
+<p>综合一下，\(f_R=\frac{u+v_R}{u-v_s}\cdot f_0\)</p>
+<p>如果波源与观察者运动之间有角度，用连线方向的速度计算</p>
+<p><strong><font color=red>多普勒频移公式（测血流速度的原理）</font></strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_119.png" width="300"></p>
+<p>第一次，发射器为波源，血细胞为接收者，有\(f_1=\frac{u+v\cos{\varphi_i}}{u}f_0\)<br>第二次，发射器为接收者，血细胞为波源，有\(f_2=\frac{u}{u-v\cos{\varphi_r}}f_1\)<br>\(\therefore f_2=\frac{u+v\cos{\varphi_i}}{u-v\cos{\varphi_r}}f_0=\frac{(u+v\cos{\varphi_r})(u+v\cos{\varphi_i})}{u^2-v^2\cos^2{\varphi_r}}f_0\)<br>由于\(u^2>>v^2\)，得到\(f_2=[1+\frac{v}{u}(\cos{\varphi_i}+\cos{\varphi_r})]f_0\Rightarrow\Delta f=f_d=\frac{v}{u}(\cos{\varphi_i}+\cos{\varphi_r})f_0\)<br>由于\(f_0,u,\varphi_i,\varphi_r\)都是定值，则\(f_d\)和v的关系就有了，用fd可以求v<br>进一步，若\(\varphi_i=\varphi_r=\varphi\)，则\(f_d=\frac{2v\cos{\varphi}}{u}f_0\)<br>若fd&gt;0，则血液流向探头；当u，v平行时，fd最大</p>
+<p><strong>测量高速血流使用低频探头</strong>，因为探测器的接收频率有限</p>
+<p><strong>反射回波</strong><br>人体脏器的声音特性不同，界面上产生反射回波，携带位置信息</p>
+<p><strong>散射回波</strong><br>声波被组织散射，主要携带组织的细微结构信息</p>
+<p><strong>超声成像的信息主要由反射回波和散射回波携带</strong></p>
+<a name="10.2" class="md-header-anchor" id="10.2"></a>
+<h3>11.2 几种超声成像</h3>
+<p><strong>三个物理假定</strong></p>
+<ol>
+<li>声束在介质中沿直线传播：估计方位</li>
+<li>各介质中声速均一：估计层面深度</li>
+<li>各介质中介质的吸收系数均一：确定增益补偿等</li>
+</ol>
+<p><strong>脉冲回波测距</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_120.png" width="500"></p>
+<p><font color=red><strong>A型超声成像</strong></font><br><img src="/Category/Learning/Pictures/MedicalPhysica_121.png" width="300"></p>
+<p>幅度调制回波<br>脉冲波表示<strong>反射回波</strong><br>幅度表示强度，横轴表示接收到的时间，反应<strong>界面的深度</strong>或界面<strong>之间的距离</strong></p>
+<p><strong><font color=red>M型超声成像</font></strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_122.png" width="300"></p>
+<p>辉度调制回波，用光点显示回波，光点强弱表示回波幅值大小<br>在垂直扫描线的多个界面的回波形成一系列垂直亮点<br>横轴为时间轴，将某一层面按时间变化展开，反应<strong>反射界面位置和回波强度随时间的变化</strong></p>
+<p><font color=red><strong>B型超声成像</strong></font><br><img src="/Category/Learning/Pictures/MedicalPhysica_123.png" width="400"></p>
+<p>辉度调制回波，光点强弱表示信号幅度<br>快速移动声束线，得到不同层面的界面信息，合并后成为二维图像<br>可以连续不断扫描，得到动态图像</p>
+<p><strong>三者差别</strong><br>A型是单个层面的一维信息；M型是单个层面的一维信息随时间的变化；B型是多个层面的二维信息，可以随时间变化</p>
+<p><strong>B超图像质量评价</strong></p>
+<ul>
+<li><p>横向分辨率</p>
+<p>是超声束垂直方向的分辨率，超声束越窄，横向分辨率越高</p>
+</li>
+<li><p>轴向分辨率</p>
+<p>两个界面不重合，则\(d>\frac{1}{2} u\tau\)，其中τ是取样脉宽，τ越小，轴向分辨率越高</p>
+</li>
+</ul>
+<p><strong>彩色多普勒血流仪</strong>可以获得二维切面内所有的血流信息</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

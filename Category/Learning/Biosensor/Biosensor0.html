@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学传感器">
+    <meta name="description" content="1 传感器基础 - 生物医学传感器">
+    <meta name="author" content="MingXiao">
+    <title>1 传感器基础</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1 传感器基础
+                    <ul>
+                            <li><a href="#0.1">1.1 传感器的基本性能指标</a></li>
+                            <li><a href="#0.2">1.2 静态特性</a></li>
+                            <li><a href="#0.3">1.3 动态特性</a></li>
+                            <li><a href="#0.4">1.4 误差分析</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1 传感器基础</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 传感器的基本性能指标</h3>
+<p><font color=red><strong>基本特性</strong></font>：响应被测量，按照一定规律转换成可用信号的装置；由敏感元件，转换元件和电子线路组成</p>
+<p>按照被测量分为：物理/化学/生物传感器</p>
+<p>设输出量为Y，出入量为X，\(Y=f(X)\)，其中\(f(\cdot)\)为传感器</p>
+<p><strong>生物相容性</strong>：生物医用材料与人体相互作用产生各种复杂反应的性质</p>
+<ul>
+<li>宿主反应：材料对生物体的作用</li>
+<li>材料反应：生物体对材料的作用</li>
+<li>组织/血液/免疫相容性</li>
+</ul>
+<p>根据传感器信号在<strong>时间</strong>上的特征，分为静态和动态特性</p>
+<p>静态：\(Y=a_0+a_1X+a_2X^2+\ldots+a_nX^n\)</p>
+<p>线性系统动态特性：\(\sum\limits_{i=0}^n a_i\frac{d^iY}{dt^i}=\sum\limits_{j=0}^mb_j\frac{d^jX}{dt}\)</p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 静态特性</h3>
+<p>将实验测得的方程\(Y=a_0+a_1X+a_2X^2+\ldots+a_nX^n\)称为传感器的<strong>标准曲线</strong></p>
+<p>理想的传感器是<strong>过原点的线性特征</strong>：\(Y=aX\)</p>
+<p><strong>衡量静态特性的指标</strong></p>
+<p>线性度、灵敏度、迟滞性、重复性、零点漂移、温漂、测量范围</p>
+<p>静态标准条件：无加速度、冲击、振动，环境温度\(20\pm5\)℃，相对湿度\(\leq\)85%，大气压\(101.3\pm8\mathsf{kPa}\)</p>
+<p>静态特性的校准：在静态标准条件下，用<strong>高一级精度</strong>的仪器对传感器进行<strong>往复循环测试</strong>，得到<strong>静态标准曲线</strong></p>
+<h4><font color=red>1.2.1 <strong>线性度</strong></font></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_1.png" width="300"></center>
+
+<p>图中直线为传感器线性拟合的结果，\(\Delta \max\)为二者之差的最大值，\(Y_{FS}\)为传感器的最大输出值</p>
+<p>定义：  \(\varepsilon=\pm \frac{\Delta_{\max}}{Y_{FS}}\times 100\%\)为传感器的线性度，线性度即<strong>非线性误差</strong>，值越大，越不线性</p>
+<h4><font color=red>1.2.2 <strong>灵敏度</strong></font></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_2.png" width="300"></center>
+
+<p>定义：  \(K=\frac{\Delta Y}{\Delta X}\)为传感器的灵敏度，注意灵敏度量纲</p>
+<p>同一传感器可以定义很多灵敏度，但要注意区分量纲</p>
+<p>一般而言，灵敏度越高，<strong>精度越高、稳定性越差、量程越小</strong></p>
+<h4>1.2.3 <strong>迟滞</strong></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_3.png" width="300"></center>
+
+<p>例子：磁滞回线，正向和反向的特性不一致</p>
+<p>定义：  \(\delta_H=\pm\frac{\Delta H_{\max}}{Y_{FS}}\times 100\%\)，其中\(\Delta H_{\max}\)是正向反向相差最大值</p>
+<h4>1.2.4 <strong>重复性</strong></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_4.png" width="300"></center>
+
+<p>定义：  \(\xi_R=\frac{cS_{\max}}{Y_{FS}}\times 100\%\)</p>
+<h4>1.2.5 <strong>零点漂移</strong></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_5.png" width="300"></center>
+
+<p>定义：  \(零漂=\frac{\Delta Y_{\max}}{Y_{FS}}\times 100\%\)</p>
+<p>虽然是零点随时间的变化，但这也是静态特性</p>
+<h4>1.2.6 <strong>温漂</strong></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_6.png" width="300"></center>
+
+<p>定义：  \(温漂=\frac{\Delta Y_{\max}}{Y_{FS}\Delta T}\times 100\%\)</p>
+<p>其中\(\Delta T=T_2-T_1\)</p>
+<h4>1.2.7 <strong>典型的传感器标准曲线</strong></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_7.png" width="500"></center>
+
+<p>一个典型的传感器静态标准曲线如图所示，<strong>曲线呈s型</strong>，分为<strong>截止区、工作区和饱和区</strong></p>
+<p>在拟合曲线时，只能用<strong>125%截止输出和75%饱和输出</strong>的数据，得到的拟合直线<strong>与饱和输出及截止输出</strong>的交点的横坐标为传感器的<strong>检测上限和检测下限</strong></p>
+<p>若有点<strong>低于底噪</strong>，舍弃这些数据</p>
+<p><strong>测量范围=(检测下限，检测上限)</strong>，<strong>量程=检测上限-检测下限</strong></p>
+<h4>1.2.8 几个检测限指标</h4>
+<p><strong>LoD</strong>: Limit of Detection</p>
+<p>根据拉依达准则，定义为空白信号加三倍标准差对应的检测量，即<br>\[
+Y(LoD) = mean_{\mathsf{Blank}} + 3SD
+\]<br>对应于99.4%置信区间</p>
+<p><strong>LoB</strong>: Limit of Blank</p>
+<p>定义为<br>\[
+Y(LoB) = mean_{\mathsf{Blank}} + 1.645SD
+\]<br>对应于95%置信区间</p>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>1.3 动态特性</h3>
+<p>指传感器对于动态信号的响应特性，用微分方程描述<br>\[
+\sum b_i\frac{d^iY}{dt^i} = \sum a_j \frac{d^j X}{dt^j}
+\]<br>可以用复频域的传递函数表达，不再赘述</p>
+<p>几阶传感器，就是\(Y\)的最高阶</p>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3><font color=red>1.4 误差分析</font></h3>
+<p>设\(X\)是测量值，\(X_0\)是真实值</p>
+<p>真实/绝对误差：\(\Delta = X-X_0\)</p>
+<p>相对误差：</p>
+<p>实际相对误差：\(\delta = \frac{X-X_0}{X_0}\times 100\%\)</p>
+<p>满度相对误差（引用误差）：\(\gamma = \frac{X-X_0}{X_{\max}} \times 100\%\)，\(X_{\max}\)是量程</p>
+<p>精度等级：引用误差去掉符号和百分号</p>
+<p><strong>误差分类</strong></p>
+<ol>
+<li>系统误差，相当于\(\mu\)，可以补偿矫正或差动检测</li>
+<li>随机误差，相当于\(\sigma\)，多次取平均</li>
+<li>粗大误差，当偏离了\(3\sigma\)就认为是（拉依达准则），可以丢掉；来源于操作不当</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

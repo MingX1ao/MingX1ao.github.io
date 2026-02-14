@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="6 光学基础 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>6 光学基础</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 光学基础
+                    <ul>
+                            <li><a href="#5.1">6.1 光的散射</a></li>
+                            <li><a href="#5.2">6.2 几何光学</a></li>
+                            <li><a href="#5.3">6.3 波动光学</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 光学基础</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点：</p>
+<p>光医学的应用范围和发展历史<br><font color=red>光的干涉、衍射</font>和偏振<br><font color=red>光学显微系统的分辨率极限</font></p>
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>6.1 光的散射</h3>
+<p>瑞利散射<br>散射粒子线度比波长<strong>小很多</strong>，1/10波长以下。<br>散射光强度满足\(I(W)\varpropto W^4=\lambda^{-4}\)</p>
+<p>米氏散射<br>散射粒子线度大于10倍波长，散射光强度与波长无关</p>
+<p>为何是蓝天白云：<br>蓝天：大气中分子线度小，是瑞利散射，蓝光的强度大<br>白云：云中水颗粒线度大，是米氏散射，强度均一</p>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 几何光学</h3>
+<p>研究光在介质中传播和物体成像规律的学科</p>
+<p>基本定律：</p>
+<ol>
+<li>光沿直线传播</li>
+<li>光的反射定律和折射定律</li>
+<li>独立传播及光路可逆</li>
+</ol>
+<p>折射定律<br>\[n_1 \sin{\theta_1}=n_2 \sin{\theta_2}\]<br>全反射临界角\(\theta_c=\arcsin{\frac{n_2}{n_1}}\)，注意要从光密到光疏</p>
+<p>透镜成像规律<br>\[\frac{1}{u}+\frac{1}{v}=\frac{1}{f}\]，其中u为物距，v为像距，f为焦距<br>放大镜成<strong>虚像</strong>，增加物体对眼睛的视角</p>
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 波动光学</h3>
+<p>详见大物二笔记</p>
+<p><strong>惠更斯-菲涅尔原理</strong><br>光在传播过程中，在波阵面外任一点光振动应该是波阵面上<strong>所有子波相干叠加</strong>的结果</p>
+<p><strong><font color=red>光的干涉</font></strong><br>两束平面波\(E_1=E_{10}\cdot e^{i(\vec{k_1}\vec{r_1}-\omega_1 t-\phi_1)},E_2=E_{20}\cdot e^{i(\vec{k_2}\vec{r_2}-\omega_2 t-\phi_2)}\)，叠加后\(E=E_1+E_2\)<br>叠加波的光强\(I=E\cdot E^*=I_1+I_2+2\sqrt{I_1I_2}\cos{(\vec{k_1}\vec{r_1}-\vec{k_2}\vec{r_2}-(\omega_1-\omega_2) t-(\phi_1-\phi_2))}\)<br>当且仅当两束波的偏振在同一平面内才有上式<br>进一步，当：\(\omega_1=\omega_2,\phi_1-\phi_2\)是常数时，两束波稳定叠加，产生干涉，有<br>\[I=I_1+I_2+2\sqrt{I_1I_2}\cos{(k(r_1-r_2)+\Delta\phi)}\]<br>若是\(I_1=I_2=I_0\)，则有\(I=4I_0\cos^2{\frac{k(r_1-r_2)+\Delta\phi}{2}}\)<br>在实际应用中，还要满足两束波的光程差\(\Delta nl\)不超过波列的长度（不能超过相干长度，产生于单色性不足）<br>当光屏距离光源足够远时，\(r_1-r_2\approx \frac{x}{D}\cdot d\)，其中x是点的位置，D为光源到光屏距离，d是光源间距<br>所以得到最简式：\(I=4I_0\cos^2{\frac{\pi d}{\lambda D}x}\)</p>
+<p>由上式可知，当\(x=n\frac{\lambda D}{d}\)时，干涉增强，亮条纹；当\(x=(n+\frac{1}{2})\frac{\lambda D}{d}\)时，干涉减弱，暗条纹<br>有：干涉条纹表示光程差的等值线；相邻干涉条纹之间的光程差为\(\lambda\)，相位差为\(2\pi\)</p>
+<p><strong><font color=red>光的衍射</font></strong></p>
+<ol>
+<li>夫琅禾费衍射：光源和光屏都在无穷远处</li>
+<li>菲涅尔衍射：o.w.</li>
+</ol>
+<p>这部分详见大物二，要求不高<br>知道<strong>衍射是干涉的产物</strong>即可</p>
+<p><strong><font color=red>光学系统的分辨率</font></strong></p>
+<p><strong>圆孔衍射条纹（艾里斑）</strong><br>中央亮斑称为艾里斑，其半径满足\(r_0=\frac{1.22\lambda}{d}l\)，其中d是光源距离，l透镜到光屏距离</p>
+<p>实际上的光学系统如下图，可以认为夫琅禾费衍射，事实上其光强分布和衍射完全一致，其分辨率受到限制<br><img src="/Category/Learning/Pictures/MedicalPhysica_53.png" width="300"></p>
+<p><strong>瑞利判据</strong><br>当一个光斑的主极大和另一个的第一极小重合时，两个点刚好被分辨<br><img src="/Category/Learning/Pictures/MedicalPhysica_54.png" width="300"></p>
+<p>此时有最小分辨角\(\delta\theta=\frac{r_0}{l}=1.22\frac{\lambda}{d}\)，分辨率\(R=\frac{1}{\delta\theta}\)</p>
+<p><strong><font color=red>光学系统的分辨率</font></strong></p>
+<p>阿贝正弦条件：\(nh\sin{u}=n'h'\sin{u'}\)<br><img src="/Category/Learning/Pictures/MedicalPhysica_56.png" width="400"></p>
+<p>其中h=y，h&#39;=y&#39;，n，n&#39;分别是介质的折射率<br>再利用\(h'=r_0=1.22\frac{\lambda l}{d n'}\)，注意波长变化，当恰好能分辨时，有\(h=\frac{n'\sin{u'}}{n\sin{u}}\cdot\frac{1.22\lambda l}{d n'}\)，当在镜片边缘时由于l&gt;&gt;d，\(\sin{u'}_{\max}=\frac{d}{2l}\)<br>\(\therefore h=\frac{1.22\lambda}{2n\sin{u}}\)<br>注意此处的\(\lambda\)指的是<strong>激发光</strong>的波长，而<strong>不是荧光</strong>的波长</p>
+<p>令\(n\sin{u}=\mathsf{N.A.}\)为数值孔径，查表可得<br><img src="/Category/Learning/Pictures/MedicalPhysica_79.png" width="300"></p>
+<p>知道哪个是数值孔径就行</p>
+<p><strong>光的偏振</strong><br>布儒斯特定律<br><img src="/Category/Learning/Pictures/MedicalPhysica_55.png" width="150"></p>
+<p>当\(i_0+\gamma=\pi/2\)时，反射光为线偏光且是s光<br>此时有\(n_1\sin{i_0}=n_2\sin{\gamma}=n_2\cos{i_0}\)，即\(\tan{i_0}=\frac{n_2}{n_1}\)</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

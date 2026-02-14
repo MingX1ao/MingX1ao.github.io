@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="5 MCS-51指令系统 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>5 MCS-51指令系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 MCS-51指令系统
+                    <ul>
+                            <li><a href="#4.1">5.1 指令概述</a></li>
+                            <li><a href="#4.2">5.2 寻址方式</a></li>
+                            <li><a href="#4.3">5.3  数据传输类指令</a></li>
+                            <li><a href="#4.4">5.4 算术运算指令</a></li>
+                            <li><a href="#4.5">5.5 逻辑运算类指令</a></li>
+                            <li><a href="#4.6">5.6 控制转移类指令</a></li>
+                            <li><a href="#4.7">5.7 位操作指令</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 MCS-51指令系统</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>5.1 指令概述</h3>
+<p>在系统定时时，最小间隔就是机器周期，12MHz的最小间隔就是1us</p>
+<p><strong>通用寄存器</strong></p>
+<p>在<code>8bit</code>寄存器间接寻址时，只能使用<code>R0, R1</code>，即</p>
+<pre><code class="language-assembly">MOV A, @R0		;@R1
+</code></pre>
+<p><code>R0, R1</code>统称为<code>Ri</code>，<code>R0-R7</code>统称为<code>Rn</code></p>
+<p><code>16bit</code>直接用<code>DPTR</code></p>
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>5.2 寻址方式</h3>
+<ul>
+<li><p>立即寻址</p>
+<pre><code class="language-assembly">MOV A, #10H    ;10H为idata
+</code></pre>
+<p>优点是很快，缺点是占用ROM空间，因为立即数在机器码中占1B</p>
+</li>
+<li><p>直接寻址</p>
+<pre><code class="language-assembly">MOV A, 10H    ;10H为地址单元
+</code></pre>
+</li>
+<li><p>寄存器寻址</p>
+<pre><code class="language-assembly">MOV A, R0    
+</code></pre>
+<p>虽然<code>R0</code>地址为<code>00H</code>，但这条指令是单字节、单周期，而直接寻址是双字节、双周期</p>
+</li>
+<li><p><font color=red>寄存器间接寻址</font></p>
+<pre><code class="language-assembly">MOV A, @R0
+MOV B, @DPTR
+</code></pre>
+<p>使用<code>R0, R1</code>时，表示<code>8bit</code>寻址；使用<code>DPTR</code>时，表示<code>16bit</code>寻址</p>
+</li>
+<li><p>基址变址寻址</p>
+<pre><code class="language-assembly">MOVC A, @A+DPTR
+MOVC A, @A+PC        ;执行时先要PC+=1,然后才赋值
+</code></pre>
+<p><code>MOVC</code>是程序存储器，但不一定外部；只有<code>DPTR, PC</code>能够基址变址寻址（作为基址使用）</p>
+</li>
+<li><p>相对寻址</p>
+<pre><code class="language-assembly">JC LABEL    
+</code></pre>
+<p>短距离跳转用</p>
+</li>
+<li><p>位寻址</p>
+<pre><code class="language-assembly">SETB 3DH        ;将27H.5位置为1
+CLR C            ;将CY置为0
+</code></pre>
+<p>按位寻址来</p>
+</li>
+</ul>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>5.3  数据传输类指令</h3>
+<p><font color=red>例：</font>将外部RAM的100H地址处的数据存放在200H处</p>
+<pre><code class="language-assembly">MOV	DPTR, #0100H
+MOVX A, @DPTR
+MOV DPTR, #0200H
+MOVX @DPTR, A
+</code></pre>
+<p><strong>查表</strong></p>
+<pre><code class="language-assembly">MOV DPTR, #0100H		;CODE Seg内的数据头位置
+MOV A, R0
+MOVC A, @A+DPTR
+
+ORG 0100H
+DB 0, 1, 4, 9
+</code></pre>
+<p><strong>交换指令</strong></p>
+<pre><code class="language-assembly">XCH A, Rn			;交换A,Rn
+XCH	A, idata		;交换A,(idata)
+XCHD A, @Ri			;交换低位, A.3-A.0 与 (Ri).3-(Ri).0
+SWAP A				;交换A的高低位, A.3-A.0 与 A.7-A.4
+</code></pre>
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>5.4 算术运算指令</h3>
+<p>对<code>A</code>操作，均对<code>PSW</code>有影响</p>
+<pre><code class="language-assembly">ADD A, #data		;不带进位
+ADDC A, #data		;带进位，+CY
+INC A				;A += 1
+
+MOV A, #00010101 BCD	;BCD表示
+ADD A, #8			;A = 1DH,按二进制加
+DA A				;修正BCD指令，A = 23H
+
+CLR C				;清空CY
+SUBB A, #data		;带借位，A = A - #data -CY，故第一次减法前要 CLR C
+DEC A				;A -= 1
+
+;乘除只能用AB
+MUL AB				;BA = A*B,高8bit在B,低8bit在A
+DIV AB				;A/B,商在A，余数在B
+</code></pre>
+<a name="4.5" class="md-header-anchor" id="4.5"></a>
+<h3><font color=red>5.5 逻辑运算类指令</font></h3>
+<p>目的操作数为<code>A</code>时，影响<code>PWS</code></p>
+<pre><code class="language-assembly">ORL A, #data		;按位或
+ORL A, address		;若为I/O口，则读引脚
+ORL address, A		;(address)按位或A
+ORL address, #data	;后两条指令若地址为I/O口，则为读锁存器-改写指令
+
+ANL A, #data		;按位和
+
+XRL A, #data		;按位异或
+
+CPL A				;按位取反，A = A_bar
+
+CLR	A				;清零
+
+RL A				;Rotate Left,A循环左移1bit
+RR A				;循环右移1bit
+RLC A				;CY-A.7-A.0循环左移，CY是MSB
+RRC					;CY是MSB，循环右移
+</code></pre>
+<a name="4.6" class="md-header-anchor" id="4.6"></a>
+<h3>5.6 控制转移类指令</h3>
+<p>改变的是<code>PC</code>，对<code>PSW</code>无影响</p>
+<pre><code class="language-assembly">AJMP addr11			;短转移，2KB，即两个地址高5bit一致，且在同一个页内
+					;也就是不是在转移开始的2k，而是定死的
+LJMP addr16			;长转移，64KB
+SJMP rel			;相对转移，-128~127，用的是偏移地址
+JMP	@A+DPTR			;间接转移，-128~127，常用的散转分支转移语句
+
+JZ rel				;A=0转移，偏移地址，可以是label，下同
+JNZ rel				;A!=0转移
+CJNE A, #data, rel	;比较A与#data,不等就跳转，偏移地址;同时会A-#data，仅改变CY
+					;A的位置也能写Rn和@Ri
+
+DJNZ Rn, rel		;先将Rn-1，若Rn!=0则跳转，Rn的位置可以写地址
+
+JC rel				;JMP Carry，CY=1就JMP
+JNC rel				;JMP Not Carry
+
+JB bit, rel			;位地址(bit)=1，JMP
+JNB bit, rel		;(bit)=0
+JBC	bit, rel		;若(bit)=1,则将其置为0，并JMP
+
+LCALL addre16		;长调用指令，16bit，64KB，指令3B，可以用label代替addre，PC+3压栈
+ACALL addre11		;短调用指令，11bit，2KB，指令2B，可以用label，PC+2压栈
+
+RET					;子程序返回指令，栈顶的PC返回给PC，弹栈两次
+RETI				;中断例程返回，栈顶PC返回，弹栈，对中断优先级状态触发器的清零
+</code></pre>
+<a name="4.7" class="md-header-anchor" id="4.7"></a>
+<h3>5.7 位操作指令</h3>
+<p>涉及到能按位寻址的寄存器等</p>
+<pre><code class="language-assembly">MOV C, P1.0			;将P1口的第0bit赋给CY寄存器
+CLR C
+SETB C				;令CY=1
+ANL C, /P1.0		;将P1.0取反后与C做and，赋给C，P1.0本身不会改变
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -158,7 +158,7 @@
 <li>X,Y不是数值，而是一个排序的变量，<strong>or</strong></li>
 <li>X,Y没有明显的线性关系</li>
 </ol>
-<img src="Pictures/BmeStats_13.png">
+<img src="/Category/Learning/Pictures/BmeStats_13.png">
 
 <details>
     <summary>python代码</summary>
@@ -225,7 +225,7 @@
 <p>得到样本回归模型\(y=b_0+b_1x\)，注意这只能表示观测对象和自变量的关系，<strong>对观测值不适用</strong></p>
 <h4>6.2.2 总体模型</h4>
 <p>由样本推总体无非是CI和NHST</p>
-<img src="Pictures/BmeStats_15.png">
+<img src="/Category/Learning/Pictures/BmeStats_15.png">
 
 <p>得到\(\beta_0和\beta_1\)的CI，注意t分布的自由度是n-2，因为使用样本估计了方差（n-1-1）</p>
 <details>
@@ -254,7 +254,7 @@
 	results = model.fit()<br>
     其中results.summary()函数会给出报告
 </details>
-<img src="Pictures/BmeStats_17.png" 	width="700">
+<img src="/Category/Learning/Pictures/BmeStats_17.png" 	width="700">
 
 <p>当共线性很强（残差线性相关）时，模型不能用来解释变量之间的关系（拟合地不好），但是仍然能用于预测数值<br>NHST的零假设是bi=0；当残差的方差过大时，模型不能用来预测，但是解释的效果可以</p>
 <h4>6.2.4 一阶线性回归模型的假设</h4>
@@ -273,7 +273,7 @@
 <p>连续的观测量与多个因变量的关联：\(SBP_i=b_0+b_1x_{1i}+b_2x_{2i}+\ldots+\epsilon_i\)，线性指的是系数（bi）是线性的，而非自变量，如\(y=b_0+b_1x+b_1x^2\)也是线性回归模型</p>
 <p>而一般线性回归模型（GLM）通常还有一个类别变量</p>
 <p>同样的，MLR也是用最小二乘法估计</p>
-<p><img src="Pictures/BmeStats_16.png" 	width="500"></p>
+<p><img src="/Category/Learning/Pictures/BmeStats_16.png" 	width="500"></p>
 <p>这也导致outlier的干扰很大</p>
 <details>
     <summary>python代码</summary>
@@ -293,7 +293,7 @@
 <li>存在交互作用，\(y=b_0+b_1x_1+b_2x_2+b_3x_1x_2\)</li>
 </ul>
 <p>\(b_1,b_2\)的涵义变化为<strong>其他自变量为0时</strong>，该变量的影响<br>\(b_3\)可以这么看：\(y=b_0+b_1x_1+(b_2+b_3x_1)x_2\)<br>即x2的系数与x1有关，在不同的x1水平下，x2对y的作用存在变化，<strong>\(x_1,x_2\)存在交互作用</strong><br>b3可以认为是两组差异的差异</p>
-<img src="Pictures/BmeStats_18.png" width="300">
+<img src="/Category/Learning/Pictures/BmeStats_18.png" width="300">
 
 <p>如要说明某种新药的显著性，也是用上面的方法<br>即枢轴量<strong>不使用\(f(1,1)-f(1,0)\)，而使用\(b_3=[f(1,1)-f(0,1)]-[f(1,0)-f(0,0)]\)，即差异的差异</strong><br>这也说明，如果两条线不平行，那么说明可能存在交互作用</p>
 <h4>6.3.2 模型评价</h4>
@@ -317,14 +317,14 @@
 <li><p>方差齐性：数据不是喇叭口状的，在x不同水平下残差的范围比较一致</p>
 </li>
 </ol>
-<img src="Pictures/BmeStats_20.png" width="300">
+<img src="/Category/Learning/Pictures/BmeStats_20.png" width="300">
 
 <p>好的残差分布，已经归一化</p>
 <h5>6.3.2.2 总体评价</h5>
 <p>包括\(R^2\)，Adjusted \(R^2\)，AIC，BIC，F-value，P-value</p>
 <p>\(R^2=\frac{SSR}{SST}=1-\frac{SSE}{SST},R^2_{adj}=1-\frac{(1-R^2)(n-1)}{n-p-1}\)<br>其中n为样本大小，p为自变量个数<br>当自变量数量变多，Adj R2会减小，模型存在过拟合风险</p>
 <p><strong>模型总体的显著性为F-value</strong></p>
-<img src="Pictures/BmeStats_19.png" width="500">
+<img src="/Category/Learning/Pictures/BmeStats_19.png" width="500">
 
 <p>R2是服从F分布的，自由度不用管，<strong>F-value是优先于T-value</strong>的，当模型的F-value不足时，t的P值再显著，也不太有效，t的P值是H0：bi=0的NHST检验值</p>
 <p><strong>AIC与BIC</strong></p>

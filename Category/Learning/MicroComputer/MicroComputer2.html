@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="3 汇编语言编程 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>3 汇编语言编程</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 汇编语言编程
+                    <ul>
+                            <li><a href="#2.1">3.1 汇编语言编写程序的工作过程</a></li>
+                            <li><a href="#2.2">3.2 LOOP指令</a></li>
+                            <li><a href="#2.3">3.3 段前缀</a></li>
+                            <li><a href="#2.4">3.4 将数据写入代码段</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 汇编语言编程</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 汇编语言编写程序的工作过程</h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_10.png" width="600"></center>
+
+<p>一个完整的汇编程序示例：</p>
+<pre><code class="language-assembly">assume cs:codesg
+codesg segment
+
+mov ax, 0123H
+mov bx, 0456H
+add ax, bx
+add ax, ax
+
+mov ax, 4c00H
+int 21H
+
+codesg ends
+end
+</code></pre>
+<p>其中首尾是<strong>伪指令</strong>，不被CPU执行，但需要编译器执行</p>
+<p>倒数第二段相当于return 0，表示程序返回</p>
+<p>第二，三段为CPU执行的汇编指令</p>
+<p>段分配语句：assume cs:code, ds:data, ss:stack</p>
+<p>段名 segment，表示一个段的开始，将内容写入该段内</p>
+<p>段名 end<strong>s</strong>，表示一个段的结束</p>
+<p>end，表示程序结束</p>
+<p><strong>可执行文件生成过程</strong></p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_11.png" width="600"></center>
+
+<p>记事本写.asm，masm生成.obj，link生成.exe</p>
+<p>在编写一个程序的过程中，会得到包括.obj，.lst，.crf，.map在内的中间结果</p>
+<p><strong>用debug装载程序</strong></p>
+<p>在没有指定DS时，会<strong>自动</strong>装载CS前的**256（100H）**个字节，作为数据区</p>
+<p>故此时CS=DS+10H，CX寄存器的值等于<strong>代码</strong>的长度</p>
+<p>注意程序在int 21处结束，后续为垃圾值</p>
+<p><strong>p，g命令</strong></p>
+<p>P在遇到子程序，中断时，直接执行所有结果（t时逐条执行）</p>
+<p>G可以指定开始运行的代码，直到遇到断点或程序结束</p>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 LOOP指令</h3>
+<p>实现循环的指令</p>
+<p>CPU在收到loop指令时，依次执行以下操作：</p>
+<ol>
+<li>CX = CX - 1</li>
+<li>CX == 0</li>
+</ol>
+<p>当CX=0时，循环结束；CX=n，则程序执行n次；CX需要在循环之前指定值，且不能为0（否则执行65536次）</p>
+<p>loop程序需要定义一个标号，从标号处到loop，循环</p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 段前缀</h3>
+<p>在访问内存单元的指令中，要<strong>显示</strong>地用段前缀指明</p>
+<pre><code class="language-assembly">mov al, [0]
+mov bl, [0]
+</code></pre>
+<p>最终得到的al=bl=00H，此时需要改为如下</p>
+<pre><code class="language-assembly">mov al, ds:[0]
+mov bl, ss:[0]
+</code></pre>
+<p><font color=red>例：</font>计算ffff:0~ffff:b内所有值的和的方法</p>
+<p>解：add dx, ds:[0]？不行，此时为<strong>字型</strong>数据相加</p>
+<p>​		add dl, ds:[0]？不行，会溢出</p>
+<p>​		解决方案</p>
+<pre><code class="language-assembly">mov bx, 0
+mov cx, 0bH
+s:	mov al, ds:[bx]
+mov ah, 0
+add dx, ax
+inc bx #bx += 1
+loop s
+</code></pre>
+<p><strong>安全存放数据</strong></p>
+<p>在段地址指定，运行时由OS分配空间</p>
+<p>可以将CS,DS,SS指定为一个段地址，一般不这么干</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 将数据写入代码段</h3>
+<p>示例代码：</p>
+<pre><code class="language-assembly">assume cs:code
+code segment
+
+dw 0123H,0456H,0789H,0abcH,0defH,0fedH,0cbaH,0987H
+
+start: mov ax,0
+         mov bx, 0h
+         mov cx, 8
+
+     s: add ax,cs:[bx]
+         add bx,2
+         loop s
+
+         mov ax,4c00h
+         int 21h
+
+code ends
+end start
+</code></pre>
+<p>其中 dw表示定义字型数据（define word），还有db（define byte），dd（define double）</p>
+<p>用</p>
+<pre><code class="language-assembly">start:
+
+end start
+</code></pre>
+<p>这个代码段包裹代码，主要是end后的符号和：前的符号需要统一名称</p>
+<p>end除了告知结束外，还告知编译器程序代码的入口，与数据做区分</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

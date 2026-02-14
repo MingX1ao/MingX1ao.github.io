@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="8 课程总结 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>8 课程总结</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>8 课程总结
+                    <ul>
+                            <li><a href="#7.1">8.1 整体框架</a></li>
+                            <li><a href="#7.2">8.2 矫正的特点和作用</a></li>
+                            <li><a href="#7.3">8.3 一些tips</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">8 课程总结</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>这部分内容是给判断题用的，比较琐碎的知识点</p>
+<a name="7.1" class="md-header-anchor" id="7.1"></a>
+<h3>8.1 整体框架</h3>
+<p>将整门课分为对系统的瞬态/稳态性能分析</p>
+<p><strong>瞬态</strong>：侧重速度</p>
+<ul>
+<li>响应速度<ul>
+<li>无阻尼自然频率\(\omega_n\)</li>
+<li>上升时间\(t_r\)</li>
+<li>峰值时间\(t_p\)</li>
+<li>调整时间\(t_s\)</li>
+<li>谐振频率\(\omega_r\)</li>
+<li>带宽</li>
+</ul>
+</li>
+<li>振荡模式，也就是相对稳定性<ul>
+<li>阻尼比\(\zeta\)</li>
+<li>最大超调量\(M_p \%\)</li>
+<li>相位裕量</li>
+<li>增益裕量</li>
+<li>谐振峰值\(M_r\)</li>
+</ul>
+</li>
+</ul>
+<p><strong>稳态</strong>：侧重稳定</p>
+<ul>
+<li>绝对稳定性：只有不/稳定两种<ul>
+<li>在\(s\)平面上，根据闭环极点是否都在左半平面判断</li>
+<li>劳斯稳定判据，根据特征方程判断</li>
+<li>奈奎斯特稳定判据，\(Z = N + P\)，看是否顺时针过\(-1+j0\)</li>
+</ul>
+</li>
+<li>稳定误差：稳定状态下的精确性<ul>
+<li>\(e_{ss}=\lim\limits_{s\rightarrow 0} sE_{ss}(s) = \lim\limits_{s\rightarrow\ 0} \frac{sX}{1+GH}\)</li>
+<li>以下三个量是在单位负反馈系统中描述的：静态位移/速度/加速度常数：\(K_p, K_v, K_a\)</li>
+</ul>
+</li>
+</ul>
+<a name="7.2" class="md-header-anchor" id="7.2"></a>
+<h3>8.2 矫正的特点和作用</h3>
+<p>还是建议配合4.4节和5.10节一起看，不需要会矫正，但得直到每一条性质怎么来的</p>
+<h4>8.2.1 增加0/极点的影响</h4>
+<p><strong>加极点</strong>：极点一定加在左半平面；会导致根轨迹右移，主导极点实部变大，调整时间增加</p>
+<p><strong>加0点</strong>：根轨迹左移，主导极点实部变小，调整时间更小；增益\(K\)能更大，相对稳定性提高</p>
+<h4>8.2.2 超前矫正</h4>
+<ul>
+<li>使用目的：为了找到满意的闭环极点，提高系统的瞬态响应性能；改善稳定裕度（增加相位裕度）</li>
+<li>0/极点配置：极点在左，0点在右</li>
+<li>需要提供新的主导极点，本质是高通Filter</li>
+<li>增益交界频率右移，相位裕度减小（副作用，列举这条的目的是说明设计时增加的相位裕度需要考虑这个减小的量）；同时系统的带宽变大，瞬态响应变好（与\(\zeta\)反比），但是高频噪声的干扰也会变大</li>
+<li>在增益交界频率附近，相角变化很快，那么不能使用，因为无法在右移时留出足够大相位裕度</li>
+<li>需要附加增益（\(|G|\approx K_c\alpha\)）</li>
+<li>如PD控制器</li>
+</ul>
+<h4>8.2.3 滞后矫正</h4>
+<ul>
+<li>使用目的：减小稳态误差，提高稳态响应性能；重新确定增益交界频率（高频衰减），改善相位裕量</li>
+<li>0/极点配置：极点在右，0点在左，要求二者接近且接近原点</li>
+<li>需要保证主导极点不变，本质是低通Filter</li>
+<li>增益交界频率左移，相位裕度变大；但是系统的带宽会减小，瞬态响应变差</li>
+<li>降低高频增益，使得低频的增益可以适当放大，系统的精度提高</li>
+<li>如PI控制器</li>
+</ul>
+<h4>8.2.4 滞后-超前矫正</h4>
+<ul>
+<li>同时结合上面二者的优点，但是很难调</li>
+<li>瞬态响应快，稳态精度高</li>
+<li>低频增益变大，带宽变大，稳定裕度也变大</li>
+<li>如PID控制器</li>
+</ul>
+<a name="7.3" class="md-header-anchor" id="7.3"></a>
+<h3>8.3 一些tips</h3>
+<ul>
+<li>外部扰动是输入量</li>
+<li>方程输出阶次必须大于等于输入阶次，否侧不因果</li>
+<li>\(H(0)\)是系统的放大系数/增益，表示系统处于静态时的增益</li>
+<li>线性系统的输入只会影响稳态输出</li>
+<li>两个二阶系统有相同的\(\zeta\)，则超调量和震荡模式相似，具有相同的相对稳定性</li>
+<li>响应类型由闭环极点决定，响应形状由闭环零点决定；可以忽略留数很小的项，近似为低阶系统；当二阶系统的\(\zeta\)很大时，可以只保留大的极点，近似为一阶系统</li>
+<li>期望\(0.4\leq \zeta \leq 0.7\)，当\(0\leq \zeta\leq 0.6\)时，\(\zeta = \gamma/100\)，其中\(\gamma\)是相位裕度</li>
+<li>积分控制使输出振荡；微分控制使输出变快</li>
+<li>最小相位系统的相频响应变化最小</li>
+<li>条件稳定的非最小相位系统，奈奎斯特图一定包围\(-1+j0\)</li>
+<li>带宽与\(\zeta\)反比，与响应速度正比</li>
+<li>剪切率反应系统的抗干扰能力，越大，一般而言，系统的谐振峰值越大，稳定裕度越小</li>
+<li>开环响应的各种图反应了什么：<ul>
+<li>在低频区（远低于转角频率），表征闭环系统的稳态特征</li>
+<li>在中频区（靠近\(-1+j0\)），表征闭环相对稳定性</li>
+<li>在高频区，表征系统的复杂性</li>
+</ul>
+</li>
+<li>系统的状态转移矩阵\(\Phi = e^{At}\)反应了系统自由运动的所有信息，方程的解仅仅是状态的转移</li>
+<li>控制器的极点配置前提是状态完全可控，控制器的\(k_i\)越大，表示需要的能量也越大，需要trade-off</li>
+<li>状态观测器的前提是系统状态完全可观，\(k_{ei}\)越大，误差越小，但是噪声放大也越大，需要trade-off</li>
+<li>控制器-观测器系统中，二者是独立的；实际中一般用并联系统，设计简单</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

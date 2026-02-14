@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="5 放射治疗学 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>5 放射治疗学</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 放射治疗学
+                    <ul>
+                            <li><a href="#4.1">5.1 医用电子直线加速器的结构</a></li>
+                            <li><a href="#4.2">5.2 放射剂量学</a></li>
+                            <li><a href="#4.3">5.3 放射治疗学</a></li>
+                            <li><a href="#4.4">5.4 放射治疗的4R理论</a></li>
+                            <li><a href="#4.5">5.5 放疗和其他疗法结合</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 放射治疗学</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点<br><font color=red>医用电子直线加速器的工作原理</font><br><font color=red>传能线密度（LET）和相对生物效应（RBE）的意义和关系</font><br><font color=red>放射治疗的4R理论</font></p>
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>5.1 医用电子直线加速器的结构</h3>
+<img src="/Category/Learning/Pictures/MedicalPhysica_33.png" width="500">
+
+<p>各个部件的作用：</p>
+<ol>
+<li>初级、次级准直器：控制射线的范围  </li>
+<li>均整器：平均X射线能量在空间的分布  </li>
+<li>电离室：测量X射线能量（相当于γ相机的闪烁晶体）  </li>
+<li>射野灯：模拟X射线在人身上的照射范围</li>
+</ol>
+<p><strong>多叶准直器（mutil leaf collimator MLC）</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_36.png" width="100"><br>用于控制照射野的大小和形状，可以更好的贴合病灶  </p>
+<p><strong>设置方法</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_37.png" width="300"><br>内交法：将准直器与病灶内测相交，对正常组织伤害小<br>其他以此类推<br>准直器的方向也可以设置，可以90°旋转  </p>
+<p><strong>楔形板</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_38.png" width="300"><br>用于调整射线照射范围</p>
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>5.2 放射剂量学</h3>
+<p><strong>照射量</strong><br>度量射线导致空气电离程度的物理量，定义为<br>\[E=\frac{dQ}{dm}\]<br>单位\(C\cdot kg^{-1}\)  </p>
+<p><strong>吸收剂量</strong><br>单位质量物质所吸收的辐射能量，定义为<br>\[D=\frac{dE}{dm}\]<br>单位为戈瑞，\(1\mathsf{Gy}=1J\cdot kg^{-1}\)  </p>
+<p><strong>当量剂量</strong><br>某一组织所接受的平均吸收剂量\(D_{T\cdot R}\)与辐射权重因子\(w_R\)的乘积<br>\[H_T=w_R\cdot D_{T\cdot R}\]<br>单位为希沃特，\(1\mathsf{Sv}=1J\cdot kg^{-1}\)<br>人体一年的安全剂量为50mSv  </p>
+<p><strong>百分深度剂量PDD</strong><br>模体内照射野中心轴上任一深度d处的吸收剂量\(D_d\)与参考点\(d_0\)处的\(D_0\)的比值<br>\[PDD=\frac{D_d}{D_0}\times 100\%\]<br>由于<strong>建成效应</strong>，照射皮肤的射线会产生次级电子，参考点并不在身体表面</p>
+<table>
+    <tr>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_34.png" width="200">
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_35.png" width="300">
+    </tr>
+</table>
+
+
+
+<p><strong>影响PDD的因素</strong>  </p>
+<ol>
+<li>射线能量</li>
+<li>源皮距：射线源到皮肤的距离</li>
+<li>照射野大小及形状：越大会使次级电子越多</li>
+</ol>
+<p><strong>好的放射治疗计划</strong></p>
+<ol>
+<li>肿瘤区剂量尽可能准确</li>
+<li>肿瘤区吸收剂量要均匀</li>
+<li>提高肿瘤靶区剂量的同时，尽量降低正常组织的受照剂量</li>
+</ol>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>5.3 <font color=red>放射治疗学</font></h3>
+<p><strong>传能线密度（LET）</strong><br>指电离辐射通过直接电离或次级电子电离，在单位长度径迹上平均消耗的能量<br>\[L=\frac{dE}{dl}\]<br>单位\(J/m,keV/m\)<br><strong>低LET</strong>  </p>
+<ul>
+<li>光子和轻粒子，从低到高为</li>
+</ul>
+<ol>
+<li><p>X-Ray</p>
+</li>
+<li><p>γ-Ray</p>
+</li>
+<li><p>β-Ray</p>
+</li>
+<li><p>电子束</p>
+</li>
+<li><p>质子束</p>
+</li>
+</ol>
+<p>  <strong>高LET</strong>  </p>
+<ul>
+<li>重粒子</li>
+</ul>
+<ol>
+<li>中子束</li>
+<li>α-Ray</li>
+<li>重离子束</li>
+</ol>
+<p><strong>相对生物效能（RBE）</strong><br>RBE=（250kV的X-Ray引起某一生物效应所需的剂量）/（目前所观察的辐射引起同一效应所需的剂量）<br>RBE越大，说明这种射线的治疗效果越好  </p>
+<p><strong><font color=red>LET和RBE的关系</font></strong>  </p>
+<ol>
+<li>大体上成正相关</li>
+<li>100keV/um左右的LET的辐射，其RBE最大</li>
+<li>2的原因是100keV/um的辐射，其电离事件的平均间隔和DNA双螺旋的直径一致，直接将DNA双链打断</li>
+</ol>
+<table>
+  <tr>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_39.png" width="400">
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_40.png" width="300">  
+  </tr>
+</table>  
+
+
+<p><strong><font color=red>电离辐射的直接作用和间接作用</font></strong><br>直接：生物大分子发生电离和激发（高LET射线主要是这个）<br>间接：首先将能量转移到水分子，水分子电离和激发，产生<strong>高氧化性的自由基</strong>，与生物大分子反应（低LET射线主要是这个）  </p>
+<p><strong>自由基对生物分子的作用</strong>  </p>
+<ol>
+<li>对核酸的损害：阻挡中心法则，导致死亡或癌变</li>
+<li>对生物膜的破坏：脂质过氧化，流动性降低，线粒体膨胀，细胞破裂</li>
+<li>对蛋白质和酶：变形</li>
+</ol>
+<p><strong>氧效应</strong><br>受照射的生物系统的RBE随介质中氧浓度增高而增加，即有氧的效果比无氧好<br><strong>原因</strong>：</p>
+<ol>
+<li>自由基和DNA反应生成DNA自由基</li>
+<li>若有还原性基团，则DNA自由基可以被还原</li>
+<li>若有氧存在，能形成有机超氧化物，不能还原</li>
+</ol>
+<img src="/Category/Learning/Pictures/MedicalPhysica_41.png" width="300">
+
+ 
+
+<p><strong>氧增强比（OER）</strong><br>OER=（缺氧时产生一定效果的剂量）/（有氧时产生同一效果的剂量），OER\(\geq\)1<br><strong>低LET的辐射往往有更高的OER</strong>，因为低LET辐射靠自由基的氧化，而高氧含量会加快这一过程；高LET的辐射依靠直接电离激发来破坏，不靠氧化  </p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_42.png" width="300">
+
+<center>氧浓度和氧效应的关系</center>
+0.5%就足够了
+
+
+
+<p><strong>分割放疗</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_43.png" width="500"><br>在血管附近的肿瘤细胞会先死亡，余下的缺氧细胞再氧合后也会死</p>
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>5.4 <font color=red>放射治疗的4R理论</font></h3>
+<p><strong>放射敏感性</strong><br>细胞对辐射致伤的敏感程度  </p>
+<p><strong>贝-特定律</strong><br>组织细胞的辐射敏感性与他们的<strong>增殖能力成正比，与分化程度成反比</strong><br>对人体而言，大部分细胞遵循，但是<strong>淋巴和卵原细胞是例外</strong>  </p>
+<p>测量体外培养细胞的放射敏感性最直接和最准确的方式是<strong>细胞克隆形成率</strong>实验得出的细胞存活和参数  </p>
+<p><font color=red>例：下面的表格给出了以24h为增值周期的细胞的个数变化和存活分数的关系，在day0照射不同剂量的射线</font>  </p>
+<table>
+<thead>
+<tr>
+<th align="center">day0</th>
+<th align="center">100</th>
+<th align="center">100</th>
+<th align="center">100</th>
+<th align="center">100</th>
+<th align="center">100</th>
+<th align="center">100</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">DAY1</td>
+<td align="center">200</td>
+<td align="center">160</td>
+<td align="center">100</td>
+<td align="center">20</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">存活分数%</td>
+<td align="center">100</td>
+<td align="center">80</td>
+<td align="center">50</td>
+<td align="center">10</td>
+<td align="center">1</td>
+<td align="center">&lt;.5</td>
+</tr>
+</tbody></table>
+<p><strong><font color=red>细胞存活曲线</font></strong>  </p>
+<ul>
+<li>高LET射线，\(\mathsf{SF}=e^{-\alpha D}\)，单靶单击模型</li>
+</ul>
+<img src="/Category/Learning/Pictures/MedicalPhysica_44.png" width="300">
+  
+<ul>
+<li>低LET射线，\(\mathsf{SF}=1-(1-e^{-kD})^N\)，多靶多击模型</li>
+</ul>
+<img src="/Category/Learning/Pictures/MedicalPhysica_45.png" width="500">
+
+<p>其中，D是每个细胞都受到一个射线击打时放射<strong>剂量的期望值</strong>，Dq是克服细胞自我修复的阈值剂量<br>D0是对数存活曲线从1-&gt;0.37或0.1-&gt;0.037所需的剂量</p>
+<p><strong>细胞周期不同时相细胞的放射敏感性</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_46.png" width="400"><br>在S晚期有很强的放射抗性，在G2/M和S前期敏感性最高</p>
+<p>根据细胞照射后损伤表现，将组织分为早反应组织和晚反应组织</p>
+<ul>
+<li>早反应组织</li>
+</ul>
+<ol>
+<li>皮肤</li>
+<li>口腔粘膜</li>
+<li>消化道上皮</li>
+<li>造血系统</li>
+<li><strong>肿瘤组织</strong></li>
+</ol>
+<ul>
+<li>晚反应组织</li>
+</ul>
+<ol>
+<li>心脏</li>
+<li>肝脏</li>
+<li>肾脏</li>
+<li>循环系统</li>
+<li>脑</li>
+</ol>
+<p><strong>分割放疗</strong>  </p>
+<table>
+    <tr>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_47.png" width="300"></td>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_48.png" width="300"></td>
+    </tr>
+</table>
+左图是两种组织对单次照射剂量的生存分数，右图是多次照射（分割治疗）的生存分数
+晚反应组织**亚致死损伤（SLD，能修复的损伤）** 修复能力强，分割治疗对晚反应组织有保护作用  
+
+<ul>
+<li><em>LD，致死损伤</em></li>
+</ul>
+<p><strong><font color=red>修复，Repair</font></strong> </p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_49.png" width="300">
+
+<center>等效剂量曲线</center>
+
+<ul>
+<li>肿瘤是早反应组织，SLD修复能力弱</li>
+<li>正常组织有很多晚反应组织，SLD修复能力强</li>
+<li>分次照射对晚保护强，对早保护弱</li>
+</ul>
+<p><strong><font color=red>细胞周期再分布，Redistribution</font></strong>  </p>
+<table>
+    <tr>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_50.png" width="300"></td>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_51.png" width="300"></td>
+        <td><img src="/Category/Learning/Pictures/MedicalPhysica_52.png" width="300"></td>
+    </tr>
+</table>
+先消灭G2/M期细胞，当余下细胞重新恢复分裂周期活动时可以再次照射  
+
+ 
+
+<p><strong><font color=red>再氧合，Reoxygenation</font></strong>  </p>
+<p>利用氧效应，就是上面的再氧合</p>
+<ul>
+<li>计量分割后正常组织有时间修复</li>
+<li>肿瘤细胞重新进入敏感时期</li>
+<li>再氧合，氧效应使得RBE增强</li>
+<li>时间间隔需要控制</li>
+</ul>
+<p><strong><font color=red>再增殖，Repopulation</font></strong>  </p>
+<ol>
+<li>不必要的延长治疗时间对治疗不利</li>
+<li>正常组织急性反应时要有间隔，间隔尽量短</li>
+<li>分割治疗不是好的治疗方法</li>
+<li>增值快的肿瘤必须快速处理</li>
+</ol>
+<a name="4.5" class="md-header-anchor" id="4.5"></a>
+<h3>5.5 放疗和其他疗法结合</h3>
+<ul>
+<li>与手术治疗</li>
+</ul>
+<ol>
+<li>术前放疗</li>
+<li>术中放疗</li>
+<li>术后放疗</li>
+</ol>
+<ul>
+<li><p>与化疗结合</p>
+</li>
+<li><p>与热疗结合</p>
+</li>
+</ul>
+<ol>
+<li>促进供血</li>
+<li>促进肿瘤细胞再氧合</li>
+<li>抑制SLD损伤修复</li>
+<li>抑制潜在的LD修复</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

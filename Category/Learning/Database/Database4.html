@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="数据库原理">
+    <meta name="description" content="5 并发控制 - 数据库原理">
+    <meta name="author" content="MingXiao">
+    <title>5 并发控制</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 并发控制
+                    <ul>
+                            <li><a href="#4.1">5.1 并发事务的冲突</a></li>
+                            <li><a href="#4.2">5.2 锁</a></li>
+                            <li><a href="#4.3">5.3 事务</a></li>
+                            <li><a href="#4.4">5.4 调度</a></li>
+                            <li><a href="#4.5">5.5 其他并发控制机制</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 并发控制</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>5.1 并发事务的冲突</h3>
+<h4>5.1.1 脏读</h4>
+<p>事务之间可以看到未提交的数据</p>
+<center><img src="/Category/Learning/Pictures/DataBase_20.png" width="300"></center>
+
+
+
+<h4>5.1.2 不可重复读</h4>
+<p>事务之间可以看到已提交的数据，但是不能得知<strong>数据是否会更新</strong></p>
+<center><img src="/Category/Learning/Pictures/DataBase_21.png" width="300"></center>
+
+
+
+<h4>5.1.3 幻读</h4>
+<p>事务之间可以看到已提交的数据，但是不能得知数据的条目是否变化</p>
+<center><img src="/Category/Learning/Pictures/DataBase_22.png" width="300"></center>
+
+<p>幻读和不可重复读的区别，大致可以对应为<code>INSERT/DELETE</code>和<code>UPDATE</code>的区别</p>
+<h4>5.1.4 写冲突</h4>
+<p>两个事务同时提交对一个数据的修改</p>
+<center><img src="/Category/Learning/Pictures/DataBase_23.png" width="300"></center>
+
+
+
+<h4>5.1.5 隔离机制</h4>
+<ul>
+<li><strong>读未提交</strong>：最低级的隔离，可以允许脏读</li>
+<li><strong>读提交</strong>：事务只能读取其他事务已提交的事务</li>
+<li><strong>可重复读</strong>：确保事务可以多次读取统一数据，保证每次结果相同</li>
+<li><strong>串行化</strong>：以串行的方式执行，没有并发，性能差</li>
+</ul>
+<p>这几个隔离中，只有最高级的<strong>串行化</strong>可以避免写冲突</p>
+<center><img src="/Category/Learning/Pictures/DataBase_24.png" width="400"></center>
+
+
+
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>5.2 锁</h3>
+<p>并发错误来自于<strong>多个事务对一项数据的同时读写</strong>，因此出现了事务锁。锁一定是<strong>事务</strong>对数据项施加的。</p>
+<h4>5.2.1 共享锁（读锁，S锁）</h4>
+<p>某个事务在数据项d上加了S锁，那么</p>
+<ul>
+<li><p>该事务只能读取d，不能修改</p>
+</li>
+<li><p>其他事务存在</p>
+<ol>
+<li>不加锁的情况下无法读取d</li>
+<li>加S锁可以读取d</li>
+</ol>
+</li>
+</ul>
+<h4>5.2.2 互斥锁（写锁，X锁）</h4>
+<p>某个事务在d上加了X锁，那么</p>
+<ul>
+<li>该事务能读写d</li>
+<li>其他事务存在<ol>
+<li>不能对d加S/X锁</li>
+<li>不加锁时无法读写d</li>
+</ol>
+</li>
+</ul>
+<h4>5.2.3 锁带来的问题</h4>
+<p>在一个事务加锁的情况下，另一个事务无法操作数据，必须等待加锁事务结束，那么这可能导致</p>
+<ol>
+<li><p><strong>饿死</strong>：锁导致等待，等的时间可以很长</p>
+<p>如何避免：先来先服务，按顺序给资源</p>
+</li>
+<li><p>不可解决不可重复读，幻读和写冲突</p>
+</li>
+<li><p><strong>死锁</strong>：n个事务需要的锁和这个锁所在的事务成环</p>
+</li>
+</ol>
+<p>必须对事务的调度顺序做出规定</p>
+<h4>5.2.4 二阶段锁</h4>
+<p>希望事务将自己的操作一次性做完，且中途不能被打扰，这样就能解决所有的冲突，由此引入二阶段锁</p>
+<p>将事务锁分为两个阶段</p>
+<p><strong>加锁阶段</strong></p>
+<ol>
+<li>在这个阶段事务可以获取<strong>所有</strong>需要的锁</li>
+<li>每当事务访问一个新的数据时，必须先加锁</li>
+<li>这个阶段持续到事务获取所有的锁</li>
+</ol>
+<p><strong>解锁阶段</strong></p>
+<ol>
+<li>一旦事务开始解锁，那就不能再加锁</li>
+<li>开始于事务释放第一个锁，结束于释放了所有的锁</li>
+</ol>
+<p>二阶段的锁数目变化如图</p>
+<center><img src="/Category/Learning/Pictures/DataBase_25.png" width="300"></center>
+
+
+
+<h4>5.2.5 解决死锁</h4>
+<p><strong>死锁预防</strong></p>
+<p>死锁的形成是因为两个事务相互等待，那么首先不能允许相互等待</p>
+<p>有两种方式，但都是基于时间戳确定老事务To和新事物Tn</p>
+<ol>
+<li><p>Wait-Die</p>
+<p>如果Tn持有锁，To申请这个锁，那么To等待</p>
+<p>如果To持有锁，Tn申请这个锁，那么Tn被撤销，但Tn保留创建的时间戳（否则会饿死）</p>
+</li>
+<li><p>Wound-Wait</p>
+<p>如果Tn持有锁，To申请这个锁，那么Tn被撤销，保留原来的时间戳</p>
+<p>如果To持有锁，Tn申请这个锁，那么Tn等待</p>
+</li>
+</ol>
+<p><strong>死锁检测与恢复</strong></p>
+<p>检测：检测事务依赖，如果成环那么就产生了死锁，这时需要选择一个事务牺牲</p>
+<p>牺牲的依据：</p>
+<ol>
+<li>事务的时间戳</li>
+<li>事务已经执行的语句数量</li>
+<li>事务已经持有的锁</li>
+</ol>
+<p>时间戳越新，执行的语句和持有的锁越少，那么事务越先被牺牲</p>
+<p><strong>设锁超时重启</strong></p>
+<p>设置一个事务的最长等待时间，当事务超时时仍没有取得需要的锁，那么事务重启</p>
+<h4>5.2.6 锁的粒度</h4>
+<p>根据被施加锁的数据项的粒度（数据库，表，记录，属性等），锁也有锁粒度（依次减小）</p>
+<p>锁的粒度越<strong>大</strong>，数据项越<strong>少</strong>，管理锁的<strong>开销越小</strong>，事务间发生<strong>冲突的可能越大</strong>，并<strong>发度越低</strong></p>
+<p><strong>多粒度锁</strong></p>
+<p>数据库中所有对象构成一棵<strong>多粒度树</strong>，每一个节点都可以独立加锁</p>
+<p><strong>对某个节点加锁表示对其后代加相同类型的锁</strong></p>
+<p><strong>显示锁</strong>：该节点直接被加上的锁</p>
+<p><strong>隐式锁</strong>：该节点没有直接加，但是其祖先被加锁</p>
+<center><img src="/Category/Learning/Pictures/DataBase_26.png" width="300"></center>
+
+
+
+<h4>5.2.7 意向锁</h4>
+<p>对某个节点的所有祖先加的锁</p>
+<p><strong>意向共享锁（IS锁）</strong>：某个数据加共享锁，其祖先加的这个</p>
+<p><strong>意向互斥锁（IX锁）</strong>：某个数据加互斥锁，其祖先加这个</p>
+<p><strong>共享意向互斥锁（SIX锁）</strong>：某个数据同时<strong>显式地</strong>加共享锁和IX锁</p>
+<center><img src="/Category/Learning/Pictures/DataBase_27.png" width="300"></center>
+
+<p>这些所的容斥关系如图</p>
+<center><img src="/Category/Learning/Pictures/DataBase_28.png" width="500"></center>
+
+<p>这样设计，意味着允许同时读写一个大粒度下的不同细粒度数据项，<strong>提高了并发度</strong></p>
+<h4>5.2.8 谓词锁</h4>
+<p>作用于满足特定条件的所有对象，这个锁的施加条件比较特殊</p>
+<ol>
+<li>事务T1想要施加谓词锁，这个锁影响的所有数据<strong>都不能存在互斥锁</strong></li>
+<li>事务T1想要给某些存在谓词锁的数据进行更改（<code>UPDATE,INSERT,DELETE</code>），需要检查这些数据的<strong>旧值和新值</strong>是否满足谓词锁，满足，则需要谓词锁释放后才行</li>
+</ol>
+<h4>5.2.9 索引区间锁</h4>
+<p>在索引上施加的锁，用于锁定一个特定的索引键值范围</p>
+<p>影响所有在这个范围内的索引，<strong>即使目前的表中不存在</strong></p>
+<center><img src="/Category/Learning/Pictures/DataBase_29.png" width="300"></center>
+
+<p>索引区间锁的检查与索引更新同步，开销不大，但是加大了锁的范围，导致更多的冲突和等待</p>
+<p>索引区间和谓词锁是为了<strong>减少开销</strong>存在的，所有满足条件的数据项加一把锁，减少了需要的锁的数目</p>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>5.3 事务</h3>
+<ul>
+<li>原子性（A）：几个操作一起做完才能提交，不可分割</li>
+<li>一致性（C）：转账不能出错，金额不变</li>
+<li>隔离性（I）：串行和并行的结果一致，互不干扰</li>
+<li>永久性（D）：提交完不会变</li>
+</ul>
+<a name="4.4" class="md-header-anchor" id="4.4"></a>
+<h3>5.4 调度</h3>
+<p>事务执行的顺序（并发/串行）</p>
+<center><img src="/Category/Learning/Pictures/DataBase_39.png" width="200"></center>
+
+
+
+<h4>5.4.1 可串行化调度</h4>
+<p>一个并发调度\(S\)，存在一个串行调度\(S^{'}\)，两个效果一致；不需要锁的机制，也没有锁的问题</p>
+<p>\(N\)个事务的串行排列一共\(N!\)种，那么判断一个调度是否可串行的复杂度为\(O(N!)\)</p>
+<p><strong>交换</strong>：不同事务的两个相邻操作交换顺序</p>
+<p>交换后等价的情况：</p>
+<ul>
+<li>R(A), R(A)</li>
+<li>R(A), R(B)</li>
+<li>R(A), W(B)</li>
+<li>W(A), W(B)</li>
+</ul>
+<p>非等价：</p>
+<ul>
+<li>R(A), W(A)</li>
+<li>W(A), W(A)</li>
+</ul>
+<h4>5.4.2 冲突可串行化调度</h4>
+<p>并发调度\(S\)，通过等价交换可以变成可串行化调度\(S^{'}\)，则是一个冲突可串行化调度</p>
+<p>根据不等价交换的执行顺序构建一张有向图（优先图），当图中出现环时，这个调度不可串行化，即不是冲突可串行化</p>
+<p>对于一个冲突可串行化调度，用拓扑排序可以找到一个串行化调度</p>
+<h4>5.4.3 视图可串行化调度</h4>
+<p>每个事务读取到的数据结果与某个串行化调度的结果相同</p>
+<p>\(S\)与\(S^{'}\)的读取的\(X\)的初始值、更新值和最终写入结果相同</p>
+<p><strong>重画有向图</strong></p>
+<p>引入\(T_0=W(A)\)，这是最先的操作，保证初始值一致；\(T_{n+1}=R(A)\)，这是最后的操作，保证最终结果一致</p>
+<p>如果\(T_i\)读取了\(T_j\)的变量，那么\(T_j\)指向\(T_i\)</p>
+<p>然后通过逻辑上的先后连接没有连接但存在关系的事务</p>
+<p><font color=red>例：</font></p>
+<center><img src="/Category/Learning/Pictures/DataBase_40.png" width="300"></center>
+
+<center><img src="/Category/Learning/Pictures/DataBase_41.png" width="500"></center>
+
+<p>判断完第一步，得到0-&gt;1，2-&gt;3-&gt;4；判断逻辑先后，得到1-&gt;2，1-&gt;3，因为是1先执行的</p>
+<p>然后1有w，可以放到2-&gt;3前/后，只要一种无环就行</p>
+<a name="4.5" class="md-header-anchor" id="4.5"></a>
+<h3>5.5 其他并发控制机制</h3>
+<h4>5.5.1 乐观并发控制技术</h4>
+<p>假设：多个事务同时操作一个数据的概率很低</p>
+<p>分为三个阶段</p>
+<ol>
+<li>读取：不加锁，允许其他事务访问</li>
+<li>验证：准备提交时，检查事务执行过程中有无修改</li>
+<li>不/存在问题：提交/回滚，重试</li>
+</ol>
+<p>如何回滚？</p>
+<p><strong>时间戳排序协议</strong></p>
+<p>每个事务有唯一的时间戳，每次读写都记录这个时间点的时间戳，对比这个时间和事务的时间戳进行决定</p>
+<ul>
+<li>事务只能读之前写的数据</li>
+<li>事务只能写之前读的数据</li>
+</ul>
+<h4>5.5.2 多版本机制</h4>
+<p>记录多个提交的版本，最终再选择（git）</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

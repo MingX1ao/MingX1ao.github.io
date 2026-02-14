@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="2 信号采样与重建 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>2 信号采样与重建</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 信号采样与重建
+                    <ul>
+                            <li><a href="#1.1">2.1 预滤波</a></li>
+                            <li><a href="#1.2">2.2 抽样</a></li>
+                            <li><a href="#1.3">2.3 重建</a></li>
+                            <li><a href="#1.4">2.4 关于奈奎斯特率的几个结论</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 信号采样与重建</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>与信号与系统1所讲一致，这里再操作一遍</p>
+<p><strong>整个流程</strong></p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_7.png" width="400"></center>
+
+
+
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 预滤波</h3>
+<p>不是必须的</p>
+<p>当采样频率无法提升时，使用预滤波将原始信号\(\omega >\frac{\omega_s}{2}\)部分的信号过滤，防止混叠<br>\[
+x(t)=x_a(t)*h_1(t)
+\]</p>
+<p>\[
+X(j\Omega)=X_a(j\Omega)\cdot H_1(j\Omega)
+\]</p>
+<p>其中\(H_1(\Omega)=\begin{cases}1 \,\,\,, |\Omega|\leq \Omega_s/2\\ 0\,\,\,, o.w.\end{cases}\)</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2.2 抽样</h3>
+<p>这里讨论理想抽样模型，使用冲击串（非理想是阶跃串）</p>
+<p>\(\hat{x}_a(t)=x_a(t)\cdot p_\delta(t)\)，其中\(p_\delta(t)=\sum\limits_{k=-\infty}^{+\infty}\delta(t-kT)\)</p>
+<p>为了方便积分变化，将采样函数级数展开，\(p_\delta(t)=\sum a_ke^{j\frac{2\pi}{T}kt},a_k=\frac{1}{T}\int_T{p_\delta(t)e^{-j\frac{2\pi}{T}kt}dt}=\frac{1}{T}\)</p>
+<p>已知\(\mathcal{F}\{e^{j\Omega_s kt}\}=2\pi \delta(\Omega-k\Omega_s),\Omega_s=\frac{2\pi}{T},\delta(t-T)*x(t)=x(t-T)\)</p>
+<p>故有<br>\[
+\hat{X}_a(j\Omega)=\frac{1}{2\pi}X_a(j\Omega)*P_\delta(j\Omega)
+\]</p>
+<p>\[
+P_\delta(j\Omega)=\frac{2\pi}{T}\sum\delta(\Omega-k\Omega_s)
+\]</p>
+<p>得到<br>\[
+\hat{X}_a(j\Omega)=\frac{1}{T}\sum{X_a(j\Omega-jk\Omega_s)}
+\]<br>抽样得到的频谱是\(X_a(j\Omega)\)以\(\Omega_s\)为周期的延拓，幅度变为1/T</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_8.png" width="600"></center>
+
+<p>其中\(\Omega_c\)是原始信号的奈奎斯特频率，当\(\Omega_s-\Omega_c>\Omega_c\Rightarrow\Omega_s>2\Omega_c\)时，才不会产生混叠，此时唯一重建信号</p>
+<p>实际上可以不可以等于，但一般没问题</p>
+<p>定义<strong>信号</strong>的折叠频率为\(\Omega_s/2\)，也就是预滤波的上限频率</p>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>2.3 重建</h3>
+<p>首先需要取出一个周期的频谱，很显然用幅值为T的低通滤波器\(H_r(j\Omega)=\begin{cases}T\,\,\,,|\Omega|\leq\Omega_s/2\\0\, \,\,\,,o.w.\end{cases}\)</p>
+<p>这个滤波器对应的时域函数为\(h_r(t)=\frac{T}{\pi t}\sin(\frac{\pi t}{T})=\mathsf{sinc}(\frac{t}{T})\)，其中\(\mathsf{sinc}(x)=\frac{\sin(\pi x)}{\pi x}\)</p>
+<p>这在实际上是做不到的，我们无法得到一个无限长的信号</p>
+<p>所以这是理想重建，有<br>\[
+\begin{align}
+    x_r(t)=\hat{x}_a(t)*h_r(t) &=\left(x_a(t)\cdot p_\delta(t)\right)*h_r(t) \\
+&=\left(\sum x_a(kT)\delta(t-kT)\right)*h_r(t)\\
+&=\sum x_a(kT)h_r(t-kT)
+\end{align}
+\]<br>故重建信号就是由采样点为中心的sinc函数的加权和，这是由采样点<strong>内插</strong>得到的结果</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_9.png" width="200"></center>
+
+<p>上图就是采样和重建的过程在图像上的显示</p>
+<p>c的过程相当于对一个离散信号的频谱（有限），在最高频率之外加0值，不改变频谱图像，但是原图像对于新的图像来说就是一个加窗，也就是用低通滤波器重建</p>
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 关于奈奎斯特率的几个结论</h3>
+<p>对于信号\(x(t), y(t)\)，其奈奎斯特频率分别是\(f_x,f_y\)，那么下面几个信号的奈奎斯特率分别是</p>
+<ol>
+<li>\(x(at)\Leftrightarrow \frac{1}{|a|}X(\frac{\omega}{a})\)，为\(2|a|f_x\)</li>
+<li>\(x(t)+y(t)\)，为\(2\max\{f_x,f_y\}\)</li>
+<li>\(x(t)* y(t) \Leftrightarrow X(\omega)Y(\omega)\)，为\(2\min\{f_x,f_y\}\)</li>
+<li>\(x(t)\cdot y(t)\Leftrightarrow \frac{1}{2\pi} X(\omega)*Y(\omega)\)，为\(2(f_x+f_y)\)</li>
+</ol>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

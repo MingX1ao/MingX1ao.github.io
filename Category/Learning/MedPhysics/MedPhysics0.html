@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="1. X射线及医学应用 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>1. X射线及医学应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>1. X射线及医学应用
+                    <ul>
+                            <li><a href="#0.1">1.1 X射线的产生</a></li>
+                            <li><a href="#0.2">1.2 X射线的性质</a></li>
+                            <li><a href="#0.3">1.3 物质对X射线的衰减规律</a></li>
+                            <li><a href="#0.4">1.4 X射线在医学诊断中的应用</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">1. X射线及医学应用</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点：<br><font color=red><strong>X射线的产生</strong></font><br><strong><font color=red>X-CT的成像原理</font></strong></p>
+<p>X射线是一种高频、短波的电磁波<br>波长：\(10-10^{-3}\)nm，介于紫外线和\(\gamma\)射线之间<br>频率：\(3\times10^{16}-3\times10^{20}Hz\)，约为可见光103倍</p>
+<a name="0.1" class="md-header-anchor" id="0.1"></a>
+<h3>1.1 <font color=red>X射线的产生</font></h3>
+<p>一般方法：<strong>高速运动的电子受阻</strong>会辐射X射线<br>产生条件：电子源、标靶、加速电场、<strong>高度真空</strong><br>产生装置：X射线管</p>
+<img src="/Category/Learning/Pictures/MedicalPhysica_1.jpg">  
+
+<p>注意各个装置</p>
+<p>实际焦点是电子流在<strong>靶面上的撞击面积</strong>（与大小和灯丝的形状有关）<br>实际焦点的<strong>投影面积</strong>为有效焦点<br>由于电子能量大部分发热，为了降低靶面温度，多采用<strong>旋转阳极</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_2.png" width="150" height="100">  </p>
+<a name="0.2" class="md-header-anchor" id="0.2"></a>
+<h3>1.2 X射线的性质</h3>
+<p><strong>X射线的强度</strong><br><em>def:能流密度(S)   单位：\(W·m^{-2}\)</em><br>\[I=\sum\limits_{i}{N_i\mathcal{h}\nu_i}=N_1\mathcal{h}\nu_1+N_2\mathcal{h}\nu_2+\ldots+N_n\mathcal{h}\nu_n\]<br>\(N_i\)表示能量为\(\mathcal{h}\nu_i\)的光子数目  </p>
+<p><strong>调节强度</strong><br>调节管电流，即调节N<br>调节管电压，即调节\(\nu\)  </p>
+<p><strong>X射线的硬度</strong><br>\(\nu\)越大，能量越大，贯穿本领越大，X射线越硬<br><img src="/Category/Learning/Pictures/MedicalPhysica_3.png" ><br>调节管电压可调节硬度  </p>
+<p><strong>X射线谱</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_4.png" width="150" height="100"></p>
+<p><strong>连续谱产生机制</strong>：电子受靶面制动，动能转化为光子辐射出去，称<strong>韧致辐射</strong><br>由于随机性，宏观上产生了连续的谱线<br><img src="/Category/Learning/Pictures/MedicalPhysica_5.png" width="150" height="100">  </p>
+<p><strong>连续谱特征</strong><br>\[E=\mathcal{h}\nu=\mathcal{h}\frac{\mathcal{c}}{\lambda}\]<br>\(E_{\max}\)就是当电子动能全部转化为辐射能，即\(E_{\max}=\mathcal{e}U\)<br>\[\therefore \lambda_{\min}=\frac{\mathcal{hc}}{\mathcal{e}U}\]<br><img src="/Category/Learning/Pictures/MedicalPhysica_6.png" width="150" height="100"><br>管电压上升，\(\lambda_{\min}\)变短；管电流上升，辐射强度变大  </p>
+<p><strong>标识谱线的产生</strong><br>各能级电子跃迁到<strong>内壳层</strong>得到空位，发出的光子<strong>频率高，波长短</strong><br>但是，医用X射线的能量主要集中于<strong>连续谱</strong>中<br><img src="/Category/Learning/Pictures/MedicalPhysica_7.png" width="150" height="100">  </p>
+<p>不同物质，尖峰位置和分布不同；同一物质尖峰位置不随电压变化<br>标识谱取决于阳极靶材料，可用于光谱分析<br><img src="/Category/Learning/Pictures/MedicalPhysica_8.png" width="150" height="100">  </p>
+<p><strong>其他性质</strong><br>电离作用：X射线穿过物质时使之电离，是<strong>生物效应的基础</strong><br>荧光作用：打在某些物质上可以产生荧光，是传统X射线透射的基础<br><strong>生物效应</strong>：引起生物组织的多种反应，<strong>放射治疗和辐射防治的基础</strong><br>贯穿效应：<strong>用于X射线透射成像</strong><br>光化学效应  </p>
+<a name="0.3" class="md-header-anchor" id="0.3"></a>
+<h3>1.3 <font color=red>物质对X射线的衰减规律</font></h3>
+<p><strong>单色X射线的衰减规律</strong><br>设\(I_0\)为入射强度，\(I\)为透射强度，\(\mu\)为衰减系数，则有<br>\[I=I_0\mathcal{e}^{-\mu x}\]<br>\(x\)为透射距离  </p>
+<p>临床上常用质量吸收系数\(\mu_m\)和质量厚度\(x_m\)，以消除密度的影响<br>\[\mu_m=\frac{\mu}{\rho}\]<br>\[x_m=x\rho\]<br>\[\therefore I=I_0\mathcal{e}^{-\mu_m x_m}\]<br>物质由液、固态转变为气态时，密度变化很大，<strong>但\(\mu_m\)值不变</strong>。<br>\(\mu_m\)值可以用来<strong>在物质之间</strong>比较对X射线的吸收本领 </p>
+<p><strong>单元素的质量衰减系数</strong><br>\[\mu_m=kZ^\alpha\lambda^{3}\]<br>Z为吸收物质的原子系数，\(\lambda\)为X射线波长<br>指数α一般取3-4，与吸收物质和射线波长有关  </p>
+<p><strong>多种元素混合物质的质量衰减系数</strong><br>各元素的\(\mu_m\)按照所含<strong>质量比例计算的平均值</strong><br>吸收物质为<strong>水、空气和人体组织</strong>时，对于医学上常用的X射线，指数α可取3.5<br>若是骨骼，则α更大，图像上有明显区别  </p>
+<a name="0.4" class="md-header-anchor" id="0.4"></a>
+<h3>1.4 X射线在医学诊断中的应用</h3>
+<img src="/Category/Learning/Pictures/MedicalPhysica_9.png">  
+
+<center>X射线人体平面成像</center>  
+
+
+
+<p><strong>造影剂</strong><br>可以提高对比度  </p>
+<p><strong>数字减影血管造影(DSA)</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_10.png">  </p>
+<center>3=2-1</center>  
+将注射造影剂后的图像减去原先的，就去除了背景，留下血管 
+
+<p><strong>X-CT</strong>:X射线管环绕人体某一层面扫描  </p>
+<p><strong><font color=red>X-CT基本原理</font></strong><br>将欲观测层面分解为\(n\times n\)个体素的矩阵阵列，求解各个体素的\(\mu\)值来重建图像<br><img src="/Category/Learning/Pictures/MedicalPhysica_11.png"><br>对于上图，将不均匀介质分成若干体素，有<br>\[I_1=I_0\mathcal{e}^{-\mu_1 l}\]<br>\[I_2=I_1\mathcal{e}^{-\mu_2 l}=I_0\mathcal{e}^{-(\mu_1+\mu_2) l}\]<br>\[I_n=I_0\mathcal{e}^{-l\cdot\sum\limits_{i}\mu_i}\]<br>\[\therefore \mu_1+\mu_2+\ldots+\mu_n=\frac{1}{l}\ln{\frac{I_0}{I_n}}\] </p>
+<p><strong>图像重建的数学方法</strong><br>以下方矩阵为例<br>\[
+\begin{bmatrix}
+\mu_{11}&\mu_{12}\\
+\mu_{21}&\mu_{22}\\
+\end{bmatrix}
+\]<br>在水平方向和竖直方向透射X射线，假定得到<br>\[p_1=\mu_{11}+\mu_{12}=8\]<br>\[p_2=\mu_{21}+\mu_{22}=9\]<br>\[p_3=\mu_{11}+\mu_{21}=10\]<br>\[p_4=\mu_{12}+\mu_{22}=7\]<br>注意，上式只有三条独立方程，需要再取一条左对角线的投影<br>\[p_5=\mu_{11}+\mu_{22}=5\]<br>解得<br>\[
+\begin{bmatrix}
+\mu_{11}&\mu_{12}\\
+\mu_{21}&\mu_{22}\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+3&5\\
+7&2\\
+\end{bmatrix}
+\]<br>目前临床使用的X-CT机采用1024×1024等矩阵  </p>
+<p><strong>获取待测介质体素\(\mu\)值</strong><br>用下图坐标系，绕原点小角度转动<br><img src="/Category/Learning/Pictures/MedicalPhysica_12.png" width="200"><br>\[p(\mu,\phi)=\int_{r,\phi}\mu(x,y)\,ds\]  </p>
+<p><strong>重建图像的关键</strong><br>快速多方向测量投影<br>快速求解\(\mu(x,y)\) </p>
+<p><strong>X-CT简介</strong><br>第一代：单束扫描，射线管和探测器同步平移和旋转，扫描时间长，成像速度慢<br>第二代：<strong>窄</strong>角扇束扫描，射线管和探测器只有旋转，扫描速度快<br>第三代：<strong>广</strong>角扇束扫描，射线管和探测器只有旋转，扫描速度快<br>第四代：锥形束多排螺旋扫描，非常快 </p>
+<p><strong>CT值和窗口技术</strong><br>X-CT图像由不同灰度的小方块（像素）排列，灰度由CT值决定，有<br>    \[CT_值=K(\frac{\mu_待-\mu_水}{\mu_水})\]</p>
+<p>由于人眼只能分辨16灰度，就有了窗口技术：将感兴趣的部位<strong>对比度增强</strong>，使CT值差别小的组织能分辨<br><img src="/Category/Learning/Pictures/MedicalPhysica_13.png" width="200"> </p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

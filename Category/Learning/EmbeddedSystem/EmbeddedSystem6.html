@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="7 中断系统 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>7 中断系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 中断系统
+                    <ul>
+                            <li><a href="#6.1">7.1 概念</a></li>
+                            <li><a href="#6.2">7.2 MCS-51中断系统</a></li>
+                            <li><a href="#6.3">7.3 中断处理过程</a></li>
+                            <li><a href="#6.4">7.4 中断实例</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 中断系统</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 概念</h3>
+<p><strong>中断相对轮询的优势</strong></p>
+<ul>
+<li>轮询：CPU使用软件查询，效率低</li>
+</ul>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 MCS-51中断系统</h3>
+<p><font color=red>中断源</font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_24.png" width="600"></center>
+
+<p>当中断源给出有效信号，中断标志位自动置为<code>1</code></p>
+<p><code>EA</code>是所有中断的总开关</p>
+<p>中断入口固定：</p>
+<ul>
+<li><code>0003H</code>为<code>INT0</code>；<code>000BH</code>为<code>T0</code>溢出中断；<code>0013H</code>为<code>INT1</code>；<code>001BH</code>为<code>T1</code>溢出中断；<code>0023H</code>串口中断，读/写UART的BUFFER；共5个</li>
+</ul>
+<p><strong>中断标志位</strong></p>
+<ul>
+<li>除串口上的标志位外，其他中断标志位会自动清零；置<code>1</code>一定是硬件干的；串口的标志位手动清零</li>
+<li>由于<code>Rx, TX</code>共用一个中断例程，需要在进入例程时判断当前是<code>R/T</code>，进入对应的分支</li>
+</ul>
+<p><strong>中断触发方式</strong></p>
+<p>当<code>IT0=1</code>时，采用下降沿有效；当<code>IT0=0</code>时，采用低电平有效；<code>IT</code>可以更换为其他的控制位</p>
+<p>当采用低电平时，输入的低电平不应该大于一个机器周期，否则会多次触发</p>
+<p>当采用下降沿时，高低电平都应该保持一个机器周期，否则采集不到</p>
+<p><font color=red><strong>中断控制优先级</strong></font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_25.png" width="600"></center>
+
+<p>按位设置优先级，当两个中断都设为<code>1</code>时，参考自然优先级排序</p>
+<p>优先级只在响应之前排队时有效，一旦开始响应，同一级别（无视自然优先级）不能被打断；高级别可以</p>
+<p><font color=red>仅两个优先级</font></p>
+<a name="6.3" class="md-header-anchor" id="6.3"></a>
+<h3>7.3 中断处理过程</h3>
+<p><strong>中断响应条件</strong></p>
+<ul>
+<li>中断源产生请求</li>
+<li>这个请求的中断允许为<code>1</code>（如<code>EX0=1</code>）</li>
+<li>CPU开总中断<code>EA=1</code></li>
+</ul>
+<p><strong>响应时间</strong></p>
+<ul>
+<li>最快响应时间：1周期查询，2周期<code>LCALL</code>，都是机器周期</li>
+<li>最慢响应时间：1周期查询，1周期返回（<code>RET, RETI</code>），4周期乘除法，2周期<code>LCALL</code></li>
+</ul>
+<p><strong>中断响应过程</strong></p>
+<ol>
+<li>在机器周期的S5P2期间，中断系统对各个源采样，这些采样值在下一个机器周期内按优先级查询</li>
+<li>某个标志位被置<code>1</code>，则会在查询周期中被发现</li>
+<li>将相应的优先级状态触发器（用户不可见）置为<code>1</code>，防止同级/低级的中断请求</li>
+<li>执行硬件<code>LCALL</code>，压栈<code>PC</code>，写入入口</li>
+<li>执行中断例程</li>
+</ol>
+<p><code>RETI</code>会将对应的中断优先级触发器置为<code>0</code>，告诉CPU中断例程结束</p>
+<p>一些例外：</p>
+<blockquote>
+<p>遇以下任一条件，硬件将受阻，不产生LCALL指令：</p>
+<p>CPU正在处理同级或高优先级中断；</p>
+<p>当前查询的机器周期不是所执行指令的最后一个机器周期。即在完成所执行指令前，不会响应中断，从而保证指令在执行过程中不被打断；</p>
+<p>正在执行的指令为RET、RETI或任何访问IE或IP寄存器的指令。即只有在这些指令后面至少再执行一条指令时才能接受中断请求。</p>
+</blockquote>
+<a name="6.4" class="md-header-anchor" id="6.4"></a>
+<h3>7.4 中断实例</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_26.png" width="500"></center>
+
+<p>程序如下</p>
+<pre><code class="language-assembly">ORG  0000H 
+        LJMP  MAIN
+ORG   0013H				   ; 中断服务程序入口地址
+        LJMP  IN11		   ; 使用LJMP
+        				   ; 因为在中断时自动保存了返回地址，这里不用CALL
+MAIN:	SETB  EA           ; 开总中断允许“开关”
+        SETB  EX1          ; 开分中断允许“开关” 
+        CLR   PX1          ; 低优先级（也可不要此句） 
+        SETB  IT1          ; 边沿触发
+        MOV   A, #01H      ; 给累加器A赋初值
+        SJMP  $            ; 原地等待中断申请
+IN11:	RL    A            ; 左环移一次
+        MOV   P1, A        ; 输出到P1口
+        RETI               ; 中断返回
+        END
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

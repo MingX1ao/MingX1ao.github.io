@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="9 FIR滤波器的设计 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>9 FIR滤波器的设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>9 FIR滤波器的设计
+                    <ul>
+                            <li><a href="#8.1">9.1 数字滤波器的分类</a></li>
+                            <li><a href="#8.2">9.2 FIR滤波器的基本结构</a></li>
+                            <li><a href="#8.3">9.3 窗函数法设计FIR滤波器</a></li>
+                            <li><a href="#8.4">9.4 频率抽样法设计FIR滤波器</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">9 FIR滤波器的设计</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>数字滤波器就是一个系统，可以用迄今为止所有对系统的描述方式对其进行描述</p>
+<a name="8.1" class="md-header-anchor" id="8.1"></a>
+<h3>9.1 数字滤波器的分类</h3>
+<p>根据是否有限，分为FIR和IIR两种，二者的框图如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_28.png" width="500"></center>
+
+<p>显然FIR滤波器是一定稳定的，IIR滤波器存在极点而是条件稳定</p>
+<a name="8.2" class="md-header-anchor" id="8.2"></a>
+<h3>9.2 FIR滤波器的基本结构</h3>
+<p>输入输出关系为<br>\[
+y(n) = \sum_{i=0}^K b_i x(n-i) = \sum_{i=0}^K h(i) x(n-i) = h(n) * x(n)
+\]<br>其中<br>\[
+h(n) = \begin{cases}
+b_n\,\,,\,\, 0\leq n \leq K\\
+0\,\,\, ,\,\,\, o.w.
+\end{cases}
+\]<br>几个性质</p>
+<ul>
+<li>由于是有限的，可以使用FFT/DFT</li>
+<li>系统函数是稳定的</li>
+<li>有严格的线性相位</li>
+</ul>
+<p><font color=red>例：</font></p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_29.png" width="600"></center>
+
+<p>这是一个滑动窗口，用于信号的去噪平滑</p>
+<p><strong>非理想数字滤波器的性能参数</strong></p>
+<p>由于物理系统的限制，不可能做到理想的滤波器，一个典型的物理上能实现的滤波器如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_30.png" width="400"></center>
+
+<p>通常采用分贝表示各个波纹大小（\(20\lg \)）</p>
+<ul>
+<li>\(\delta_1\)是通带波纹</li>
+<li>\(\delta_2\)是阻带波纹</li>
+<li>\(\omega_p\)是通带截止频率</li>
+<li>\(\omega_s\)是阻带截止频率</li>
+</ul>
+<p><strong>这些是怎么产生的？</strong></p>
+<p>很显然不可能有无限长的时域\(\mathsf{sinc}\)函数，必须加窗，相当于在频域内的窗函数卷积一个\(\mathsf{sinc}\)</p>
+<p>卷积的结果是sinc在窗内的面积和，即</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_31.png" width="600"></center>
+
+<p>那么\(\delta_1,\delta_2\)产生自sinc的旁瓣，\(\omega_p,\omega_s\)产生自规定的通频带分别减/加与滤波器窗长度\(N\)反相关的量</p>
+<p>值得一提的是，在我们希望的截止频率\(\omega_c\)处，\(H_d(\omega_c)=0.5\)恒成立</p>
+<a name="8.3" class="md-header-anchor" id="8.3"></a>
+<h3>9.3 窗函数法设计FIR滤波器</h3>
+<p>如上所述，对时域的sinc函数加窗产生一个非理想的频域窗函数，步骤如下</p>
+<ol>
+<li><p>对于\(h(n)=\mathsf{sinc}(n)\)，使用\(w(n)=\begin{cases} 1,|n|\leq M\\0,o.w. \end{cases}\)截断，产生物理上可实现的有限长信号\(h_d(n)=h(n)w(n)\)</p>
+</li>
+<li><p>对\(h_d(n)\)做DFT/FFT，得到的就是\(H_d(\omega) = \frac{1}{2\pi}(H(\omega)*W(\omega))\)</p>
+</li>
+<li><p>在频域中验证\(H_d(\omega)\)的上述参数是否满足要求，如果满足了就继续操作\(h_d(n)\)</p>
+</li>
+<li><p>因为物理系统一定是因果的，故需要对\(h_d(n)\)进行平移，得到\(h_d^{'}(n) = h_d(n-M)\)</p>
+</li>
+</ol>
+<p>最终得到的是时域上的信号，这是要产生的信号所以必须是时域的</p>
+<p>由于最终结果都是一个频域的窗，故时域的模板是已知的，都是<br>\[
+h(n) = \begin{cases}\
+\frac{\omega_c}{\pi} \,\,,\,\, n=0\\
+\frac{\sin{\omega_c n}}{n\pi}\,\,,\,\, |n|\leq M ,n\neq 0
+\end{cases}
+\]<br>其中\(\omega_c\)是希望的截止频率</p>
+<p>同上述关系，窗函数\(W(\omega)\)的主瓣宽度正相关于滤波器的过渡带宽\(\Delta \omega\)，\(\delta_1,\delta_2\)产生自sinc的旁瓣</p>
+<p><font color=red>例：</font>窗函数法设计3阶低通滤波器，截止频率\(f_c=800\)Hz，抽样频率\(f_s=8000\)Hz</p>
+<p>解：首先需要有数字频率和模拟频率的关系，数字为\(\omega\)<br>\[
+\omega = \Omega T_s
+\]<br>这个可以用\(x(nT_s) = x(t)\)理解，\(\omega = \frac{2\pi}{n},\Omega=\frac{2\pi}{t}=\frac{2\pi}{nT_s}\)</p>
+<p>那么模拟截止频率为\(f_c\)，数字截止角频率\(\omega_c = 2\pi f_c /f_s = 0.2\pi\)</p>
+<p>带入通式，得到\(h(0)=0.2,h(1)=0.1871,h(-1)=0.1871\)，还需要进行平移，最终得到<br>\[
+h(0) = 0.1871, h(1)=0.2,h(2)=0.1871
+\]<br>对其做\(Z\)变换，得到<br>\[
+H(z) = \sum h(n)z^{-n}=0.1871 + 0.2z^{-1}+0.1871z^{-2}
+\]<br>但是，实际进行画图发现，这个滤波器的截止频率大致在2600Hz，原因在于窗太小，如上所述</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_32.png" width="600"></center>
+
+<p>滤波器的实际截止频率\(\omega_s\)是与时域窗函数截断的长度\(M\)反相关的</p>
+<p><strong>理想滤波器的原型</strong></p>
+<ul>
+<li><p>低通<br>\[
+  h(n) = \begin{cases}\
+  \frac{\omega_c}{\pi} \,\,,\,\, n=0\\
+  \frac{\sin{\omega_c n}}{n\pi}\,\,,\,\, |n|\leq M ,n\neq 0
+  \end{cases}
+  \]</p>
+</li>
+<li><p>高通，理解为1-低通<br>\[
+  h(n) = \begin{cases}\
+  \frac{\pi-\omega_c}{\pi} \,\,,\,\, n=0\\
+  -\frac{\sin{\omega_c n}}{n\pi}\,\,,\,\, |n|\leq M ,n\neq 0
+  \end{cases}
+  \]</p>
+</li>
+<li><p>带通，理解为两个低通相减<br>\[
+  h(n) = \begin{cases}\
+  \frac{\omega_H - \omega_L}{\pi} \,\,,\,\, n=0\\
+  \frac{\sin{\omega_H n}}{n\pi}-\frac{\sin{\omega_L n}}{n\pi}\,\,,\,\, |n|\leq M ,n\neq 0
+  \end{cases}
+  \]</p>
+</li>
+<li><p>带阻，理解为1-带通<br>\[
+  h(n) = \begin{cases}\
+  \delta(n)-\frac{\omega_H - \omega_L}{\pi} \,\,,\,\, n=0\\
+  -\frac{\sin{\omega_H n}}{n\pi}+\frac{\sin{\omega_L n}}{n\pi}\,\,,\,\, |n|\leq M ,n\neq 0
+  \end{cases}
+  \]</p>
+</li>
+</ul>
+<p><strong>注意，这些都还需要右移\(M\)，变成因果系统</strong></p>
+<p><strong>一般性窗</strong></p>
+<p>除了矩形窗之外，还有别的窗可以选择</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_33.png" width="400"></center>
+
+<p>根据要求选择合适的窗，注意，<strong>还需要点乘辛格函数</strong></p>
+<p>一般而言，窗函数的图像有以下性质，规定长度\(N=2M+1\)</p>
+<ul>
+<li>\(N\cdot \Delta = Const\)，因此，窗越宽，滤波器越理想</li>
+<li>\(|A|\)取决于窗的类型，与\(N\)无关</li>
+<li>\(A\)与\(\Delta\)通常反相关，需要trade-off（这里指的是改变了窗函数的类型，时域越平滑的窗函数高频成分越少，A小Δ大）</li>
+<li>矩形窗的主瓣和造成的过渡带宽更小（其实是一个东西），但是有更大的旁瓣</li>
+</ul>
+<p><strong>FIR滤波器的特点</strong></p>
+<ul>
+<li>优点：线性相位；创造的方法简单</li>
+<li>缺点：不容易控制边缘频率，显然不能做到精准的\(\omega_c\)；即使精准了，\(h(n)\)往往很长</li>
+</ul>
+<p><strong>设计步骤</strong></p>
+<ol>
+<li>根据阻带衰减要求和过渡带宽，选择窗函数的类型</li>
+<li>根据过渡带宽确定理想滤波器的截止频率，根据窗函数的特性确定窗的长度\(N\)</li>
+<li>平移滤波器，得到因果的系统</li>
+<li>根据\(h(n)\)再求\(H(\omega)\)，看是否满足要求</li>
+</ol>
+<p><font color=red>例：</font>抽样频率8000Hz，通带要求0-800Hz，阻带1000-4000Hz，通带波纹-0.02dB，阻带衰减-50dB</p>
+<p>解：根据上面的表格，hamming和blackman都能满足，选择hamming</p>
+<p>​		过渡带宽\(\Delta \omega = 2\pi \times (1000-800)\div 8000 = 0.05\pi = 3.3\times2\pi\div N\)，得到窗长\(N\geq 132\)，取\(N=133\)</p>
+<p>​		为什么？下面会讲</p>
+<p>​		截止频率就是通带频率和阻带频率的中间值，即\(\omega_c = \frac{\omega_s+\omega_p}{2}=2\pi\times 900\div 8000\)，用这个算理想滤波器的时域表达式，然后二者相乘得到滤波器表达式</p>
+<p>​		将\(M = \frac{N-1}{2}\)带入滤波器的表达式，平移，得到结果</p>
+<p><strong>不同类型的FIR滤波器的适用情况</strong></p>
+<p>存在以下四种线性相位的FIR滤波器</p>
+<table>
+<thead>
+<tr>
+<th align="center">情况i</th>
+<th align="center">h(n)</th>
+<th align="center">N</th>
+<th align="center">适用情况</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">h(n) = h(N-1-n)</td>
+<td align="center">奇数</td>
+<td align="center">全能</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">h(n) = h(N-1-n)</td>
+<td align="center">偶数</td>
+<td align="center">低通，带通</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">h(n) = -h(N-1-n)</td>
+<td align="center">奇数</td>
+<td align="center">带通</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">h(n) = -h(N-1-n)</td>
+<td align="center">偶数</td>
+<td align="center">高通，带通</td>
+</tr>
+</tbody></table>
+<a name="8.4" class="md-header-anchor" id="8.4"></a>
+<h3>9.4 频率抽样法设计FIR滤波器</h3>
+<p>基本想法是根据理想滤波器的\(N\)个点确定实际FIR滤波器的DFT，然后做iDFT得到满足这些点的\(h(n)\)</p>
+<p>即，给定理想的\(H_d(\omega)\)，进行采样，使得\(|H(k)| = |H_d(\omega)|_{\omega= \frac{2\pi}{N}k}\)，其中\(k=0,1,\ldots,N-1\)</p>
+<p>然后得到\(h(n) = \mathsf{iDFT}\{H(k)\}\)</p>
+<p>为了得到线性相位的滤波器，辐角必须是<br>\[
+\varphi(\omega) = -\left(\omega\frac{N-1}{2}-\beta\right)
+\]<br>其中当\(h(n)\)奇对称时\(\beta=\frac{\pi}{2}\)，偶对称时\(\beta=0\)</p>
+<p>对于\(H(k)\)，将\(\omega\)换成\(\frac{2\pi}{N}k\)，带入iDFT的公式</p>
+<p>对于\(h(N-1-n)=h(n), N=2M+1\)的滤波器<br>\[
+h(n) = \frac{1}{N}\left[H(0)+2\sum_{k=1}^{M}|H(k)|\cos\left(\frac{2\pi k(n-M)}{N}\right)\right]
+\]<br>其中\(M = \frac{N-1}{2}, n=0,1,\ldots,N-1\)，用到了\(H^*(k)=H(N-k)\)</p>
+<p>对于\(h(N-1-n) = h(n),N=2M\)的滤波器，则<br>\[
+h(n) = \frac{1}{N}\left[H(0)+2\sum_{k=1}^{M-1}|H(k)|\cos\left(\frac{2\pi k}{N}\left(n-\frac{N-1}{2}\right)\right)\right]
+\]<br>其余见下图</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_34.png" width="600"></center>
+
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_35.png" width="600"></center>
+
+<p>关于II型的说明：图片不好更改，但是根据DFT的定义，代入\(N=2M\)可以得到\(H(M)\)<br>\[
+H(M) = \sum_{n=0}^{2M-1}h(n)e^{-j\frac{2\pi}{N}Mn} = \sum_{n=0}^{2M-1}h(n)(-1)^{n}
+\]<br>根据\(h(n)=h(2M-1-n)\)，因为\(n\)和\(2M-1-n\)奇偶性显然不同，故\(h(n)(-1)^n+h(2M-1-n)(-1)^{2M-1-n}=0\)</p>
+<p>所以\(H(M)=0\)，因此图上II的\(H_M\)可以舍去</p>
+<p>不过一般设计都是I型</p>
+<p>整个设计流程就是</p>
+<ol>
+<li>根据\(H_d(\omega)\)确定FIR滤波器的类型（高/低通等），长度\(N\)和幅度\(|H(k)|\)</li>
+<li>根据实际情况确定线性相位的\(\beta\)</li>
+<li>在\([0,2\pi]\)上采样\(N\)个\(H_d(\omega)\)，注意中间的是高频，得到\(|H(k)|\)</li>
+<li>根据\(|H(k)|e^{j\varphi(k)}\)进行iDFT，得到\(h(n)\)，不用平移，因为这个相位就是平移后的</li>
+</ol>
+<p><font color=red>例：</font>已知\(H_d(\omega)\)是\(\omega_c=\frac{3\pi}{4}\)的理想低通FIR滤波器，使用抽样法设计\(h(n)\)，抽样间隔为\(\frac{\pi}{2}\)</p>
+<p>解：\(\Delta \omega=\frac{2\pi}{N} = \frac{\pi}{2}\Rightarrow N =4\)，那么由于是低通，必须选择情况2，不能用情况4，\(\varphi = -\frac{3}{2}\omega\)</p>
+<p>​		\(|H(k)|\)则为\(H(0)=H(1)=H(3)=1,H(2)=0\)，那么这个序列就确定了，iDFT得到\(h(n)\)<br>\[
+h(n) = \frac{1}{4}[1+2\cos\frac{\pi}{2}(n-1.5)]
+\]</p>
+<p><strong>改进</strong></p>
+<p>上面的方法存在问题，在通带的<code>1</code>直接跳到阻带的<code>0</code>，引入了非常大的高频分量，导致阻带衰减不够低</p>
+<p>由于阻带衰减与窗的长度无关，增加采样点不能解决问题</p>
+<p>只能减小这个高频分量，也就是在<code>1</code>和<code>0</code>之间加<code>0.5</code>，平滑这个跳变</p>
+<p>在数学上相当于对这个跳变进行插值，也就是在2.3节提到的内插辛格函数</p>
+<p>一般情况下，不增加过度点的阻带衰减大致为-21dB，增加一个过渡点是-65dB，两个则是-75dB</p>
+<p><strong>相对于窗函数法的优势</strong></p>
+<ul>
+<li>当\(H_d(\omega)\)没有数学表达式时</li>
+<li>增加过渡点，阻带衰减能很小</li>
+<li>截止频率更准确</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>抽样频率间隔固定</li>
+<li>截止频率自由的前提增加抽样点，导致计算成本大</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

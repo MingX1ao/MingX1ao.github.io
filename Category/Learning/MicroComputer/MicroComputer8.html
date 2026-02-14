@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="9 存储器 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>9 存储器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>9 存储器
+                    <ul>
+                            <li><a href="#8.1">9.1 概述</a></li>
+                            <li><a href="#8.2">9.2 内存和外存</a></li>
+                            <li><a href="#8.3">9.3 存储器性能</a></li>
+                            <li><a href="#8.4">9.4 存储器设计</a></li>
+                            <li><a href="#8.5">9.5 存储空间的扩展</a></li>
+                            <li><a href="#8.6">9.6 形成选片信号的方法</a></li>
+                            <li><a href="#8.7">9.7 8086的存储器奇偶分体设计</a></li>
+                            <li><a href="#8.8">9.8 层次化储存结构</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">9 存储器</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="8.1" class="md-header-anchor" id="8.1"></a>
+<h3><font color=blue>9.1 概述</font></h3>
+<p><strong>什么是存储器</strong></p>
+<p>半导体存储器是由能够表示二进制<code>0,1</code>的，具有记忆功能的半导体器件构成的</p>
+<p>能存放一位二进制（1bit）的期间称为一个<strong>存储元</strong>，8个存储元（1Byte）构成一个<strong>存储单元</strong></p>
+<p><strong>分类</strong></p>
+<p>按位置分类</p>
+<ul>
+<li>内部存储器<ul>
+<li>随机存取存储器：Random Access Memory，RAM</li>
+<li>只读存储器：Read Only Memory，ROM</li>
+</ul>
+</li>
+<li>外部存储器<ul>
+<li>磁带</li>
+<li>磁盘</li>
+<li>光盘等</li>
+</ul>
+</li>
+</ul>
+<a name="8.2" class="md-header-anchor" id="8.2"></a>
+<h3>9.2 内存和外存</h3>
+<p><font color=green><strong>内部存储器</strong></font></p>
+<p>CPU可以<strong>直接访问</strong>，<strong>速度较快</strong>的半导体存储器，分为ROM和RAM</p>
+<ul>
+<li>RAM：断电后内容全部丢失，随机读写，访问速度快，分为<ul>
+<li>SRAM，Static RAM，静态RAM</li>
+<li>DRAM，Dynamic RAM，动态RAM</li>
+<li>PSRAM，Pseudo SRAM，伪静态RAM</li>
+</ul>
+</li>
+<li>ROM：断电不会消失，只读，改写要用专门的编程器，广泛用于微机化仪器设计，分为<ul>
+<li>MROM，Masked ROM，掩膜ROM</li>
+<li>PROM，Programmable ROM，可编程ROM</li>
+<li>EPROM，Erasable Programmable ROM，可擦除可编程ROM</li>
+<li>EEPROM，Electricity EPROM，电可擦除PROM</li>
+<li>Flash Memory，闪存</li>
+</ul>
+</li>
+</ul>
+<p><strong>外部存储器</strong></p>
+<p>CPU不能直接访问，使用接口电路读写，访问速度慢，数据不易丢失</p>
+<a name="8.3" class="md-header-anchor" id="8.3"></a>
+<h3>9.3 存储器性能</h3>
+<p><strong>存储容量</strong>：内存最大容量受CPU<strong>地址总线宽度</strong>限制，外存无限大（理论上）</p>
+<p><strong>存取速度</strong>：远低于CPU工作速度，对<strong>性能产生主要的影响</strong>，使用<strong>存取时间</strong>\(T_{AC}\)表示从接受到CPU的稳定的地址信息到完成读写的最大时间，一般在10ns级别</p>
+<p><strong>功耗</strong>：包括有效功耗和待机功耗，前者是主要的</p>
+<p><strong>可靠性</strong>：使用<strong>平均故障时间（Mean Time Between Failures，MTBF，Hours）</strong></p>
+<a name="8.4" class="md-header-anchor" id="8.4"></a>
+<h3>9.4 存储器设计</h3>
+<p>设计时要考虑的问题</p>
+<ul>
+<li>CPU总线的宽度</li>
+<li>CPU时序与存储器速度的配合</li>
+<li>存储器的地址分配和片选</li>
+<li>控制信号的连接</li>
+</ul>
+<p>使用<strong>地址译码器</strong>进行内存单元的选择</p>
+<ul>
+<li><p>存储器由多个芯片构成，首先要选定芯片，称为<strong>片选</strong>，CPU传送的地址信号<strong>高位用来片选，低位直连芯片</strong>，实现片内寻址</p>
+</li>
+<li><p>用高位地址实现片选的电路是地址译码器，有门电路译码器，N中取一译码器和PLD（Programmable Logic Device）译码器等</p>
+</li>
+<li><p>常用74LS138（8中取一译码器）</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_24.png" width="400"></center>
+
+<p>8个输出中产生一个<strong>低电平片选信号</strong></p>
+</li>
+</ul>
+<a name="8.5" class="md-header-anchor" id="8.5"></a>
+<h3><font color=red>9.5 存储空间的扩展</font></h3>
+<p><strong>位扩展</strong></p>
+<p>存储单元的大小可以改变，但是主流的是8bit</p>
+<p>将同类型的芯片<strong>并联</strong>，扩展一个存储单元的大小，使之与CPU匹配</p>
+<p>例如，下面将一个<code>x1</code>的芯片扩展为<code>x8</code>的存储单元</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_25.png" width="400"></center>
+
+<p>将<strong>地址信号并联</strong>，保证选中的是一个地址；将<strong>片选信号</strong>（\(\overline{\mathsf{CE}}\)）和写入信号（\(\overline{\mathsf{WE}}\)）<strong>并联</strong>，保证这个单元被同时选中；将每个芯片的<code>I/O</code>引脚串接，形成一个<code>x8</code>的地址单元，依次连接到数据总线的<code>D0-D7</code></p>
+<p><strong>字扩展</strong></p>
+<p>芯片的位数符合CPU的要求，但是能够存放的地址个数没有地址总线宽，这时可以扩展</p>
+<p>将同类型的芯片串联，扩展能表示的地址</p>
+<p>例如，下面用4个<code>16Kx8</code>的芯片扩展为<code>64Kx8</code>的存储器，使用一个<code>2-4</code>译码器进行片选</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_26.png" width="400"></center>
+
+<p>这样，一个芯片能接受<code>A0-A13</code>共\(2^{14}=16\)K的地址，现在是\(2^{2} \times 2^{14}=64\)K的地址，前者是片选信号的位数</p>
+<p>直连的<strong>低地址信号</strong>在各个芯片之间是<strong>并联</strong>的，<strong>高地址信号</strong>经过译码器作为<strong>片选信号</strong></p>
+<p>由于<code>M/IO</code>必须是<code>1</code>，也就是必须是对Memory操作，故虽然是一个<code>3-8</code>译码器，却只能作为<code>2-4</code>使用</p>
+<p><strong>字位扩展</strong></p>
+<p>当芯片的容量和位数都需要扩展时，可以综合上面两个方法</p>
+<p>例如，下面使用8个<code>1Kx4</code>的SRAM芯片，扩展为了<code>4Kx8</code>的存储器</p>
+<p><code>1K</code>变为<code>4K</code>，需要2高地址作为片选，即4个单元串联；<code>x4</code>变为<code>x8</code>，需要两个芯片并联</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_27.png" width="400"></center>
+
+
+
+<a name="8.6" class="md-header-anchor" id="8.6"></a>
+<h3><font color=red>9.6 形成选片信号的方法</font></h3>
+<p><strong>线选法</strong>：用1位高地址做片选，低位地址直连芯片，片内选址</p>
+<p>电路简单，但是浪费了很多空间（很多高位没用上），而且<strong>地址重叠且不连续</strong></p>
+<p><font color=red>例：</font>用两块2764芯片和线选法，组成一个存储器，写出地址范围</p>
+<p>解：芯片能够接受13个地址信号<code>A0-A12</code>，那么考虑用<code>A13, A14</code>进行片选，得到的电路和地址范围是</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_28.png" width="400"></center>
+
+<p><code>A19-A15</code>被浪费，会<strong>地址重叠</strong>；而且<code>A14A13</code>只能是表中的数据，<strong>地址不连贯</strong></p>
+<p><strong>全译码法</strong>：全部高位地址参与译码</p>
+<p>地址唯一，不会重叠，但是电路复杂</p>
+<p><font color=red>例：</font>8bit系统，设计一个用1片27128和1个74LS138译码器，规定地址范围为<code>1C000 - 1FFFF H</code>的存储器</p>
+<p>解：27128芯片是一个<code>16Kx8</code>的存储器，使用X/Y译码器进行片内选址，<code>A0-A6</code>是行地址，<code>A7-A13</code>是列地址</p>
+<p>​		首先看看地址范围：<code>1C000 = 0001 1100 0000 0000 0000</code>，<code>1FFFF = 0001 1111 1111 1111 1111</code></p>
+<p>​		不难发现从全0变化为全1的是<code>A0-A13</code>，而<code>A14=A15=A16=1</code>，其余恒0 </p>
+<p>​		74LS138是<code>3-8</code>译码器，有三个门控通道，其中一位必须是<code>M/IO</code>，那么按照上面的不变量存在很多中设计方法，下面给出一种</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_29.png" width="600"></center>
+
+
+
+<p><strong>部分译码法</strong>：使用高地址中的几位作为片选信号</p>
+<p>会产生重叠，因此这个只适用于小内存系统</p>
+<p><font color=red>例：</font>用4块2732芯片构成<code>16Kx8</code>存储器，起始地址为<code>10000H</code>，要求地址连续，使用部分译码法和74LS138</p>
+<p>解：2732是<code>4Kx8</code>芯片，有12根地址线，能直接连接<code>A0-A11</code>，那么使用<code>A12-A19</code>的几位进行片选</p>
+<p>​		地址的起点是<code>0001 0000 0000 0000 0000</code>，\(2^{14}=16\)K，有4块芯片，用2个信号选片，但是74LS138是</p>
+<p><code>3-8</code>译码器，故再选一个不会变的位</p>
+<p>​		要求的是地址连续，那么终点的地址就是<code>0001 0011 1111 1111 1111</code>，那么连续变化的是<code>A14A13</code>，作为片选信号，不变的<code>A15=0</code>作为第三个选择信号，那么整个存储器就是</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_30.png" width="400"></center>
+
+
+
+<a name="8.7" class="md-header-anchor" id="8.7"></a>
+<h3><font color=green>9.7 8086的存储器奇偶分体设计</font></h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_31.png" width="600"></center>
+
+<p>其中\(\overline{\mathsf{BHE}}\)表示Bus High Enable，选择高地址（奇地址），地址选择器的构造如下</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_32.png" width="300"></center>
+
+<p>其中\(\overline{\mathsf{LWR}}\)表示Low Write Enable，写入低地址（偶地址），因为<code>A0</code>作为最低为决定了地址的奇偶，故这里用<code>A0</code></p>
+<p>会看芯片表示的图就行</p>
+<a name="8.8" class="md-header-anchor" id="8.8"></a>
+<h3>9.8 层次化储存结构</h3>
+<p><strong>局部性原理</strong></p>
+<ol>
+<li>在任意一段时间内，程序只会访问地址空间中<strong>相对较小</strong>的一部分</li>
+<li>时间局部性：某个数据被访问，那么在不久的将来还会访问</li>
+<li>空间局部性：某个数据被访问，那么与它地址相邻的数据也很快被访问</li>
+</ol>
+<p>由于这个规律，设计出层次化的存储结构</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_33.png" width="500"></center>
+
+
+
+<p><strong>高速缓存（Cache）的工作原理</strong></p>
+<p>为了解决CPU速度和访问内存速度的差异，有以下几种方法</p>
+<ol>
+<li>插入多个等待周期\(T_w\)，但是浪费CPU的能力</li>
+<li>用高速的SRAM存储，但是成本高</li>
+<li>在慢速的DRAM和快速CPU中用容量较小的Cache（SRAM，功能由硬件实现）</li>
+</ol>
+<p>第三个方法好啊</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="6 MCS-51程序设计 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>6 MCS-51程序设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 MCS-51程序设计
+                    <ul>
+                            <li><a href="#5.1">6.1 概述</a></li>
+                            <li><a href="#5.2">6.2 汇编语言编程</a></li>
+                            <li><a href="#5.3">6.3 C/ASM混合编程</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 MCS-51程序设计</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>6.1 概述</h3>
+<p>编译流程图</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_21.png" width="600"></center>
+
+
+
+<p><strong><font color=red>伪指令</font></strong></p>
+<pre><code class="language-assembly">ORG 0000H			;Origin
+END					;程序结束
+KC EQU 30H			;赋值伪指令,KC=30H
+DB	&#39;A&#39;, 34H
+DW	&#39;AB&#39;, 1234H
+ABC BIT P1.1		;位地址赋值，将P1.1赋给ABC这个变量
+</code></pre>
+<p>伪指令在编译时起作用</p>
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 汇编语言编程</h3>
+<p>汇编器(MASM)在编译时执行</p>
+<ol>
+<li>将汇编指令翻译为机器码</li>
+<li>确定每条指令的大小，形成相对地址</li>
+<li>给出语法错误</li>
+<li>形成<code>.obj</code>文件</li>
+</ol>
+<p>查表，求平方</p>
+<pre><code class="language-assembly">ORG 0000H
+LJMP START
+ORG 1000H
+START: 	MOV DPTR, #table
+		MOV A, 20H
+		MOVC A, @A+DPTR		;由于table在Code内，故适用MOVC
+		MOV 21H, A
+		SJMP $				;原地跳转
+ORG 2000H
+table: db 0, 1, 4, 9, 16, 25
+END
+</code></pre>
+<p>将30H内的变量分类放回</p>
+<pre><code class="language-assembly">ORG 0000H
+LJMP START
+ORG 1000H
+START:	MOV A, 30H
+		JZ ZERO
+		ANL	A, #80H			;保留符号位，A&lt;0，那么结果不为0
+		JNZ MINUS
+		LJMP DAYU0
+ZERO:	MOV 30H, #20H
+		LJMP OVER
+MINUS:	MOV A, 30H
+		ADD A, #5H
+		MOV 30H, A
+		LJMP OVER
+DAYU0:	MOV 30H, A
+OVER:	SJMP $
+END
+</code></pre>
+<p>50ms延迟程序，12MHz时钟，机器周期为1us</p>
+<pre><code class="language-assembly">DEL:	MOV R7, #200		;1机器周期(MC)
+DEL1:	MOV R6, #123		;1MC
+		NOP					;1MC
+		DJNZ R6, $			;2MC * 123
+		DJNZ R7, DEL1		;2MC
+		RET
+</code></pre>
+<p>延时\(1+200\times[(1+1+2\times123)+2]+2\approx 50\)ms</p>
+<p>将RAM中起始地址为data的数据段发送到外部起始地址为buffer的存储区域，数据段以&#39;$&#39;结尾</p>
+<pre><code class="language-assembly">		MOV R0, #data
+		MOV DPTR, #buffer
+LOOP1:	MOV A, @R0
+		CJNE A, #24H, LOOP2		;24H是&#39;$&#39;的ASCII码
+		SJMP LOOP3
+LOOP2:	MOVX @DPTR, A
+		INC R0
+		INC DPTR
+		SJMP Loop1
+LOOP3:	END
+</code></pre>
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 C/ASM混合编程</h3>
+<p><strong>函数命名规则</strong></p>
+<p>在KEIL C51中，编译器对C语言程序中的函数名会自动转换</p>
+<p><code>void fun1(void)</code> 转为 <code>fun1</code>，即无参数/寄存器传递的函数</p>
+<p><code>void fun2(int)</code> 转为 <code>_fun2</code>，即有参数传递的函数</p>
+<p><strong>参数传递规则</strong></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_22.png" width="600"></center>
+
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_23.png" width="600"></center>
+
+
+
+<p><strong>混合编程</strong></p>
+<ul>
+<li><p>在一个group内需要声明多个文件类型，不能重名；编译完有多个<code>.obj</code>文件需要link</p>
+</li>
+<li><p>在C中编写主函数</p>
+<pre><code class="language-C++">#include&lt;reg51.h&gt;
+
+extern int sqr(int a, int b);        #外部的函数需要用extern声明
+
+int main()
+{
+    int a = 1;
+    int b = 2;
+    return sqr(a, b);
+}
+</code></pre>
+</li>
+<li><p>在a51中编写子函数</p>
+<pre><code class="language-assembly">?PR?FUNCTION SEGMENT CODE        ;在ROM中定义段，其中?PR?是段定义指令，FUNCTION是自定义段名
+
+RSEG ?PR?FUNCTION
+
+public _sqr                        ;可以被其他模块调用
+</code></pre>
+</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

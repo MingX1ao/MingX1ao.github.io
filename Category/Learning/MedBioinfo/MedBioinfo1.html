@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学生物信息学">
+    <meta name="description" content="2 DNA测序与突变 - 医学生物信息学">
+    <meta name="author" content="MingXiao">
+    <title>2 DNA测序与突变</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>2 DNA测序与突变
+                    <ul>
+                            <li><a href="#1.1">2.1 基因测序技术简介</a></li>
+                            <li><a href="#1.2">2.2 基因突变</a></li>
+                            <li><a href="#1.3">2.3 全基因组关联分析 GWAS</a></li>
+                            <li><a href="#1.4">2.4 孟德尔随机化</a></li>
+                            <li><a href="#1.5">2.5 突变功能注释</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">2 DNA测序与突变</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="1.1" class="md-header-anchor" id="1.1"></a>
+<h3>2.1 基因测序技术简介</h3>
+<p><strong>组学</strong>：是研究生物系统中各类分子整体集合的学科，以-omics结尾</p>
+<ul>
+<li>基因组学、转录组学、蛋白质组学、代谢组学（糖组学、脂类组学）</li>
+</ul>
+<p><strong>一代测序</strong>：多分子，单克隆；桑格测序；高精度检测序列，用于亲子鉴定、法医鉴定等</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_19.png" width="600"></center>
+
+
+
+<p><strong>二代测序</strong>：通量更高，速度更快，成本更低</p>
+<a name="1.2" class="md-header-anchor" id="1.2"></a>
+<h3>2.2 基因突变</h3>
+<h4>2.2.1 基因突变</h4>
+<p>同一基因库之间不同个体存在DNA水平差异</p>
+<ul>
+<li>遗传</li>
+<li>变异</li>
+</ul>
+<p>物种形成和生物进化的基础</p>
+<p><strong>遗传变异来源</strong></p>
+<ul>
+<li>父母遗传</li>
+<li>新发突变</li>
+<li>体细胞突变</li>
+</ul>
+<p>几种对比</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_20.png" width="600"></center>
+
+<p>多态性指的是性状不同</p>
+<p>健康人基因组存在300万左右的变异</p>
+<p><strong>单位点变异</strong></p>
+<ul>
+<li>错义突变(missense mutation)：碱基替换后对应的氨基酸变了</li>
+<li>无义突变(nonsense mutation)：碱基改变后使的密码子变为终止密码子</li>
+<li>同义突变(synonymous/silent mutation)：碱基替换后氨基酸没变</li>
+</ul>
+<p>单核苷酸多态性(SNP)：平均每300个碱基对就存在一个；SNP的多态性决定了个体差异</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_21.png" width="600"></center>
+
+
+
+<p><strong>表型</strong> = 基因型 + 环境</p>
+<p><strong>indels</strong>: insertion or deletion，碱基对的变化</p>
+<h4>2.2.2 基因测序和突变识别</h4>
+<p>包括全外显子组测序和全基因组测序</p>
+<p><strong>基因变异识别流程</strong></p>
+<ul>
+<li>建库测序</li>
+<li>质检，数据清洗</li>
+<li>读数映射</li>
+<li>变异识别</li>
+<li>有害突变识别和个性化诊疗</li>
+</ul>
+<p><strong>质检</strong></p>
+<p>得到的结果如下</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_22.png" width="600"></center>
+
+<p>最后一行是质量分数对应的ASCII码对应的字符，其中质量分数(Phred quality score)的计算如下<br>\[
+Q = -10\cdot \lg p
+\]<br>\(p\)表示测序仪碱基判断错误的概率</p>
+<p>当\(Q>20\)时，认为结果有效；当一个序列\(Q<20\)的比例达到20%，认为这个序列读错了，要丢弃</p>
+<p><font color=red>例：</font>当一条read的得分不高时</p>
+<ul>
+<li>不直接使用，因为质量很差</li>
+<li>若认为是全外显子组，则可能产生假阳性突变识别的结果，影响后续的变异分析</li>
+<li>当read质量高且覆盖深度不足时，一个read也可能预警潜在突变</li>
+</ul>
+<p><strong>变异识别</strong></p>
+<p>基因序列比对后进行识别</p>
+<p><font color=red>例：</font>TP53基因某位点发生非同义突变，已知是非保守位点</p>
+<ul>
+<li><p>这个位置值得关注，因为TP53是典型的肿瘤抑制基因</p>
+</li>
+<li><p>如果是保守区域，那更值得关注。保守区域暗示重要功能，突变更可能破坏关键结构</p>
+</li>
+<li><p>一句话报告：</p>
+<p>该突变为TP53基因非同义变异，位于潜在保守功能区域，建议进行家系分析和功能验证</p>
+</li>
+</ul>
+<p><strong>临床使用</strong></p>
+<p>读数深度很重要，读了几条就是几，一般要大于三</p>
+<a name="1.3" class="md-header-anchor" id="1.3"></a>
+<h3>2.3 全基因组关联分析 GWAS</h3>
+<p>Genome-Wide Association Study，分析比表型组和基因组的关联</p>
+<p>使用全基因组阵列收集数据，以便在多个个体中找出基因组中具有/不具有共同特征的共同变异</p>
+<p>用高通量基因组技术快速扫描大量受试者的整个基因组，寻找与疾病关联的相关变异；与疾病有关的变异在病例组中的发现频率更大，做统计检验</p>
+<p>很显然这需要进行假设检验，这就要看生医统的知识了</p>
+<p>整个检验就流程如下</p>
+<ol>
+<li>基因型数据准备，表型数据准备</li>
+<li>假设检验（统计模型选择）</li>
+<li>p值计算</li>
+<li>绘图，结果解读</li>
+</ol>
+<p>假设阳性概率为\(p\)，\(n\)个人，那么假阳性概率为<br>\[
+1-(1-p)^n
+\]<br>为了平衡这个概率，需要用人数归一化<br>\[
+\frac{1-(1-p)^n}{n} = \frac{np}{n} = p
+\]</p>
+<p>那么，对应的显著性水平就从\(p<.05\)变为\(p<\frac{0.05}{n}\)</p>
+<p>当数据水平是百万个SNP时，\(p<5\times10^{-8}\)</p>
+<a name="1.4" class="md-header-anchor" id="1.4"></a>
+<h3>2.4 孟德尔随机化</h3>
+<h4>2.4.1 疾病风险评估</h4>
+<p>GWAS的p-value确定检验目标是否有统计学意义，但没有解释影响效果大小，即不能解释GWAS的结果</p>
+<p>因此，需要一个方法能够评估，存在遗传变异的情况下，患上疾病的风险是多大</p>
+<p><strong>风险评估</strong></p>
+<p>用人群中发病率表示发病的风险，但这种方法对于个体差异没什么意义</p>
+<p><strong>相对风险</strong></p>
+<p>想要知道有某种基因的风险相对没有的人的发病风险，即相对风险，就是两种风险的比值（11% / 9% = 1.2）</p>
+<p>但是上面的方法还有一个问题，对于罕见病，人群中的样本数量不足；做常见病倒是可以</p>
+<p><strong>病例对照研究</strong></p>
+<p>在疾病对照研究中，预先确定500个样本的病例组和500个样本的对照组，不能说明发病率为0.5</p>
+<p>但是，可以说明患病几率（Odds），Odds = disease : no disease = 1:1</p>
+<p>对于所有样本中的基因型比例，可以计算出Odds值</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_23.png" width="600"></center>
+
+<p>Odds值较大的，说明这种基因型发病概率高</p>
+<p>同样可以做相对风险，比值比 Odds ratio = Odds1 : Odds2，例如 TT : CC  = 1.5 : 0.7 = 2.1</p>
+<h4>2.4.2 孟德尔随机化</h4>
+<p>一种基于遗传变异的统计方法，评估病因推断的数据分析技巧；MR的目的是明确因果关系</p>
+<p>临床上的金标准是RCT（Randomized Control Trial），但是开销大，伦理可能有问题，此时可以用MR</p>
+<p>MR的几个关键概念</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_24.png" width="700"></center>
+
+<p>常规的RCT难以进行的原因就是混杂因素导致暴露因素和结局变量因果倒置，或者是伦理问题</p>
+<p>为了得到有效的结果，必须满足三个核心假设</p>
+<ul>
+<li>遗传变异与暴露因素强相关（关联性）</li>
+<li>遗传变异不能与任何可能的混淆因素相关（独立性）（图像红线不通）</li>
+<li>遗传变异不能与结果直接相关（排他性）（图中绿线不通）</li>
+</ul>
+<p><strong>两样本MR流程</strong></p>
+<ul>
+<li><strong>暴露因素的GWAS</strong>：对暴露因素进行GWAS，识别出与暴露因素相关的显著SNPs（p值小）。</li>
+<li><strong>结局变量的GWAS</strong>：对结局变量进行GWAS，检查暴露因素相关的SNPs在结局变量中的关联；去除与结局变量显著相关的SNPs，确保工具变量与结局变量没有直接关联。</li>
+<li><strong>筛选工具变量</strong>：保留那些<strong>与暴露因素显著相关</strong>、<strong>与结局变量无显著直接关联</strong>的SNPs作为工具变量。</li>
+<li><strong>敏感性分析（可选）</strong>：进行如MR-Egger回归等方法，确认工具变量的排他性条件是否满足。</li>
+</ul>
+<p>RCT通过随机分组对抗混杂因素的干扰，用于分组的标准应当满足</p>
+<ul>
+<li>决定治疗方法</li>
+<li>与结局没有直接关联</li>
+<li>独立于混杂因素</li>
+</ul>
+<p>而MR借助核心假设确定工具变量，绕开了混杂因素的干扰</p>
+<p>MR根据孟德尔第一、二定律（分离定律和自由组合定律），利用基因型作为工具变量</p>
+<p>二者对比如下</p>
+<center><img src="/Category/Learning/Pictures/MedicalBioinformatics_25.png" width="600"></center>
+
+
+
+<p><strong>MR的本质和原理</strong></p>
+<ul>
+<li>疾病发展是多基因和多因素共同作用的结果</li>
+<li>目前GWAS已经有足够的数据，发现了百万的遗传变异与疾病相关联</li>
+<li>本质是通过遗传数据来评估可改变的非遗传暴露因素所造成的因果效应</li>
+</ul>
+<p><strong>分析流程</strong></p>
+<ol>
+<li>读取GWAS数据，选择合适的工具；一般设置 \(p<5\times 10^{-8}\)</li>
+<li>读取结局变量的GWAS数据，提取变异频率大于1%的单核苷酸变异</li>
+<li>数据预处理</li>
+<li>MR分析SNPs与结局的关系：调包</li>
+<li>结果后处理</li>
+</ol>
+<a name="1.5" class="md-header-anchor" id="1.5"></a>
+<h3>2.5 突变功能注释</h3>
+<p>对应于2.2.2节的有害突变识别和个性化诊疗</p>
+<p>假设：如果突变残基和野生型残基之间的替换分数为正，则为中性突变（很容易发生的损害小）；反之，是有害的（发生很少的损害大）</p>
+<h4>2.5.1 SIFT</h4>
+<p>给定一段蛋白质序列和核酸的变异：</p>
+<ol>
+<li>首先搜索与待测序列相似的序列，用来提供氨基酸替换的背景；即把同源的蛋白寻找出来</li>
+<li>选择1的结果中与查询序列功能最相近的序列，进行多序列比对，确定氨基酸的位置和保守性</li>
+<li>根据2的结果，计算所有的替换是正常的可能性，如果&lt;.05，就是有害的；如果&gt;=.05，就是中性的，不影响表型和功能</li>
+</ol>
+<p>但是SIFT的效果并不好，原因是只靠保守性假设不靠谱</p>
+<h4>2.5.2 PolyPhen</h4>
+<p>依靠序列比对和蛋白质三维结构进行判断，主要假设</p>
+<ul>
+<li>保守区域的变异影响更大（保守性）</li>
+<li>发生在蛋白质活跃位点，交互位点或蛋白质的稳定性的变异影响大（功能性）</li>
+<li>蛋白质的三维结构改变影响很大（结构变化对功能的影响）</li>
+</ul>
+<p>步骤和SIFT有点像</p>
+<ol>
+<li>多序列比对，计算序列的特征值</li>
+<li>获取蛋白质的三维结构，或者预测结构</li>
+<li>在一些特定位点上计算变异和分类</li>
+<li>使用基于经验的方法进行损害预测</li>
+</ol>
+<p>难点在于三维结构的获取；最终打分区间为0-1，分越高越有害</p>
+<h4>2.5.3 CADD</h4>
+<p>整合多种功能预测工具的数据，利用支持向量机（SVM）将复杂的注释信息浓缩为单一评分</p>
+<p>最终用对数打分，有害前1%打分为20，10%为10，越大越有害</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

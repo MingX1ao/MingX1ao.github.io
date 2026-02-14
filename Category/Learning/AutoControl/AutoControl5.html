@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="自动控制原理">
+    <meta name="description" content="6 控制系统的状态空间分析 - 自动控制原理">
+    <meta name="author" content="MingXiao">
+    <title>6 控制系统的状态空间分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>6 控制系统的状态空间分析
+                    <ul>
+                            <li><a href="#5.1">6.1 传递函数的状态空间表达式</a></li>
+                            <li><a href="#5.2">6.2 定常系统的状态空间方程的解</a></li>
+                            <li><a href="#5.3">6.3 可控性和可观测性</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">6 控制系统的状态空间分析</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="5.1" class="md-header-anchor" id="5.1"></a>
+<h3>6.1 传递函数的状态空间表达式</h3>
+<p>系统可以表达为<br>\[
+y^{(n)} + a_1y^{(n-1)} + \ldots+ a_{n-1}y^{(1)} +a_ny = b_0u^{(n)} + b_1u^{(n-1)} +\ldots+b_{n-1}u^{'} +b_nu
+\]<br>那么传递函数就是<br>\[
+G = \frac{Y}{U} = \frac{b_0s^n+b_1s^{n-1}+\ldots+b_{n-1}s+b_n}{s^{n}+a_1s^{n-1}+\ldots+a_{n-1}s+a_n}
+\]<br>注意上下是齐次的，否则需要添0</p>
+<p>存在以下几个标准型</p>
+<p><strong>可控标准型</strong></p>
+<p>可控性：在有限时间内，系统输入无约束的\(u\)，\(x(t_0)\)变化为\(x(t^{'}_0)\)</p>
+<p>形如</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_66.png" width="400"></center>
+
+<p>的状态空间方程，称为可控标准型</p>
+<p><strong>可观测标准型</strong></p>
+<p>可观测性：\(x(t_0)\)在有限时间内可由输出的观测值确定</p>
+<p>形如</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_67.png" width="400"></center>
+
+<p>的状态空间方程，称为可观测标准型</p>
+<p>不难发现，二者的系数矩阵存在以下关系<br>\[
+A_2 = A_1^{T}\\
+B_2 = C_1^{T}\\
+C_2 = B_1^{T}\\
+D_2 = D_1
+\]<br>这个性质称为对偶性</p>
+<p><strong>对角线标准型</strong></p>
+<p>将传递函数化为<br>\[
+G = b_0 + \sum\frac{c_i}{s+p_i}
+\]<br>那么</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_68.png" width="400"></center>
+
+
+
+<a name="5.2" class="md-header-anchor" id="5.2"></a>
+<h3>6.2 定常系统的状态空间方程的解</h3>
+<p>从本节开始，对符号做出区分：小写的字母一律为时域标量，如\(x\)；大写的字母不带变量/带\(t\)一律为时域向量/矩阵，如\(A,X(t),X(0)\)；大写字母带变量\(s\)的一律为Laplace变换，如\(X(s)\)，至于是否为矩阵/向量，看上下文。</p>
+<h4>6.2.1 齐次方程</h4>
+<p>形如<br>\[
+\dot{X} = A X
+\]<br>的状态空间方程的解，不加证明的给出<br>\[
+X = e^{At}X(0)
+\]<br>其中\(X\)是列向量，\(A,e^{At}\)都是矩阵</p>
+<p>解的过程使用了拉普拉斯变换<br>\[
+(sI-A)X(s) = X(0)\Rightarrow X(s) = (sI-A)^{-1}X(0)
+\]<br>不加证明给出<br>\[
+\mathcal{L}^{-1}\{(sI-A)^{-1}\} = e^{At}
+\]</p>
+<p>\(e^{At}\)有以下的性质</p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_69.png" width="300"></center>
+
+<p>将系统的状态用初始值表达<br>\[
+X = \Phi X(0)
+\]<br>那么<br>\[
+\Phi(t) = e^{At}
+\]<br>称\(\Phi\)为系统的状态转移矩阵，包含系统自由运动的所有信息；方程的解仅仅是状态的转移</p>
+<h4>6.2.2 非齐次方程</h4>
+<p>形如<br>\[
+\dot{X} = AX + BU
+\]<br>做拉普拉斯变换<br>\[
+(sI-A)X(s) = X(0)+BU(s)
+\]<br>得到<br>\[
+X(t) = e^{At}X(0)+e^{At}*BU(t)=\Phi(t)X(0)+\int^t_0\Phi(t-\tau)BU(\tau)d\tau
+\]<br>若是在\(t_0\)时刻q起始，则<br>\[
+X(t)=\Phi(t-t_0)X(t_0)+\int^t_{t_0}\Phi(t-\tau)BU(\tau)d\tau
+\]<br>进一步打开卷积，不加证明的<br>\[
+X(t) = e^{At}X(0)+A^{-1}(e^{At}-I)BU(t)
+\]</p>
+<a name="5.3" class="md-header-anchor" id="5.3"></a>
+<h3>6.3 可控性和可观测性</h3>
+<p>对于系统<br>\[
+\dot{X}_{n\times 1} = A_{n\times n}X_{n\times1}+B_{n\times m}U_{m\times 1}\\
+Y_{s\times 1} = C_{s\times n}X_{n\times 1}+D_{s\times m}U_{m\times 1}
+\]</p>
+<h4>6.3.1 可控</h4>
+<p>如果在\(t_0\leq t\leq t_1\)内，施加一个<strong>无约束</strong>的控制信号，系统能从初始状态转移到<strong>任意</strong>终止状态，称系统在\(t=t_0\)可控；如果对于\(\forall t_0\)，系统<strong>可控</strong>，称为系统为<strong>状态完全可控</strong></p>
+<p><strong>状态完全可控的充要条件</strong></p>
+<p>先说结论：当且仅当向量组<br>\[
+[B, AB, \ldots,A^{n-1}B]_{n\times nm}
+\]<br>行满秩时，系统完全可控，该矩阵称为可控性矩阵</p>
+<p><strong>证明</strong></p>
+<p>设终止状态为\(X(t_1)=0\)，对于任意的\(X(0)\)都能够达到这个状态，那么将其代入6.2.2节的方程中，得到<br>\[
+X(0)=-\int^{t_1}_0e^{-At}BU(t)dt
+\]<br>将\(e^{-At}\)展开为<br>\[
+e^{-At} = \sum_{k=0}^{n-1}a_k(t)A^k
+\]<br>那么<br>\[
+X(0) = -\sum_{k=0}^{n-1}A^kB\int_0^{t_1}a_k(t)U(t)dt=-[B,AB,\ldots,A^{n-1}B][\int_0^{t_1}a_k(t)U(t)dt]^{T}
+\]<br>那么为了能够表达所有的\(X(0)\)，可控性矩阵必须满秩</p>
+<p><strong>输出完全可控的充要条件</strong></p>
+<center><img src="/Category/Learning/Pictures/AutomaticControl_72.png" width="600"></center>
+
+<p>这是直接截的图，放在本文档的语境下，这是一个\(s\times m(n+1)\)维矩阵，充要条件为其是行满秩</p>
+<p><strong>不可控制系统</strong>：包含一种物理上与输入量不相连接的子系统，存在部分状态变量不受控制</p>
+<p>如果一个不可控制系统的<strong>不可控</strong>模块是<strong>稳定</strong>的，<strong>不稳定</strong>的模块是<strong>可控</strong>的，那么这个系统<strong>可稳定</strong></p>
+<p><strong>利用A矩阵判断系统稳定性</strong></p>
+<ul>
+<li><p>计算A的特征值\(|sI-A|=0\)，如果所有特征值的实部小于0，那么稳定</p>
+<p>原因在于，\(|sI-A|=0\)就是闭环传递函数的特征方程</p>
+</li>
+<li><p>求出传递函数/矩阵，利用劳斯稳定判据</p>
+</li>
+</ul>
+<h4>6.3.2 可观测</h4>
+<p>如果<strong>每一个状态</strong>\(x_i(t_0)\)都可以通过在有限时间\(t_0\leq t \leq t_1\)内由<strong>输出量</strong>\(y(t)\)的观测值确定，称系统为<strong>完全可观测</strong></p>
+<p>很显然当每一个状态分量\(x_i\)都影响输出\(Y_{s\times 1}\)时，系统完全可观测</p>
+<p><strong>状态完全可观的充要条件</strong></p>
+<p>先说结论：当且仅当向量组<br>\[
+\left[\begin{matrix}
+C\\
+CA\\
+\ldots\\
+CA^{n-1}
+\end{matrix}\right]_{sn\times n}
+\]<br>列满秩时，系统完全可观，该矩阵的<strong>转置</strong>称为可观测矩阵</p>
+<p><strong>证明</strong></p>
+<p>忽略输入，仅看状态变量<br>\[
+Y = CX = Ce^{At}X(0) = \sum_{k=0}^{n-1}a_kCA^kX(0)=[a_kX(0)]\left[\begin{matrix}
+C\\
+CA\\
+\ldots\\
+CA^{n-1}
+\end{matrix}\right]
+\]<br>为了满足每个状态变量都有独立的影响，可观测矩阵必须列满秩</p>
+<p><strong>可检测性</strong></p>
+<p>对于一个<strong>局部可观测</strong>系统，如果其<strong>不可观测</strong>的状态是<strong>稳定</strong>的，其<strong>可观测</strong>的状态是<strong>不稳定</strong>的，那么这个系统<strong>可检测</strong></p>
+<p><strong>可检测与可稳定互为对偶</strong></p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

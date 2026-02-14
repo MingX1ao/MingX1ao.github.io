@@ -163,10 +163,10 @@ pd.DataFrame.quantile(q=[0.25,0.5,0.75])
 <a name="4.4" class="md-header-anchor" id="4.4"></a>
 <h3>3.4 描述数据的分布·</h3>
 <p>峰度 kurtosis<br>偏度 skewness<br>变异系数 coefficient of variation</p>
-<p><strong>峰度</strong><br>Pearson&#39;s Kurtosis:<br>\[Kurtosis(x)=E[(\frac{x-\mu}{\sigma})^4]=\beta_2=\frac{\mu_4}{\sigma^4}\]<br>对于正态分布，上式恒等于3<br>Fisher&#39;s Kurtosis/Excess of Kurtosis = Pearson&#39;s Kurtosis - 3<br>FK=0时，为高斯分布<br><img src="Pictures/BmeStats_6.png" width="150"></p>
-<p>Fk&gt;0时，为超高斯分布<br><img src="Pictures/BmeStats_4.png" width="150"></p>
-<p>FK&lt;0时，为欠高斯分布<br><img src="Pictures/BmeStats_5.png" width="150"></p>
-<p><strong>偏度</strong><br>\[Skewness=\widetilde{\mu_3}=E[(\frac{X-\mu}{\sigma})^3]=\frac{\mu_3}{\sigma^3}\]<br><img src="Pictures/BmeStats_7.png" width="300"><br>上图中，左边是向左偏、偏度&lt;0，右边是向右偏、偏度&gt;0（看尾巴）<br><font color=red>注意，当偏度=0时仅能说明对称分布，不能说明正态性</font></p>
+<p><strong>峰度</strong><br>Pearson&#39;s Kurtosis:<br>\[Kurtosis(x)=E[(\frac{x-\mu}{\sigma})^4]=\beta_2=\frac{\mu_4}{\sigma^4}\]<br>对于正态分布，上式恒等于3<br>Fisher&#39;s Kurtosis/Excess of Kurtosis = Pearson&#39;s Kurtosis - 3<br>FK=0时，为高斯分布<br><img src="/Category/Learning/Pictures/BmeStats_6.png" width="150"></p>
+<p>Fk&gt;0时，为超高斯分布<br><img src="/Category/Learning/Pictures/BmeStats_4.png" width="150"></p>
+<p>FK&lt;0时，为欠高斯分布<br><img src="/Category/Learning/Pictures/BmeStats_5.png" width="150"></p>
+<p><strong>偏度</strong><br>\[Skewness=\widetilde{\mu_3}=E[(\frac{X-\mu}{\sigma})^3]=\frac{\mu_3}{\sigma^3}\]<br><img src="/Category/Learning/Pictures/BmeStats_7.png" width="300"><br>上图中，左边是向左偏、偏度&lt;0，右边是向右偏、偏度&gt;0（看尾巴）<br><font color=red>注意，当偏度=0时仅能说明对称分布，不能说明正态性</font></p>
 <p><strong>变异系数</strong><br>\[CoV=\frac{\sigma}{\mu}\times 100\%=\frac{\mathcal{s}}{\mathcal{m}}\times 100\%\]<br>用途：  </p>
 <ol>
 <li>比较不同数据集的离散程度</li>

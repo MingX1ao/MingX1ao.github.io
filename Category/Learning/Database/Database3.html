@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="数据库原理">
+    <meta name="description" content="4 数据库设计 - 数据库原理">
+    <meta name="author" content="MingXiao">
+    <title>4 数据库设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 数据库设计
+                    <ul>
+                            <li><a href="#3.1">4.1 概念设计</a></li>
+                            <li><a href="#3.2">4.2 逻辑设计</a></li>
+                            <li><a href="#3.3">4.3 数据库规范化</a></li>
+                            <li><a href="#3.4">4.4 数据依赖的公理系统</a></li>
+                            <li><a href="#3.5">4.5 基于关系模式的分解</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 数据库设计</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p><strong>概念设计</strong></p>
+<p>通常采用<strong>E-R</strong>模型（Entity-Relationship）</p>
+<table>
+<thead>
+<tr>
+<th align="center">E-R模型</th>
+<th align="center">例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">实体</td>
+<td align="center">学生，课程</td>
+</tr>
+<tr>
+<td align="center">属性</td>
+<td align="center">学号，课号</td>
+</tr>
+<tr>
+<td align="center">联系</td>
+<td align="center">学生与课程之间存在“选课”联系</td>
+</tr>
+</tbody></table>
+<p><strong>逻辑设计</strong></p>
+<p>常见的有<strong>关系模型</strong>，层次模型等，前者是主流</p>
+<p>关系模型就是第二章所讲</p>
+<p><strong>物理设计</strong></p>
+<p>在内存/硬盘中的表示</p>
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 概念设计</h3>
+<p>可以使用E-R图表示</p>
+<center><img src="/Category/Learning/Pictures/DataBase_3.png" width="300"></center>
+
+<p>其中</p>
+<p>椭圆型：属性，带下划线的是标识符（主键）</p>
+<p>方框：实体</p>
+<p>菱形框：联系</p>
+<p>数字：从对面看，二者的关系数量，图中就是说<strong>一个学生对应n门课，一门课对应m个学生</strong>，这里的\(m,n\)都是虚指，意思是学生和课程是<strong>多对多</strong>关系</p>
+<h4>4.1.1 E-R联系类型</h4>
+<p>统统都可以化为二元联系</p>
+<center><img src="/Category/Learning/Pictures/DataBase_4.png" width="500"></center>
+
+
+
+<h4>4.1.2 实体 OR 属性</h4>
+<p>简化原则：能当属性的，就不当实体</p>
+<p>两条准则：</p>
+<ol>
+<li>属性不能包含其他属性</li>
+<li>属性不能与其他实体有联系</li>
+</ol>
+<p>如下面的例子，如果”职称“与”工资“无关，那么可以向上图定义；但是如果有关，那么就得用下面的模式</p>
+<center><img src="/Category/Learning/Pictures/DataBase_5.png" width="500"></center>
+
+
+
+<p><strong>联系属性还是实体属性</strong></p>
+<p>联系的属性一般存在于<strong>多对多</strong>联系，但也不一定</p>
+<h4>4.1.3 约束</h4>
+<p>包括<strong>属性约束</strong>和<strong>联系约束</strong>，前者见第二章</p>
+<p><strong>联系约束</strong></p>
+<p>包括<strong>基数</strong>和<strong>参与度</strong></p>
+<p>基数：实体参与联系的<strong>最大</strong>次数，也就是x对x联系中的x</p>
+<p>参与度：实体参与的联系的<strong>最小</strong>次数</p>
+<center><img src="/Category/Learning/Pictures/DataBase_6.png" width="500"></center>
+
+<p>意思是\(E_1\)与\((c,d)\)个\(E_2\)的实体发生联系</p>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 逻辑设计</h3>
+<h4>4.2.1 <strong>实体集转换</strong></h4>
+<p>实体集：关系模式（table）</p>
+<p>属性：属性</p>
+<p>标识符：键</p>
+<h4>4.2.2 <strong>联系转换</strong></h4>
+<p>一元/三元联系，都可以用二元联系表示，下面仅讨论二元联系</p>
+<p><strong>一对一联系</strong></p>
+<p>有两种转换方式</p>
+<ol>
+<li>在<strong>任意</strong>一个关系模式的属性中加入<strong>另一个关系模式的键</strong>，和<strong>联系的属性</strong></li>
+<li>添加一个关系模式，包含<strong>联系的属性</strong>和<strong>各个实体集的标识符</strong></li>
+</ol>
+<p><strong>一对多联系</strong></p>
+<p>有两种转换方式</p>
+<ol>
+<li>在<strong>n端</strong>实体中<strong>加入1端</strong>实体的标识符和联系的属性</li>
+<li>添加一个关系模式，属性是<strong>各个</strong>实体集的标识符和联系的属性，<strong>主键是n端</strong>的标识符</li>
+</ol>
+<p><strong>多对多联系</strong></p>
+<p>添加一个新的关系，属性是各个实体集的标识符和联系的属性，键是两个实体集的<strong>标识符的组合</strong></p>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 数据库规范化</h3>
+<h4>4.3.1 函数依赖</h4>
+<p>一个关系中属性或属性组的依赖和制约关系（约束），定义如下：</p>
+<p>给定的关系\(R(U)\)，其中\(X,Y \subseteq U,\,\,\, \forall t,l\in R\)</p>
+<p>若\(t[X]=l[X]\Rightarrow t[Y]=l[Y]\)，称\(Y\)函数依赖于\(X\)，或\(X\)函数决定\(Y\)，记为<br>\[
+X\rightarrow Y
+\]<br>若不依赖，记为<br>\[
+X\nrightarrow Y
+\]<br>若\(X,Y\)相互函数依赖，记为<br>\[
+X \leftrightarrow Y
+\]<br>一个函数依赖要成立，需要使\(X,Y\)的任意可能值都满足这个依赖，即使这些值不在表中存在</p>
+<p><strong>用函数依赖定义键</strong></p>
+<p>一个/多个属性的集合\(K\)满足</p>
+<ol>
+<li>其他属于函数依赖于\(K\)</li>
+<li>其他属性都不函数依赖于\(K\)的任意真子集</li>
+</ol>
+<p>那么\(K\)就是这个关系的键</p>
+<p>\(K\)是\(R(U)\)的超键，当且仅当\(K \rightarrow U\)</p>
+<p><strong>非/平凡函数依赖</strong></p>
+<p><strong>非平凡函数依赖</strong><br>\[
+X\rightarrow Y\and Y\nsubseteq X
+\]<br>则称非平凡</p>
+<p>反之是子集则为平凡，很好理解一个属性组一定决定自身</p>
+<p>所有关系都满足平凡函数依赖，一般指的都是非平凡依赖</p>
+<p><strong>完全/部分函数依赖</strong></p>
+<p><strong>完全函数依赖</strong><br>\[
+X \rightarrow Y \and X^{'}\nrightarrow Y \Rightarrow X\stackrel{f}{\rightarrow}Y
+\]<br>其中\(X^{'}\)是\(X\)的任意真子集，f为fully</p>
+<p>否则称部分函数依赖，记为\(X \stackrel{p}{\rightarrow} Y\)</p>
+<p><strong>传递函数依赖</strong><br>\[
+X \rightarrow Y\and Y\nrightarrow X\and Y\rightarrow Z
+\]<br>则称\(Z\)对\(X\)有传递函数依赖</p>
+<p><strong>多值依赖</strong></p>
+<p>对于\(R(U)\)，设\(X,Y\subseteq U \,\,\,, Z = U-X-Y\)，当存在\((x,y_1,z_1),(x,y_2,z_2)\)时，也存在\((x,y_1,z_2),(x,y_2,z_1)\)</p>
+<p>那么称\(Y\)在\(R\)上多值依赖于\(X\)，记为<br>\[
+X\rightarrow\rightarrow Y
+\]<br>也就是对于任意的\(a[X]=b[X] \in R(U[X])\)，交换\(a,b\)的\(Y\)的值，交换后的元组也存在于\(R(U)\)中（不一定在表中），则称\(Y\)多值依赖于\(X\)</p>
+<p>直观上说，就是\(X\)决定了\(Y\)的取值范围，\(Y\)的取值与\(Z\)无关</p>
+<p>如果\(Z = \phi\)，那么这是平凡多值依赖，反之是非平凡</p>
+<p>函数依赖是多值依赖的一个特例，此时取值范围唯一</p>
+<p><strong>连接依赖</strong></p>
+<p>一个关系分为若干子关系，这些子关系通过连接操作后得到原始关系，则连接依赖成立</p>
+<p>多值依赖就是可以分解为两个子关系的连接依赖</p>
+<h4>4.3.2 关系模式的范式</h4>
+<p>一个第一辑的范式，通过模式分级可以转换为若干个高一级的范式，这个过程叫规范化</p>
+<p>通常分解到第三范式就行</p>
+<center><img src="/Category/Learning/Pictures/DataBase_7.png" width="300"></center>
+
+
+
+<p><strong>第一范式</strong></p>
+<p>指\(R\)中每一个属性都不可再分</p>
+<p><strong>第二范式</strong></p>
+<p>满足第一范式，且每一个非主属性都完全函数依赖于任一个候选键</p>
+<p>主属性：包含在候选键中的所有属性，即使不是主键</p>
+<p>如果一个关系只有一个候选键，那么一定满足第二范式</p>
+<p><strong>第三范式</strong></p>
+<p>满足第一范式，不存在非主属性对候选键的传递函数依赖</p>
+<p><strong>巴斯-科德范式</strong></p>
+<p>满足第三范式，任何属性都非平凡地完全函数依赖于\(R\)的候选键</p>
+<p>即：\(X\rightarrow Y \and Y\nsubseteq X\Rightarrow X\)是超键</p>
+<p>如果一个关系满足BCNF，那么在函数依赖的范围内，它已经实现了关系模式的彻底分解，消除了插入和删除异常</p>
+<p><strong>3NF和BCNF的联系</strong></p>
+<ol>
+<li>满足BCNF，一定满足3NF</li>
+<li>满足3NF，且只有一个候选键，则满足BCNF</li>
+</ol>
+<p><strong>第四范式</strong></p>
+<p>满足BCNF，消除了多值依赖</p>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 数据依赖的公理系统</h3>
+<h4>4.4.1 Armstrong公理系统</h4>
+<p><strong>逻辑蕴含</strong></p>
+<p>对于满足函数依赖\(F\)的关系\(R<U,F>\)，函数依赖\(X\rightarrow Y\)成立，则称\(F\)逻辑蕴含\(X\rightarrow Y\)</p>
+<p>将\(F\)蕴含的所有函数依赖的集合称为\(F\)的闭包，寻找这个集合的推理规则就是Armstrong公理系统</p>
+<p><strong>公理定义</strong></p>
+<p>\(R<U,F>,U=\{A_1,A_2,\ldots ,A_n\}\)，存在以下规则</p>
+<ol>
+<li>自反律：\(Y\subseteq X\subseteq U\)，则\(X\rightarrow Y\)为\(F\)所蕴含（平凡函数依赖）</li>
+<li>增广律：\(X\rightarrow Y\)为\(F\)所蕴含，且\(Z\subseteq U\)，则\(XZ\rightarrow YZ\)为\(F\)所蕴含，其中\(AB\)表示集合\(A\cup B\)</li>
+<li>传递律：\(X\rightarrow Y,Y\rightarrow Z\)为\(F\)所蕴含，则\(X\rightarrow Z\)为\(F\)所蕴含</li>
+</ol>
+<p>根据公理可以推出以下推理规则</p>
+<ol>
+<li>合并规则：\(X\rightarrow Y,X\rightarrow Z\)，则\(X \rightarrow YZ\)</li>
+<li>分解规则：\(X\rightarrow Y, Z\subseteq Y\)，则\(X\rightarrow Z\)</li>
+<li>伪传递规则：\(X\rightarrow Y, WY\rightarrow Z\)，则\(XW\rightarrow Z\)</li>
+</ol>
+<p>还有一条引理：\(X\rightarrow \Pi A_i\)成立的充要条件是\(X\rightarrow A_i\)成立</p>
+<h4>4.4.2 函数依赖的闭包</h4>
+<p>将\(F\)蕴含的所有函数依赖的集合称为\(F\)的闭包，记作\(F^+\)</p>
+<p><strong>属性集的闭包</strong>：\(X_{F}^+=\{A|(X\rightarrow A)\in F^+\}\)，很显然\(F^+ = \bigcup X_i\rightarrow Y_i\)</p>
+<p><strong>如何计算</strong></p>
+<p>输入：\(X,F\)</p>
+<p>输出：\(X^+_F\)</p>
+<p>算法：</p>
+<ol>
+<li>一个序列\(X^{(i)}\)，令\(X^{(0)}=X\)</li>
+<li>求\(B\)，其中\(B=\{A|(\exist V)(\exist W)(V\rightarrow W\and V\subseteq X^{(i)})\and A\in W\}\)</li>
+<li>\(X^{(i+1)} = X^{(i)}\cup B\)</li>
+<li>当\(X^{(i)}\)不再变化时，迭代结束</li>
+</ol>
+<p>步骤二相当于将\(X^{(i)}\)的子集的函数依赖的右边加入\(B\)中</p>
+<p><font color=red>例：</font>如图</p>
+<center><img src="/Category/Learning/Pictures/DataBase_8.png" width="600"></center>
+
+
+
+<p><strong>属性集闭包的作用</strong></p>
+<ol>
+<li>判断函数依赖是否成立：\(X\rightarrow Y \in F^+\Leftrightarrow Y\subseteq X^+_F\)</li>
+<li>判断是否是键：\(X^+_F = U\)，则\(X\)是超键；若还有\(X\)的任意子集不满足前式，则\(X\)是候选键</li>
+</ol>
+<h4>4.4.3 函数依赖的等价和最小函数依赖集</h4>
+<p><strong>函数依赖的等价</strong>：\(F^+ = G^+\)，则\(F\)与\(G\)等价</p>
+<p>但是求闭包开销很大，这里给出等价的充要条件：\(F\subseteq G^+ \and G\subseteq F^+\)</p>
+<p>前者很容易证明后者，这里给出充分性证明：</p>
+<p>\(\forall X\rightarrow Y\in F^+\)，有\(Y\subseteq X^+_F\subseteq X^+_{G^+}\)，故\(X\rightarrow Y\in (G^+)^+=G^+\)，故\(F^+\subseteq G^+\)；同理可以证明另一边</p>
+<p> 而判断\(F\subseteq G^+\)是否成立就是判断\(\forall X\rightarrow Y \in F^+\)，是否有\(Y\subseteq X^+_G\)</p>
+<p><strong>最小函数依赖集（最小覆盖）</strong></p>
+<p>当函数依赖集\(F\)满足以下条件时，是最小覆盖</p>
+<ol>
+<li>\(F\)中任一函数依赖的右边只有一个属性</li>
+<li>\(F\)中不存在多余的函数依赖（就是不能有能被余下的函数依赖蕴含的依赖）</li>
+<li>\(F\)中的任一函数依赖的左边没有多余的属性</li>
+</ol>
+<p>每一个函数依赖集都等价于一个最小覆盖\(F_m\)，且\(F_m\)不唯一</p>
+<a name="3.5" class="md-header-anchor" id="3.5"></a>
+<h3>4.5 基于关系模式的分解</h3>
+<h4>4.5.1 关系模式分解</h4>
+<p>对于关系模式\(R<U,F>\)，其分解指的是\(\rho =\{R_1<U_1, F_1>, R_2<U_2,F_2>,\ldots ,R_n<U_n,F_n>\}\)</p>
+<p>并且这个分解需要满足</p>
+<ol>
+<li>关系不丢失：\(U = \bigcup U_i\)</li>
+<li>模式不冗余：不存在\(U_i \subseteq U_j\)</li>
+<li>依赖不丢失：\(F_i\)是\(F\)在\(U_i\)上的投影，\(F_i=\{X\rightarrow Y|X\rightarrow Y \in F^+\and XY\subseteq U_i\}\)</li>
+</ol>
+<p>分解有很多种，但需要满足分解前后的等价性</p>
+<ol>
+<li>数据等价：分解的<strong>无损链接性</strong>，指分解后的关系可以通过<strong>自然连接</strong>恢复为原关系</li>
+<li>语义等价：分解要保持<strong>函数依赖</strong></li>
+</ol>
+<h4>4.5.2 检验无损分解的算法</h4>
+<p>输入：\(R<\{A_1,A_2,\ldots,A_n\},F>,\rho=\{R_1,R_2.\ldots ,R_m\}\)</p>
+<p>输出：\(\rho\)是否为无损分解</p>
+<p>算法：</p>
+<ol>
+<li>构造一个m行n列表，每一行对应一个分解的关系模式，每一列对应一个属性</li>
+<li>\(A_j\in R_i\)，则在第i行，第j列标记上\(a_j\)，否则为\(b_{ij}\)</li>
+<li>依次检查\(F\)中的每一个函数依赖，若\(X\rightarrow Y\in F\)，在\(X\)的分量上寻找标记相同的行，将这些行的\(Y\)的标记改为相同值，若存在\(a_j\)则标记为\(a_j\)，否则标记为\(i\)最小的\(b_{ij}\)</li>
+<li>如果存在一行为\(a_1,a_2,\ldots ,a_n\)，那么\(\rho\)是无损分解，否则不是</li>
+<li>做完一轮\(F\)还得再做几轮，直到没有标号的改变为止</li>
+</ol>
+<p><font color=red>例：</font>如图</p>
+<table>
+    	<tr><img src="/Category/Learning/Pictures/DataBase_9.png"></tr>
+        <tr><img src="/Category/Learning/Pictures/DataBase_10.png"></tr>
+        <tr><img src="/Category/Learning/Pictures/DataBase_11.png"></tr>
+</table>
+
+
+
+<p><strong>特殊情况</strong></p>
+<p>对于只有两个分量的分解，存在更快的判断方法</p>
+<p>\(\rho\)是\(R\)的无损分解的充要条件是\(\{(R_1\cap R_2) \rightarrow [(R_1-R_2)\or (R_2-R_1)]\}\in F^+\)</p>
+<p>满足一个就行，为了方便就这么写了</p>
+<h4>4.5.3 检验保持依赖的算法</h4>
+<p>很遗憾，这个没有算法</p>
+<ol>
+<li>寻找每个分量的函数依赖\(F_i\)，记\(G = \bigcup F_i\)</li>
+<li>若\(G^+ = F^+\)，即\(G\)与\(F\)等价，那么\(\rho\)保持依赖</li>
+</ol>
+<p><strong>注意</strong></p>
+<p>无损链接仅能保证不丢失信息；保持依赖仅能保证依赖等价</p>
+<p>二者是相互独立的标准，<strong>没有任何关系</strong></p>
+<h4>4.5.4 模式分解算法</h4>
+<p><strong>分解到3NF，保持函数依赖</strong></p>
+<table>
+    	<tr><img src="/Category/Learning/Pictures/DataBase_12.png"></tr>
+        <tr><img src="/Category/Learning/Pictures/DataBase_13.png"></tr>
+</table>
+
+
+
+<p><strong>分解到3NF，即保存无损连接又保存函数依赖</strong></p>
+<table>
+    	<tr><img src="/Category/Learning/Pictures/DataBase_14.png"></tr>
+        <tr><img src="/Category/Learning/Pictures/DataBase_15.png"></tr>
+</table>
+
+
+
+<p><strong>分解到BCNF，保持无损连接</strong></p>
+<table>
+    	<tr><img src="/Category/Learning/Pictures/DataBase_16.png"></tr>
+        <tr><img src="/Category/Learning/Pictures/DataBase_17.png"></tr>
+    	<tr><img src="/Category/Learning/Pictures/DataBase_18.png"></tr>
+</table>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

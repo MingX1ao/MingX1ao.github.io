@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="4 内存寻址方式 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>4 内存寻址方式</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 内存寻址方式
+                    <ul>
+                            <li><a href="#3.1">4.1 处理字符问题</a></li>
+                            <li><a href="#3.2">4.2 [bx+idata]方式寻址</a></li>
+                            <li><a href="#3.3">4.3 si,di寄存器寻址</a></li>
+                            <li><a href="#3.4">4.4 [bx+si+idata]和[bx+di+idata]方式寻址</a></li>
+                            <li><a href="#3.5">4.5 BP寄存器</a></li>
+                            <li><a href="#3.6">4.6 数据的位置</a></li>
+                            <li><a href="#3.7">4.7 数据的长度</a></li>
+                            <li><a href="#3.8">4.8 DIV和MUL指令</a></li>
+                            <li><a href="#3.9">4.9 使用DUP设置内存空间</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 内存寻址方式</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p><font color=orange><strong>寻址方式分类</strong></font></p>
+<ol>
+<li>直接寻址：<code>mov ax, [0001]</code></li>
+<li>寄存器间接寻址：<code>mov ax, [bx]</code></li>
+<li>寄存器相对寻址：<code>mov ax, [bx+idata]</code></li>
+<li>基址变址寻址：<code>mov ax, [bx+si]</code></li>
+<li>相对基址变址寻址：<code>mov ax, [bx+si+idata]</code></li>
+<li>立即数寻址：<code>mov ax, 1</code></li>
+<li>寄存器寻址：<code>mov ax, bx</code></li>
+</ol>
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 处理字符问题</h3>
+<p>汇编语言中，用&#39;xxxxx&#39;的形式指明数据的<strong>字符</strong>类型，长度为5（没有&#39;\0&#39;）</p>
+<p>编译器将字符转化为<strong>ASCII</strong>码</p>
+<pre><code class="language-assembly">data segment
+	db &#39;HelloWorld&#39;
+data ends	
+</code></pre>
+<p><strong>大小写转换</strong></p>
+<p>大写+20H=小写，所有大写字母第六位=0，所有小写字母第六位=1</p>
+<p>20H=0010 0000 B</p>
+<p>故大写变小写只需要将第6位变1，其余位不变，若本身就是小写经过上述流程还是小写</p>
+<p>故有：<strong>任意字母 | 0010 0000 = 小写</strong>，|表示按位或</p>
+<p>同理，<strong>任意字母 ^ 1101 1111 = 大写</strong>，^表示按位与</p>
+<p><strong>在汇编中的表示</strong></p>
+<pre><code class="language-assembly">and al, 11011111b
+</code></pre>
+<p>表示将al中的字符转为大写</p>
+<pre><code class="language-assembly">or  al, 00100000b
+</code></pre>
+<p>表示将al中的字符转为小写</p>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 [bx+idata]方式寻址</h3>
+<p>idata是一个数字类型的常量</p>
+<pre><code class="language-assembly">mov ax, [bx+200]
+</code></pre>
+<p>表示将内存地址位<code>ds:[bx+200]</code>处的内容存入ax中，以下写法等价</p>
+<pre><code class="language-assembly">mov ax, [200+bx]
+mov ax, 200[bx]
+mov ax, [bx].200
+</code></pre>
+<p>这个方式可以用作<strong>一维数组</strong>，idata为0地址</p>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 si,di寄存器寻址</h3>
+<p>SI，DI作为变址寄存器，和bx的用法功能相近（唯一区别，bx可以分为两个8为寄存器bh+bl）</p>
+<p>SI：source  index，源变址寄存器；DI：destination index，目标变址寄存器</p>
+<pre><code class="language-assembly">mov si, 0
+mov di, 16
+mov cx, 8
+s:	mov ax, [si]
+	mov [di], ax
+	add si, 2
+	add di, 2
+loop s
+</code></pre>
+<p>这个代码实现了将一个16B的字符串从<code>ds:0000</code>移动到<code>ds:0010</code>，每次移动一个字</p>
+<p><strong>用[bx+si]和[bx+di]方式寻址</strong></p>
+<pre><code class="language-assembly">mov ax, [bx+si]
+mov ax, [bx][si]
+</code></pre>
+<p>这两个方式等价，两个都是变量，相当于实现了一个<strong>二维数组</strong></p>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 [bx+si+idata]和[bx+di+idata]方式寻址</h3>
+<pre><code class="language-assembly">mov ax, [bx+200+si]
+mov ax, [200+bx+si]
+mov ax, 200[bx][si]
+mov ax, [bx].200[si]
+mov ax, [bx][si].200
+</code></pre>
+<p>以上写法等价，只有当idata位于第二/三位时，需要.</p>
+<p><strong>结构体</strong></p>
+<p>使用<code>[bx+idata+si]</code>定位结构体，<code>[bx]</code>定位结构体基地址，<code>.idata</code>定位某一个数据项，<code>[si]</code>定位这个数据的某一个字节（数组的下标）</p>
+<p><strong>多重循环次数储存</strong></p>
+<p>由于只有一个cx用于存储循环次数，当存在循环嵌套时，会丢失上一次的次数信息</p>
+<p>需要将cx保存下来</p>
+<ol>
+<li>用其他合法寄存器</li>
+<li>用固定内存空间</li>
+<li>用栈</li>
+</ol>
+<p>推荐第三种</p>
+<a name="3.5" class="md-header-anchor" id="3.5"></a>
+<h3>4.5 BP寄存器</h3>
+<p>BP，Base Pointer，基指针寄存器，于BX类似，区别是不能当成2*8来用，且默认指向<code>SS:BP</code></p>
+<p>只有BX，BP，SI，DI可以在<code>[]</code>中寻址，且只能<strong>一个基地址一个变址</strong>，不能<code>[BX+BP]</code>或<code>[SI+DI]</code></p>
+<a name="3.6" class="md-header-anchor" id="3.6"></a>
+<h3>4.6 数据的位置</h3>
+<p><strong>立即数idata</strong></p>
+<p>直接保存在指令中</p>
+<pre><code class="language-assembly">mov ax, 1
+add bx, 2000
+</code></pre>
+<p><strong>寄存器</strong></p>
+<p>保存在CPU内部的寄存器，使用时不需要外部的dataBus传递</p>
+<pre><code class="language-assembly">mov ax, bx
+</code></pre>
+<p><strong>内存</strong></p>
+<p>保存在内存中</p>
+<pre><code class="language-assembly">mov ax, [bx]		;ds:[bx]
+mov cx, [bp]		;ss:[bp]
+</code></pre>
+<a name="3.7" class="md-header-anchor" id="3.7"></a>
+<h3>4.7 数据的长度</h3>
+<p><code>add/mov</code>指令最多只能使用一个内存地址作为操作数，另一个必须是reg或idata</p>
+<p><strong>word</strong></p>
+<p>涉及到16b寄存器的操作，都是字型</p>
+<pre><code class="language-assembly">mov ax, 1
+mov ds:[0], ax
+</code></pre>
+<p>当不涉及寄存器时，可以用<code>word ptr</code>显式地指出</p>
+<pre><code class="language-assembly">mov word ptr ds:[0], 1
+add word ptr [bx], 2
+</code></pre>
+<p><strong>byte</strong></p>
+<p>涉及到8b寄存器的操作，都是字节型</p>
+<pre><code class="language-assembly">mov al, 1
+add bl, [bp]
+</code></pre>
+<p>同理可用<code>byte ptr</code>显式指出</p>
+<pre><code class="language-assembly">mov byte ptr ds:[0000], 1
+add byte ptr [bx], 2
+</code></pre>
+<a name="3.8" class="md-header-anchor" id="3.8"></a>
+<h3><font color=blue>4.8 DIV和MUL指令</font></h3>
+<p><strong>在寄存器中使用DIV</strong></p>
+<pre><code class="language-assembly">mov ax, 1234
+mov dx, 0001
+mov bx, 0209
+div bx
+</code></pre>
+<p>实现了将<code>(dx*10000H+ax)/bx</code>的商存在<code>ax</code>中，将余数存在<code>dx</code>中</p>
+<p>实测<code>div ax</code>会将ax作为<strong>除数</strong>，结果储存不变</p>
+<pre><code class="language-assembly">mov al, 12
+mov ah, 34
+mov bl, 23
+div bl
+</code></pre>
+<p>实现了将<code>ax/bl</code>的商保存在<code>al</code>中，将余数保存在<code>ah</code>中</p>
+<p>当商超过了<code>ax</code>或<code>al</code>的存储范围，结果溢出，程序自动产生一个中断（表现为指令地址跳跃很大的距离）</p>
+<p><strong>在内存单元中使用div</strong></p>
+<pre><code class="language-assembly">data segmemt
+	dd 100001h				;定义一个double变量，占4B，ds:[0]-ds:[3]为(01,00,10,00)
+	dw 100h					;定义一个word变量，占2B，ds:[4]-ds:[5]为（00，01）
+	dw 0h					;定义一个word变量，占2B，ds:[6]-ds:[7]为（00，00），用于存放结果
+data ends
+
+code segment
+	mov ax, data			
+	mov ds, ax				;这两步将ds指向定义的数据段地址
+	mov ax, ds:[0]			;由于一个寄存器不足以存放dd，用ax存在后四位，一定是后四位
+	mov dx, ds:[2]			;用dx存放前四位，一定是前四位
+	div word ptr ds:[4]		;没有寄存器参与，指明类型，这是除数
+	mov ds:[6], ax			;将商保存在事先定义的结果空间
+	
+	mov ax, 4c00h
+	int 21h
+code ends
+
+end
+</code></pre>
+<p><strong>MUL指令</strong></p>
+<p>与DIV类似</p>
+<pre><code class="language-assembly">mul bl	;或任意8b寄存器
+</code></pre>
+<p>表示将<code>al*bl</code>的结果存放在<code>ax</code>中</p>
+<pre><code class="language-assembly">mul bx	;或任意16b寄存器
+</code></pre>
+<p>表示将<code>ax*bx</code>的结果存放在<code>dx,ax</code>中，<code>dx</code>是高位</p>
+<p><code>mul</code>是无符号数的乘法，<code>imul</code>是有符号数的乘法</p>
+<a name="3.9" class="md-header-anchor" id="3.9"></a>
+<h3>4.9 使用DUP设置内存空间</h3>
+<p>和<code>dd,db,dw</code>等<strong>伪指令</strong>一起使用，定义数据重复次数，这个是给<strong>编译器</strong>读的</p>
+<pre><code class="language-assembly">db 3 dup (0)				;db 0,0,0
+db 3 dup (0,1,2)			;db 0,1,2,0,1,2,0,1,2
+db 3 dup (&#39;abc&#39;,&#39;ABC&#39;)		;db &#39;abcABCabcABCabcABC&#39;
+</code></pre>
+<p>dup前面跟的是重复的次数</p>
+<p>一个典型用法是开辟一个空的数据空间</p>
+<pre><code class="language-assembly">stack segment
+	db 200 dup (0)
+stack ends
+</code></pre>
+<p>开辟了一个200B的空栈段</p>
+<p><strong>数据定义语句</strong></p>
+<p>将操作数存入<strong>变量名指定的</strong>存储单元，或分配空间</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_12.png" width="600"></center>
+
+<p>还能在定义时计算，如<code>5*20H=A0H</code></p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

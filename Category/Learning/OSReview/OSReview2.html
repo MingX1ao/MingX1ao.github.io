@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="现代操作系统速通">
+    <meta name="description" content="3 存储管理 - 现代操作系统速通">
+    <meta name="author" content="MingXiao">
+    <title>3 存储管理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 存储管理
+                    <ul>
+                            <li><a href="#2.1">3.1 磁盘</a></li>
+                            <li><a href="#2.2">3.2 文件系统</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 存储管理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 磁盘</h3>
+<p>盘片表面逻辑地分为圆形的磁道，磁道分为扇区，扇区是读写的基本单位</p>
+<p>同一磁臂位置的磁道集合形成了柱面</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_8.png" width="500"></center>
+
+
+
+<p><strong>磁盘调度</strong></p>
+<p>寻道时间占大头，因此要尽量减少寻道</p>
+<ul>
+<li>FCFS：按顺序寻道；响应快了，但是寻道时间最长</li>
+<li>最短寻道时间优先SSTF：优先处理靠近当前磁头位置的请求；会导致饥饿，且实际使用中没有后面来的扇区序列</li>
+<li>扫描算法：从磁盘的一端开始，向另一端移动，处理请求，当达到另一端时，开始方向移动；适合请求的柱面较均匀的情况</li>
+<li>循环扫描：从一段开始向另一端移动，处理请求，到达另一端后立刻返回开头，回程上不处理请求</li>
+<li>LOOK：想法和扫描一致，但不是到端点，而是到最远的请求；同样还有循环LOOK</li>
+</ul>
+<p><strong>多磁盘管理</strong></p>
+<ul>
+<li>RAID-0：数据分成多个子块，存在独立的磁盘中，I/O带宽大</li>
+<li>RAID-1：两个磁盘存一样的数据，可靠性加倍，读写任意读一个</li>
+<li>RAID-4：数据块级的磁盘配有专用奇偶校验盘；其他盘采用RAID-0策略</li>
+<li>RAID-5：4会导致校验盘频繁读写，5把校验块均匀分布在所有数据块中</li>
+</ul>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 文件系统</h3>
+<p>对用户来说，文件是逻辑外存的最小分配单元</p>
+<p><strong>文件分配方法</strong></p>
+<p>评价指标：高效（利用率），表现（访问速度）</p>
+<ul>
+<li>连续分配：每个文件在磁盘上占有一组连续的块，指定起始块和长度；读取表现好，支持随机访问；但是文件扩展差，会产生外部碎片问题；适合只读文件</li>
+<li>链式分配：每个文件是磁盘块的链表，可以散布在磁盘任意位置，文件头包含了第一块和最后一块的指针；创建、增加和缩小容易，没有外部碎片；但只能顺序访问，指针丢失文件就寄了<ul>
+<li>文件分配表FAT：FAT中记录了每一个磁盘块的索引，改善了随机访问</li>
+</ul>
+</li>
+<li>索引分配：每个文件有自己的索引块，记录磁盘块地址；支持随机访问，没有外部碎片；但是需要维护完整的索引块，浪费空间<ul>
+<li>链式索引块：大文件，将多个索引块链接，不怕空间不够</li>
+<li>多级索引块：类似多级页表，空间改善，但是访存速度受限</li>
+</ul>
+</li>
+</ul>
+<p><strong>索引分配的组合方案</strong></p>
+<ul>
+<li>将索引块的前几个指针存在文件inode中</li>
+<li>这些指针的前12个直接指向数据块，对应小文件不需要多级索引</li>
+<li>剩下的3个指针指向间接块，对应大文件<ul>
+<li>第一个指向一级，第二个指向二级，第三个指向三级</li>
+</ul>
+</li>
+</ul>
+<p>注意一下最后一道例题</p>
+<center><img src="/Category/Learning/Pictures/OperationSystem_9.png" width="500"></center>
+
+<center><img src="/Category/Learning/Pictures/OperationSystem_10.png" width="200"></center>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

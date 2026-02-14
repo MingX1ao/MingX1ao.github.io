@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="微机原理">
+    <meta name="description" content="11 可编程计数器/定时器8253/8254 - 微机原理">
+    <meta name="author" content="MingXiao">
+    <title>11 可编程计数器/定时器8253/8254</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>11 可编程计数器/定时器8253/8254
+                    <ul>
+                            <li><a href="#10.1">11.1 8253的结构和作用</a></li>
+                            <li><a href="#10.2">11.2 8253的工作方式</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">11 可编程计数器/定时器8253/8254</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="10.1" class="md-header-anchor" id="10.1"></a>
+<h3>11.1 8253的结构和作用</h3>
+<center><img src="/Category/Learning/Pictures/MicroComputer_40.png" width="500"></center>
+
+<p>有三个独立而相同的通道，每个通道都有</p>
+<ul>
+<li><code>8bit</code>控制字寄存器</li>
+<li><code>16bit</code>计数初值寄存器，说明计数有上限，超过需要外层循环；<strong>定时时间=时钟周期*计数初值</strong></li>
+<li><code>16bit</code>计数执行部件，是一个减法计数器，从初值开始<code>-1</code>循环</li>
+<li><code>16bit</code>输出锁存器，必要时从这里读出计数的瞬时值</li>
+</ul>
+<p>三个<code>16bit</code>的寄存器都可以当成两个<code>8bit</code>的寄存器用</p>
+<p><code>A1A0</code>连接CPU的<code>A1A0</code>时，是<code>8bit</code>CPU；<code>A2A1</code>，则是<code>16bit</code>CPU</p>
+<p>地址对应如下</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_48.png" width="300"></center>
+
+
+
+<p><strong>控制字寄存器</strong></p>
+<p>每个位的作用如下</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_41.png" width="400"></center>
+
+<p>注意<code>D5D4=11</code>时的读/写顺序是先低后高</p>
+<p>当工作于二进制计数时，<code>n=0000 - FFFF H</code>，其中<code>0000</code>代表<code>n=65536</code></p>
+<p>当工作于BCD码计数时，<code>n=0000 - 9999 D</code>，其中<code>0000</code>代表<code>n=10000</code></p>
+<a name="10.2" class="md-header-anchor" id="10.2"></a>
+<h3><font color=red>11.2 8253的工作方式</font></h3>
+<p>一共有6种方式，但是<code>-1</code>操作一定是在<strong>CLK的下降沿</strong>进行的</p>
+<p><strong>方式0</strong>：计数结束产生中断信号</p>
+<ul>
+<li><p>向计数通道写入初值n，<code>OUT=0</code></p>
+</li>
+<li><p>只用<code>GATE=1</code>时才计数，<code>-1</code>；<code>GATE=0</code>，不会重新计数；计数一次有效，需要手动再装载</p>
+</li>
+<li><p>只有在n<strong>写入1个CLK之后</strong>才开始<code>-1</code>，在写入后<strong>第<code>n+1</code>CLK减为0</strong></p>
+<p><code>OUT</code>产生一个正的跳变，作为中断信号输出到别的芯片</p>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MicroComputer_42.png" width="300"></center>
+
+
+
+<p><font color=red><strong>方式1</strong></font>：可编程单稳定输出</p>
+<ul>
+<li>写入初值n</li>
+<li><code>GATE</code>产生<strong>上升沿</strong>，才<strong>启动</strong>计数，<strong>之后不需要</strong><code>GATE</code>信号；计数一次有效</li>
+<li>当开始计数时，<code>OUT=0</code>，在<code>n=0</code>时恢复，产生1一个\(t=nT_c\)的负脉冲信号</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MicroComputer_43.png" width="300"></center>
+
+
+
+<p><strong>方式2</strong>：比率发生器</p>
+<ul>
+<li>写入初值n</li>
+<li><code>GATE=1</code>时开始计数，<strong>当<code>n=1</code>时</strong><code>OUT</code>输出1个\(T_c\)的负脉冲，然后自动装入n（初值），重新计数</li>
+<li>即每隔\(nT_c\)产生一个负脉冲</li>
+<li>如果在计数过程中装入新的n，那么<strong>下次计数</strong>按新的来</li>
+<li>在计数过程中<code>GATE</code>变为0，则在下次<code>GATE=1</code>时<strong>重新开始</strong>计数</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MicroComputer_44.png" width="300"></center>
+
+<p><strong>注意，这是特别的，当n=1时的输出</strong></p>
+<p><font color=red><strong>方式3</strong></font>：方波发生器（分频）</p>
+<ul>
+<li><p>输入初值n，<code>GATE=1</code>按下面方式计数</p>
+</li>
+<li><p>若n为<strong>偶数</strong>，每次计数<code>-2</code>，减到0时<code>OUT=0</code>；n回到初值，每次<code>-2</code>，减到0时<code>OUT=1</code></p>
+<p>循环上面过程，产生占空比=0.5，周期=\(nT_c\)的方波</p>
+</li>
+<li><p>若n为<strong>奇数</strong>，<code>-1</code>，然后每次<code>-2</code>，减到0时<code>OUT=0</code>；n回到初值，<code>-3</code>，然后每次<code>-2</code>，减到0时<code>OUT=1</code></p>
+<p>循环上面过程，产生不对称的方波，周期=\(nT_c\)的方波</p>
+</li>
+<li><p>计数过程中<code>GATE=0</code>，停止计数，当<code>GATE=1</code>时<strong>从头开始计数</strong></p>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/MicroComputer_45.png" width="300"></center>
+
+
+
+<p><strong>方式4</strong>：软件触发选通</p>
+<ul>
+<li>输入初值n，当<code>GATE=1</code>时（不必是上升沿）<strong>直接开始</strong>计数，减到0时输出\(T=T_c\)的<strong>单个</strong>负脉冲</li>
+<li>n一次有效，想要继续必须再次输入</li>
+<li>计数过程中<code>GATE=0</code>，<strong>恢复后从头开始</strong></li>
+</ul>
+<p>方式4不需要<code>GATE</code>信号</p>
+<p><font color=red><strong>方式5</strong></font>：硬件触发选通</p>
+<ul>
+<li>输入初值n，<strong><code>GATE</code>上升沿开始计数</strong>，之后不需要，减到0时输出\(T=T_c\)的<strong>单个</strong>负脉冲</li>
+<li>n一次有效，想要继续必须再次输入</li>
+<li>n个CLK后产生一个1CLK的负脉冲</li>
+<li>计数过程中<code>GATE=0</code>，<strong>恢复后从头开始</strong></li>
+</ul>
+<p>方式4、5是类似的，但是方式5需要一个硬件的<code>GATE</code><strong>上升沿</strong>信号</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_46.png" width="300"></center>
+
+
+
+<p><strong>共同点</strong></p>
+<ul>
+<li>除了方式0外，其他的方式<code>OUT</code>初始输出为1</li>
+<li>除了方式4外，其他在<code>GATE=1</code>或其上升沿下才能/触发计数</li>
+</ul>
+<p><font color=red>例：</font>8086系统中，8253基地址为<code>310H</code>，时钟频率<code>1MHz</code>，让三个通道实现下面的功能</p>
+<ul>
+<li>通道0，方式3，输出2kHz方波</li>
+<li>通道1，产生宽度为480us的单脉冲</li>
+<li>通道2，硬件触发，输出单脉冲，时间常数为26</li>
+</ul>
+<p>解：基地址为<code>310H = 0011 0001 0000B</code>，<code>A2A1</code>接入芯片的<code>A1A0</code>，使用部分译码和74LS138作为译码器</p>
+<p>​		三个时钟口共用一个时钟信号，得到的硬件连接如下</p>
+<center><img src="/Category/Learning/Pictures/MicroComputer_47.png" width="500"></center>
+
+<p>还需要写软件</p>
+<p>通道0需要的稳定的方波，使用方式3，而\(1M \div 2k=500\)，那么\(n=500D=0500H\)，后者使用BCD编码</p>
+<p>控制字为<code>00 11 011 1</code>，控制字地址为<code>316H</code>，写入通道0，端口是<code>310H</code></p>
+<pre><code class="language-assembly">mov al, 00110111B
+out 316H, al		;写入控制字
+mov al, 00H
+out 310H, al		;写入低位
+mov al, 05H
+out 310H, al		;写入高位
+</code></pre>
+<p>通道1产生指定长度的单脉宽，时钟周期\(T_c=1\mu s\)，一共480个时钟周期，选择方式1，\(n=480D=0480H\)</p>
+<p>控制字为<code>01 11 001 1</code>，通道1地址为<code>312H</code></p>
+<pre><code class="language-assembly">mov al, 01110011B
+out 316H, al		;写入控制字
+mov al, 80H
+out 312H, al		;写入低位
+mov al, 04H
+out 312H, al		;写入高位
+</code></pre>
+<p>通道2产生单脉冲，且硬件触发，使用方式5，时间常数就是延迟，即\(n=26D=0026H\)</p>
+<p>控制字为<code>10 01 101 1</code>，通道2地址为<code>314H</code></p>
+<pre><code class="language-assembly">mov al, 10011011B
+out 316H, al		;写入控制字
+mov al, 26H
+out 314H, al		;写入低位
+</code></pre>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

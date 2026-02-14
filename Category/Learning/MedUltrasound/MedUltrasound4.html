@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="5 声波的散射和吸收衰减 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>5 声波的散射和吸收衰减</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>5 声波的散射和吸收衰减
+                    <ul>
+                            <li><a href="#4.1">5.1 散射</a></li>
+                            <li><a href="#4.2">5.2 超声散射的作用</a></li>
+                            <li><a href="#4.3">5.3 声波在生物组织中的衰减吸收</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">5 声波的散射和吸收衰减</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="4.1" class="md-header-anchor" id="4.1"></a>
+<h3>5.1 散射</h3>
+<p><strong>广义</strong>：声波的<strong>波幅、波前方向、相位和频率</strong>由于介质中<strong>非均匀体</strong>的再辐射而改变</p>
+<p><strong>狭义</strong>：声波传播过程中遇到<strong>线度小于波长</strong>的障碍物时反射波不再是平面波。称为散射波场</p>
+<p>超声波在生物组织中的衰减主要由<strong>吸收</strong>和<strong>散射</strong>组成</p>
+<p>散射分类</p>
+<ul>
+<li>\(d\gg \lambda\)，反射、透射、折射</li>
+<li>\(d\approx \lambda\)，衍射（结石）</li>
+<li>\(d\ll \lambda\)，瑞利散射、分子散射（红细胞）</li>
+</ul>
+<p><strong>瑞利散射</strong></p>
+<p>当\(d\ll \lambda\)时，散射波的<strong>强度</strong>与入射波的波长有如下关系<br>\[
+I(\lambda)_{\mathsf{scattering}} \propto \frac{I(\lambda)_{\mathsf{incident}}}{\lambda^4}
+\]</p>
+<p><font color=red>例：</font>为什么天空是蓝色的？为什么早晨或者晚上太阳是红色的？</p>
+<p>解：空气分子粒径与光波长相近，波长短的蓝色光强度大；这两个时间段太阳光经过的大气最长，蓝光都被散射，红光的波长长，散射强度低，看起来显得红</p>
+<p><strong>影响红细胞超声散射的主要因素</strong></p>
+<ul>
+<li>散射体的尺度</li>
+<li>散射体的数目</li>
+<li>散射体和周围环境的声阻抗率<strong>之差</strong></li>
+<li>超声的频率</li>
+</ul>
+<a name="4.2" class="md-header-anchor" id="4.2"></a>
+<h3>5.2 超声散射的作用</h3>
+<p><strong>超声造影剂</strong></p>
+<p>本质是微米量级的包膜微气泡，用来增强超声的散射强度，显影更清晰</p>
+<p>为什么用气泡？：因为气泡的声阻抗率和生物组织相差往往很大；气泡<strong>共振</strong>产生很强的散射</p>
+<p><strong>超声多普勒</strong>：测量血液流速，<strong>利用</strong>的是声波的<strong>散射</strong>；血液的反射非常微弱</p>
+<ul>
+<li>观察者动：\(f^{'} = \frac{v+c}{\lambda} = (1+\frac{v}{c})f_0\)</li>
+<li>波源动：\(f^{'} = \frac{c}{\lambda-vT}=\frac{c}{c-v}f_0\)</li>
+</ul>
+<p>都是靠近的情况</p>
+<p>为了增强散射信号的强度，超声多普勒仪的功率很大，比B超大</p>
+<a name="4.3" class="md-header-anchor" id="4.3"></a>
+<h3>5.3 声波在生物组织中的衰减吸收</h3>
+<p><strong>声压衰减系数\(\alpha\)</strong></p>
+<p>很显然满足<br>\[
+\frac{dp}{p} = -\alpha dx
+\]<br>得到<br>\[
+p(x) = p(x_0)e^{-\alpha(x-x_0)}
+\]<br>取对数得到<br>\[
+\alpha = \frac{1}{x-x_0}\ln{\frac{p(x_0)}{p(x)}}\,\,\, \mathsf{Np/cm}\\
+\alpha = \frac{20}{x-x_0}\lg{\frac{p(x_0)}{p(x)}} = \frac{10}{x-x_0}\lg{\frac{I(x_0)}{I(x)}}\,\,\, \mathsf{dB/cm}
+\]<br>有时也用声<strong>强</strong>的衰减系数\(\mu=2\alpha\)<br>\[
+I(x) = I(x_0)e^{-\mu(x-x_0)}
+\]</p>
+<p><strong>衰减因素</strong>：只考虑无吸收的理想衰减</p>
+<ul>
+<li>扩散衰减：波阵面扩大（平面波不会）</li>
+<li>散射衰减：改变了传输方向</li>
+<li>吸收衰减：转换为其他能量</li>
+<li>界面反射衰减：改变了传输方向</li>
+</ul>
+<p>衰减是包括了吸收的，因此<strong>衰减系数&gt;吸收系数</strong></p>
+<p><strong>吸收衰减随频率的变化</strong></p>
+<p>在1MHz - 15MHz的频段，吸收系数几乎与频率成正比，即<br>\[
+\alpha \propto f
+\]</p>
+<p>实际上<br>\[
+\alpha = af^b
+\]<br>其中\(b\)很接近1</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

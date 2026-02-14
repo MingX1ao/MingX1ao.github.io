@@ -22,6 +22,7 @@ const { marked } = require('marked');
 const ROOT = __dirname;
 const CONFIG_FILE = path.join(ROOT, 'build-config.json');
 const ARTICLES_JSON = path.join(ROOT, 'articles.json');
+const PICTURES_DEST = path.join(ROOT, 'Category', 'Learning', 'Pictures');
 
 // ============================================================
 // MathJax 保护：在 marked 渲染前将 $...$ 和 $$...$$ 替换为占位符，
@@ -59,6 +60,68 @@ function restoreMath(html, placeholders) {
 }
 
 // ============================================================
+// 图片路径重写 + 图片复制
+// ============================================================
+
+// 将 HTML 中的 Pictures/XXX.png 路径改为 /Category/Learning/Pictures/XXX.png
+function rewriteImagePaths(html) {
+    // 匹配 <img> 标签中的 src="Pictures/..."
+    html = html.replace(/(<img[^>]+src=["'])Pictures\//gi, '$1/Category/Learning/Pictures/');
+    // 匹配 markdown 图片 ![](Pictures/...)
+    html = html.replace(/(!\[[^\]]*\]\()Pictures\//g, '$1/Category/Learning/Pictures/');
+    return html;
+}
+
+// 从 markdown 源文件所在目录复制被引用的图片到网站的 Pictures 目录
+function copyReferencedImages(mdContent, sourceDir) {
+    // 确保目标目录存在
+    if (!fs.existsSync(PICTURES_DEST)) {
+        fs.mkdirSync(PICTURES_DEST, { recursive: true });
+    }
+
+    // 收集所有图片引用
+    const refs = new Set();
+
+    // <img src="Pictures/xxx.png">
+    const imgTagRegex = /<img[^>]+src=["']Pictures\/([^"']+)["']/gi;
+    let match;
+    while ((match = imgTagRegex.exec(mdContent)) !== null) {
+        refs.add(match[1]);
+    }
+
+    // ![](Pictures/xxx.png)
+    const mdImgRegex = /!\[[^\]]*\]\(Pictures\/([^)]+)\)/g;
+    while ((match = mdImgRegex.exec(mdContent)) !== null) {
+        refs.add(match[1]);
+    }
+
+    let copied = 0;
+    for (const imgName of refs) {
+        const srcPath = path.join(sourceDir, 'Pictures', imgName);
+        const destPath = path.join(PICTURES_DEST, imgName);
+        if (fs.existsSync(srcPath)) {
+            // 仅当目标不存在或源文件更新时才复制
+            let needCopy = !fs.existsSync(destPath);
+            if (!needCopy) {
+                const srcStat = fs.statSync(srcPath);
+                const destStat = fs.statSync(destPath);
+                needCopy = srcStat.mtimeMs > destStat.mtimeMs;
+            }
+            if (needCopy) {
+                fs.copyFileSync(srcPath, destPath);
+                copied++;
+            }
+        } else {
+            console.warn(`  ⚠️ 图片不存在: ${srcPath}`);
+        }
+    }
+
+    if (refs.size > 0) {
+        console.log(`  📷 图片: 引用 ${refs.size} 张, 复制 ${copied} 张`);
+    }
+}
+
+// ============================================================
 // Markdown → HTML 转换
 // ============================================================
 
@@ -73,6 +136,7 @@ function renderMarkdown(md) {
 
     let html = marked.parse(markdown);
     html = restoreMath(html, placeholders);
+    html = rewriteImagePaths(html);
     return html;
 }
 
@@ -353,12 +417,27 @@ ${listHtml}
 // ============================================================
 
 function splitMarkdown(content) {
+    // Normalize Windows \r\n to \n
+    content = content.replace(/\r\n/g, '\n');
     const lines = content.split('\n');
     const sections = [];
     let currentSection = null;
     let preamble = []; // content before first ## heading
+    let h1Title = ''; // fallback title from # heading
 
     for (const line of lines) {
+        // Capture the # (h1) title for fallback
+        const h1Match = line.match(/^# (.+)$/);
+        if (h1Match && !h1Title) {
+            h1Title = h1Match[1].trim();
+            if (!currentSection) {
+                preamble.push(line);
+            } else {
+                currentSection.lines.push(line);
+            }
+            continue;
+        }
+
         // Match ## headings (but not ### or deeper)
         const match = line.match(/^## (.+)$/);
         if (match) {
@@ -378,6 +457,14 @@ function splitMarkdown(content) {
 
     if (currentSection) {
         sections.push(currentSection);
+    }
+
+    // 如果没有 ## 标题，将全部内容作为一个章节
+    if (sections.length === 0) {
+        sections.push({
+            rawTitle: h1Title || '正文',
+            lines: preamble
+        });
     }
 
     return { preamble, sections };
@@ -407,10 +494,22 @@ function buildCourse(config) {
 
     console.log(`  找到 ${sections.length} 个章节`);
 
+    // 复制引用的图片到 Category/Learning/Pictures/
+    const sourceDir = path.dirname(config.source);
+    copyReferencedImages(mdContent, sourceDir);
+
     // 确保输出目录存在
     const outputDir = path.join(ROOT, config.outputDir);
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
+    }
+
+    // 清理旧文件：删除同一 courseId 的旧 HTML（但保留 homepage.html）
+    const existingFiles = fs.readdirSync(outputDir);
+    for (const file of existingFiles) {
+        if (file.startsWith(config.courseId) && file.endsWith('.html')) {
+            fs.unlinkSync(path.join(outputDir, file));
+        }
     }
 
     const articles = [];

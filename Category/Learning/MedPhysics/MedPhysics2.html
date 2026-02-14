@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学物理导论">
+    <meta name="description" content="3 放射诊断技术 - 医学物理导论">
+    <meta name="author" content="MingXiao">
+    <title>3 放射诊断技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 放射诊断技术
+                    <ul>
+                            <li><a href="#2.1">3.1 放射性核素</a></li>
+                            <li><a href="#2.2">3.2 核医学仪器</a></li>
+                            <li><a href="#2.3">3.3 核医学显像技术</a></li>
+                            <li><a href="#2.4">3.4 核医学分子影像</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 放射诊断技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>重点<br><strong>核素发生器原理<font color=red>级联衰变</font></strong><br><strong>放射性探测仪器的基本构成和工作原理</strong><br><strong><font color=red>γ相机、SPECT、PET</font>的显像原理与特点</strong></p>
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 放射性核素</h3>
+<p><strong>来源</strong>  </p>
+<ol>
+<li>核反应堆生产：反应堆的高通量中子流照射靶材料，产生不稳定的核素</li>
+<li>医用回旋加速器生产：通过回旋加速器加速带电粒子，撞击靶核后产生</li>
+<li>放射性核素发生器生产：从长半衰期核素生产短半衰期核素</li>
+</ol>
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 核医学仪器</h3>
+<p><strong>定义</strong><br>在医学中用于<strong>探测和记录</strong>放射性核素发出的射线种类、能量、活度，和其随时间、空间变化的仪器, <strong><font color=red>不能发射射线</font></strong>  </p>
+<p><strong>分类</strong>  </p>
+<ol>
+<li>显像仪器（γ相机、SPECT、PET等）</li>
+<li>脏器功能测量仪器  </li>
+<li>放射性计数测量仪器</li>
+<li>放射性药物合成与分装仪器</li>
+</ol>
+<p><strong>仪器的基本构成和工作原理</strong><br>基本都由两个模块构成：<font color=red>放射性探测仪（探头）</font>和后续电子单元<br>探头：使射线在其中发生电离或激发，再<font color=red>将产生的离子（电离）或荧光光子（激发）收集并转变为可记录信电号</font>，实际上是一个将射线能量转化为电能的<strong>换能器</strong>  </p>
+<p><strong><font color=red>固体闪烁计数器</font></strong><br>由下面的部分组成（按顺序）</p>
+<ol>
+<li><p><strong>准直器</strong>：阻挡斜射的射线，便于定位</p>
+</li>
+<li><p><strong>闪烁晶体</strong>：将射线的辐射能转变为光能（不都是电磁波吗）</p>
+</li>
+<li><p><strong>光学耦合剂</strong>：减缓折射率变化，有效传递光能</p>
+</li>
+<li><p><strong>光电倍增管</strong>：将微弱的信号转换成可测量的电信号  </p>
+</li>
+<li><p><strong>前置放大器</strong>：对信号进行放大跟踪</p>
+</li>
+<li><p>后续电子电路：得到闪烁的位置和能量信号</p>
+</li>
+<li><p>记录装置</p>
+</li>
+</ol>
+<p>  <img src="/Category/Learning/Pictures/MedicalPhysica_16.png" width="500"><img src="/Category/Learning/Pictures/MedicalPhysica_17.png" width="200">  </p>
+<p><strong>X射线和γ射线检查的区别</strong><br><img src="/Category/Learning/Pictures/MedicalPhysica_18.png" width="500"></p>
+<ol>
+<li>前者属于放射学检查，后者属于核医学检查</li>
+<li>前者依靠仪器的射线源穿透人体后的衰减</li>
+<li>后者依靠人体事先服用的药物的放射性，仪器收集放射线，测量放射性分布</li>
+</ol>
+<p><strong>γ相机的动态显像</strong><br>记录放射性分布随时间的变化，得到人体的代谢信息<br><img src="/Category/Learning/Pictures/MedicalPhysica_19.png" width="500"></p>
+<center>“时间-放射性计数”曲线</center>  
+
+  
+
+<p><strong>SPECT</strong><br>基本结构<br>在一台高性能γ相机的基础上增加了探头旋转和图像重建的功能<br><img src="/Category/Learning/Pictures/MedicalPhysica_20.png" width="300"></p>
+<p>显像特点<br>断层显像（类似CT）消除了不同层次的放射性的重叠干扰，更加精确<br><font color=red>断层图像重建</font>：从已知的每个角度上的平面投影（也就是记录值），求出断层平面内各体素的放射性分布，目前主要两种  </p>
+<ol>
+<li>滤波反投影（FBP）：速度快；抗噪声能力差，精确度低；适用于临床实时诊断</li>
+<li>有序子集最大期望值（OSEM）:质量高，伪影少；运算量大</li>
+</ol>
+<p>SPECT/CT融合显影<br>二者有高度互补性。CT可以查看组织分布，无法看病灶；SPECT可以查看异常分布，无法看组织分布。同时CT提供的图像数据还可以用于SPECT的衰减校正（光子被人体吸收但SPECT不能得知衰减），提高图像质量<br><img src="/Category/Learning/Pictures/MedicalPhysica_21.png" width="300"></p>
+<p><strong>PET</strong><br><font color=red>显像原理</font><br>药物中含有正电子，利用湮灭产生的相对的光子对和两个相对的探测器，通过探测器输出的脉冲的信号来确定闪烁位置的方法称<strong>电子准直</strong>，这种探测方法称为<strong>符合探测</strong>  </p>
+<p>数据矫正<br>由于<font color=red>没有准直器</font>，PET需要很多矫正  </p>
+<p>探测器组成<br>具有保护和光屏蔽的外壳（内有若干晶体+光电倍增管+放大定位电路）组成一个<strong>探测器</strong>，一组探测器组合成<strong>组块</strong>，几个组块组成<strong>探测器组</strong>，若干探测器组组成<strong>探测器环</strong>，若干探测器环排列成<strong>探头</strong>。探头的环数越多，轴向的视野越大，一次扫描可获得的断层面越宽<br><img src="/Category/Learning/Pictures/MedicalPhysica_22.png" width="300"></p>
+<p>PET/CT融合显影<br>具有PET和CT的全部功能，很厉害  </p>
+<p><strong><font color=red>脏器功能测定仪</font></strong><br>只关心特定的脏器中药物的放射性浓度随时间的变化，以连续测量计数率为设计目标  </p>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 核医学显像技术</h3>
+<p><strong>核医学显像特点</strong>  </p>
+<ol>
+<li>可同时提供脏器组织的功能和结构变化</li>
+<li>定量分析</li>
+<li>较高的特异性</li>
+<li>安全、无创</li>
+</ol>
+<p><strong>不足</strong>  </p>
+<ol>
+<li>对组织的分辨率不及其他影像学方法</li>
+<li>任何脏器的显像都需要使用显像剂</li>
+</ol>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 核医学分子影像</h3>
+<p>从<font color=red>分子水平</font>动态显示体内各种生命信息<br>分子影像是精准医学的重要标志<br><img src="/Category/Learning/Pictures/MedicalPhysica_23.png" width="500"></p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

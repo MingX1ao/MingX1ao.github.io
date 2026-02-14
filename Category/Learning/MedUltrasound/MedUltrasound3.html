@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="4 声波的传播特性 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>4 声波的传播特性</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 声波的传播特性
+                    <ul>
+                            <li><a href="#3.1">4.1 波动方程</a></li>
+                            <li><a href="#3.2">4.2 声波的叠加、干涉和衍射</a></li>
+                            <li><a href="#3.3">4.3 声波的反射、折射与透射</a></li>
+                            <li><a href="#3.4">4.4 三层介质透射与换能器声学匹配</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 声波的传播特性</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3>4.1 波动方程</h3>
+<p>求解的前提假设</p>
+<ul>
+<li>体积元的尺寸远小于波长</li>
+<li>体积元内部的量变忽略不计（均一）</li>
+<li>体积元的尺寸远大于原子分子的尺寸，且介质连续</li>
+</ul>
+<p>根据牛顿第二定律，得到<br>\[
+F = ma = m\frac{dv}{dt}=\rho A\Delta x\frac{dv}{dt}
+\]<br>而\(v=v(x,t)\)，全微分得到\(dv = \frac{\part v}{\part x}dx+\frac{\part v}{\part t}dt\)，得到\(\frac{dv}{dt}=\frac{\part v}{\part x}\frac{dx}{dt}+\frac{\part v}{\part t}\)</p>
+<p>同时，体积元上的力由两边的压强差造成<br>\[
+F = [p(x)-p(x+\Delta x)]A
+\]<br>联立二式得到<br>\[
+-\frac{\part p}{\part x} = \frac{p(x)-p(x+\Delta x)}{\Delta x} = \rho\left(\frac{\part v}{\part x}\frac{dx}{dt}+\frac{\part v}{\part t}\right)
+\]<br>带入\(v,x\)的表达式进一步得到<br>\[
+\frac{\part p}{\part x}+\rho_0\frac{\part v}{\part t} = 0
+\]<br>根据质量守恒，单位时间内离开体积元的质量就是体积元质量的减少，即<br>\[
+A[\rho(x+\Delta x)v(x+\Delta x)-\rho(x)v(x)] = -A \Delta x\frac{\part \rho}{\part t}
+\]<br>整理为<br>\[
+\frac{\part(\rho v)}{\part x}+\frac{\part \rho}{\part t} = 0 \tag{4-1}
+\]<br>带入\(\rho(t) = \rho_0+\rho_1(t)\)，且\(\rho_0 >>\rho_1\)，前者不随时间变化，得到<br>\[
+\rho_0 \frac{\part v}{\part x} +\frac{\part \rho_1}{\part t} =0 \tag{4-2}
+\]<br>为了反映介质特性，定义绝热压缩系数<br>\[
+K = \frac{\rho_1}{\rho_0}\frac{1}{p}
+\]<br>将上式对时间求导后带入4-2<br>\[
+\frac{\part p}{\part t} +\frac{1}{K}\frac{\part v}{\part x}=0 \tag{4-3}
+\]<br>结合4-1,4-3，再次求导，得到<br>\[
+\frac{\part^2 p}{\part x^2} -\frac{1}{c^2}\frac{\part^2 p}{\part t^2}=0
+\]<br>这个波动方程的通解是<br>\[
+p = A_1e^{j(\omega t -kx)} +A_2e^{j(\omega t+kx)}
+\]<br>定义色散关系：\(\frac{\omega}{k}=c= \frac{1}{\sqrt{\rho_0 K}}\)</p>
+<p><strong>推导方程的前提</strong></p>
+<ul>
+<li>主要考虑纵波，这在生物体软组织中成立（剪切模量很小）</li>
+<li>声强不太大，因此体积元的密度变化不大，在诊断时满足（HIFU不满足）</li>
+<li>无热量交换，在治疗时不满足</li>
+<li>没有考虑介质吸收的衰减</li>
+</ul>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 声波的叠加、干涉和衍射</h3>
+<p><strong>相控阵聚集扇扫</strong>：基于叠加原理，一系列不同相位的波在目标地叠加加强</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_4.png" width="400"></center>
+
+
+
+<p><strong>驻波</strong>：两束传播方向不同的波叠加</p>
+<p>入射波\(p_i = p_{ia}e^{j(\omega t-kx)}\)，反射波\(p_r=p_{ra}e^{j(\omega t+kx)}\)，合成后为<br>\[
+p=p_i+p_r=e^{j\omega t}\left[(p_{ia}-p_{ra})e^{-jkx} +2p_{ra}\cos{kx}\right]
+\]<br>当\(p_{ia}=p_{ra}\)时，得到<br>\[
+p = 2p_ae^{j\omega t}\cos{(kx)}
+\]<br>故在\(x=\frac{1+2k}{4}\lambda\)时为波节，振幅为0；\(x=\frac{k}{2}\lambda\)时为波腹，振幅最大</p>
+<p><strong>驻波的应用</strong></p>
+<p>换能器压电晶片的厚度选择声波在换能器介质中的\(\frac{\lambda}{2}\)的奇数倍，<strong>\(\frac{\lambda}{2}\)对应换能器工作的基频</strong>，倍数为谐波频率</p>
+<p><strong>衍射</strong></p>
+<p>影响</p>
+<ul>
+<li><p>由于超声的衍射，换能器能探测的病灶深度方向的<strong>最小尺寸为</strong>\(\frac{\lambda}{2}\)，再小，声波就衍射走了，<strong>没有回波</strong></p>
+</li>
+<li><p>小结石无声影，大结石有很长的声影</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_5.png" width="500"></center></li>
+</ul>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 声波的反射、折射与透射</h3>
+<h4>4.3.1 声波垂直入射的反射与透射</h4>
+<p>定义声<strong>压</strong>反射率\(r\)和声<strong>压</strong>透射率\(t\)，对于下面的垂直入射过程存在</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_6.png" width="200"></center>
+
+<p>\[
+r = \frac{p_r}{p_0} = \frac{Z_2-Z_1}{Z_2+Z_1}\\
+t = \frac{p_t}{p_0} = \frac{2Z_2}{Z_2+Z_1}
+\]</p>
+<p>其中\(Z_i\)是声阻抗率，\(Z_i\)不同是反射折射产生的原因</p>
+<p>进一步定义声<strong>强</strong>反射率\(R\)和声<strong>强</strong>透射率\(T\)，有<br>\[
+R = \frac{I_r}{I_0} = \frac{\frac{p_r^2}{2Z_1}}{\frac{p_0^2}{2Z_1}} = r^2 = \left( \frac{Z_2-Z_1}{Z_2+Z_1} \right)^2\\
+T = \frac{I_t}{I_0} = \frac{\frac{p_t^2}{2Z_2}}{\frac{p_0^2}{2Z_1}} = \frac{Z_1}{Z_2}\frac{p_t^2}{p_0^2} = \frac{4Z_2Z_1}{(Z_2+Z_1)^2}
+\]<br>存在以下讨论</p>
+<ul>
+<li>\(Z_1>Z_2\)，入/反射波<strong>声压的相位反相</strong>，质点<strong>振动速度同相</strong></li>
+<li>\(Z_1\gg Z_2\)，\(r\approx-1,t\approx0,R=1,T=0\)</li>
+<li>\(Z_1<Z_2\)，入/反射波<strong>声压的相位相同</strong>，质点<strong>振动速度反相</strong></li>
+<li>\(Z_1\ll Z_2\)，\(r\approx1,t\approx2,R=1,T=0\)，形成驻波，<strong>振动速度的波节是声压的波腹</strong></li>
+<li>\(Z_1\approx Z_2\)，不反射</li>
+</ul>
+<p>洗澡时，水进入耳朵，由于水的声阻抗率远大于空气，类似情况4，声音听不清</p>
+<p>透射波永远与入射波同相，无论声压/振动速度</p>
+<p>从上式得到以下结论<br>\[
+R+T = 1 \\
+t = 1+r
+\]<br>上式理解为能量守恒，下式理解为法向声压连续（透射 = 入射 + 反射）</p>
+<p>超声成像的原理是不同介质的声阻抗率<strong>之差</strong>，而不是绝对大小；即<strong>超声成像依靠组织之间的反射系数差异</strong></p>
+<h4>4.3.2 声波斜入射的反射与折射</h4>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_7.png" width="300"></center>
+
+<p>存在以下关系<br>\[
+\frac{\sin\theta}{\sin\theta^{'}} = \frac{\lambda_1}{\lambda_2} = \frac{c_1}{c_2}\\
+k_1\sin\theta = k_2\sin\theta^{'}
+\]<br>下式也称为声折射定律</p>
+<p>斜入射条件下声压反射率与折射率有<br>\[
+r_p = \frac{Z_2\cos\theta-Z_1\cos\theta^{'}}{Z_2\cos\theta+Z_1\cos\theta^{'}}\\
+t_p = \frac{2Z_2\cos\theta}{Z_2\cos\theta+Z_1\cos\theta^{'}}
+\]</p>
+<ul>
+<li>当\(Z_2\cos\theta=Z_1\cos\theta^{'}\)时，反射率 = 0，称为全透射</li>
+<li>当\(\sin\theta > \frac{c_1}{c_2}\)时，折射角大于90\(^\circ\)，透射消失，称为全反射</li>
+</ul>
+<h4>4.3.3 成像伪影</h4>
+<p>B超等设备的成像依赖于声波的直线传播，故任何的散射，折射等非直线的情况都会产生<strong>成像伪影</strong></p>
+<ul>
+<li><p>回声失落：大界面的回声与角度有关，当<strong>界面与声束的角度很小</strong>时，反射波不能返回换能器，图像上没有这一块</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_8.png" width="400"></center>
+</li>
+<li><p>折射引起的伪影：类似于筷子在水中折断，会产生双重图像</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_9.png" width="300"></center>
+</li>
+<li><p>多普勒超声中的折射伪影：折射会<strong>改变</strong>声波的传播方向</p>
+</li>
+</ul>
+<p><strong>折射的应用</strong></p>
+<p>声波在空气中的速度比在玻璃中慢，故与光相反，<strong>凸</strong>透镜是<strong>发散</strong>声束，<strong>凹</strong>透镜是<strong>会聚</strong>声束</p>
+<p>当然介质改变后凸透镜也能会聚声束</p>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 三层介质透射与换能器声学匹配</h3>
+<p>声波在声阻抗率相差很大的两个介质中传播时，要用耦合剂进行耦合</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_10.png" width="100"></center>
+
+<p>那么有<br>\[
+T_{13} = T_{12} \cdot T_{23} = \frac{I_2}{I_1} \cdot\frac{I_3}{I_2} = \frac{4Z_3Z_1}{(Z_3+Z_1)^2\cos^2(k_2l_2)+\left( Z_2+\frac{Z_3Z_1}{Z_2} \right)^2\sin^2(k_2l_2)}
+\]<br>其中\(k_2 = \frac{2\pi}{\lambda_2}\)，\(l_2\)是中间介质的厚度</p>
+<ul>
+<li>当\(l_2\ll \lambda_2\)，相当于没有介质层</li>
+<li>当\(l_2=\frac{n}{2}\lambda_2\)，由于\(Z_1,Z_3\)相差很大，与上面相似</li>
+<li>当\(l_2 = \frac{2n+1}{4}\lambda_2\)，且\(Z_2 = \sqrt{Z_1Z_3}\)时，发生全透射，\(T_{13}=1\)</li>
+</ul>
+<p>因此，在换能器内部存在\(l=\frac{1}{4}\lambda\)的声学匹配层</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

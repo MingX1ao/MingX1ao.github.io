@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学传感器">
+    <meta name="description" content="4 生物传感器 - 生物医学传感器">
+    <meta name="author" content="MingXiao">
+    <title>4 生物传感器</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>4 生物传感器
+                    <ul>
+                            <li><a href="#3.1">4.1 概述</a></li>
+                            <li><a href="#3.2">4.2 酶传感器</a></li>
+                            <li><a href="#3.3">4.3 免疫传感器</a></li>
+                            <li><a href="#3.4">4.4 细胞与组织传感</a></li>
+                            <li><a href="#3.5">4.5 新型传感技术</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">4 生物传感器</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<p>是一类特殊的化学量传感器，感受生物颗粒，有<strong>生物识别元件</strong></p>
+<a name="3.1" class="md-header-anchor" id="3.1"></a>
+<h3><font color=red>4.1 概述</font></h3>
+<p><strong>原理</strong></p>
+<ul>
+<li>待测物<strong>扩散</strong>至功能表面</li>
+<li><strong>敏感元件</strong>与待测物发生相互作用，引起<strong>表面性质的变化</strong></li>
+<li>换能器换能</li>
+</ul>
+<p><strong>分类</strong></p>
+<ul>
+<li>根据生物识别元件<ul>
+<li>酶；免疫；核酸；细胞；组织</li>
+</ul>
+</li>
+<li>根据信号转换方式<ul>
+<li>光电；压电；半导体</li>
+</ul>
+</li>
+</ul>
+<p><strong>发展历史</strong></p>
+<ul>
+<li>催化代谢型：被测分子与敏感元件上的发生反应，检测产物<ul>
+<li>代表：血糖监测</li>
+</ul>
+</li>
+<li>亲和型：利用被测分子和敏感元件的生物亲和作用<ul>
+<li>代表：SPR传感器</li>
+</ul>
+</li>
+</ul>
+<p><strong>生物传感器的特性</strong>：取决于生物识别元件的特性</p>
+<ul>
+<li>选择性，特异性，敏感性：高</li>
+<li>稳定性和重复性：不足</li>
+</ul>
+<p><strong>生物传感器的关键技术</strong></p>
+<ul>
+<li>生物材料的固定化：与载体结合，形成不溶于水的生物功能膜，要求与传感元件之间有良好的耦合<ul>
+<li>脂膜包埋：通常采用一个半透膜对生物识别元件与待测物进行隔离，而传感元件则与识别元件紧密贴近。</li>
+<li>物理吸附：依赖于范德华力、疏水作用力、氢键及离子作用力将生物材料贴附在传感器表面。</li>
+<li>基质吸附：往往采用多孔材料在生物材料四周形成孔内镶联基质，并将其与传感器连接。</li>
+<li>共价结合：利用可供生物材料连接的活性基团对传感器表面进行修饰，最终通过共价结合的方式将其固定在传感器表面。</li>
+</ul>
+</li>
+</ul>
+<a name="3.2" class="md-header-anchor" id="3.2"></a>
+<h3>4.2 酶传感器</h3>
+<p><strong>结构</strong>：固定化酶膜，基体电极</p>
+<p><strong>原理</strong>：酶促反应，产物用于检测</p>
+<p><strong>检测范围</strong></p>
+<ul>
+<li>将待测物转化为可被传感器检测的产物</li>
+<li>检测可作为酶抑制剂/激活剂的物质</li>
+<li>评价修饰后的酶与待测物反应的特性</li>
+</ul>
+<p><font color=red><strong>酶的固定</strong></font>：关键环节</p>
+<ul>
+<li>基于载体的酶固定化：吸附法；化学交联；共价结合；物理包埋；但是有位阻，会减弱酶的作用</li>
+<li>无载体酶固定技术：克服位阻</li>
+<li>酶的定向固定化：共价固定；氨基酸置换；抗体耦联；疏水定向固定；生物素-亲和素</li>
+</ul>
+<h4><font color=red>4.2.1 葡萄糖检测</font></h4>
+<p>酶催化反应为<br>\[
+C_6H_{12}O_6+O_2 \overset{GOD}{\longrightarrow} C_6H_{10}O_6 +H_2O_2
+\]<br>将葡萄糖氧化酶固定在膜上，利用产生的过氧化氢进行进一步检测</p>
+<p>具体的检测电极有：Clark氧电极和过氧化氢电极（反应电极都是铂电极）</p>
+<p><strong>氧电极葡萄糖传感器</strong></p>
+<p>结构：铂电极（-0.6V，阴极），Ag/AgCl电极（+0.6V，阳极）；特氟龙膜将电极与反应腔隔离</p>
+<p>原理：电极对氧的响应电流反应葡萄糖含量<br>\[
+2H^+ + O_2+2e^- \rightarrow H_2O_2\\
+H_2O_2+2H^++2e^- \rightarrow 2H_2O
+\]</p>
+<p>这两个反应都发生，上面的是酶促反应，下面的是还原反应，合起来，消耗一个\(O_2\)转移\(4e^-\)</p>
+<p><strong>过氧化氢葡萄糖传感器</strong></p>
+<p>结构：铂电极（+0.6V，阳极），Ag/AgCl电极（-0.6V，阴极）</p>
+<p>原理：电极对过氧化氢的响应电流<br>\[
+H_2O_2 \rightarrow H_2O+O_2+2e^-
+\]<br>缺点：正电压易将其他物质氧化；易受环境中氧分压波动的影响；响应时间长且难以活体分析；灵敏度不高</p>
+<p>为什么反应慢？氧化还原酶的结构特点<strong>阻碍</strong>反应中心和电极表面的<strong>电子转移</strong>和还原性辅酶的<strong>有效循环</strong></p>
+<p><strong>介体型酶传感器</strong>：普遍采用的第二代酶生物传感器，介体取代了氧/过氧化氢的电子传递</p>
+<p>促进电子传递过程；加快电极反应；降低工作电位；排除其他活性物质干扰</p>
+<p><strong>直接电催化葡萄糖传感器</strong>：第三代</p>
+<p><strong>三代的差别</strong>：电子供给方式</p>
+<a name="3.3" class="md-header-anchor" id="3.3"></a>
+<h3>4.3 免疫传感器</h3>
+<p>主要就是抗原-抗体反应，结合力是<strong>非共价力</strong></p>
+<p><strong>结构</strong>：免疫识别，信号转换</p>
+<p><strong>抗原抗体的固定</strong></p>
+<ul>
+<li><strong>生物素-亲和素自组装膜法</strong>：利用金原子和巯基的金硫键自组装，结合力很强</li>
+<li><strong>戊二醛交联法</strong></li>
+<li>蛋白A共价连接</li>
+</ul>
+<h4>4.3.1 电化学免疫传感器</h4>
+<p>非标记的传感器，也就是样品不需要孵育</p>
+<p>将抗原/抗体固定在电极表面，当产生结合时，引起电容/电阻变化，电学特性改变是更好检测的，最终导致膜电位改变</p>
+<h4><font color=red>4.3.2 酶联免疫吸附测定（ELISA）</font></h4>
+<p>这里酶的作用是催化，放大信号</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_38.png" width="500"></center>
+
+<p>第一步加入样品，里面的抗原被抗体1结合</p>
+<p>第二步洗脱无关信息，需要用力甩</p>
+<p>第三步加入另一个带有酶的抗体2，与结合了抗原的抗体1形成夹心结构</p>
+<p>第四步洗脱未固定的抗体2，加入酶的底物</p>
+<p>检测酶促反应的产物量进行抗原评估（信号放大）</p>
+<p>问题在于，流程复杂且需要人工介入，方差很大（非均相）</p>
+<h4><font color=red>4.3.3 电化学发光免疫分析（ECL）</font></h4>
+<center><img src="/Category/Learning/Pictures/Biosensor_39.png" width="500"></center>
+
+<p>也是夹心结构，区别是这里有磁珠，可以自动化，不需要人工介入，方差小（均相）</p>
+<p>检测发光强度来确定被测物浓度</p>
+<h4><font color=red>4.3.4 SPR传感器</font></h4>
+<p>用于结合动力学检测，根据共振角变化</p>
+<p>原理在Research里，我可能不会发布</p>
+<p><strong>优点</strong>：高灵敏，无标记，原位，动态</p>
+<h4>4.3.5 DNA电化学传感器</h4>
+<p>核酸分子探针进行核酸分子杂交</p>
+<center><img src="/Category/Learning/Pictures/Biosensor_40.png" width="400"></center>
+
+
+
+<h4>4.3.6 COVID-19检测</h4>
+<p>无非是对特异的生物分子进行检测：核酸，蛋白质，抗体</p>
+<ul>
+<li>核酸<ul>
+<li>RT-PCR：先逆转录为cDNA，然后进行扩增</li>
+<li>CRISPR-Cas</li>
+</ul>
+</li>
+<li>蛋白质<ul>
+<li>ELISA</li>
+<li>LFIA：也就是胶体金试纸的原理，侧向流动层析，带动抗体（有标记物），与检测线形成夹心结构（夹目标物），与控制线（标记物的抗体）必须要结合</li>
+</ul>
+</li>
+<li>抗体<ul>
+<li>ELISA，LFIA</li>
+<li>SVN：在体外将病毒和样品混合，若样品中有抗体，那么病毒会失去致病力（接种到敏感个体检测）</li>
+</ul>
+</li>
+</ul>
+<a name="3.4" class="md-header-anchor" id="3.4"></a>
+<h3>4.4 细胞与组织传感</h3>
+<p>整个细胞/组织传感的优势：更接近生理环境；某些分子（膜蛋白等）无法提取</p>
+<p>分类：</p>
+<ul>
+<li><strong>代谢型</strong>：检测细胞代谢产物，如胞外酸化率，离子代谢等</li>
+<li><strong>接触式</strong>：测量细胞与电极界面性质的改变，如阻抗传感器，电生理传感器等；关键是细胞与电极界面的耦合</li>
+<li><strong>类器官</strong>：3D的细胞培养物，包含代表器官的一些关键特征</li>
+</ul>
+<a name="3.5" class="md-header-anchor" id="3.5"></a>
+<h3>4.5 新型传感技术</h3>
+<ul>
+<li>纳米生物医学传感：至少有一维在纳米尺度内</li>
+<li>穿戴式生物医学传感</li>
+<li>仿生生物学传感</li>
+<li>微流控分析芯片</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

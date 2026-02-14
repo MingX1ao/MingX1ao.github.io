@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="11 声束聚焦及相控技术 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>11 声束聚焦及相控技术</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>11 声束聚焦及相控技术
+                    <ul>
+                            <li><a href="#10.1">11.1 聚焦声场分布</a></li>
+                            <li><a href="#10.2">11.2 聚焦技术的应用</a></li>
+                            <li><a href="#10.3">11.3 超声相控技术</a></li>
+                            <li><a href="#10.4">11.4 相控技术在B超中的波束成形应用</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">11 声束聚焦及相控技术</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="10.1" class="md-header-anchor" id="10.1"></a>
+<h3>11.1 聚焦声场分布</h3>
+<p><strong>诊断</strong>：声束变窄，横向分辨率变大</p>
+<p><strong>治疗</strong>：能量更加集中</p>
+<p><strong>聚焦换能器种类</strong></p>
+<ul>
+<li><p>声透镜</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_34.png" width="200"></center>
+
+<p>这种方式要求换能器是平面的，发射平面波</p>
+<p>换能器口径为\(D\)，焦斑\(d\)近似满足<br>\[
+  d = 2.44\cdot \frac{f}{D}\lambda
+  \]<br>焦距\(f\)满足\(f=\frac{C_1}{C_1-C_2}r\)，\(r\)是透镜的曲率半径</p>
+<p>为了提高聚焦度，减小焦斑，可以增大口径\(D\)，提高工作频率\(\frac{c}{\lambda}\)</p>
+</li>
+<li><p>凹形压电材料（自聚焦）：换能器发出的波就是非平面</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_36.png" width="300"></center>
+
+<p>横向聚焦尺寸\(r_0\)满足<br>\[
+  r_0 = 0.257 \frac{2\lambda f}{D}
+  \]<br>轴向聚焦尺寸\(L_f\)满足<br>\[
+  L_f = 1.8\frac{4\lambda f^2}{D^2}
+  \]<br>HIFU以这种方式居多</p>
+</li>
+<li><p>声反射镜：凹面镜反射</p>
+</li>
+<li><p>电子聚焦：相控聚焦</p>
+</li>
+<li><p>凹形多元阵聚焦：凹形的大圆盘内嵌多个小换能器</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_35.png" width="300"></center></li>
+</ul>
+<a name="10.2" class="md-header-anchor" id="10.2"></a>
+<h3>11.2 聚焦技术的应用</h3>
+<ul>
+<li>HIFU：不用透镜，因为有能量损失，透镜发热会形变，焦点不准</li>
+<li>肾结石粉碎</li>
+<li>提高B超的横向分辨率</li>
+</ul>
+<a name="10.3" class="md-header-anchor" id="10.3"></a>
+<h3>11.3 超声相控技术</h3>
+<p>多振元，控制每个振元的发射相位（先后）</p>
+<p><strong>相控换能器线阵</strong>：多个换能器排列成直线，每个振元加上不同相位的信号，可以实现</p>
+<ul>
+<li>线性扫描</li>
+<li>扇形扫描</li>
+<li>电子聚焦</li>
+</ul>
+<p>而不需要进行机械移动</p>
+<p><strong>相控线扫</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_37.png" width="300"></center>
+
+<p>振元数越多，叠加后的声波主瓣越尖锐，横向分辨率越大</p>
+<p><strong>相控扇扫</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_38.png" width="300"></center>
+
+<p>相邻振元的声程差为\(L = d\sin\theta\)，那么发射延迟就是<br>\[
+\Delta t = \frac{d}{c}\sin\theta
+\]</p>
+<p><strong>电子聚焦</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_39.png" width="400"></center>
+
+<p>对于距中心分别为\(b_1,b_2\)的振元，声程差为<br>\[
+\Delta S = \sqrt{Z^2 +b_1^2} - \sqrt{Z^2+b_2^2}
+\]<br>延迟时间为<br>\[
+\Delta t = \frac{S}{c}
+\]<br>对于频率为\(f\)的声波，相位差为\(\Delta \varphi = 2\pi f\Delta t\)</p>
+<a name="10.4" class="md-header-anchor" id="10.4"></a>
+<h3>11.4 相控技术在B超中的波束成形应用</h3>
+<p>对于相控聚焦技术，由于各个振元之间存在生成差，在最终生成图象时，需要考虑这个时间差，才能准确显示图像</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_40.png" width="600"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

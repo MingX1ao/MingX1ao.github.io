@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="嵌入式系统">
+    <meta name="description" content="3 MCS-51 MCU结构与原理 - 嵌入式系统">
+    <meta name="author" content="MingXiao">
+    <title>3 MCS-51 MCU结构与原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>3 MCS-51 MCU结构与原理
+                    <ul>
+                            <li><a href="#2.1">3.1 51结构</a></li>
+                            <li><a href="#2.2">3.2 CPU</a></li>
+                            <li><a href="#2.3">3.3 存储器组织</a></li>
+                            <li><a href="#2.4">3.4 寄存器和功能</a></li>
+                            <li><a href="#2.5">3.5 MCS-51管脚定义与功能</a></li>
+                            <li><a href="#2.6">3.6 MCS-51的最小系统</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">3 MCS-51 MCU结构与原理</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="2.1" class="md-header-anchor" id="2.1"></a>
+<h3>3.1 51结构</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_10.png" width="500"></center>
+
+
+
+<a name="2.2" class="md-header-anchor" id="2.2"></a>
+<h3>3.2 CPU</h3>
+<p>分为运算器和控制器</p>
+<p><strong>运算器</strong></p>
+<ul>
+<li>ALU</li>
+<li>ACC（Accumulator）：在与外部的MEM进行读写时，必须有ACC参与</li>
+<li>PSW（Program Status Word）：程序状态字</li>
+<li>TMP1/2：两个暂存寄存器</li>
+<li>Reg B：<code>MUL</code>和<code>DIV</code>指令，就是<code>BX</code></li>
+</ul>
+<p><strong>控制器</strong></p>
+<ul>
+<li>IR（Instruction Reg）</li>
+<li>ID（Instruction Decoder）</li>
+<li>PC（Program Counter）：<code>16b</code>，与地址线同宽</li>
+<li>定时控制与条件转移逻辑电路</li>
+</ul>
+<p><strong>CPU工作过程</strong></p>
+<ol>
+<li>写代码，烧录</li>
+<li>上电/RST复位</li>
+<li><code>PC=0000H</code>，跳转到程序入口</li>
+<li>IF, ID</li>
+<li>EX，MEM，WB</li>
+<li>三种可能<ul>
+<li>PC += 1</li>
+<li>PC跳转</li>
+<li>中断/函数</li>
+</ul>
+</li>
+<li>重复，直到结束</li>
+</ol>
+<a name="2.3" class="md-header-anchor" id="2.3"></a>
+<h3>3.3 存储器组织</h3>
+<p><strong>统一编址</strong></p>
+<p>存储器的<strong>逻辑地址与物理地址对应</strong>，如8086，MSP430等</p>
+<p>MCS-51的CPU是<strong>非</strong>统一编址的，如<code>0x0000H</code>可以对应片内/外 ROM/RAM</p>
+<p><strong>MCS-51的存储器架构</strong></p>
+<p>包括片内<code>4KB</code>ROM，<code>128B</code>RAM；和片外<code>64KB</code>ROM，<code>64KB</code>RAM寻址能力（16根地址线）</p>
+<p><font color=red>8051内部是ROM</font></p>
+<p><strong>访问不同空间的指令</strong></p>
+<ul>
+<li><p>程序存储器空间：<code>MOVC</code>；片内/外通过\(\mathsf{\overline{EA}}\)决定</p>
+<p>当其为高电平，执行片内<strong>前<code>4KB</code>ROM</strong>地址中程序，超过<code>4KB</code>时从片外读取</p>
+<p>当其为低电平，<strong>所有程序都在片外</strong>，此时片外从<code>0000H</code>开始编址</p>
+</li>
+<li><p>片内数据存储器：<code>MOV</code></p>
+</li>
+<li><p>片外数据存储器：<code>MOVX</code>，<font color=red>其中一个操作数必须是<code>A</code></font></p>
+</li>
+</ul>
+<p><strong>存储器特殊区域</strong></p>
+<ul>
+<li><code>0000H</code>：8051复位后<code>PC</code>指向</li>
+<li><code>0003H</code>：外部中断0入口</li>
+<li><code>000BH</code>：定时器0溢出中断入口</li>
+<li><strong><code>0013H</code>：外部中断1入口</strong></li>
+<li><code>001BH</code>：定时器1溢出中断入口</li>
+<li><code>0023H</code>：串行口中断入口</li>
+</ul>
+<p>通常会在这些地址存放一条<strong>绝对跳转</strong>指令，如</p>
+<pre><code class="language-assembly">ORG 0000H
+	LJMP main
+	
+	ORG 0013H	;外部中断1入口，中断时PC自动跳转到这里
+	LJMP INT1
+	
+	ORG 0040H
+main:			;xxxx
+INT1:			;xxxx
+	END
+</code></pre>
+<p><strong>片内RAM空间分布</strong></p>
+<p>如下图</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_11.png" width="200"></center>
+
+<p>其中位地址区是<code>bit</code>编址，即每个<code>bit</code>都有自己的地址</p>
+<p>寄存器组也可以直接当一般的缓存区使用</p>
+<a name="2.4" class="md-header-anchor" id="2.4"></a>
+<h3>3.4 寄存器和功能</h3>
+<p><strong>特殊功能寄存器</strong>：Special Functional Register(SFR)</p>
+<p><strong>与ALU相关SFR</strong></p>
+<ul>
+<li><p>A Reg(Accumulator)：<code>8bit</code>累加器，用A/ACC表示，可以字节寻址(<code>E0H</code>)或位寻址(<code>E0H - E7H</code>)</p>
+<p>ALU在运算时一个数<strong>一定在<code>ACC</code>中</strong></p>
+</li>
+<li><p>B Reg：<code>8bit</code>暂存寄存器，字节寻址(<code>F0H</code>)，在<code>MUL, DIV</code>时使用</p>
+</li>
+<li><p><font color=red>PSW(Program Status Word)：<code>8bit</code>程序状态字，也就是FLAGS，可字节寻址(<code>D0H</code>)</font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_12.png" width="500"></center>
+
+<ul>
+<li><p><code>CY</code>：进位标志，在<strong>第8位进位</strong>时为1</p>
+</li>
+<li><p><code>AC</code>：半进位标志，在<strong>第4位进位</strong>时为1</p>
+</li>
+<li><p><code>F0</code>：用户标志位</p>
+</li>
+<li><p><code>RS1, RS0</code>：工作寄存器组选择位，其值**<code>00, 01, 10, 11</code><strong>分别对应寄存器组</strong>0，1，2，3**工作</p>
+</li>
+<li><p><code>P</code>：奇偶校验位，累加器**<code>ACC</code><strong>中若</strong>奇数个<code>1</code>则<code>P=1</code>**</p>
+</li>
+<li><p><code>OV</code>：溢出标志位，当符号位(MSB)与次高位不同时进位时<code>OV=1</code></p>
+<p>主要受<code>ADD, ADDC, SUBB, MUL, DIV</code>影响，<code>MUL</code>结果大于<code>16bit</code>(255)时、<code>DIV 0</code>时<code>OV=1</code>，其他为0</p>
+<ul>
+<li><code>MUL</code>指令：<code>MUL AB</code>，表示\(A\cdot B\)，结果的<strong>低8位在A，高8位在B</strong></li>
+<li><code>DIV</code>指令：<code>DIV AB</code>，表示\(A\div B\)，结果的<strong>商在A，余数在B</strong></li>
+</ul>
+</li>
+<li><p><font color=red>例：</font></p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_13.png" width="300"></center></li>
+</ul>
+</li>
+</ul>
+<p><strong>与指针相关SFR</strong></p>
+<ul>
+<li><p>SP(Stack Pointer)：8位寄存器，指向栈顶，初始化后<code>SP=07H</code></p>
+</li>
+<li><p>DPTR(Data Pointer)：16位寄存器，可以分为两个8位<code>DPH, DPL</code></p>
+<p>可以用来访问外部RAM中的任一单元，也可以作为通用Reg使用</p>
+</li>
+</ul>
+<p>  <strong>MCS-51的栈操作</strong>：与8086完全不同</p>
+<ul>
+<li><code> A</code>：<code>SP += 1</code>，将A中值入栈</li>
+<li><code>POP A</code>：将栈顶值赋给A，<code>SP -= 1</code></li>
+<li>在发生函数调用<code>CALL</code>时自动<strong>入栈两次</strong>(PC是16位)，函数返回<code>RET</code>也是<strong>两次</strong></li>
+</ul>
+<p><strong>与端口相关SFR</strong></p>
+<ul>
+<li>P0 - P3：I/O口的寄存器，存放上一个状态所有管脚的输出，初始值为<code>FFH</code></li>
+<li>SCON</li>
+<li>SBUF</li>
+<li>PCON</li>
+</ul>
+<p><strong>与定时/计数器相关SFR</strong></p>
+<ul>
+<li>TMOD</li>
+<li>TCON</li>
+<li>TH0，TL0，TH1，TL1</li>
+</ul>
+<p><strong>与中断相关SFR</strong></p>
+<ul>
+<li><p>IE(Interrupt Enable Register)：地址为<code>A8H</code>，可按位寻址<code>A8H - AFH</code></p>
+<p><code>EA=0</code>，<strong>总中断禁止</strong>；<code>EA=1</code>，按各个设置</p>
+</li>
+<li><p>IP(Interrupt Priority Register)：地址为<code>B8H</code>，可按位寻址<code>B8H - BFH</code></p>
+<p>某个<code>bit = 1</code>，这个优先级<strong>高</strong></p>
+</li>
+</ul>
+<p><strong>PC</strong></p>
+<ul>
+<li>与<code>CS:IP</code>相同</li>
+<li>低8位从<code>P0</code>输出，高8位从<code>P2</code>输出</li>
+</ul>
+<p><font color=red>例：</font>需要往程序存储器写信息时，通过改变<code>PC</code>的值</p>
+<p>解：错误，程序存储器只能烧录不能写</p>
+<a name="2.5" class="md-header-anchor" id="2.5"></a>
+<h3>3.5 MCS-51管脚定义与功能</h3>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_4.png" width="300"></center>
+
+<ul>
+<li><p>4个<code>P</code>脚都能用作<code>I/O</code></p>
+<ul>
+<li><code>P0</code>脚作为**<code>8b</code>数据口**和<code>16b</code><strong>地址口的低8位</strong>使用</li>
+<li><code>P1</code>脚只能用于<code>I/O</code></li>
+<li><code>P2</code>脚用于<strong>地址口的高<code>8b</code></strong></li>
+<li><code>P3</code>脚与单片机的功能输入/出复用</li>
+</ul>
+</li>
+<li><p><code>Vss = GND</code></p>
+</li>
+<li><p><code>XTAL1/2</code>外接晶振，产生CPU的工作时钟（芯片<strong>内部存在</strong>振荡电路，产生时钟）</p>
+<p>一般用12MHz作为时钟的振荡周期，<strong>12</strong>个振荡周期作为<strong>机器周期</strong>（1us）</p>
+</li>
+<li><p><font color=red><code>RST/Vpd</code>外接复位电路；当CPU工作时，<code>RST</code><strong>超过两个机器周期</strong>（2us）的高电平可以让CPU复位</font></p>
+<p>当CPU掉电时，该脚接上备用电源，保持RAM中的数据</p>
+</li>
+<li><p><code>ALE/PROG</code>提供地址的<strong>低字节锁存信号</strong>，ALE以<strong>6倍振荡周期为周期进行输出</strong></p>
+<p>当访问外部数据存储器时，跳过一个<code>ALE</code>脉冲（表示数据不需要锁存）</p>
+<p><font color=red>对于EPROM机，在EPROM编程期间，这个脚接受<strong>编程脉冲</strong></font></p>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_5.png" width="500"></center>
+
+<ul>
+<li><p><font color=red><code>PSEN</code>是外部程序存储器选通信号输出，在读写外部MEM时，每个机器周期内<strong>两次有效</strong>（访问指令和数据）</font></p>
+</li>
+<li><p><font color=red><code>EA/Vpp</code>高电平，访问内部程序MEM；低电平，访问外部程序MEM</font></p>
+<p>在EPROM编程期间，这个脚加上21V EPROM<strong>编程电源</strong>（不是编程脉冲）</p>
+</li>
+<li><p><code>P3</code>的一些第二功能</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_6.png" width="500"></center></li>
+</ul>
+<p>注意在串口通讯时，<code>RXD</code>和<code>TXD</code>（Receiver和Transmitter）是<strong>交叉</strong>的</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_7.png" width="300"></center>
+
+
+
+<a name="2.6" class="md-header-anchor" id="2.6"></a>
+<h3><font color=red>3.6 MCS-51的最小系统</font></h3>
+<p>包括</p>
+<ul>
+<li><p>电源和地：电源用稳压芯片</p>
+</li>
+<li><p>时钟电路：外部晶振</p>
+</li>
+<li><p>复位电路：包括<strong>上电复位</strong>、<strong>手动按钮</strong>复位和<strong>看门狗芯片</strong>复位</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_8.png" width="300"></center></li>
+</ul>
+<p>看门狗是一个计数器，MCU会周期性发送清空信号；当MCU死机后，看门狗计数会计满，自动向<code>RST</code>发送高电平；但是只能修复软件问题，硬件出错是不能修复的</p>
+<center><img src="/Category/Learning/Pictures/EmbeddedSystem_9.png" width="300"></center>
+
+
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

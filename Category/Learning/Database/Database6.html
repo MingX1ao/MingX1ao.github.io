@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="数据库原理">
+    <meta name="description" content="7 数据库物理存储和索引 - 数据库原理">
+    <meta name="author" content="MingXiao">
+    <title>7 数据库物理存储和索引</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>7 数据库物理存储和索引
+                    <ul>
+                            <li><a href="#6.1">7.1 数据库的物理存储</a></li>
+                            <li><a href="#6.2">7.2 数据库索引</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">7 数据库物理存储和索引</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="6.1" class="md-header-anchor" id="6.1"></a>
+<h3>7.1 数据库的物理存储</h3>
+<h4>7.1.1 计算机系统的存储架构</h4>
+<p><strong>内存的层级结构</strong></p>
+<p>见体系结构，微机原理</p>
+<p><strong>磁盘</strong></p>
+<p>最小读写单位：扇区</p>
+<p>磁盘块/页：连续的多个扇区</p>
+<p>一个页面的访问时间包括：寻道，旋转，传输</p>
+<p>顺序访问对磁盘更加友好，平均的访问时间更少</p>
+<p><strong>缓冲池</strong>：内存中存放大量磁盘页面的区域，减少磁盘的访问</p>
+<p><strong>缓冲池页面替换策略</strong></p>
+<ul>
+<li><p>LRU，最近最少使用，least recent use</p>
+<p>在某些情况下使用不佳，见体系结构</p>
+</li>
+<li><p>先进先出</p>
+</li>
+<li><p>MRU，most recent use，在连接操作时使用</p>
+</li>
+</ul>
+<h4>7.1.2 记录的组织方式</h4>
+<p><strong>记录</strong>：字节的序列</p>
+<p>有一个header用于描述记录（meta data），类似于Cache的tag</p>
+<p>按照关系定义的顺序存储各个属性，定长的属性写在前边，变长的（VAR）用指针指向末尾，从后向前写；记录头后紧跟着指针数组，指向每个属性</p>
+<p>每个属性值在记录中存储位置的偏移量是4B/8B的整数倍</p>
+<center><img src="/Category/Learning/Pictures/DataBase_36.png" width="400"></center>
+
+
+
+<p><strong>页布局</strong>：包含页头和页数据</p>
+<p>页头就是meta data，页数据就是data</p>
+<h4>7.1.3 文件的组织方式</h4>
+<p><strong>无序文件组织</strong>：记录可以在磁盘上的任意位置存储</p>
+<p>存在两种管理方式：</p>
+<ol>
+<li>删除的文件做标记，不删除；新文件加在末尾</li>
+<li>删除的文件做标记；新文件插入在标记处</li>
+</ol>
+<p>文件需要定期重组，真的删除标记了删除的文件，将文件之间连续排列，回收未利用空间</p>
+<p>特点：插入效率高，检索效率非常低</p>
+<p><strong>有序文件组织</strong>：记录按照某个属性顺序插入</p>
+<p>插入效率低，检索效率高</p>
+<p><strong>溢出文件</strong>：为未来可能的文件预留一块空间，用来插入文件，这些文件称为溢出文件</p>
+<p>溢出文件和主文件各自是有序的，但二者是独立的</p>
+<p>必要时需要重组</p>
+<p><strong>散列文件</strong>：就是哈希表储存文件，需要一个散列函数用于确定地址分布</p>
+<p>插入效率高，检索效率高</p>
+<a name="6.2" class="md-header-anchor" id="6.2"></a>
+<h3>7.2 数据库索引</h3>
+<h4>7.2.1 索引分类</h4>
+<p><strong>按物理存储类型</strong></p>
+<ul>
+<li>聚集索引：数据按照查找键排序，一张表只能有一个</li>
+<li>非聚集索引：不按键排列，可以有多个</li>
+</ul>
+<p><strong>按粒度</strong></p>
+<ul>
+<li>稀疏索引：索引到文件</li>
+<li>稠密索引：索引到记录</li>
+</ul>
+<p><strong>等</strong></p>
+<p><strong>查询类型</strong></p>
+<ul>
+<li>点查询：xx=0，使用哈希索引，B+树索引</li>
+<li>范围查询：xx&gt;0，使用B+树索引</li>
+<li>多列条件查询：xx=0 AND yy=1，位图索引</li>
+<li>空间范围查询：多维的范围查询，多维索引</li>
+</ul>
+<h4>7.2.2 B+树索引</h4>
+<p><strong>结构</strong>：平衡多叉查找树</p>
+<p>扇出m：每个节点的最大分叉数</p>
+<ul>
+<li>子节点数目范围：\([\lceil \frac{m}{2} \rceil, m]\)</li>
+<li>查找键数目范围：\([\lceil \frac{m}{2} \rceil-1, m-1]\)，分为了N+1个子节点</li>
+</ul>
+<p>叶节点之间存在双向链表</p>
+<p>节点的左子树都比节点小，右子树都大；叶节点是升序的</p>
+<p>访问的时间是\(\log n\)，仅与树的高度有关</p>
+<center><img src="/Category/Learning/Pictures/DataBase_31.png" width="600"></center>
+
+
+
+<p><strong>点查询</strong>：从根节点逐层加载，直到叶节点，一定会到叶节点</p>
+<p><strong>区间查询</strong>：查询\([L,H]\)的值，根据\(L\)找左端点，然后用链表一直找，直到\(>H\)，\(\leq H\)的都输出</p>
+<p><strong>插入算法</strong></p>
+<ul>
+<li>找到叶节点L</li>
+<li>有空间就插入</li>
+<li>没空间就分裂，向上递归<ul>
+<li>假设L的中间值为K，那么&lt;K的放原来节点；&gt;K的，将K作为父节点的一个关键字，插入到这个关键字的右子树</li>
+<li>如果父节点也满了，需要继续分裂</li>
+<li>向上递归，直到ROOT分裂，那么会多一个ROOT，B+树深一层</li>
+</ul>
+</li>
+</ul>
+<p><strong>删除算法</strong></p>
+<ul>
+<li>找到叶节点L</li>
+<li>删除了满足子树条件就ok</li>
+<li>不满足，那么需要合并节点，向上递归<ul>
+<li>向兄弟节点借一个叶子，并且更新被借的兄弟节点，使二者都半满</li>
+<li>如果都不能半满，就合并两个父节点，将父节点的父节点变为子节点，子节点中值变为父节点</li>
+<li>向上递归，直到ROOT合并，B+树少一层</li>
+</ul>
+</li>
+</ul>
+<center><img src="/Category/Learning/Pictures/DataBase_32.png" width="600"></center>
+
+<center><img src="/Category/Learning/Pictures/DataBase_33.png" width="600"></center>
+
+<center><img src="/Category/Learning/Pictures/DataBase_34.png" width="600"></center>
+
+<center><img src="/Category/Learning/Pictures/DataBase_35.png" width="600"></center>
+
+
+
+<h4>7.2.3 哈希索引</h4>
+<p><strong>静态哈希</strong>：桶的数目不变，发生溢出时需要添加桶并重排</p>
+<ul>
+<li>闭哈希：寻找空位置：线性探测（+1，+2，+3，容易堆积），平方探测（+1，+4，+9）</li>
+<li>开哈希：哈希桶链表，同一个地址，用链表连接，长了就没有查询效率了</li>
+</ul>
+<p><strong>动态哈希</strong>：桶的数目动态变化</p>
+<ul>
+<li>可扩展哈希表：存在问题<ul>
+<li>每次扩容时会阻塞访问，降低性能</li>
+<li>少量的桶多次溢出，却要对整个表扩容，造成空间浪费</li>
+</ul>
+</li>
+<li>线性哈希表：对可扩展哈希的解决</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

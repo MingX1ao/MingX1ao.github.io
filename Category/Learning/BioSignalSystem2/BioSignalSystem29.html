@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="生物医学信号与系统 2">
+    <meta name="description" content="10 IIR滤波器的设计 - 生物医学信号与系统 2">
+    <meta name="author" content="MingXiao">
+    <title>10 IIR滤波器的设计</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>10 IIR滤波器的设计
+                    <ul>
+                            <li><a href="#9.1">10.1 基本设计思路</a></li>
+                            <li><a href="#9.2">10.2 冲激响应不变法</a></li>
+                            <li><a href="#9.3">10.3 双线性变换法</a></li>
+                            <li><a href="#9.4">10.4 IIR与FIR的对比</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">10 IIR滤波器的设计</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="9.1" class="md-header-anchor" id="9.1"></a>
+<h3>10.1 基本设计思路</h3>
+<ol>
+<li>首先需要给定IIR数字滤波器的技术指标，如\(\omega_p,\omega_{st},A_p,A_{st}\)分别是通带截止频率，阻带截止频率，通带衰减和阻带衰减</li>
+<li>根据数字指标，转换为模拟指标</li>
+<li>根据模拟指标得到模拟低通滤波器的技术指标，也就是归一化</li>
+<li>查表，通过模拟低通的原型计算模拟滤波器的表达式</li>
+<li>将模拟滤波器转换为数字滤波器</li>
+</ol>
+<p>可以看到AD/DA各一次；有两种方法</p>
+<a name="9.2" class="md-header-anchor" id="9.2"></a>
+<h3>10.2 冲激响应不变法</h3>
+<p><strong>基本想法</strong></p>
+<p>对得到的模拟滤波器进行抽样，得到数字滤波器，即</p>
+<ol>
+<li>已知\(H_a(s)\)，逆变换得到\(h_a(t)\)</li>
+<li>对其采样，得到\(h(n)=h_a(nT_s)\)</li>
+<li>做Z变换得到数字滤波器\(H(z)\)</li>
+</ol>
+<p>如果<br>\[
+H_a(s) = \sum\frac{A_k}{s-s_k}
+\]<br>那么最终得到的<br>\[
+H(z)=\sum\frac{A_k}{1-e^{s_k T_s}z^{-1}}
+\]<br>证明略，好证的</p>
+<p>本方法对第1-4步延续了传统的想法，即</p>
+<ol>
+<li>\(\Omega=\frac{\omega }{T_s}\)，\(A_p,A_{st}\)不改变</li>
+<li>设计低通模拟滤波器系统函数\(H_a(s)\)</li>
+<li>用上面的方法将\(H_a(s)\)转换为\(H(z)\)</li>
+</ol>
+<p><strong>方法的局限</strong></p>
+<p>由于使用了抽样，这必然会导致一个抽样定理的问题，即<br>\[
+z=e^{sT}\Rightarrow z=e^{\sigma T}e^{j\Omega T}\Rightarrow r=e^{\sigma T},\omega=\Omega T
+\]<br>由于\(\omega\in[-\pi,\pi]\)，这会导致映射非双射，表现在系统函数上就是，在\(\Omega=\pm\frac{\pi}{T}\)之外的频谱会造成混叠</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_36.png" width="300"></center>
+
+<p>用抽样定理的视角来看，\(\omega\)的周期为\(2\pi\)，那么对\(\Omega\)的抽样频率就是\(\frac{2\pi}{T}\)，即折叠频率就是\(\frac{\pi}{T}\)</p>
+<p>这带来的问题就是：高通/带阻滤波器无法设计。因为实际中无法限制模拟滤波器的频谱</p>
+<p><strong>特点</strong></p>
+<ul>
+<li>频率变换是线性的，即\(\omega=\Omega T\)</li>
+<li>时域的逼近程度好，毕竟是对其进行采样的</li>
+<li>周期延拓问题</li>
+</ul>
+<a name="9.3" class="md-header-anchor" id="9.3"></a>
+<h3>10.3 双线性变换法</h3>
+<p>为了构造单一的频率映射而出现，直接给出映射公式<br>\[
+s=\frac{2}{T_s}\frac{z-1}{z+1}
+\]<br>那么在频率响应上，即\(z=e^{j\omega}\)上，这个映射就是<br>\[
+\Omega = \frac{2}{T}\tan{\frac{\omega}{2}}
+\]</p>
+<p><strong>基本想法</strong></p>
+<ol>
+<li>根据数字滤波器的技术指标要求，通过\(\Omega = \frac{2}{T}\tan{\frac{\omega}{2}}\)得到模拟指标</li>
+<li>根据模拟指标和模拟滤波器原型设计模拟滤波器，得到\(H_a(s)\)</li>
+<li>用\(s=\frac{2}{T_s}\frac{z-1}{z+1}\)带入\(H_a(s)\)，得到\(H(z)\)</li>
+</ol>
+<p><strong>通过原型设计模拟滤波器</strong></p>
+<p>一个例子如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_37.png" width="400"></center>
+
+<p>转换为其他类型的滤波器的方法如下</p>
+<center><img src="/Category/Learning/Pictures/SignalAndSystem_38.png" width="400"></center>
+
+<p>对这张表的修正：低/高通的\(\Omega_c\)变为\(\Omega_p\)，带通/阻的\(\Omega_c\)变为1，\(\Omega_l/\Omega_h\)指的是通带截止频率</p>
+<p><strong>原型滤波器的设计</strong></p>
+<p>存在两种，巴特沃兹和切比雪夫</p>
+<ul>
+<li>巴特沃兹，通带平坦但是过渡带宽大；需要指的滤波器的阶数</li>
+</ul>
+<p>已知n阶低通巴特沃兹的表达式为<br>\[
+|H_p(\nu)|=\frac{1}{\sqrt{1+\varepsilon^2\nu^{2n}}}
+\]<br>其中\(\nu\)是归一化模拟角频率，当\(\nu=\nu_p=1\)时为通带截止频率，即<br>\[
+A_p = 20\lg{\frac{1}{\sqrt{1+\varepsilon^2}}} \Rightarrow \varepsilon^2=10^{-\frac{A_p}{10}}-1
+\]<br>当\(\nu=\nu_s\)时为归一化阻带截止频率，即<br>\[
+A_{st} = 20\lg{\frac{1}{\sqrt{1+\varepsilon^2\nu_s^{2n}}}}
+\]<br>\(\nu_s\)有<br>\[
+\nu_s = \frac{\Omega_{st}}{\Omega_p}
+\]<br>利用\(A_p,A_{st},\nu_s\)的值，求得n为<br>\[
+n \geq \left(\lg{\frac{10^{-0.1A_{st}}-1}{\varepsilon^2}}\right)/(2\lg \nu_s)
+\]<br>特别的，当\(A_p=-3\)dB时，\(\varepsilon=1\)</p>
+<p>不同阶的滤波器原型会在考试中给出</p>
+<ul>
+<li>切比雪夫，通带波纹大，但是过度带宽小，这个就不赘述了估计不会考，直接给结果</li>
+</ul>
+<p>\[
+\varepsilon^2 = 10^{-0.1A_{p}}-1
+\]</p>
+<p>\[
+n\geq \cosh^{-1}\left( \frac{10^{-0.1A_{st}}-1}{\varepsilon^2} \right)^2/\cosh^{-1}\nu_s
+\]</p>
+<p><font color=red>例：</font>设计一个低通IIR滤波器，满足截止频率为\(f_p=\)1.5kHz，通带衰减-\(A_p\)3dB，阻带频率\(f_{st}=\)3kHz，阻带衰减\(A_{st}=\)-10dB；抽样频率8000Hz</p>
+<p>解：首先求截止频率的模拟角频率<br>\[
+\Omega_p=\frac{2}{T_s}\tan(2\pi f_p/f_s/2)=1.07\times10^{4}
+\]</p>
+<p>\[
+\Omega_{st}=\frac{2}{T_s}\tan(2\pi f_{st}/f_s/2)=3.86\times10^{4}
+\]</p>
+<p>那么归一化的阻带截止频率就是<br>\[
+\nu_s = \frac{\Omega_{st}}{\Omega_p} = 3.613
+\]<br>带入上文公式，得到\(\varepsilon=1,n\geq0.855\)，取\(n=1\)，即原型为<br>\[
+H_a(s) = \frac{1}{s+1}
+\]<br>由于是求的低通，故用\(S = \frac{s}{\Omega_p}\)带入，得到<br>\[
+H_{LP}=\frac{1}{s/\Omega_p+1}
+\]<br>再经过变换得到\(H(z)\)</p>
+<a name="9.4" class="md-header-anchor" id="9.4"></a>
+<h3>10.4 IIR与FIR的对比</h3>
+<ul>
+<li>IIR<ul>
+<li>准确的边缘频率</li>
+<li>利用模拟滤波器设计，有大量轮子用</li>
+<li>存在反馈，阶数更少</li>
+<li>缺点：相位非线性；存在右边极点，系统条件稳定</li>
+</ul>
+</li>
+<li>FIR<ul>
+<li>严格的线性相位</li>
+<li>系统一定是稳定的</li>
+<li>可以用FFT快速计算</li>
+<li>缺点：截止频率难控制</li>
+</ul>
+</li>
+</ul>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>

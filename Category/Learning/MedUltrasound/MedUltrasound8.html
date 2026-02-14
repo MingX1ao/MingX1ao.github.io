@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="医学超声基础">
+    <meta name="description" content="9 压电效应及压电振子 - 医学超声基础">
+    <meta name="author" content="MingXiao">
+    <title>9 压电效应及压电振子</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/article-detail.css">
+    <link rel="stylesheet" href="/assets/css/code.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/vditor.css">
+    <link rel="stylesheet" href="/assets/css/markdown.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .lazy-image {
+            background: url('/images/loading.gif') no-repeat center;
+            background-size: 26% 35%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+
+            .markdown-body h1 {
+                font-size: 1.35em;
+            }
+
+        }
+
+        .codehilite {
+            border-radius: 10px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+        }
+
+        #outerdiv {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 200;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+        <div class="toc">
+            <ul>
+                <li>9 压电效应及压电振子
+                    <ul>
+                            <li><a href="#8.1">9.1 压电效应及压电材料</a></li>
+                            <li><a href="#8.2">9.2 压电方程和边界条件</a></li>
+                            <li><a href="#8.3">9.3 压电参数</a></li>
+                            <li><a href="#8.4">9.4 压电振子及等效电路</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    <!--主体-->
+    <section class="main">
+        <div class="left-box">
+            <div id="outerdiv">
+                <div id="innerdiv" style="position:absolute;"><img alt id="bigimg"
+                        style="box-shadow: 0 0 10px rgba(0,0,0,0.38)" src="" /></div>
+            </div>
+            <!--文章内容-->
+            <div class="article-container">
+                <div class="article-content markdown-body">
+                    <h1 style="margin: 10px 0">9 压电效应及压电振子</h1>
+                    <div class="article-cate">
+                        <a href="/Category/LearningHomepage.html">学习笔记</a>
+                    </div>
+                    <div class="writer-info">
+                        <span style="margin: 5px 0;">作者: </span>
+                        <span id="writer">MingXiao</span>
+                    </div>
+                    <div class="typora-export os-windows">
+<a name="8.1" class="md-header-anchor" id="8.1"></a>
+<h3>9.1 压电效应及压电材料</h3>
+<p><strong>压电效应</strong>：某些晶体表面受压会产生电压</p>
+<p><strong>逆压电效应</strong>：通过施加电压产生机械形变</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_21.png" width="500"></center>
+
+
+
+<p><strong>压电材料</strong></p>
+<ul>
+<li><p><strong>压电单晶体</strong>：石英晶体等，压电系数太低</p>
+</li>
+<li><p><strong>压电陶瓷</strong>：经过极化处理的陶瓷；易碎，有保护层；上下温度临界点称为压电居里点（在这之外没有压电效应）；钛酸钡BT最早，锆钛酸铅PZT最广泛</p>
+</li>
+<li><p><strong>高分子聚合物</strong>：PVDF等；柔性材料，不易碎；不适合做高功率发射型换能器（d偏低），接收型很好；声阻抗接近人体，匹配合适；结构简单、体软量轻、成本低，适合大量生产；\(Q_m\)小，接收带宽大</p>
+</li>
+</ul>
+<a name="8.2" class="md-header-anchor" id="8.2"></a>
+<h3>9.2 压电方程和边界条件</h3>
+<p>压电材料既有弹性体的特性，又有介电体的特性，即<br>\[
+T = c S\,\,\,,\,\,\,D = E\varepsilon
+\]<br>其中\(T,c,S\)分别是应力，杨氏模量和应变；\(D,E,\varepsilon\)分别是电位移，电场强度和介电系数</p>
+<p>二者存在关系</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_22.png" width="400"></center>
+
+<p>其中\(d_{ij}\)是压电常数</p>
+<p><strong>压电方程</strong></p>
+<p>在小幅度变化下，总形变等于形变的线性叠加<br>\[
+S_i = \sum_{j=1}^{6}s_{ij}^E T_j +\sum_{k=1}^3d_{ki}E_k
+\]<br>第一项是电场恒定时的应力形变，一般可以忽略；第二项是电场对形变的贡献</p>
+<p><strong>边界条件</strong></p>
+<p>几种条件下对各个参数的限制</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_23.png" width="500"></center>
+
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_53.png" width="500"></center>
+
+
+
+<a name="8.3" class="md-header-anchor" id="8.3"></a>
+<h3>9.3 压电参数</h3>
+<h4>9.3.1 机械品质因数\(Q_m\)</h4>
+<p>\(Q_m\)与机械损耗成反比，反映了克服摩擦而消耗的能量大小，越大，表明发热量少<br>\[
+Q_m = 2\pi \cdot\frac{谐振时储存的能量}{谐振时每周期损耗的机械能}
+\]<br>多数陶瓷滤波器要求压电陶瓷的\(Q_m\)要高，而音响和接收型换能器要求\(Q_m\)低（超声检测要求\(Q_m\)不能太高）</p>
+<p>当\(Q_m\)过大时，会产生振铃，导致波形失真</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_24.png" width="300"></center>
+
+<p>振铃效应对纵向分辨率有很大影响，会将两个深度的回波信息混合，无法分辨</p>
+<p>为了减小振铃，可以加大换能器的阻尼，即\(Q_m\)减小</p>
+<h4>9.3.2 机电耦合系数\(K\)</h4>
+<p>反应了机械能与电能之间的转换<br>\[
+K^2 = \frac{电能转换的机械能}{输入的电能} = \frac{机械能转换的电能}{输入的机械能}
+\]<br>与振铃无关</p>
+<p>越大越好，但要注意方向</p>
+<h4>9.3.3 压电系数</h4>
+<p><strong>压电发射系数</strong></p>
+<ul>
+<li><p>压电应变系数\(d\)<br>\[
+  d = \left( \frac{\part S}{\part E} \right)_T = \left( \frac{\part D}{\part T} \right)_E \,\mathsf{C/N}
+  \]<br>表示在应力一定时，应变对电场的灵敏度</p>
+</li>
+<li><p>压电应力系数\(e\)<br>\[
+  e = -\left( \frac{\part T}{\part E} \right)_S = \left( \frac{\part D}{\part S} \right)_E  \,\mathsf{C/m^2}
+  \]</p>
+</li>
+</ul>
+<p><strong>压电接收系数</strong></p>
+<ul>
+<li><p>压电电压系数\(g\)<br>\[
+  g = -\left( \frac{\part E}{\part T} \right)_D = \left( \frac{\part S}{\part D} \right)_T\,\mathsf{m^2/C}
+  \]</p>
+</li>
+<li><p>压电劲度系数\(h\)<br>\[
+  h = -\left( \frac{\part T}{\part D} \right)_S = -\left( \frac{\part E}{\part S} \right)_D\,\mathsf{N/C}
+  \]</p>
+</li>
+</ul>
+<h4>9.3.4 频率常数\(N\)</h4>
+<p>压电体谐振频率\(f\)与沿振动方向的几何尺寸的乘积，仅与材料有关，是个常数<br>\[
+N = f\cdot \delta
+\]<br>当\(f\)要求越大时，尺度\(\delta\)越小</p>
+<p>振动方向与极化方向一致，发出的是纵波</p>
+<h4>9.3.5 居里点</h4>
+<p>分为上下居里点，分别是压电效应的存在上下限</p>
+<p>治疗超声更需要考虑这个，因为非线性效应更强，温度高</p>
+<p>短时间大温差，陶瓷会裂开，所以不一定到了居里点才坏</p>
+<h4>9.3.6 介电损耗与损耗角正切</h4>
+<p>压电材料的电流相位图为</p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_25.png" width="300"></center>
+
+<p>那么\(\delta\)就是损耗角</p>
+<p>损耗角正切大，意味着换能器产生的内热多，材料性能差；宁可牺牲其他参数也不能让这个值太大</p>
+<p>电学品质因数\(Q_e\)是损耗角正切的倒数，即<br>\[
+Q_e = \frac{1}{\tan\delta} = \omega RC
+\]</p>
+<a name="8.4" class="md-header-anchor" id="8.4"></a>
+<h3>9.4 压电振子及等效电路</h3>
+<p><strong>压电振子的振动模式</strong></p>
+<p>极化方向和振动方向的组合是振动模式，一般使用厚度方向的伸缩振动</p>
+<p><strong>等效电路</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_26.png" width="500"></center>
+
+
+
+<p><strong>电流/阻抗-频率关系曲线</strong></p>
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_27.png" width="500"></center>
+
+<center><img src="/Category/Learning/Pictures/MedicalUltrasound_28.png" width="300"></center>
+
+<p>最大导纳点附近，电容电阻电感发生了谐振，一般换能器都工作在这个点附近</p>
+<p>此时的谐振是在串联支路的谐振，这条支路变为阻性，剩下的另一条支路上的电容影响大，所以整个换能器为容性</p>
+<p>一般陶瓷换能器工作在串联谐振频率时都是容性，因此需要并联电感</p>
+
+                    </div>    
+                </div>
+            </div>                                                                                                                                              
+            <br>
+            <br>
+            <h2 id="__comments">Comments</h2>
+                  <!-- Giscus comments -->
+                    <script src="https://giscus.app/client.js"
+                            data-repo="MingX1ao/MingX1ao.github.io"
+                            data-repo-id="R_kgDOL_cJHA"
+                            data-category="General"
+                            data-category-id="DIC_kwDOL_cJHM4CgVLq"
+                            data-mapping="pathname"
+                            data-strict="0"
+                            data-reactions-enabled="1"
+                            data-emit-metadata="0"
+                            data-input-position="bottom"
+                            data-theme="light"
+                            data-lang="zh-CN"
+                            data-loading="lazy"
+                            crossorigin="anonymous"
+                            async>
+                    </script>
+        </div>
+    </section>
+    <!--尾部-->
+    <div data-include="/includes/footer.html"></div>
+    <script>
+        document.addEventListener('includesReady', function() {
+            const lazyImage = new LazyImage('.lazy-image');
+        });
+    </script>
+</body>
+
+</html>
