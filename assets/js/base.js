@@ -119,19 +119,21 @@ function logout() {
 
 //关键字搜索
 function search_by_key() {
-    if ($("#search-input").val() === "" || $("#search-input").val() == null) {
+    var keyword = $("#search-input").val();
+    if (keyword === "" || keyword == null) {
         swal("请输入关键词！");
         return;
     }
-    swal($("#search-input").val());
+    window.location.href = '/pages/search.html?q=' + encodeURIComponent(keyword);
 }
 
 function m_search() {
-    if ($("#search-input-m").val() === "" || $("#search-input-m").val() == null) {
+    var keyword = $("#search-input-m").val();
+    if (keyword === "" || keyword == null) {
         swal("请输入关键词！");
         return;
     }
-    swal($("#search-input-m").val());
+    window.location.href = '/pages/search.html?q=' + encodeURIComponent(keyword);
 }
 
 $(".nb-a").hover(
@@ -357,6 +359,6 @@ class LazyImage {
 
 //返回顶部
 const top_to = new Top({
-    dImg: "../img/up.svg",
-    hImg: "../img/up-on.svg"
+    dImg: "/images/theme/up.svg",
+    hImg: "/images/theme/up-on.svg"
 });

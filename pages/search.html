@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <meta charset="UTF-8">
+    <title>搜索结果 - MX's Blog</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/pace-theme-flash.css">
+    <link rel="stylesheet" href="/assets/css/d-audio.css">
+    <link rel="stylesheet" href="/assets/css/myPagination.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+    <link rel="shortcut icon" href="/images/blog-logo.png">
+    <style>
+        .search-results {
+            padding: 20px;
+            min-height: 300px;
+        }
+        .search-results h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        .search-results .keyword {
+            color: #1890ff;
+        }
+        .result-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item a {
+            color: #333;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .result-item a:hover {
+            color: #1890ff;
+        }
+        .result-meta {
+            margin-top: 6px;
+            color: #999;
+            font-size: 13px;
+        }
+        .result-meta span {
+            margin-right: 15px;
+        }
+        .no-result {
+            color: #999;
+            font-size: 16px;
+            text-align: center;
+            padding: 60px 0;
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <script src="/assets/js/include.js"></script>
+    <div data-include="/includes/nav.html"></div>
+
+    <div class="big-container" id="particles-js">
+        <article class="article">
+            <div class="left-holder" style="width: 100%; margin: 0 auto;">
+                <div class="index-container">
+                    <ul class="column_box" id="like-box">
+                        <li class="column-title">
+                            <span class="at-sort b-b-ece fl"><a class="at-sort-comment-a c-666 fl">搜索结果</a></span>
+                        </li>
+                        <li>
+                            <div class="search-results" id="search-results">
+                                <p class="no-result">正在搜索...</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <div data-include="/includes/footer.html"></div>
+
+    <script>
+        document.addEventListener('includesReady', function () {
+            var params = new URLSearchParams(window.location.search);
+            var query = params.get('q') || '';
+            var container = document.getElementById('search-results');
+
+            if (!query) {
+                container.innerHTML = '<p class="no-result">请输入搜索关键词</p>';
+                return;
+            }
+
+            // 在搜索框中回显关键词
+            var searchInput = document.getElementById('search-input');
+            var searchInputM = document.getElementById('search-input-m');
+            if (searchInput) searchInput.value = query;
+            if (searchInputM) searchInputM.value = query;
+
+            fetch('/articles.json')
+                .then(function (res) { return res.json(); })
+                .then(function (articles) {
+                    var keyword = query.toLowerCase();
+                    var results = articles.filter(function (a) {
+                        return a.title.toLowerCase().indexOf(keyword) !== -1 ||
+                            a.course.toLowerCase().indexOf(keyword) !== -1 ||
+                            a.category.toLowerCase().indexOf(keyword) !== -1;
+                    });
+
+                    if (results.length === 0) {
+                        container.innerHTML = '<h2>搜索 "<span class="keyword">' + query + '</span>" 的结果</h2>' +
+                            '<p class="no-result">没有找到相关文章</p>';
+                        return;
+                    }
+
+                    var html = '<h2>搜索 "<span class="keyword">' + query + '</span>" 的结果（' + results.length + ' 篇）</h2>';
+                    results.forEach(function (a) {
+                        html += '<div class="result-item">' +
+                            '<a href="' + a.url + '">' + a.title + '</a>' +
+                            '<div class="result-meta">' +
+                            '<span>课程：' + a.course + '</span>' +
+                            '<span>分类：' + a.category + '</span>' +
+                            '</div></div>';
+                    });
+                    container.innerHTML = html;
+                })
+                .catch(function () {
+                    container.innerHTML = '<p class="no-result">搜索出错，请稍后再试</p>';
+                });
+        });
+    </script>
+</body>
+
+</html>
