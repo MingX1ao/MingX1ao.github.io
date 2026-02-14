@@ -22,6 +22,7 @@ const { marked } = require('marked');
 const ROOT = __dirname;
 const CONFIG_FILE = path.join(ROOT, 'build-config.json');
 const ARTICLES_JSON = path.join(ROOT, 'articles.json');
+const COURSES_JSON = path.join(ROOT, 'courses.json');
 const PICTURES_DEST = path.join(ROOT, 'Category', 'Learning', 'Pictures');
 
 // ============================================================
@@ -635,7 +636,31 @@ function main() {
     // 更新 articles.json
     updateArticlesJson(allArticles);
 
+    // 生成 courses.json (供前端动态渲染)
+    generateCoursesJson(configs);
+
     console.log(`\n===== 构建完成 =====`);
+}
+
+function generateCoursesJson(configs) {
+    const courses = configs.map(config => {
+        // 检查是否有对应的封面图
+        const imgName = `${config.courseId}.png`;
+        const imgPath = path.join(ROOT, 'images', imgName);
+        const hasImg = fs.existsSync(imgPath);
+
+        return {
+            courseId: config.courseId,
+            courseName: config.courseName,
+            description: config.description,
+            url: `/${config.outputDir}/homepage.html`,
+            image: hasImg ? `/images/${imgName}` : '/images/testPic.png', // 默认封面
+            category: config.category
+        };
+    });
+
+    fs.writeFileSync(COURSES_JSON, JSON.stringify(courses, null, 4), 'utf-8');
+    console.log(`\n[索引] courses.json 已更新 (${courses.length} 门课程)`);
 }
 
 main();
